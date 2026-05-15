@@ -46,6 +46,8 @@
 
 21. [Tự động hóa và lập lịch tác vụ](#21-tự-động-hóa-và-lập-lịch-tác-vụ)
 
+22. [Log trong Linux](#22-log-trong-linux)
+
 ## Nội dung
 
 # 1: Tổng quan về Linux
@@ -8726,7 +8728,7 @@ ps aux | grep backup.sh
 Tóm lại, `nohup` rất hữu ích khi chạy tác vụ dài qua SSH, vì tiến trình vẫn tiếp tục chạy ngay cả khi phiên terminal bị đóng.
 
 
-## 23.9. Ứng dụng tự động hóa trong quản trị hệ thống
+## 21.9. Ứng dụng tự động hóa trong quản trị hệ thống
 
 Tự động hóa được sử dụng rất nhiều trong quản trị Linux vì giúp hệ thống hoạt động ổn định, đều đặn và dễ kiểm soát hơn.
 
@@ -8794,4 +8796,590 @@ Một script chạy tự động không nên có quyền ghi cho `others`, ví d
 ```bash
 -rwxrwxrwx
 ```
+
+# 22. Log trong Linux
+
+Trong Linux, **log** là nguồn thông tin rất quan trọng để theo dõi hoạt động của hệ thống, dịch vụ, ứng dụng và người dùng. Khi một sự kiện xảy ra, ví dụ đăng nhập SSH, lỗi dịch vụ, truy cập web, kết nối mạng hoặc thay đổi trạng thái hệ thống, thông tin đó có thể được ghi lại trong các tệp log.
+
+Log giúp quản trị viên kiểm tra hệ thống có hoạt động bình thường hay không, phát hiện lỗi, phân tích sự cố và điều tra dấu hiệu tấn công. Trong lĩnh vực SOC và an toàn thông tin, log là một trong những nguồn dữ liệu quan trọng nhất để phát hiện và phản ứng với sự cố.
+
+
+## 22.1. Log là gì?
+
+**Log** là bản ghi lại các sự kiện xảy ra trong hệ thống, dịch vụ hoặc ứng dụng. Mỗi dòng log thường chứa thông tin về thời gian, dịch vụ liên quan, loại sự kiện và nội dung chi tiết của sự kiện.
+
+Ví dụ một dòng log có thể có dạng:
+
+```bash
+May 15 10:25:01 ubuntu sshd[1234]: Failed password for invalid user admin from 192.168.1.50 port 54321 ssh2
+```
+
+Dòng log trên cho biết:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `May 15 10:25:01` | Thời điểm xảy ra sự kiện |
+| `ubuntu` | Tên máy |
+| `sshd[1234]` | Dịch vụ SSH và PID của tiến trình |
+| `Failed password` | Sự kiện đăng nhập thất bại |
+| `invalid user admin` | User không hợp lệ |
+| `192.168.1.50` | Địa chỉ IP nguồn |
+
+Log có thể được tạo ra bởi:
+
+- hệ điều hành;
+- dịch vụ hệ thống;
+- ứng dụng;
+- firewall;
+- web server;
+- cơ chế xác thực;
+- công cụ bảo mật.
+
+Tóm lại, log là nhật ký ghi lại hoạt động của hệ thống. Nhờ log, người dùng có thể biết điều gì đã xảy ra, xảy ra khi nào và liên quan đến thành phần nào.
+
+
+## 22.2. Vai trò của log trong quản trị và an toàn thông tin
+
+Log có vai trò rất quan trọng trong quản trị Linux và an toàn thông tin. Nếu không có log, quản trị viên sẽ rất khó biết nguyên nhân lỗi, hoạt động bất thường hoặc dấu hiệu xâm nhập.
+
+Một số vai trò chính của log:
+
+| Vai trò | Ý nghĩa |
+|---|---|
+| Giám sát hệ thống | Theo dõi trạng thái hoạt động của hệ điều hành và dịch vụ |
+| Phân tích lỗi | Xác định nguyên nhân dịch vụ lỗi hoặc không khởi động |
+| Điều tra bảo mật | Tìm dấu hiệu đăng nhập trái phép, brute-force, scan, khai thác |
+| Theo dõi người dùng | Kiểm tra hoạt động đăng nhập, sudo, thay đổi hệ thống |
+| Kiểm tra dịch vụ | Theo dõi web server, database, SSH, firewall |
+| Hỗ trợ SOC | Cung cấp dữ liệu cho SIEM, cảnh báo và điều tra sự cố |
+
+Ví dụ, nếu SSH bị tấn công brute-force, log có thể ghi lại nhiều dòng đăng nhập thất bại:
+
+```bash
+Failed password for invalid user admin
+Failed password for root
+Failed password for user test
+```
+
+Có thể tìm nhanh bằng:
+
+```bash
+grep -i "failed password" /var/log/auth.log
+```
+
+Trong quản trị hệ thống, log giúp trả lời các câu hỏi như:
+
+- Dịch vụ có đang lỗi không?
+- Ai đã đăng nhập vào hệ thống?
+- Có đăng nhập thất bại bất thường không?
+- Dịch vụ web có bị truy cập lạ không?
+- Firewall có chặn kết nối nào đáng chú ý không?
+
+Tóm lại, log là nguồn dữ liệu quan trọng để quản trị, giám sát, phát hiện tấn công và điều tra sự cố trong Linux.
+
+
+## 22.3. Thư mục `/var/log`
+
+Trong Linux, nhiều tệp log hệ thống được lưu trong thư mục:
+
+```bash
+/var/log
+```
+
+Thư mục `/var` thường chứa dữ liệu thay đổi trong quá trình hệ thống hoạt động, ví dụ log, cache, mail, file tạm của dịch vụ hoặc dữ liệu ứng dụng. Trong đó, `/var/log` là nơi tập trung nhiều log quan trọng.
+
+Có thể xem nội dung thư mục `/var/log` bằng:
+
+```bash
+ls /var/log
+```
+
+Hoặc xem chi tiết hơn:
+
+```bash
+ls -lh /var/log
+```
+
+Ví dụ kết quả có thể gồm:
+
+```bash
+auth.log
+syslog
+kern.log
+dpkg.log
+ufw.log
+apache2/
+journal/
+```
+
+Một số log là tệp đơn, ví dụ:
+
+```bash
+/var/log/syslog
+/var/log/auth.log
+```
+
+Một số log được đặt trong thư mục riêng theo dịch vụ, ví dụ:
+
+```bash
+/var/log/apache2/
+/var/log/nginx/
+```
+
+Cần chú ý rằng nhiều tệp log yêu cầu quyền cao để đọc. Nếu user thường không đọc được, có thể dùng `sudo`:
+
+```bash
+sudo less /var/log/auth.log
+```
+
+Tóm lại, `/var/log` là thư mục quan trọng để tìm log hệ thống, log dịch vụ và log bảo mật trong Linux.
+
+
+## 22.4. Các tệp log quan trọng trong Linux
+
+Tùy bản phân phối Linux và dịch vụ được cài đặt, tên tệp log có thể khác nhau. Tuy nhiên, một số tệp log thường gặp gồm:
+
+| Tệp / Thư mục log | Ý nghĩa |
+|---|---|
+| `/var/log/syslog` | Log hệ thống tổng quát trên Debian/Ubuntu |
+| `/var/log/auth.log` | Log xác thực, đăng nhập, SSH, sudo |
+| `/var/log/kern.log` | Log liên quan đến kernel |
+| `/var/log/dpkg.log` | Log cài đặt, gỡ, nâng cấp gói bằng dpkg/APT |
+| `/var/log/apt/` | Log liên quan đến APT |
+| `/var/log/ufw.log` | Log firewall UFW |
+| `/var/log/apache2/access.log` | Log truy cập web Apache |
+| `/var/log/apache2/error.log` | Log lỗi Apache |
+| `/var/log/nginx/access.log` | Log truy cập web Nginx |
+| `/var/log/nginx/error.log` | Log lỗi Nginx |
+| `/var/log/journal/` | Log dạng journal của systemd |
+
+Ví dụ xem log xác thực:
+
+```bash
+sudo less /var/log/auth.log
+```
+
+Ví dụ xem log hệ thống:
+
+```bash
+less /var/log/syslog
+```
+
+Ví dụ xem log truy cập Apache:
+
+```bash
+sudo less /var/log/apache2/access.log
+```
+
+Ví dụ xem log lỗi Apache:
+
+```bash
+sudo less /var/log/apache2/error.log
+```
+
+Trong web server, hai loại log rất quan trọng là:
+
+| Loại log | Ý nghĩa |
+|---|---|
+| Access log | Ghi lại các request truy cập vào web server |
+| Error log | Ghi lại lỗi của web server hoặc ứng dụng |
+
+Ví dụ một dòng access log có thể chứa:
+
+```bash
+192.168.1.50 - - [15/May/2026:10:30:00 +0000] "GET /index.html HTTP/1.1" 200 1024
+```
+
+Dòng này cho biết IP `192.168.1.50` đã gửi request `GET` đến `/index.html` và nhận mã trạng thái `200`.
+
+Tóm lại, các tệp log quan trọng giúp quản trị viên theo dõi hoạt động hệ thống, xác thực, firewall, package manager và dịch vụ web.
+
+
+## 22.5. Xem log với `cat`, `less`, `tail`
+
+Có nhiều cách để xem nội dung log trong Linux. Các lệnh phổ biến gồm `cat`, `less` và `tail`.
+
+#### Xem log với `cat`
+
+Lệnh `cat` hiển thị toàn bộ nội dung tệp ra terminal.
+
+```bash
+cat /var/log/syslog
+```
+
+Tuy nhiên, log thường rất dài, nên `cat` chỉ phù hợp với tệp nhỏ hoặc khi cần in nhanh toàn bộ nội dung.
+
+#### Xem log với `less`
+
+Lệnh `less` phù hợp hơn khi xem log dài, vì nó cho phép cuộn lên xuống, tìm kiếm và thoát khi cần.
+
+```bash
+less /var/log/syslog
+```
+
+Một số phím trong `less`:
+
+| Phím | Chức năng |
+|---|---|
+| `Space` | Cuộn xuống một trang |
+| `b` | Cuộn lên một trang |
+| `/keyword` | Tìm kiếm từ khóa |
+| `n` | Chuyển đến kết quả tiếp theo |
+| `q` | Thoát |
+
+Ví dụ tìm từ `error` trong `less`:
+
+```bash
+/error
+```
+
+#### Xem cuối log với `tail`
+
+Lệnh `tail` hiển thị các dòng cuối của tệp. Mặc định, `tail` hiển thị 10 dòng cuối.
+
+```bash
+tail /var/log/syslog
+```
+
+Hiển thị 50 dòng cuối:
+
+```bash
+tail -n 50 /var/log/syslog
+```
+
+Ví dụ xem 20 dòng cuối của log SSH:
+
+```bash
+sudo tail -n 20 /var/log/auth.log
+```
+
+So sánh nhanh:
+
+| Lệnh | Khi nào dùng |
+|---|---|
+| `cat` | Xem nhanh tệp nhỏ |
+| `less` | Xem tệp log dài |
+| `tail` | Xem các dòng mới nhất ở cuối log |
+| `tail -n` | Chọn số dòng cuối cần xem |
+
+Tóm lại, `less` và `tail` thường phù hợp với log hơn `cat`, vì log thường dài và liên tục thay đổi.
+
+
+## 22.6. Theo dõi log thời gian thực
+
+Để theo dõi log đang được ghi liên tục theo thời gian thực, dùng:
+
+```bash
+tail -f <tệp_log>
+```
+
+Ví dụ theo dõi log hệ thống:
+
+```bash
+tail -f /var/log/syslog
+```
+
+Theo dõi log xác thực:
+
+```bash
+sudo tail -f /var/log/auth.log
+```
+
+Theo dõi log truy cập Apache:
+
+```bash
+sudo tail -f /var/log/apache2/access.log
+```
+
+Khi dùng `tail -f`, terminal sẽ hiển thị các dòng mới ngay khi chúng được ghi vào tệp log.
+
+Ví dụ, mở một terminal để theo dõi SSH log:
+
+```bash
+sudo tail -f /var/log/auth.log
+```
+
+Sau đó, từ máy khác thử SSH vào hệ thống. Các sự kiện đăng nhập thành công hoặc thất bại có thể xuất hiện ngay trên màn hình.
+
+Có thể kết hợp `tail -f` với `grep`:
+
+```bash
+sudo tail -f /var/log/auth.log | grep -i "failed"
+```
+
+Lệnh này chỉ hiển thị các dòng log mới có chứa từ `failed`.
+
+Để dừng theo dõi log thời gian thực, nhấn:
+
+```bash
+Ctrl + C
+```
+
+Tóm lại, `tail -f` rất hữu ích khi cần giám sát sự kiện đang diễn ra, ví dụ kiểm tra lỗi dịch vụ, theo dõi đăng nhập SSH hoặc quan sát request web server.
+
+
+## 22.7. Tìm kiếm sự kiện trong log với `grep`
+
+Lệnh `grep` dùng để tìm các dòng log chứa từ khóa hoặc mẫu cần quan tâm.
+
+Cú pháp:
+
+```bash
+grep "từ_khóa" <tệp_log>
+```
+
+Ví dụ tìm lỗi trong syslog:
+
+```bash
+grep -i "error" /var/log/syslog
+```
+
+Tìm các dòng đăng nhập thất bại trong auth log:
+
+```bash
+sudo grep -i "failed" /var/log/auth.log
+```
+
+Tìm các dòng liên quan đến SSH:
+
+```bash
+sudo grep -i "ssh" /var/log/auth.log
+```
+
+Một số tùy chọn `grep` hữu ích khi phân tích log:
+
+| Tùy chọn | Ý nghĩa |
+|---|---|
+| `-i` | Không phân biệt chữ hoa/thường |
+| `-n` | Hiển thị số dòng |
+| `-v` | Loại trừ dòng khớp |
+| `-r` | Tìm đệ quy trong thư mục |
+| `-E` | Dùng regex mở rộng |
+
+Ví dụ hiển thị số dòng có lỗi:
+
+```bash
+grep -in "error" /var/log/syslog
+```
+
+Tìm nhiều từ khóa bằng regex:
+
+```bash
+sudo grep -Ei "failed|invalid|denied" /var/log/auth.log
+```
+
+Tìm trong toàn bộ thư mục log:
+
+```bash
+sudo grep -r "Failed password" /var/log 2>/dev/null
+```
+
+Ví dụ lọc các request HTTP trả về mã lỗi `404` trong access log:
+
+```bash
+grep " 404 " /var/log/apache2/access.log
+```
+
+Tóm lại, `grep` là công cụ cơ bản nhưng rất mạnh để tìm sự kiện quan trọng trong log, đặc biệt khi cần phát hiện lỗi, đăng nhập thất bại hoặc hành vi bất thường.
+
+
+## 22.8. Xử lý log với `awk`, `sed`, `cut`, `sort`, `uniq`
+
+Ngoài việc tìm kiếm bằng `grep`, người dùng có thể dùng các công cụ xử lý văn bản để trích xuất, thống kê và làm sạch dữ liệu log.
+
+#### Trích xuất cột với `awk`
+
+`awk` thường dùng để lấy một cột cụ thể trong log.
+
+Ví dụ với access log, địa chỉ IP thường nằm ở cột đầu tiên:
+
+```bash
+awk '{print $1}' /var/log/apache2/access.log
+```
+
+Đếm số request theo từng IP:
+
+```bash
+awk '{print $1}' /var/log/apache2/access.log | sort | uniq -c | sort -nr
+```
+
+Ý nghĩa:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `awk '{print $1}'` | Lấy cột đầu tiên, thường là IP |
+| `sort` | Sắp xếp IP giống nhau gần nhau |
+| `uniq -c` | Đếm số lần xuất hiện |
+| `sort -nr` | Sắp xếp giảm dần theo số lượng |
+
+#### Cắt trường với `cut`
+
+Nếu log hoặc dữ liệu có ký tự phân tách rõ ràng, có thể dùng `cut`.
+
+Ví dụ lấy user từ `/etc/passwd`:
+
+```bash
+cut -d ':' -f 1 /etc/passwd
+```
+
+Với log dạng CSV:
+
+```bash
+cut -d ',' -f 1,3 logfile.csv
+```
+
+#### Thay thế hoặc lọc dòng với `sed`
+
+Ví dụ thay địa chỉ IP bằng chuỗi ẩn danh đơn giản:
+
+```bash
+sed -E 's/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/X.X.X.X/g' access.log
+```
+
+Ví dụ chỉ in các dòng chứa `error`:
+
+```bash
+sed -n '/error/p' logfile.txt
+```
+
+#### Sắp xếp và đếm với `sort`, `uniq`
+
+Ví dụ đếm số lần xuất hiện của từng lỗi:
+
+```bash
+grep -i "error" logfile.txt | sort | uniq -c | sort -nr
+```
+
+Ví dụ thống kê các IP truy cập nhiều nhất:
+
+```bash
+awk '{print $1}' access.log | sort | uniq -c | sort -nr | head
+```
+
+Tóm lại, `awk`, `sed`, `cut`, `sort` và `uniq` giúp biến log thô thành dữ liệu có thể phân tích, thống kê và phục vụ điều tra.
+
+---
+
+### 24.9. Tô màu log với `ccze`
+
+`ccze` là công cụ dùng để tô màu log, giúp người dùng dễ đọc và phân biệt các phần quan trọng trong log hơn.
+
+Cài đặt `ccze` trên Debian/Ubuntu:
+
+```bash
+sudo apt update
+sudo apt install ccze
+```
+
+Ví dụ tô màu log khi xem bằng `tail -f`:
+
+```bash
+tail -f logfile.txt | ccze
+```
+
+Ví dụ với syslog:
+
+```bash
+tail -f /var/log/syslog | ccze
+```
+
+Ví dụ với auth log:
+
+```bash
+sudo tail -f /var/log/auth.log | ccze
+```
+
+Khi dùng `ccze`, các phần như thời gian, hostname, dịch vụ, cảnh báo hoặc lỗi có thể được hiển thị với màu khác nhau, giúp người dùng quan sát log trực quan hơn.
+
+Có thể kết hợp với `less` bằng tùy chọn giữ màu:
+
+```bash
+cat /var/log/syslog | ccze -A | less -R
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `ccze -A` | Xuất màu theo dạng ANSI |
+| `less -R` | Cho phép hiển thị màu trong `less` |
+
+Tóm lại, `ccze` không thay đổi nội dung log, mà chỉ giúp hiển thị log rõ ràng hơn khi đọc trong terminal.
+
+
+## 22.10. Ứng dụng log trong SOC và điều tra sự cố
+
+Trong SOC, log là dữ liệu nền tảng để giám sát, phát hiện và điều tra sự cố bảo mật. Các hệ thống như SIEM thường thu thập log từ nhiều nguồn khác nhau, sau đó chuẩn hóa, phân tích, tương quan và sinh cảnh báo.
+
+Một số nguồn log quan trọng trong SOC:
+
+| Nguồn log | Ví dụ sự kiện |
+|---|---|
+| Auth log | Đăng nhập thành công/thất bại, sudo, SSH |
+| System log | Lỗi hệ thống, dịch vụ khởi động/dừng |
+| Web log | IP truy cập, URL, mã trạng thái HTTP |
+| Firewall log | Kết nối bị chặn hoặc được cho phép |
+| IDS/IPS log | Cảnh báo tấn công mạng |
+| EDR/Endpoint log | Tiến trình, file, hành vi đáng ngờ |
+| Package log | Cài đặt hoặc gỡ phần mềm bất thường |
+
+Ví dụ điều tra brute-force SSH:
+
+```bash
+sudo grep -Ei "failed|invalid" /var/log/auth.log
+```
+
+Đếm số lần đăng nhập thất bại theo IP:
+
+```bash
+sudo grep "Failed password" /var/log/auth.log | awk '{print $(NF-3)}' | sort | uniq -c | sort -nr
+```
+
+Ví dụ điều tra web access log, tìm IP truy cập nhiều nhất:
+
+```bash
+awk '{print $1}' /var/log/apache2/access.log | sort | uniq -c | sort -nr | head
+```
+
+Tìm request lỗi 404:
+
+```bash
+grep " 404 " /var/log/apache2/access.log
+```
+
+Tìm truy cập đến file đáng nghi:
+
+```bash
+grep -Ei "admin|login|backup|\.env|config" /var/log/apache2/access.log
+```
+
+Ví dụ kiểm tra hoạt động dùng `sudo`:
+
+```bash
+sudo grep "sudo" /var/log/auth.log
+```
+
+Trong điều tra sự cố, log giúp trả lời các câu hỏi quan trọng:
+
+| Câu hỏi điều tra | Log có thể hỗ trợ |
+|---|---|
+| Ai đã đăng nhập? | `/var/log/auth.log` |
+| Đăng nhập từ IP nào? | Auth log, SSH log |
+| Thời điểm sự kiện xảy ra? | Timestamp trong log |
+| Dịch vụ nào bị lỗi? | Syslog, journal, service log |
+| Có truy cập web bất thường không? | Apache/Nginx access log |
+| Có hành vi brute-force không? | Auth log, fail2ban log |
+| Có firewall chặn kết nối lạ không? | UFW/firewall log |
+
+Một quy trình phân tích log cơ bản:
+
+1. Xác định thời gian xảy ra sự cố.
+2. Xác định dịch vụ hoặc thành phần liên quan.
+3. Tìm log tương ứng trong `/var/log`.
+4. Dùng `grep` để lọc từ khóa quan trọng.
+5. Dùng `awk`, `sort`, `uniq` để thống kê.
+6. So sánh nhiều nguồn log nếu cần.
+7. Ghi lại kết quả phục vụ báo cáo hoặc xử lý sự cố.
+
+Tóm lại, trong SOC và điều tra sự cố, log không chỉ dùng để xem lỗi mà còn là bằng chứng quan trọng để phát hiện tấn công, xác định phạm vi ảnh hưởng và hỗ trợ phản ứng sự cố.
 
