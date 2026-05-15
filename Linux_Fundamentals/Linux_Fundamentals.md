@@ -32,6 +32,8 @@
 
 14. [Quản lý người dùng và nhóm](#14-quản-lý-người-dùng-và-nhóm)
 
+15. [Kết nối và quản trị từ xa](#15-kết-nối-và-quản-trị-từ-xa)
+
 ## Nội dung
 
 # 1: Tổng quan về Linux
@@ -5860,4 +5862,359 @@ groups alice
 ```
 
 Tóm lại, nhóm đặc quyền có ảnh hưởng trực tiếp đến bảo mật hệ thống. Trong đó, `sudo` cho phép nâng quyền quản trị, `adm` thường liên quan đến đọc log, còn các nhóm như `docker`, `lxd`, `libvirt`, `wireshark` cũng cần được kiểm soát cẩn thận.
+
+# 15. Kết nối và quản trị từ xa
+
+Trong Linux, quản trị từ xa là một kỹ năng rất quan trọng. Trên thực tế, nhiều máy chủ Linux không được sử dụng trực tiếp qua màn hình và bàn phím, mà được quản trị thông qua mạng. Công cụ phổ biến nhất để đăng nhập và điều khiển máy Linux từ xa là **SSH**. Ngoài ra, người dùng có thể dùng **SCP** để truyền tệp an toàn giữa máy local và máy remote.
+
+Các nội dung chính trong phần này gồm: SSH, cách đăng nhập từ xa, cú pháp lệnh SSH, truyền tệp bằng SCP.
+
+
+## 15.1. SSH là gì?
+
+**SSH**, viết đầy đủ là **Secure Shell**, là một giao thức dùng để kết nối an toàn đến một máy tính từ xa thông qua mạng. SSH cho phép người dùng đăng nhập vào máy Linux từ xa, chạy lệnh, quản trị hệ thống, chỉnh sửa tệp cấu hình, kiểm tra log và thực hiện nhiều tác vụ khác trong terminal.
+
+Điểm quan trọng của SSH là dữ liệu truyền giữa máy local và máy remote được mã hóa. Điều này giúp bảo vệ thông tin đăng nhập, lệnh thực thi và dữ liệu trao đổi khỏi việc bị đọc trộm trên mạng.
+
+Ví dụ, thay vì phải ngồi trực tiếp trước máy chủ Linux, quản trị viên có thể dùng SSH từ máy cá nhân để kết nối đến máy chủ:
+
+```bash
+ssh user@192.168.1.10
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `ssh` | Lệnh dùng để kết nối SSH |
+| `user` | Tên người dùng trên máy remote |
+| `192.168.1.10` | Địa chỉ IP của máy remote |
+
+SSH rất phổ biến trong quản trị hệ thống, DevOps, cloud, SOC và an toàn thông tin vì nó nhẹ, nhanh, bảo mật và không cần giao diện đồ họa.
+
+
+## 15.2. Cách SSH hoạt động
+
+SSH hoạt động theo mô hình **client — server**.
+
+| Thành phần | Vai trò |
+|---|---|
+| SSH Client | Máy thực hiện kết nối, thường là máy của người dùng |
+| SSH Server | Máy từ xa nhận kết nối SSH |
+| Network | Mạng truyền dữ liệu giữa hai máy |
+| Authentication | Cơ chế xác thực người dùng |
+| Encryption | Mã hóa dữ liệu trao đổi |
+
+Khi người dùng chạy lệnh SSH từ máy local, SSH client sẽ gửi yêu cầu kết nối đến SSH server trên máy remote. Sau đó, hai bên thiết lập một kênh truyền được mã hóa. Người dùng cần xác thực bằng mật khẩu hoặc SSH key. Nếu xác thực thành công, người dùng sẽ có một phiên terminal trên máy remote.
+
+Quy trình cơ bản:
+
+1. Người dùng chạy lệnh `ssh user@host`.
+2. SSH client kết nối đến SSH server trên máy remote.
+3. Hai bên thiết lập kênh mã hóa.
+4. Người dùng xác thực bằng mật khẩu hoặc SSH key.
+5. Sau khi xác thực thành công, người dùng có thể chạy lệnh trên máy remote.
+
+Ví dụ:
+
+```bash
+ssh student@192.168.1.20
+```
+
+Sau khi đăng nhập thành công, prompt trong terminal sẽ chuyển sang môi trường của máy remote. Khi đó, các lệnh như `pwd`, `ls`, `whoami`, `hostname` sẽ được thực thi trên máy remote, không phải trên máy local.
+
+Ví dụ kiểm tra tên máy sau khi SSH:
+
+```bash
+hostname
+```
+
+Tóm lại, SSH tạo ra một phiên làm việc từ xa được mã hóa, giúp người dùng điều khiển máy Linux khác qua mạng một cách an toàn.
+
+## 15.3. Đăng nhập máy Linux từ xa bằng SSH
+
+Để đăng nhập vào máy Linux từ xa bằng SSH, người dùng cần biết ít nhất hai thông tin:
+
+| Thông tin cần có | Ví dụ |
+|---|---|
+| Tên người dùng trên máy remote | `student` |
+| Địa chỉ IP hoặc hostname của máy remote | `192.168.1.10` |
+
+Cú pháp đăng nhập cơ bản:
+
+```bash
+ssh username@ip_address
+```
+
+Ví dụ:
+
+```bash
+ssh student@192.168.1.10
+```
+
+Nếu đây là lần đầu kết nối đến máy remote, hệ thống có thể hiển thị cảnh báo xác nhận host:
+
+```bash
+The authenticity of host '192.168.1.10' can't be established.
+Are you sure you want to continue connecting?
+```
+
+Nếu tin tưởng máy remote, nhập:
+
+```bash
+yes
+```
+
+Sau đó, hệ thống sẽ yêu cầu nhập mật khẩu của user trên máy remote:
+
+```bash
+student@192.168.1.10's password:
+```
+
+Nếu nhập đúng mật khẩu, người dùng sẽ đăng nhập thành công vào máy remote.
+
+Sau khi đăng nhập, có thể kiểm tra bằng:
+
+```bash
+whoami
+hostname
+pwd
+```
+
+Ví dụ:
+
+```bash
+whoami
+```
+
+Kết quả:
+
+```bash
+student
+```
+
+```bash
+hostname
+```
+
+Kết quả:
+
+```bash
+ubuntu-server
+```
+
+Để thoát khỏi phiên SSH, dùng lệnh:
+
+```bash
+exit
+```
+
+hoặc nhấn:
+
+```bash
+Ctrl + D
+```
+
+
+## 15.4. Cú pháp lệnh SSH
+
+Cú pháp SSH cơ bản:
+
+```bash
+ssh <username>@<remote_host>
+```
+
+Ví dụ:
+
+```bash
+ssh ubuntu@192.168.1.30
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `ssh` | Lệnh kết nối SSH |
+| `ubuntu` | Tên user trên máy remote |
+| `192.168.1.30` | Địa chỉ IP của máy remote |
+
+Nếu SSH server dùng cổng khác cổng mặc định, có thể dùng tùy chọn `-p`.
+
+Cú pháp:
+
+```bash
+ssh -p <port> <username>@<remote_host>
+```
+
+Ví dụ:
+
+```bash
+ssh -p 2222 student@192.168.1.10
+```
+
+Lệnh này kết nối đến máy `192.168.1.10` qua cổng SSH `2222`.
+
+Một số tùy chọn SSH thường gặp:
+
+| Tùy chọn | Ý nghĩa |
+|---|---|
+| `-p` | Chỉ định cổng SSH |
+| `-i` | Chỉ định file private key |
+| `-v` | Hiển thị thông tin debug |
+| `-X` | Bật X11 forwarding |
+| `-L` | Tạo local port forwarding |
+
+Ví dụ dùng SSH key:
+
+```bash
+ssh -i ~/.ssh/id_rsa student@192.168.1.10
+```
+
+Ví dụ bật chế độ debug để kiểm tra lỗi:
+
+```bash
+ssh -v student@192.168.1.10
+```
+
+Ví dụ chạy một lệnh từ xa mà không mở phiên shell tương tác:
+
+```bash
+ssh student@192.168.1.10 "hostname"
+```
+
+Lệnh trên kết nối SSH, chạy lệnh `hostname` trên máy remote, hiển thị kết quả rồi thoát.
+
+
+## 15.5. Truyền tệp an toàn với SCP
+
+**SCP**, viết đầy đủ là **Secure Copy**, là công cụ dùng để sao chép tệp giữa hai máy tính thông qua SSH. Khác với lệnh `cp` chỉ sao chép trong cùng một hệ thống hoặc giữa các thư mục local, `scp` cho phép truyền tệp giữa máy local và máy remote một cách an toàn.
+
+SCP sử dụng SSH nên dữ liệu truyền đi được mã hóa. Điều này giúp bảo vệ nội dung tệp và thông tin xác thực trong quá trình truyền qua mạng.
+
+Cú pháp tổng quát của SCP dựa trên mô hình:
+
+```bash
+scp <source> <destination>
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `source` | Nguồn, tức tệp hoặc thư mục cần sao chép |
+| `destination` | Đích, tức nơi lưu tệp sau khi sao chép |
+
+Định dạng remote thường có dạng:
+
+```bash
+username@ip_address:/path/to/file
+```
+
+Ví dụ:
+
+```bash
+ubuntu@192.168.1.30:/home/ubuntu/file.txt
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `ubuntu` | User trên máy remote |
+| `192.168.1.30` | Địa chỉ IP của máy remote |
+| `/home/ubuntu/file.txt` | Đường dẫn tệp trên máy remote |
+
+Tóm lại, SCP là công cụ đơn giản và an toàn để truyền tệp giữa máy local và máy Linux remote thông qua SSH.
+
+
+## 15.6. Sao chép tệp từ máy local lên máy remote
+
+Để sao chép tệp từ máy local lên máy remote, đặt tệp local ở vị trí **source**, còn đường dẫn remote ở vị trí **destination**.
+
+Cú pháp:
+
+```bash
+scp <local_file> <username>@<remote_ip>:<remote_path>
+```
+
+Ví dụ, sao chép tệp `important.txt` từ máy local lên máy remote có IP `192.168.1.30`, user là `ubuntu`, và lưu thành `transferred.txt`:
+
+```bash
+scp important.txt ubuntu@192.168.1.30:/home/ubuntu/transferred.txt
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `scp` | Lệnh sao chép an toàn |
+| `important.txt` | Tệp nguồn trên máy local |
+| `ubuntu@192.168.1.30` | User và địa chỉ IP máy remote |
+| `/home/ubuntu/transferred.txt` | Đường dẫn và tên tệp trên máy remote |
+
+Nếu muốn giữ nguyên tên tệp khi sao chép vào thư mục remote:
+
+```bash
+scp important.txt ubuntu@192.168.1.30:/home/ubuntu/
+```
+
+Lệnh trên sẽ sao chép `important.txt` vào thư mục `/home/ubuntu/` trên máy remote.
+
+Nếu SSH server dùng cổng khác mặc định, dùng tùy chọn `-P` với SCP. Lưu ý: với `scp`, tùy chọn cổng là chữ `P` viết hoa.
+
+Ví dụ:
+
+```bash
+scp -P 2222 important.txt ubuntu@192.168.1.30:/home/ubuntu/
+```
+
+Nếu muốn sao chép cả thư mục, dùng tùy chọn `-r`:
+
+```bash
+scp -r project ubuntu@192.168.1.30:/home/ubuntu/
+```
+
+
+## 15.7. Sao chép tệp từ máy remote về máy local
+
+Để sao chép tệp từ máy remote về máy local, đặt đường dẫn remote ở vị trí **source**, còn đường dẫn local ở vị trí **destination**.
+
+Cú pháp:
+
+```bash
+scp <username>@<remote_ip>:<remote_file> <local_path>
+```
+
+Ví dụ, sao chép tệp `documents.txt` từ máy remote về máy local và lưu thành `notes.txt`:
+
+```bash
+scp ubuntu@192.168.1.30:/home/ubuntu/documents.txt notes.txt
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `ubuntu@192.168.1.30:/home/ubuntu/documents.txt` | Tệp nguồn trên máy remote |
+| `notes.txt` | Tên tệp lưu trên máy local |
+
+Nếu muốn tải tệp về thư mục hiện tại và giữ nguyên tên:
+
+```bash
+scp ubuntu@192.168.1.30:/home/ubuntu/documents.txt .
+```
+
+Dấu `.` nghĩa là thư mục hiện tại trên máy local.
+
+Nếu muốn tải cả thư mục từ máy remote về máy local:
+
+```bash
+scp -r ubuntu@192.168.1.30:/home/ubuntu/project .
+```
+
+Nếu SSH server dùng cổng khác:
+
+```bash
+scp -P 2222 ubuntu@192.168.1.30:/home/ubuntu/documents.txt .
+```
 
