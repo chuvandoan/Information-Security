@@ -54,6 +54,8 @@
 
 25. [Mảng trong Bash](#25-mảng-trong-bash)
 
+26. [Câu điều kiện trong Bash](#26-câu-điều-kiện-trong-bash)
+
 ## Nội dung
 
 # 1: Tổng quan về Linux
@@ -11272,4 +11274,663 @@ report.txt data.csv
 ```
 
 Tóm lại, `unset array[index]` dùng để xóa một phần tử trong mảng, còn `unset array` dùng để xóa toàn bộ mảng.
+
+# 26. Câu điều kiện trong Bash
+
+Trong Bash script, **câu điều kiện** giúp script đưa ra quyết định dựa trên một điều kiện cụ thể. Nhờ câu điều kiện, script không chỉ chạy lệnh theo thứ tự cố định, mà có thể kiểm tra tình huống và chọn hành động phù hợp.
+
+Ví dụ: kiểm tra một file có tồn tại không, kiểm tra user có truyền đủ tham số không, kiểm tra tuổi có lớn hơn 18 không, kiểm tra dịch vụ có đang chạy không hoặc kiểm tra một file có quyền ghi không.
+
+
+## 26.1. Câu lệnh `if`
+
+Câu lệnh `if` dùng để kiểm tra một điều kiện. Nếu điều kiện đúng, Bash sẽ thực hiện nhóm lệnh bên trong khối `then`.
+
+Cú pháp cơ bản:
+
+```bash
+if [ điều_kiện ]
+then
+    lệnh_cần_chạy
+fi
+```
+
+Ví dụ:
+
+```bash
+#!/bin/bash
+
+age=20
+
+if [ "$age" -ge 18 ]
+then
+    echo "You can work"
+fi
+```
+
+Kết quả:
+
+```bash
+You can work
+```
+
+Trong ví dụ trên:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `if` | Bắt đầu câu điều kiện |
+| `[ "$age" -ge 18 ]` | Điều kiện cần kiểm tra |
+| `then` | Nếu điều kiện đúng thì chạy lệnh bên dưới |
+| `echo "You can work"` | Lệnh được thực thi nếu điều kiện đúng |
+| `fi` | Kết thúc khối `if` |
+
+Lưu ý quan trọng: trong Bash, cần có khoảng trắng bên trong dấu `[ ]`.
+
+Đúng:
+
+```bash
+if [ "$age" -ge 18 ]
+```
+
+Sai:
+
+```bash
+if ["$age" -ge 18]
+```
+
+Tóm lại, `if` giúp script kiểm tra điều kiện và chỉ thực hiện lệnh khi điều kiện đó đúng.
+
+
+## 26.2. Cấu trúc `if then else fi`
+
+Khi muốn xử lý cả hai trường hợp đúng và sai, dùng cấu trúc `if then else fi`.
+
+Cú pháp:
+
+```bash
+if [ điều_kiện ]
+then
+    lệnh_khi_đúng
+else
+    lệnh_khi_sai
+fi
+```
+
+Ví dụ:
+
+```bash
+#!/bin/bash
+
+age=16
+
+if [ "$age" -ge 18 ]
+then
+    echo "You can work"
+else
+    echo "You are not eligible for work"
+fi
+```
+
+Kết quả:
+
+```bash
+You are not eligible for work
+```
+
+Có thể dùng với dữ liệu nhập từ người dùng:
+
+```bash
+#!/bin/bash
+
+echo "Enter your age:"
+read age
+
+if [ "$age" -ge 18 ]
+then
+    echo "You can work"
+else
+    echo "You are not eligible for work"
+fi
+```
+
+Có thể dùng `elif` khi có nhiều điều kiện:
+
+```bash
+#!/bin/bash
+
+score=75
+
+if [ "$score" -ge 90 ]
+then
+    echo "Excellent"
+elif [ "$score" -ge 70 ]
+then
+    echo "Good"
+else
+    echo "Need more practice"
+fi
+```
+
+Tóm lại, `if then else fi` giúp script chọn một trong hai hướng xử lý, còn `elif` dùng khi có nhiều điều kiện khác nhau.
+
+
+## 26.3. So sánh số học
+
+Trong Bash, khi so sánh số, thường dùng các toán tử như `-eq`, `-ne`, `-gt`, `-lt`, `-ge`, `-le`.
+
+| Toán tử | Ý nghĩa | Ví dụ |
+|---|---|---|
+| `-eq` | Bằng | `[ "$a" -eq "$b" ]` |
+| `-ne` | Khác | `[ "$a" -ne "$b" ]` |
+| `-gt` | Lớn hơn | `[ "$a" -gt "$b" ]` |
+| `-lt` | Nhỏ hơn | `[ "$a" -lt "$b" ]` |
+| `-ge` | Lớn hơn hoặc bằng | `[ "$a" -ge "$b" ]` |
+| `-le` | Nhỏ hơn hoặc bằng | `[ "$a" -le "$b" ]` |
+
+Ví dụ:
+
+```bash
+#!/bin/bash
+
+a=10
+b=5
+
+if [ "$a" -gt "$b" ]
+then
+    echo "$a is greater than $b"
+else
+    echo "$a is not greater than $b"
+fi
+```
+
+Kết quả:
+
+```bash
+10 is greater than 5
+```
+
+Ví dụ kiểm tra tuổi:
+
+```bash
+#!/bin/bash
+
+read -p "Enter your age: " age
+
+if [ "$age" -ge 18 ]
+then
+    echo "Adult"
+else
+    echo "Under 18"
+fi
+```
+
+Ví dụ kiểm tra số lượng tham số:
+
+```bash
+#!/bin/bash
+
+if [ "$#" -ne 2 ]
+then
+    echo "Usage: $0 <source> <destination>"
+    exit 1
+fi
+
+cp "$1" "$2"
+```
+
+Trong ví dụ trên, `$#` là tổng số đối số được truyền vào script. Nếu không đúng 2 đối số, script sẽ in hướng dẫn sử dụng và thoát.
+
+Tóm lại, khi so sánh số trong Bash, không dùng `>`, `<` trực tiếp trong `[ ]` kiểu cơ bản, mà nên dùng các toán tử như `-eq`, `-gt`, `-lt`, `-ge`, `-le`.
+
+
+## 26.4. So sánh chuỗi
+
+So sánh chuỗi dùng để kiểm tra hai chuỗi có giống nhau không, khác nhau không, hoặc chuỗi có rỗng hay không.
+
+| Toán tử | Ý nghĩa | Ví dụ |
+|---|---|---|
+| `=` | Hai chuỗi bằng nhau | `[ "$name" = "admin" ]` |
+| `!=` | Hai chuỗi khác nhau | `[ "$name" != "root" ]` |
+| `-z` | Chuỗi rỗng | `[ -z "$name" ]` |
+| `-n` | Chuỗi không rỗng | `[ -n "$name" ]` |
+| `<` | Nhỏ hơn theo thứ tự từ điển | Dùng trong `[[ ]]` |
+| `>` | Lớn hơn theo thứ tự từ điển | Dùng trong `[[ ]]` |
+
+Ví dụ kiểm tra username:
+
+```bash
+#!/bin/bash
+
+read -p "Enter username: " username
+
+if [ "$username" = "admin" ]
+then
+    echo "Welcome admin"
+else
+    echo "Normal user"
+fi
+```
+
+Ví dụ kiểm tra chuỗi rỗng:
+
+```bash
+#!/bin/bash
+
+read -p "Enter filename: " filename
+
+if [ -z "$filename" ]
+then
+    echo "Filename is empty"
+else
+    echo "Filename: $filename"
+fi
+```
+
+Ví dụ kiểm tra chuỗi không rỗng:
+
+```bash
+#!/bin/bash
+
+name="Linux"
+
+if [ -n "$name" ]
+then
+    echo "Variable name is not empty"
+fi
+```
+
+Ví dụ dùng `[[ ]]` để so sánh theo thứ tự từ điển:
+
+```bash
+#!/bin/bash
+
+a="apple"
+b="banana"
+
+if [[ "$a" < "$b" ]]
+then
+    echo "$a comes before $b"
+fi
+```
+
+Tóm lại, khi so sánh chuỗi nên đặt biến trong dấu ngoặc kép, ví dụ `"$name"`, để tránh lỗi khi biến rỗng hoặc chứa khoảng trắng.
+
+## 26.5. Kiểm tra tệp và thư mục
+
+Bash cung cấp nhiều toán tử để kiểm tra trạng thái của tệp và thư mục, ví dụ tệp có tồn tại không, có phải thư mục không, có quyền đọc/ghi/thực thi không.
+
+| Toán tử | Ý nghĩa |
+|---|---|
+| `-e` | Đối tượng tồn tại |
+| `-f` | Là tệp thông thường |
+| `-d` | Là thư mục |
+| `-r` | Có quyền đọc |
+| `-w` | Có quyền ghi |
+| `-x` | Có quyền thực thi |
+| `-s` | Tệp tồn tại và không rỗng |
+| `!` | Phủ định điều kiện |
+
+Ví dụ kiểm tra tệp tồn tại:
+
+```bash
+#!/bin/bash
+
+filename="notes.txt"
+
+if [ -e "$filename" ]
+then
+    echo "File exists"
+else
+    echo "File does not exist"
+fi
+```
+
+Kiểm tra có phải tệp thường không:
+
+```bash
+#!/bin/bash
+
+filename="notes.txt"
+
+if [ -f "$filename" ]
+then
+    echo "This is a regular file"
+else
+    echo "This is not a regular file"
+fi
+```
+
+Kiểm tra thư mục:
+
+```bash
+#!/bin/bash
+
+directory="/etc"
+
+if [ -d "$directory" ]
+then
+    echo "$directory is a directory"
+else
+    echo "$directory is not a directory"
+fi
+```
+
+Kiểm tra quyền đọc:
+
+```bash
+#!/bin/bash
+
+filename="notes.txt"
+
+if [ -r "$filename" ]
+then
+    echo "File is readable"
+else
+    echo "File is not readable"
+fi
+```
+
+Kiểm tra quyền thực thi:
+
+```bash
+#!/bin/bash
+
+script="backup.sh"
+
+if [ -x "$script" ]
+then
+    echo "Script can be executed"
+else
+    echo "Script cannot be executed"
+fi
+```
+
+Ví dụ phủ định điều kiện:
+
+```bash
+#!/bin/bash
+
+filename="notes.txt"
+
+if [ ! -f "$filename" ]
+then
+    echo "File does not exist"
+fi
+```
+
+Tóm lại, các toán tử `-e`, `-f`, `-d`, `-r`, `-w`, `-x` rất quan trọng khi viết script quản trị liên quan đến file, thư mục và quyền truy cập.
+
+## 26.6. Kết hợp nhiều điều kiện
+
+Trong Bash, có thể kết hợp nhiều điều kiện bằng toán tử logic.
+
+| Toán tử | Ý nghĩa |
+|---|---|
+| `&&` | AND, tất cả điều kiện phải đúng |
+| `||` | OR, chỉ cần một điều kiện đúng |
+| `!` | NOT, phủ định điều kiện |
+
+Ví dụ dùng `&&`:
+
+```bash
+#!/bin/bash
+
+filename="notes.txt"
+
+if [ -f "$filename" ] && [ -w "$filename" ]
+then
+    echo "File exists and is writable"
+else
+    echo "File does not exist or is not writable"
+fi
+```
+
+Điều kiện trên chỉ đúng khi:
+
+- `notes.txt` là tệp thường;
+- và tệp đó có quyền ghi.
+
+Ví dụ dùng `||`:
+
+```bash
+#!/bin/bash
+
+service="ssh"
+
+if [ "$service" = "ssh" ] || [ "$service" = "apache2" ]
+then
+    echo "Important service"
+else
+    echo "Normal service"
+fi
+```
+
+Ví dụ dùng `!`:
+
+```bash
+#!/bin/bash
+
+filename="backup.tar.gz"
+
+if [ ! -f "$filename" ]
+then
+    echo "Backup file not found"
+else
+    echo "Backup file exists"
+fi
+```
+
+Có thể dùng `[[ ]]` để viết điều kiện phức tạp gọn hơn:
+
+```bash
+#!/bin/bash
+
+username="admin"
+age=20
+
+if [[ "$username" = "admin" && "$age" -ge 18 ]]
+then
+    echo "Access allowed"
+else
+    echo "Access denied"
+fi
+```
+
+Tóm lại, `&&`, `||` và `!` giúp script kiểm tra nhiều điều kiện cùng lúc, phù hợp với các tình huống quản trị thực tế.
+
+
+## 26.7. Ví dụ kiểm tra tệp tồn tại và có quyền ghi
+
+Ví dụ sau kiểm tra một tệp được truyền vào dưới dạng tham số. Nếu tệp tồn tại và có quyền ghi, script sẽ ghi nội dung `"hello"` vào tệp. Nếu tệp không tồn tại hoặc không có quyền ghi, script sẽ tạo tệp mới rồi ghi nội dung vào đó.
+
+Tạo script:
+
+```bash
+nano check_file.sh
+```
+
+Nội dung:
+
+```bash
+#!/bin/bash
+
+filename="$1"
+
+if [ -f "$filename" ] && [ -w "$filename" ]
+then
+    echo "hello" > "$filename"
+    echo "File exists and is writable. Content written."
+else
+    touch "$filename"
+    echo "hello" > "$filename"
+    echo "File was created or overwritten. Content written."
+fi
+```
+
+Cấp quyền thực thi:
+
+```bash
+chmod +x check_file.sh
+```
+
+Chạy thử:
+
+```bash
+./check_file.sh hello.txt
+```
+
+Kiểm tra nội dung:
+
+```bash
+cat hello.txt
+```
+
+Kết quả:
+
+```bash
+hello
+```
+
+Giải thích:
+
+| Dòng lệnh | Ý nghĩa |
+|---|---|
+| `filename="$1"` | Lấy tên tệp từ tham số thứ nhất |
+| `[ -f "$filename" ]` | Kiểm tra đối tượng là tệp thường |
+| `[ -w "$filename" ]` | Kiểm tra tệp có quyền ghi |
+| `&&` | Cả hai điều kiện đều phải đúng |
+| `echo "hello" > "$filename"` | Ghi nội dung vào tệp |
+| `touch "$filename"` | Tạo tệp nếu chưa tồn tại |
+
+Có thể cải thiện script bằng cách kiểm tra người dùng đã truyền tham số chưa:
+
+```bash
+#!/bin/bash
+
+if [ "$#" -ne 1 ]
+then
+    echo "Usage: $0 <filename>"
+    exit 1
+fi
+
+filename="$1"
+
+if [ -f "$filename" ] && [ -w "$filename" ]
+then
+    echo "hello" > "$filename"
+    echo "File exists and is writable. Content written."
+else
+    touch "$filename"
+    echo "hello" > "$filename"
+    echo "File was created or overwritten. Content written."
+fi
+```
+
+Tóm lại, đây là ví dụ thực tế cho thấy cách dùng điều kiện file `-f`, quyền ghi `-w` và toán tử `&&` trong Bash script.
+
+
+## 26.8. Ứng dụng câu điều kiện trong script quản trị
+
+Câu điều kiện được sử dụng rất nhiều trong script quản trị hệ thống. Nhờ `if`, script có thể kiểm tra trạng thái hệ thống trước khi thực hiện hành động.
+
+Một số ứng dụng phổ biến:
+
+| Ứng dụng | Ví dụ điều kiện |
+|---|---|
+| Kiểm tra file cấu hình | Nếu file tồn tại thì backup |
+| Kiểm tra thư mục backup | Nếu chưa có thì tạo thư mục |
+| Kiểm tra dịch vụ | Nếu dịch vụ không chạy thì khởi động |
+| Kiểm tra dung lượng ổ đĩa | Nếu vượt ngưỡng thì cảnh báo |
+| Kiểm tra quyền script | Nếu chưa có quyền thực thi thì cấp quyền |
+| Kiểm tra số tham số | Nếu thiếu tham số thì in hướng dẫn |
+| Kiểm tra log | Nếu có lỗi thì ghi cảnh báo |
+
+#### Ví dụ 1: Kiểm tra thư mục backup
+
+```bash
+#!/bin/bash
+
+backup_dir="/home/student/backup"
+
+if [ ! -d "$backup_dir" ]
+then
+    mkdir -p "$backup_dir"
+    echo "Backup directory created"
+else
+    echo "Backup directory already exists"
+fi
+```
+
+#### Ví dụ 2: Kiểm tra dịch vụ SSH
+
+```bash
+#!/bin/bash
+
+if systemctl is-active ssh > /dev/null
+then
+    echo "SSH is running"
+else
+    echo "SSH is not running"
+fi
+```
+
+#### Ví dụ 3: Kiểm tra file log có chứa lỗi không
+
+```bash
+#!/bin/bash
+
+logfile="/var/log/syslog"
+
+if grep -i "error" "$logfile" > /dev/null
+then
+    echo "Error found in log"
+else
+    echo "No error found"
+fi
+```
+
+#### Ví dụ 4: Kiểm tra dung lượng ổ đĩa
+
+```bash
+#!/bin/bash
+
+usage=$(df / | tail -n 1 | awk '{print $5}' | sed 's/%//')
+
+if [ "$usage" -ge 80 ]
+then
+    echo "Warning: disk usage is ${usage}%"
+else
+    echo "Disk usage is normal: ${usage}%"
+fi
+```
+
+#### Ví dụ 5: Kiểm tra file trước khi backup
+
+```bash
+#!/bin/bash
+
+source_file="/etc/passwd"
+backup_file="/home/student/passwd.bak"
+
+if [ -f "$source_file" ] && [ -r "$source_file" ]
+then
+    cp "$source_file" "$backup_file"
+    echo "Backup created: $backup_file"
+else
+    echo "Cannot read source file"
+fi
+```
+
+Một số lưu ý khi dùng câu điều kiện trong script quản trị:
+
+| Lưu ý | Ý nghĩa |
+|---|---|
+| Luôn đặt biến trong dấu `"` | Tránh lỗi khi biến rỗng hoặc có khoảng trắng |
+| Kiểm tra tham số trước khi dùng | Tránh script chạy sai do thiếu đầu vào |
+| Kiểm tra quyền trước khi ghi/xóa file | Giảm nguy cơ lỗi hoặc mất dữ liệu |
+| Dùng `exit 1` khi lỗi nghiêm trọng | Giúp script báo trạng thái thất bại |
+| Ghi log khi script tự động chạy | Dễ kiểm tra khi chạy qua cron |
+| Hạn chế chạy với root nếu không cần | Giảm rủi ro bảo mật |
+
+Tóm lại, câu điều kiện giúp Bash script trở nên thông minh hơn, có thể tự kiểm tra trạng thái hệ thống và chọn hành động phù hợp trong quản trị Linux.
 
