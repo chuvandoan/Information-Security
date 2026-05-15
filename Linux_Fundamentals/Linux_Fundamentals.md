@@ -30,6 +30,8 @@
 
 13. [Quyền truy cập trong Linux](#13-quyền-truy-cập-trong-linux)
 
+14. [Quản lý người dùng và nhóm](#14-quản-lý-người-dùng-và-nhóm)
+
 ## Nội dung
 
 # 1: Tổng quan về Linux
@@ -4775,7 +4777,7 @@ Ví dụ, nếu một thư mục không có quyền `x`, người dùng có th�
 Tóm lại, `r`, `w`, `x` là ba quyền cơ bản nhất trong Linux. Ý nghĩa của chúng thay đổi tùy theo đối tượng là tệp hay thư mục.
 
 
-## 12.3. Quyền của user, group và others
+## 13.3. Quyền của user, group và others
 
 Trong Linux, quyền truy cập được chia cho ba nhóm đối tượng:
 
@@ -4812,7 +4814,7 @@ Trong ví dụ trên:
 Tóm lại, Linux không chỉ kiểm soát quyền theo từng user riêng lẻ mà còn theo nhóm, giúp quản lý quyền truy cập linh hoạt hơn trong hệ thống nhiều người dùng.
 
 
-## 12.4. Cách đọc quyền trong kết quả `ls -l`
+## 13.4. Cách đọc quyền trong kết quả `ls -l`
 
 Lệnh `ls -l` hiển thị quyền truy cập của tệp và thư mục theo dạng chi tiết.
 
@@ -4897,7 +4899,7 @@ Ví dụ khác:
 
 Tóm lại, khi đọc kết quả `ls -l`, cần chú ý 10 ký tự đầu tiên vì chúng cho biết loại đối tượng và quyền truy cập của user, group, others.
 
-## 12.5. Thay đổi quyền với `chmod`
+## 13.5. Thay đổi quyền với `chmod`
 
 Lệnh `chmod`, viết tắt của **change mode**, dùng để thay đổi quyền truy cập của tệp hoặc thư mục.
 
@@ -4912,7 +4914,7 @@ Có hai cách phổ biến để dùng `chmod`:
 1. Dùng ký hiệu chữ.
 2. Dùng dạng số.
 
-### 12.5.1 Thay đổi quyền dùng ký hiệu chữ
+### 13.5.1 Thay đổi quyền dùng ký hiệu chữ
 
 Các nhóm đối tượng:
 
@@ -4949,7 +4951,7 @@ Gán quyền đọc và ghi cho user, chỉ đọc cho group, không quyền cho
 chmod u=rw,g=r,o= file.txt
 ```
 
-### 12.5.2 Thay đổi quyền dùng dạng số
+### 13.5.2 Thay đổi quyền dùng dạng số
 
 Trong Linux, mỗi quyền có một giá trị số:
 
@@ -4999,7 +5001,7 @@ Quyền `644` có nghĩa là:
 
 Tóm lại, `chmod` dùng để thay đổi quyền truy cập. Người mới nên bắt đầu với dạng ký hiệu chữ để dễ hiểu, sau đó học dạng số vì dạng số được dùng rất phổ biến trong thực tế.
 
-## 12.6. Thêm quyền thực thi với `chmod +x`
+## 13.6. Thêm quyền thực thi với `chmod +x`
 
 Khi tạo một script mới, tệp đó thường chưa có quyền thực thi. Vì vậy, nếu chạy trực tiếp, hệ thống có thể báo lỗi `Permission denied`.
 
@@ -5071,7 +5073,7 @@ Trong đó ký tự `x` cho biết tệp đã có quyền thực thi.
 Tóm lại, `chmod +x` thường được dùng để biến một script thành tệp có thể chạy trực tiếp trong terminal.
 
 
-## 12.7. Thay đổi chủ sở hữu với `chown`
+## 13.7. Thay đổi chủ sở hữu với `chown`
 
 Lệnh `chown`, viết tắt của **change owner**, dùng để thay đổi chủ sở hữu của tệp hoặc thư mục.
 
@@ -5126,7 +5128,7 @@ Cần cẩn thận khi dùng `chown -R`, đặc biệt với thư mục hệ th�
 Tóm lại, `chown` dùng để thay đổi chủ sở hữu của tệp hoặc thư mục. Lệnh này thường cần quyền `sudo`.
 
 
-## 11.8. Thay đổi nhóm sở hữu với `chgrp`
+## 13.8. Thay đổi nhóm sở hữu với `chgrp`
 
 Lệnh `chgrp`, viết tắt của **change group**, dùng để thay đổi nhóm sở hữu của tệp hoặc thư mục.
 
@@ -5183,7 +5185,7 @@ Quyền `640` nghĩa là:
 
 Tóm lại, `chgrp` dùng để thay đổi nhóm sở hữu của tệp hoặc thư mục, giúp quản lý quyền truy cập theo nhóm hiệu quả hơn.
 
-## 12.9. Quyền truy cập và rủi ro bảo mật
+## 13.9. Quyền truy cập và rủi ro bảo mật
 
 Quyền truy cập trong Linux có ảnh hưởng trực tiếp đến bảo mật hệ thống. Nếu cấu hình quyền không đúng, người dùng không được phép có thể đọc dữ liệu nhạy cảm, chỉnh sửa file cấu hình hoặc thực thi mã độc.
 
@@ -5235,7 +5237,7 @@ chmod 755 script.sh
 
 Tóm lại, quản lý quyền truy cập đúng cách giúp giảm rủi ro bị đọc trộm dữ liệu, sửa đổi trái phép hoặc thực thi lệnh nguy hiểm trên hệ thống.
 
-## 12.10. Các tệp nhạy cảm: `/etc/passwd` và `/etc/shadow`
+## 13.10. Các tệp nhạy cảm: `/etc/passwd` và `/etc/shadow`
 
 Trong Linux, `/etc/passwd` và `/etc/shadow` là hai tệp rất quan trọng liên quan đến tài khoản người dùng.
 
@@ -5315,4 +5317,547 @@ So sánh ngắn gọn:
 | `/etc/shadow` | Hash mật khẩu và chính sách mật khẩu | Rất nhạy cảm, chỉ root/nhóm đặc biệt được đọc |
 
 Tóm lại, `/etc/passwd` và `/etc/shadow` là hai tệp quan trọng trong quản lý tài khoản Linux. `/etc/passwd` chứa thông tin người dùng cơ bản, còn `/etc/shadow` chứa dữ liệu mật khẩu đã băm và phải được bảo vệ nghiêm ngặt.
+
+# 14. Quản lý người dùng và nhóm
+
+Linux là hệ điều hành đa người dùng, nghĩa là nhiều tài khoản có thể cùng tồn tại trên một hệ thống. Mỗi người dùng có quyền hạn riêng, thư mục riêng, nhóm riêng và mức truy cập khác nhau đối với tệp, thư mục, dịch vụ hoặc lệnh hệ thống.
+
+Quản lý người dùng và nhóm là một kỹ năng quan trọng trong Linux, đặc biệt trong quản trị hệ thống, máy chủ, môi trường doanh nghiệp và an toàn thông tin. Nếu phân quyền không đúng, người dùng có thể truy cập dữ liệu nhạy cảm hoặc thực hiện các thao tác vượt quá quyền cần thiết.
+
+
+## 14.1. Người dùng trong Linux
+
+Trong Linux, **người dùng** là một tài khoản được hệ thống dùng để xác định ai đang đăng nhập và đang thực hiện thao tác nào. Mỗi người dùng có một tên đăng nhập, một mã định danh người dùng gọi là **UID**, một thư mục home và thường có một shell mặc định.
+
+Ví dụ, một người dùng có thể có thông tin như sau:
+
+```bash
+username: student
+UID: 1000
+Home directory: /home/student
+Shell: /bin/bash
+```
+
+Thông tin người dùng cơ bản được lưu trong tệp:
+
+```bash
+/etc/passwd
+```
+
+Có thể xem nội dung tệp này bằng lệnh:
+
+```bash
+cat /etc/passwd
+```
+
+Một dòng trong `/etc/passwd` có thể có dạng:
+
+```bash
+student:x:1000:1000:Student User:/home/student:/bin/bash
+```
+
+Ý nghĩa các trường:
+
+| Trường | Ý nghĩa |
+|---|---|
+| `student` | Tên người dùng |
+| `x` | Mật khẩu không lưu trực tiếp ở đây, mà được chuyển sang `/etc/shadow` |
+| `1000` | UID của người dùng |
+| `1000` | GID của nhóm chính |
+| `Student User` | Thông tin mô tả |
+| `/home/student` | Thư mục home |
+| `/bin/bash` | Shell mặc định |
+
+Trong Linux, tài khoản quan trọng nhất là **root**. Đây là tài khoản có quyền quản trị cao nhất, có thể thay đổi toàn bộ hệ thống. Vì vậy, người dùng thông thường không nên đăng nhập trực tiếp bằng root nếu không cần thiết.
+
+Tóm lại, người dùng trong Linux là thực thể dùng để xác định danh tính, quyền hạn và phạm vi thao tác của một tài khoản trên hệ thống.
+
+
+## 14.2. Nhóm trong Linux
+
+**Nhóm** trong Linux là cách gom nhiều người dùng lại với nhau để quản lý quyền truy cập dễ hơn. Thay vì cấp quyền riêng lẻ cho từng người dùng, quản trị viên có thể cấp quyền cho một nhóm, sau đó thêm người dùng vào nhóm đó.
+
+Mỗi người dùng thường có:
+
+| Loại nhóm | Ý nghĩa |
+|---|---|
+| Nhóm chính | Nhóm mặc định của người dùng |
+| Nhóm phụ | Các nhóm bổ sung mà người dùng tham gia |
+
+Ví dụ, một user `student` có thể thuộc nhiều nhóm:
+
+```bash
+student sudo adm docker
+```
+
+Điều này có nghĩa là user `student` không chỉ thuộc nhóm chính của mình, mà còn thuộc các nhóm phụ như `sudo`, `adm` hoặc `docker`.
+
+Thông tin nhóm thường được lưu trong tệp:
+
+```bash
+/etc/group
+```
+
+Có thể xem danh sách nhóm bằng:
+
+```bash
+cat /etc/group
+```
+
+Hoặc kiểm tra nhóm của user hiện tại bằng:
+
+```bash
+groups
+```
+
+Ví dụ kết quả:
+
+```bash
+student sudo adm
+```
+
+Trong quản trị Linux, nhóm giúp chia sẻ quyền truy cập một cách linh hoạt. Ví dụ, nhiều người dùng cùng thuộc một nhóm có thể được cấp quyền đọc một thư mục log hoặc chỉnh sửa một thư mục dự án.
+
+Tóm lại, nhóm là cơ chế quan trọng để quản lý quyền cho nhiều người dùng cùng lúc, giúp hệ thống dễ quản trị và an toàn hơn.
+
+
+## 14.3. Kiểm tra thông tin người dùng với `id`
+
+Lệnh `id` dùng để hiển thị thông tin định danh của người dùng, bao gồm UID, GID và danh sách các nhóm mà người dùng thuộc về.
+
+Cú pháp:
+
+```bash
+id
+```
+
+Ví dụ kết quả:
+
+```bash
+uid=1000(student) gid=1000(student) groups=1000(student),27(sudo),4(adm)
+```
+
+Ý nghĩa:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `uid=1000(student)` | ID và tên của người dùng hiện tại |
+| `gid=1000(student)` | ID và tên nhóm chính |
+| `groups=...` | Danh sách các nhóm mà user thuộc về |
+
+Có thể kiểm tra thông tin của một user cụ thể:
+
+```bash
+id username
+```
+
+Ví dụ:
+
+```bash
+id student
+```
+
+Lệnh `id` rất hữu ích khi cần kiểm tra quyền của tài khoản hiện tại. Nếu kết quả có chứa nhóm `sudo`, người dùng có thể có quyền chạy lệnh với đặc quyền quản trị thông qua `sudo`.
+
+Ví dụ:
+
+```bash
+id
+```
+
+Kết quả:
+
+```bash
+uid=1000(chu) gid=1000(chu) groups=1000(chu),4(adm),27(sudo)
+```
+
+Trong ví dụ này, user `chu` thuộc nhóm `sudo` và `adm`, nghĩa là tài khoản này có nhiều quyền hơn user thông thường.
+
+Tóm lại, `id` là lệnh quan trọng để kiểm tra danh tính và nhóm quyền của người dùng trong Linux.
+
+
+## 14.4. Chuyển đổi người dùng với `su`
+
+Lệnh `su`, viết tắt của **substitute user** hoặc **switch user**, dùng để chuyển sang một tài khoản người dùng khác trong terminal.
+
+Cú pháp cơ bản:
+
+```bash
+su <username>
+```
+
+Ví dụ:
+
+```bash
+su user2
+```
+
+Sau khi chạy lệnh, hệ thống sẽ yêu cầu nhập mật khẩu của user đích. Nếu nhập đúng, phiên terminal sẽ chuyển sang user đó.
+
+Để chuyển sang user khác như một phiên đăng nhập đầy đủ, nên dùng tùy chọn `-` hoặc `-l`:
+
+```bash
+su - user2
+```
+
+hoặc:
+
+```bash
+su --login user2
+```
+
+Cách này giúp nạp môi trường làm việc của user mới, bao gồm thư mục home, biến môi trường và shell đăng nhập.
+
+Nếu chỉ chạy:
+
+```bash
+su user2
+```
+
+người dùng có thể chuyển sang user mới nhưng không nhất thiết nạp đầy đủ môi trường đăng nhập của user đó.
+
+Có thể kiểm tra user hiện tại sau khi chuyển bằng:
+
+```bash
+whoami
+```
+
+Ví dụ:
+
+```bash
+su - user2
+whoami
+```
+
+Kết quả:
+
+```bash
+user2
+```
+
+Ngoài ra, `su` có thể chạy một lệnh cụ thể dưới quyền user khác bằng tùy chọn `-c` hoặc `--command`:
+
+```bash
+su --command "whoami" user2
+```
+
+Lệnh này chỉ chạy `whoami` dưới quyền `user2`, sau đó quay lại phiên làm việc ban đầu.
+
+Tóm lại, `su` dùng để chuyển sang tài khoản người dùng khác. Khi muốn có môi trường đăng nhập đầy đủ, nên dùng `su - username`.
+
+
+## 14.5. Chạy lệnh với quyền cao hơn bằng `sudo`
+
+Lệnh `sudo`, viết tắt của **superuser do**, cho phép user thông thường chạy một lệnh với quyền cao hơn, thường là quyền root.
+
+Cú pháp:
+
+```bash
+sudo <lệnh>
+```
+
+Ví dụ cập nhật danh sách gói:
+
+```bash
+sudo apt update
+```
+
+Ví dụ chỉnh sửa tệp hệ thống:
+
+```bash
+sudo nano /etc/hosts
+```
+
+Khi dùng `sudo`, hệ thống thường yêu cầu nhập mật khẩu của chính user hiện tại, không phải mật khẩu root. User đó phải được cấp quyền sử dụng `sudo`, thường thông qua nhóm `sudo` hoặc cấu hình trong file sudoers.
+
+Có thể kiểm tra user hiện tại có quyền `sudo` hay không bằng:
+
+```bash
+sudo -l
+```
+
+Lệnh này hiển thị danh sách các lệnh mà user được phép chạy với `sudo`.
+
+Sự khác nhau giữa `su` và `sudo`:
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `su` | Chuyển sang tài khoản người dùng khác |
+| `sudo` | Chạy một lệnh cụ thể với quyền cao hơn |
+| `su -` | Mở phiên đăng nhập mới dưới user khác |
+| `sudo command` | Chỉ nâng quyền cho một lệnh cụ thể |
+
+Ví dụ:
+
+```bash
+sudo whoami
+```
+
+Kết quả thường là:
+
+```bash
+root
+```
+
+Điều này cho thấy lệnh `whoami` đã được chạy với quyền root.
+
+Trong thực tế, nên dùng `sudo` thay vì đăng nhập trực tiếp bằng root, vì `sudo` giúp kiểm soát từng lệnh được nâng quyền và giảm rủi ro thao tác nhầm toàn bộ hệ thống.
+
+Tóm lại, `sudo` là công cụ quan trọng để thực hiện các thao tác quản trị một cách an toàn và có kiểm soát hơn.
+
+
+## 14.6. Tạo người dùng mới
+
+Để tạo người dùng mới trong Linux, có thể dùng lệnh `adduser`.
+
+Cú pháp:
+
+```bash
+sudo adduser <username>
+```
+
+Ví dụ tạo user mới tên `alice`:
+
+```bash
+sudo adduser alice
+```
+
+Sau khi chạy lệnh, hệ thống thường yêu cầu nhập mật khẩu mới và một số thông tin bổ sung như họ tên, số phòng, số điện thoại. Có thể nhấn `Enter` để bỏ qua các thông tin không cần thiết.
+
+Sau khi tạo xong, có thể kiểm tra user bằng:
+
+```bash
+id alice
+```
+
+Hoặc kiểm tra thư mục home:
+
+```bash
+ls /home
+```
+
+Kết quả có thể có thư mục:
+
+```bash
+alice
+```
+
+Ngoài `adduser`, một số hệ thống cũng có lệnh cấp thấp hơn là `useradd`.
+
+Ví dụ:
+
+```bash
+sudo useradd alice
+```
+
+Tuy nhiên, với người mới học Linux, `adduser` thường dễ dùng hơn vì nó tạo user theo quy trình tương tác và thân thiện hơn.
+
+Có thể thêm user vào một nhóm bằng lệnh:
+
+```bash
+sudo usermod -aG <group> <username>
+```
+
+Ví dụ thêm user `alice` vào nhóm `sudo`:
+
+```bash
+sudo usermod -aG sudo alice
+```
+
+Cần cẩn thận khi thêm user vào các nhóm đặc quyền như `sudo`, vì điều này có thể cho phép user thực hiện thao tác quản trị hệ thống.
+
+
+## 14.7. Đặt mật khẩu cho người dùng
+
+Lệnh `passwd` dùng để đặt hoặc thay đổi mật khẩu cho người dùng.
+
+Nếu muốn đổi mật khẩu của chính user hiện tại, dùng:
+
+```bash
+passwd
+```
+
+Hệ thống sẽ yêu cầu nhập mật khẩu hiện tại, sau đó nhập mật khẩu mới.
+
+Nếu muốn đặt hoặc đổi mật khẩu cho user khác, cần quyền quản trị:
+
+```bash
+sudo passwd <username>
+```
+
+Ví dụ đặt mật khẩu cho user `alice`:
+
+```bash
+sudo passwd alice
+```
+
+Sau đó hệ thống sẽ yêu cầu nhập mật khẩu mới:
+
+```bash
+New password:
+Retype new password:
+```
+
+Nếu mật khẩu được đặt thành công, hệ thống có thể hiển thị:
+
+```bash
+passwd: password updated successfully
+```
+
+Trong quản trị hệ thống, `passwd` rất quan trọng vì tài khoản mới tạo cần có mật khẩu để đăng nhập. Ngoài ra, quản trị viên có thể dùng lệnh này để đặt lại mật khẩu khi người dùng quên mật khẩu.
+
+Một số lưu ý bảo mật khi đặt mật khẩu:
+
+| Nguyên tắc | Ý nghĩa |
+|---|---|
+| Không dùng mật khẩu quá ngắn | Dễ bị đoán hoặc brute-force |
+| Không dùng thông tin cá nhân | Ví dụ ngày sinh, tên, số điện thoại |
+| Nên kết hợp chữ, số, ký tự đặc biệt | Tăng độ khó đoán |
+| Không dùng chung mật khẩu cho nhiều tài khoản | Giảm rủi ro khi một tài khoản bị lộ |
+
+
+## 14.8. Xóa người dùng
+
+Để xóa người dùng khỏi hệ thống, có thể dùng lệnh `deluser`.
+
+Cú pháp:
+
+```bash
+sudo deluser <username>
+```
+
+Ví dụ xóa user `alice`:
+
+```bash
+sudo deluser alice
+```
+
+Lệnh trên xóa tài khoản `alice`, nhưng có thể không xóa thư mục home của user đó.
+
+Nếu muốn xóa cả thư mục home, có thể dùng:
+
+```bash
+sudo deluser --remove-home alice
+```
+
+Trước khi xóa user, nên kiểm tra:
+
+```bash
+id alice
+```
+
+Kiểm tra thư mục home:
+
+```bash
+ls /home/alice
+```
+
+Nếu user đang chạy tiến trình, cần kiểm tra trước bằng:
+
+```bash
+ps -u alice
+```
+
+Sau khi xóa user, có thể kiểm tra lại:
+
+```bash
+id alice
+```
+
+Nếu user đã bị xóa, hệ thống có thể báo:
+
+```bash
+id: ‘alice’: no such user
+```
+
+Cần cẩn thận khi xóa user trên máy chủ, vì user đó có thể đang sở hữu tệp, chạy dịch vụ hoặc có dữ liệu quan trọng trong thư mục home.
+
+Tóm lại, `sudo deluser username` dùng để xóa tài khoản người dùng. Nếu muốn xóa cả dữ liệu home, dùng thêm tùy chọn `--remove-home`.
+
+## 14.9. Ý nghĩa bảo mật của nhóm `sudo`, `adm` và các nhóm đặc quyền
+
+Trong Linux, một số nhóm có quyền cao hơn nhóm thông thường. Nếu một user thuộc các nhóm này, user đó có thể truy cập nhiều tài nguyên quan trọng hoặc thực hiện các thao tác ảnh hưởng đến toàn bộ hệ thống.
+
+#### Nhóm `sudo`
+
+Nhóm `sudo` là một trong những nhóm quan trọng nhất. User thuộc nhóm này thường có thể chạy lệnh với quyền root thông qua `sudo`.
+
+Ví dụ kiểm tra user có thuộc nhóm `sudo` không:
+
+```bash
+id
+```
+
+Nếu kết quả có chứa:
+
+```bash
+27(sudo)
+```
+
+nghĩa là user hiện tại thuộc nhóm `sudo`.
+
+Ví dụ:
+
+```bash
+sudo apt update
+sudo systemctl restart ssh
+sudo nano /etc/hosts
+```
+
+Các lệnh trên đều có thể thay đổi hệ thống. Vì vậy, chỉ nên cấp quyền `sudo` cho những user thật sự cần quyền quản trị.
+
+#### Nhóm `adm`
+
+Nhóm `adm` thường liên quan đến việc đọc một số tệp log hệ thống trên các bản phân phối như Ubuntu hoặc Debian. User thuộc nhóm này có thể có khả năng xem các thông tin quan trọng trong thư mục log.
+
+Ví dụ:
+
+```bash
+ls -l /var/log
+```
+
+Một số tệp log có thể cho phép nhóm `adm` đọc.
+
+Trong an toàn thông tin, quyền đọc log rất quan trọng. Log có thể chứa thông tin về đăng nhập, lỗi dịch vụ, hoạt động mạng hoặc dấu hiệu tấn công. Vì vậy, không nên thêm user vào nhóm `adm` nếu không có nhu cầu giám sát hoặc quản trị.
+
+#### Một số nhóm đặc quyền khác
+
+Ngoài `sudo` và `adm`, một số nhóm khác cũng cần được kiểm soát cẩn thận:
+
+| Nhóm | Rủi ro nếu cấp sai |
+|---|---|
+| `sudo` | Có thể chạy lệnh với quyền root |
+| `adm` | Có thể đọc một số log hệ thống |
+| `docker` | Có thể dẫn đến quyền rất cao nếu cấu hình không an toàn |
+| `lxd` | Có thể bị lợi dụng để leo thang đặc quyền |
+| `libvirt` | Có thể quản lý máy ảo |
+| `wireshark` | Có thể bắt hoặc phân tích lưu lượng mạng |
+| `kvm` | Có thể truy cập tài nguyên ảo hóa |
+| `shadow` | Có thể liên quan đến quyền đọc dữ liệu mật khẩu đã băm |
+
+Ví dụ một kết quả `id` có nhiều nhóm đặc quyền:
+
+```bash
+uid=1000(chu) gid=1000(chu) groups=1000(chu),4(adm),27(sudo),140(docker),145(libvirt),139(wireshark)
+```
+
+Kết quả này cho thấy user `chu` có nhiều quyền mở rộng. Đây là điều bình thường trên máy cá nhân phục vụ học tập hoặc lab bảo mật, nhưng trên máy chủ thật cần kiểm soát rất chặt.
+
+Nguyên tắc bảo mật quan trọng là **least privilege**, tức là chỉ cấp đúng quyền cần thiết cho user để thực hiện công việc. Không nên thêm user vào các nhóm đặc quyền nếu không có lý do rõ ràng.
+
+Một số lệnh kiểm tra nhóm:
+
+```bash
+id
+groups
+groups username
+```
+
+Ví dụ kiểm tra nhóm của user `alice`:
+
+```bash
+groups alice
+```
+
+Tóm lại, nhóm đặc quyền có ảnh hưởng trực tiếp đến bảo mật hệ thống. Trong đó, `sudo` cho phép nâng quyền quản trị, `adm` thường liên quan đến đọc log, còn các nhóm như `docker`, `lxd`, `libvirt`, `wireshark` cũng cần được kiểm soát cẩn thận.
 
