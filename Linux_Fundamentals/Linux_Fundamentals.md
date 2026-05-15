@@ -48,6 +48,8 @@
 
 22. [Log trong Linux](#22-log-trong-linux)
 
+23. [Bash Scripting cơ bản](#23-bash-scripting-cơ-bản)
+
 ## Nội dung
 
 # 1: Tổng quan về Linux
@@ -9258,9 +9260,8 @@ awk '{print $1}' access.log | sort | uniq -c | sort -nr | head
 
 Tóm lại, `awk`, `sed`, `cut`, `sort` và `uniq` giúp biến log thô thành dữ liệu có thể phân tích, thống kê và phục vụ điều tra.
 
----
 
-### 24.9. Tô màu log với `ccze`
+## 22.9. Tô màu log với `ccze`
 
 `ccze` là công cụ dùng để tô màu log, giúp người dùng dễ đọc và phân biệt các phần quan trọng trong log hơn.
 
@@ -9382,4 +9383,581 @@ Một quy trình phân tích log cơ bản:
 7. Ghi lại kết quả phục vụ báo cáo hoặc xử lý sự cố.
 
 Tóm lại, trong SOC và điều tra sự cố, log không chỉ dùng để xem lỗi mà còn là bằng chứng quan trọng để phát hiện tấn công, xác định phạm vi ảnh hưởng và hỗ trợ phản ứng sự cố.
+
+# 23. Bash Scripting cơ bản
+
+Bash scripting là kỹ năng quan trọng trong Linux, giúp người dùng tự động hóa các lệnh thường dùng, xử lý tệp, kiểm tra hệ thống, sao lưu dữ liệu, phân tích log và quản trị máy chủ. Thay vì nhập từng lệnh thủ công trong terminal, người dùng có thể viết nhiều lệnh vào một tệp script và chạy chúng như một chương trình nhỏ.
+
+Bash script thường có phần mở rộng `.sh`, ví dụ:
+
+```bash
+backup.sh
+check_system.sh
+hello.sh
+```
+
+## 23.1. Bash Script là gì?
+
+**Bash Script** là một tệp văn bản chứa các lệnh Bash được viết theo thứ tự thực thi. Khi chạy script, hệ thống sẽ thực hiện từng dòng lệnh trong tệp, giống như người dùng nhập từng lệnh vào terminal.
+
+Ví dụ một Bash script đơn giản:
+
+```bash
+#!/bin/bash
+echo "Hello Linux"
+whoami
+id
+```
+
+Script trên thực hiện ba việc:
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `echo "Hello Linux"` | In dòng chữ ra màn hình |
+| `whoami` | Hiển thị user hiện tại |
+| `id` | Hiển thị UID, GID và các nhóm của user |
+
+Nếu chạy script, kết quả có thể là:
+
+```bash
+Hello Linux
+student
+uid=1000(student) gid=1000(student) groups=1000(student),27(sudo)
+```
+
+Bash script thường được dùng để kết hợp nhiều lệnh Linux thành một quy trình tự động.
+
+Tóm lại, Bash script là một tệp chứa nhiều lệnh Bash, giúp tự động hóa các thao tác trong Linux.
+
+
+## 23.2. Khi nào cần sử dụng Bash Script?
+
+Bash script nên được sử dụng khi một công việc cần thực hiện nhiều lần, có nhiều bước hoặc cần tự động hóa.
+
+Một số trường hợp thường dùng Bash script:
+
+| Trường hợp | Ví dụ |
+|---|---|
+| Tự động hóa lệnh lặp lại | Kiểm tra hệ thống mỗi ngày |
+| Sao lưu dữ liệu | Nén thư mục và lưu thành file backup |
+| Quản lý log | Lọc lỗi, đếm IP, xóa log cũ |
+| Kiểm tra dịch vụ | Kiểm tra SSH, Apache, Nginx có đang chạy không |
+| Cài đặt môi trường | Cài nhiều gói phần mềm cùng lúc |
+| Phân tích hệ thống | Lấy thông tin user, kernel, IP, disk |
+| SOC/lab bảo mật | Thu thập log, kiểm tra tiến trình, tìm file bất thường |
+
+Ví dụ, thay vì nhập nhiều lệnh:
+
+```bash
+whoami
+hostname
+uname -a
+df -h
+free -h
+```
+
+có thể tạo script:
+
+```bash
+#!/bin/bash
+whoami
+hostname
+uname -a
+df -h
+free -h
+```
+
+Sau đó chỉ cần chạy một lần:
+
+```bash
+./system_info.sh
+```
+
+Bash script đặc biệt hữu ích khi kết hợp với cron để chạy định kỳ.
+
+Ví dụ:
+
+```bash
+0 8 * * * /home/student/system_info.sh
+```
+
+Lệnh trên có thể dùng để chạy script mỗi ngày lúc 8 giờ sáng.
+
+Tóm lại, Bash script phù hợp khi cần tự động hóa, giảm thao tác thủ công và đảm bảo các bước được thực hiện nhất quán.
+
+
+## 23.3. Cấu trúc cơ bản của một Bash Script
+
+Một Bash script cơ bản thường gồm các phần sau:
+
+```bash
+#!/bin/bash
+
+# Đây là chú thích
+echo "Hello Linux"
+
+whoami
+id
+```
+
+Cấu trúc chung:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `#!/bin/bash` | Shebang, chỉ định dùng Bash để chạy script |
+| Dòng trống | Giúp script dễ đọc hơn |
+| `# chú thích` | Ghi chú giải thích mã lệnh |
+| Lệnh Bash | Các lệnh sẽ được thực thi theo thứ tự |
+| Biến, điều kiện, vòng lặp | Các thành phần nâng cao để xử lý logic |
+
+Ví dụ tạo file script:
+
+```bash
+nano first_script.sh
+```
+
+Nội dung:
+
+```bash
+#!/bin/bash
+
+# In thông báo ra màn hình
+echo "Hello World"
+
+# Hiển thị thông tin user
+whoami
+id
+```
+
+Sau khi lưu file, cần cấp quyền thực thi rồi chạy script.
+
+Tóm lại, một Bash script thường bắt đầu bằng shebang, sau đó là các lệnh Bash được sắp xếp theo thứ tự cần thực hiện.
+
+
+## 23.4. Shebang `#!/bin/bash`
+
+**Shebang** là dòng đầu tiên trong script, dùng để chỉ định chương trình nào sẽ được dùng để thực thi script.
+
+Trong Bash script, shebang thường là:
+
+```bash
+#!/bin/bash
+```
+
+Dòng này cho hệ thống biết rằng script cần được chạy bằng Bash.
+
+Ví dụ:
+
+```bash
+#!/bin/bash
+echo "Hello from Bash"
+```
+
+Nếu không có shebang, script vẫn có thể chạy trong một số trường hợp, nhưng có thể bị chạy bằng shell khác, dẫn đến lỗi nếu script sử dụng cú pháp riêng của Bash.
+
+Một số shebang thường gặp:
+
+| Shebang | Ý nghĩa |
+|---|---|
+| `#!/bin/bash` | Chạy script bằng Bash |
+| `#!/bin/sh` | Chạy script bằng shell chuẩn `sh` |
+| `#!/usr/bin/env bash` | Tìm Bash thông qua biến môi trường `PATH` |
+
+Ví dụ:
+
+```bash
+#!/usr/bin/env bash
+echo "This script uses Bash"
+```
+
+Trong học Linux cơ bản, có thể dùng:
+
+```bash
+#!/bin/bash
+```
+
+Tóm lại, shebang giúp hệ thống biết cần dùng trình thông dịch nào để chạy script. Với Bash script, dòng phổ biến nhất là `#!/bin/bash`.
+
+
+## 23.5. Chạy lệnh Linux trong Bash Script
+
+Bash script có thể chạy hầu hết các lệnh Linux giống như khi nhập trực tiếp trong terminal.
+
+Ví dụ:
+
+```bash
+#!/bin/bash
+echo "Current user:"
+whoami
+
+echo "Hostname:"
+hostname
+
+echo "Kernel:"
+uname -a
+
+echo "Current directory:"
+pwd
+```
+
+Khi chạy script, các lệnh sẽ được thực hiện từ trên xuống dưới.
+
+Có thể lưu kết quả vào file bằng chuyển hướng:
+
+```bash
+#!/bin/bash
+echo "System report" > report.txt
+whoami >> report.txt
+hostname >> report.txt
+uname -a >> report.txt
+```
+
+Sau đó kiểm tra:
+
+```bash
+cat report.txt
+```
+
+Có thể dùng pipe trong script:
+
+```bash
+#!/bin/bash
+ps aux | grep ssh
+```
+
+Có thể dùng `grep`, `awk`, `sed`, `cut`, `sort`, `uniq` để xử lý dữ liệu:
+
+```bash
+#!/bin/bash
+grep -i "failed" /var/log/auth.log | awk '{print $1, $2, $3, $0}'
+```
+
+Tuy nhiên, một số log hệ thống cần quyền cao. Khi đó, script có thể cần chạy bằng `sudo` hoặc chỉ một số lệnh trong script cần `sudo`.
+
+Ví dụ:
+
+```bash
+sudo ./check_auth_log.sh
+```
+
+Tóm lại, Bash script có thể kết hợp nhiều lệnh Linux để tạo thành một quy trình tự động, phục vụ quản trị hệ thống và xử lý dữ liệu.
+
+
+## 23.6. Cấp quyền thực thi cho script
+
+Sau khi tạo một file script, người dùng cần cấp quyền thực thi để có thể chạy trực tiếp bằng `./script.sh`.
+
+Ví dụ tạo script:
+
+```bash
+nano hello.sh
+```
+
+Nội dung:
+
+```bash
+#!/bin/bash
+echo "Hello Linux"
+```
+
+Kiểm tra quyền:
+
+```bash
+ls -l hello.sh
+```
+
+Kết quả có thể là:
+
+```bash
+-rw-r--r-- 1 student student 31 May 15 10:00 hello.sh
+```
+
+Trong quyền trên chưa có ký tự `x`, nghĩa là file chưa có quyền thực thi.
+
+Cấp quyền thực thi:
+
+```bash
+chmod +x hello.sh
+```
+
+Kiểm tra lại:
+
+```bash
+ls -l hello.sh
+```
+
+Kết quả có thể là:
+
+```bash
+-rwxr-xr-x 1 student student 31 May 15 10:00 hello.sh
+```
+
+Ký tự `x` cho biết file đã có quyền thực thi.
+
+Có thể cấp quyền thực thi chỉ cho user sở hữu:
+
+```bash
+chmod u+x hello.sh
+```
+
+Hoặc dùng dạng số:
+
+```bash
+chmod 755 hello.sh
+```
+
+Tóm lại, `chmod +x script.sh` là bước cần thiết để biến file script thành file có thể chạy trực tiếp.
+
+
+## 23.7. Chạy script với `./script.sh`
+
+Sau khi script đã có quyền thực thi, có thể chạy bằng cú pháp:
+
+```bash
+./script.sh
+```
+
+Ví dụ:
+
+```bash
+./hello.sh
+```
+
+Kết quả:
+
+```bash
+Hello Linux
+```
+
+Dấu `./` có nghĩa là chạy file script nằm trong thư mục hiện tại.
+
+Ví dụ:
+
+```bash
+./first_bash_script.sh
+```
+
+Nếu không dùng `./`, hệ thống có thể báo lỗi:
+
+```bash
+command not found
+```
+
+Nguyên nhân là Linux chỉ tìm lệnh trong các thư mục thuộc biến môi trường `PATH`, ví dụ `/bin`, `/usr/bin`, `/usr/local/bin`. Thư mục hiện tại thường không nằm trong `PATH`, nên cần ghi rõ:
+
+```bash
+./script.sh
+```
+
+Ngoài cách chạy trực tiếp, có thể chạy script bằng Bash:
+
+```bash
+bash script.sh
+```
+
+Cách này thường không yêu cầu file có quyền thực thi, vì người dùng đang gọi chương trình `bash` để đọc script.
+
+So sánh:
+
+| Cách chạy | Cần `chmod +x` không? | Ghi chú |
+|---|---|---|
+| `./script.sh` | Có | Chạy trực tiếp file script |
+| `bash script.sh` | Không bắt buộc | Bash đọc file và thực thi |
+| `sh script.sh` | Không bắt buộc | Có thể không hỗ trợ cú pháp riêng của Bash |
+
+Tóm lại, cách chạy phổ biến sau khi cấp quyền là:
+
+```bash
+chmod +x script.sh
+./script.sh
+```
+
+## 23.8. Chú thích trong Bash Script
+
+Chú thích giúp giải thích ý nghĩa của script hoặc từng đoạn lệnh. Trong Bash, dòng chú thích bắt đầu bằng ký tự `#`.
+
+Ví dụ:
+
+```bash
+#!/bin/bash
+
+# Đây là dòng chú thích
+echo "Hello Linux"
+```
+
+Khi script chạy, Bash sẽ bỏ qua dòng chú thích.
+
+Có thể dùng chú thích để giải thích từng bước:
+
+```bash
+#!/bin/bash
+
+# Tạo file báo cáo mới
+echo "System report" > report.txt
+
+# Ghi tên user hiện tại vào báo cáo
+whoami >> report.txt
+
+# Ghi thông tin kernel vào báo cáo
+uname -a >> report.txt
+```
+
+Chú thích rất hữu ích khi script dài hoặc được dùng lại sau này. Nó giúp người viết và người đọc hiểu script đang làm gì.
+
+Một số lưu ý:
+
+| Nội dung | Ý nghĩa |
+|---|---|
+| `# comment` | Dòng chú thích |
+| Shebang `#!/bin/bash` | Không xem là chú thích thông thường, mà là dòng chỉ định trình thông dịch |
+| Chú thích rõ ràng | Giúp script dễ bảo trì |
+| Không chú thích quá thừa | Nên chú thích phần logic quan trọng |
+
+Ví dụ chú thích không tốt:
+
+```bash
+# In hello
+echo "Hello"
+```
+
+Ví dụ chú thích tốt hơn:
+
+```bash
+# Kiểm tra nhanh script có chạy đúng hay không
+echo "Hello"
+```
+
+Tóm lại, chú thích trong Bash script bắt đầu bằng `#` và giúp mã dễ hiểu, dễ sửa, dễ bảo trì hơn.
+
+
+## 23.9. Gỡ lỗi script với `bash -x`
+
+Khi script bị lỗi hoặc không chạy đúng như mong muốn, có thể dùng chế độ debug bằng lệnh:
+
+```bash
+bash -x script.sh
+```
+
+Tùy chọn `-x` giúp hiển thị từng lệnh trước khi lệnh đó được thực thi. Điều này giúp người dùng biết script đang chạy đến dòng nào và giá trị nào đang được xử lý.
+
+Ví dụ script:
+
+```bash
+#!/bin/bash
+name="Linux"
+echo "Hello $name"
+whoami
+```
+
+Chạy debug:
+
+```bash
+bash -x hello.sh
+```
+
+Kết quả có thể là:
+
+```bash
++ name=Linux
++ echo 'Hello Linux'
+Hello Linux
++ whoami
+student
+```
+
+Các dòng bắt đầu bằng dấu `+` là các lệnh mà Bash đang thực thi. Nhờ đó, người dùng có thể theo dõi từng bước của script.
+
+Ví dụ khi script có lỗi:
+
+```bash
+#!/bin/bash
+echo "Start"
+ls /not_exist
+echo "End"
+```
+
+Chạy:
+
+```bash
+bash -x error_script.sh
+```
+
+Kết quả có thể cho biết lệnh nào gây lỗi:
+
+```bash
++ echo Start
+Start
++ ls /not_exist
+ls: cannot access '/not_exist': No such file or directory
++ echo End
+End
+```
+
+Tóm lại, `bash -x script.sh` là cách đơn giản và hiệu quả để gỡ lỗi toàn bộ Bash script.
+
+
+## 23.10. Gỡ lỗi từng phần với `set -x` và `set +x`
+
+Nếu chỉ muốn debug một phần cụ thể trong script, có thể dùng `set -x` và `set +x`.
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `set -x` | Bắt đầu hiển thị chi tiết các lệnh được thực thi |
+| `set +x` | Dừng hiển thị chi tiết |
+
+Ví dụ:
+
+```bash
+#!/bin/bash
+
+echo "Start script"
+
+set -x
+name="Linux"
+echo "Hello $name"
+whoami
+set +x
+
+echo "End script"
+```
+
+Khi chạy bình thường:
+
+```bash
+./debug_part.sh
+```
+
+Bash chỉ hiển thị chi tiết phần nằm giữa `set -x` và `set +x`.
+
+Kết quả có thể là:
+
+```bash
+Start script
++ name=Linux
++ echo 'Hello Linux'
+Hello Linux
++ whoami
+student
+End script
+```
+
+Cách này hữu ích khi script dài và người dùng chỉ muốn kiểm tra một đoạn nghi ngờ có lỗi, thay vì debug toàn bộ script.
+
+Ví dụ debug phần xử lý file:
+
+```bash
+#!/bin/bash
+
+filename="report.txt"
+
+set -x
+echo "System report" > "$filename"
+whoami >> "$filename"
+hostname >> "$filename"
+set +x
+
+echo "Report created: $filename"
+```
+
+Tóm lại, `set -x` và `set +x` giúp gỡ lỗi có chọn lọc trong Bash script, phù hợp khi script dài hoặc chỉ một phần nhỏ cần kiểm tra.
 
