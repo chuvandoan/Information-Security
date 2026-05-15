@@ -12,7 +12,7 @@
 
 4. [Làm quen với các lệnh Linux cơ bản](#4-làm-quen-với-các-lệnh-linux-cơ-bản)
 
-5. [Task 5: Interacting With the Filesystem!](#task-5-interacting-with-the-filesystem)
+5. [Tìm kiếm trợ giúp trong Linux](#5-tìm-kiếm-trợ-giúp-trong-linux)
 
 6. [Task 6: Searching for Files](#task-6-searching-for-files)
 
@@ -44,7 +44,7 @@ Sau hơn một thập kỷ, Richard Stallman khởi xướng dự án GNU. Mục
 Đến năm 1991, một sinh viên người Phần Lan tên là Linus Torvalds bắt đầu phát triển một kernel mới như một dự án cá nhân. Kernel này sau đó được gọi là Linux kernel. Sự xuất hiện của Linux kernel đã bổ sung phần còn thiếu cho hệ thống GNU. Khi kết hợp các công cụ GNU với Linux kernel, một hệ điều hành mã nguồn mở hoàn chỉnh đã ra đời. Đây là cột mốc quan trọng trong lịch sử phát triển của Linux.m việc cá nhân và hợp tác, thúc đẩy các nguyên tắc như đơn giản, minh bạch và hợp tác để đạt được mục tiêu chung.
 ![img](./img/1.1_linux_history.webp)
 
-## 1.3 Triết lý thiết kế của Linux
+## 1.3. Triết lý thiết kế của Linux
 
 
 Triết lý của Linux tập trung vào sự đơn giản, tính mô-đun và tính mở. Nó khuyến khích việc xây dựng các chương trình nhỏ, chuyên biệt để thực hiện một nhiệm vụ duy nhất một cách tốt nhất. Các chương trình này có thể được kết hợp theo nhiều cách để thực hiện các thao tác phức tạp, thúc đẩy hiệu quả và tính linh hoạt. Linux tuân theo năm nguyên tắc cốt lõi sau:
@@ -69,7 +69,7 @@ Triết lý của Linux tập trung vào sự đơn giản, tính mô-đun và t
 | **Graphics server** | Cung cấp hệ thống con đồ họa (gọi là “X” hoặc “X-server”) cho phép các chương trình đồ họa chạy cục bộ hoặc từ xa trên hệ thống X-window.                                                                                                                                                          |
 | **Window Manager**  | Còn được gọi là giao diện người dùng đồ họa (GUI). Có nhiều tùy chọn như GNOME, KDE, MATE, Unity và Cinnamon. Môi trường desktop thường bao gồm nhiều ứng dụng, như trình duyệt tệp và trình duyệt web, cho phép người dùng truy cập và quản lý các tính năng, dịch vụ cần thiết của hệ điều hành. |
 | **Utilities**       | Ứng dụng hoặc tiện ích là các chương trình thực hiện các chức năng cụ thể cho người dùng hoặc cho chương trình khác.                                                                                                                                                                              
-## 2.2 Kiến trúc Linux
+## 2.2. Kiến trúc Linux
 
 Hệ điều hành Linux có thể được chia thành các lớp:
 
@@ -80,7 +80,7 @@ Hệ điều hành Linux có thể được chia thành các lớp:
 | **Shell**          | Giao diện dòng lệnh (CLI), còn gọi là shell, cho phép người dùng nhập lệnh để thực thi các chức năng của kernel.                                                                                                                                        |
 | **System Utility** | Cung cấp cho người dùng quyền truy cập vào tất cả các chức năng của hệ điều hành.                                                                                                                                                                       |
 
-## 2.3 Cấu trúc hệ thống tệp
+## 2.3. Cấu trúc hệ thống tệp
 
 Hệ điều hành Linux được tổ chức theo dạng cây phân cấp và được ghi lại trong tiêu chuẩn **Filesystem Hierarchy Standard (FHS)**.
 Linux được cấu trúc với các thư mục cấp cao tiêu chuẩn sau:
@@ -105,7 +105,7 @@ Linux được cấu trúc với các thư mục cấp cao tiêu chuẩn sau:
 | `/usr`        | Chứa các tệp thực thi, thư viện, tệp hướng dẫn (man) và các tệp khác.                                                                                                                                                                                                                                              |
 | `/var`        | Chứa các tệp dữ liệu thay đổi như tệp nhật ký (log), hộp thư đến, tệp liên quan đến ứng dụng web, tệp cron, và nhiều hơn nữa.                                                                                                                                                                                      |
 # 3. Terminal, Shell và dòng lệnh
-## 3.1 Terminal là gì?
+## 3.1. Terminal là gì?
 
 Terminal là một giao diện dạng văn bản cho phép người dùng tương tác với hệ điều hành Linux thông qua các câu lệnh. Thay vì thao tác bằng chuột và giao diện đồ họa như trên Windows, người dùng có thể nhập lệnh trực tiếp vào terminal để thực hiện các công việc như điều hướng thư mục, tạo hoặc xóa tệp, cài đặt phần mềm, kiểm tra thông tin hệ thống, quản lý tiến trình và cấu hình dịch vụ.
 
@@ -147,7 +147,7 @@ whoami
 ```
 Script này sẽ in ra dòng chữ Hello Linux, sau đó hiển thị tên người dùng hiện tại.
 
-## 3.3 Bash Shell
+## 3.3. Bash Shell
 
 **Bash Shell**, viết đầy đủ là **Bourne Again Shell**, là một trong những shell phổ biến nhất trong hệ điều hành Linux. Bash đóng vai trò là trình thông dịch lệnh, cho phép người dùng nhập lệnh trong terminal để điều khiển hệ thống, chạy chương trình, quản lý tệp, kiểm tra thông tin hệ thống và tự động hóa các công việc lặp lại.
 
@@ -225,7 +225,7 @@ cat /etc/shells
 
 Tóm lại, các loại shell trong Linux đều có cùng mục đích chính là giúp người dùng nhập lệnh và điều khiển hệ thống. Tuy nhiên, chúng khác nhau về cú pháp, mức độ tùy chỉnh, tính thân thiện và khả năng hỗ trợ script. Trong thực tế, Bash vẫn là lựa chọn quan trọng nhất cần nắm vững trước khi học các shell nâng cao khác.
 
-## 3.5 Prompt trong Bash
+## 3.5. Prompt trong Bash
 
 **Prompt trong Bash** là dòng ký hiệu xuất hiện trong terminal để cho biết hệ thống đang sẵn sàng nhận lệnh từ người dùng. Khi mở terminal, người dùng thường nhìn thấy một dòng thông tin hiển thị tên người dùng, tên máy tính và thư mục hiện tại. Ngay sau prompt là vị trí con trỏ, nơi người dùng có thể nhập lệnh để yêu cầu hệ thống thực hiện một tác vụ nào đó.
 
@@ -267,7 +267,7 @@ root@chu-latitude-5510:/home/chu#
 
 Điều này cho biết người dùng hiện tại đang có quyền quản trị cao nhất trên hệ thống. Vì vậy, khi thấy dấu `#`, người dùng cần cẩn thận hơn vì các lệnh được thực thi có thể ảnh hưởng trực tiếp đến toàn bộ hệ thống.
 
-## 3.6 Sự khác nhau giữa user thường và root trong prompt
+## 3.6. Sự khác nhau giữa user thường và root trong prompt
 
 Trong Bash prompt, ký hiệu ở cuối dòng prompt cho biết người dùng hiện tại đang làm việc với quyền thông thường hay quyền quản trị cao nhất. Đây là điểm rất quan trọng khi sử dụng Linux, vì quyền của người dùng quyết định những thao tác nào có thể thực hiện trên hệ thống.
 
@@ -317,7 +317,7 @@ sudo apt update
 Lệnh trên cho phép user thường chạy một lệnh cụ thể với quyền quản trị, thay vì phải chuyển hoàn toàn sang tài khoản root.
 
 
-## 3.7 Các phím tắt cơ bản trong terminal
+## 3.7. Các phím tắt cơ bản trong terminal
 
 Khi làm việc với terminal trong Linux, ngoài việc nhập lệnh trực tiếp, người dùng còn có thể sử dụng nhiều phím tắt để thao tác nhanh hơn. Các phím tắt này giúp tiết kiệm thời gian, chỉnh sửa dòng lệnh dễ dàng hơn, tìm lại lệnh cũ và quản lý tiến trình đang chạy trong terminal.
 
@@ -348,7 +348,7 @@ Các lệnh cơ bản giúp người dùng thực hiện những thao tác đơn
 Việc sử dụng thành thạo các lệnh này là nền tảng quan trọng trước khi học các nội dung nâng cao hơn như quản lý tệp, phân quyền, tiến trình, dịch vụ, log và Bash scripting.
 
 
-## 4.1 Cách chạy lệnh trong terminal
+## 4.1. Cách chạy lệnh trong terminal
 
 Để chạy một lệnh trong Linux, người dùng mở terminal, nhập tên lệnh và nhấn phím `Enter`. Sau đó, shell sẽ tiếp nhận lệnh, xử lý và trả kết quả về terminal.
 
@@ -443,7 +443,7 @@ whoami
 echo "Script finished."
 ```
 
-## 4.3 Lệnh `whoami`
+## 4.3. Lệnh `whoami`
 
 Lệnh `whoami` dùng để hiển thị tên người dùng hiện tại đang đăng nhập vào hệ thống.
 
@@ -471,7 +471,7 @@ root
 
 Lệnh `whoami` cũng thường được sử dụng trong kiểm thử bảo mật để xác định quyền của shell hiện tại sau khi truy cập được vào một hệ thống.
 
-## 4.4 Lệnh `id`
+## 4.4. Lệnh `id`
 
 Lệnh `id` dùng để hiển thị thông tin định danh của người dùng hiện tại, bao gồm:
 
@@ -524,7 +524,7 @@ Trong kết quả trên:
 Lệnh `id` rất quan trọng khi kiểm tra quyền truy cập của người dùng. Nếu người dùng thuộc nhóm `sudo`, họ có thể có khả năng chạy lệnh với quyền quản trị. Nếu thuộc nhóm `adm`, họ có thể có quyền đọc một số tệp log hệ thống.
 
 
-## 4.5 Lệnh `hostname`
+## 4.5. Lệnh `hostname`
 
 Lệnh `hostname` dùng để hiển thị tên của máy tính hoặc máy chủ hiện tại.
 
@@ -543,7 +543,7 @@ chu-latitude-5510
 Tên máy chủ giúp phân biệt các hệ thống khác nhau, đặc biệt khi người dùng làm việc với nhiều máy Linux hoặc kết nối đến máy từ xa qua SSH.
 
 
-## 4.6 Lệnh `uname`
+## 4.6. Lệnh `uname`
 
 Lệnh `uname` dùng để hiển thị thông tin cơ bản về hệ điều hành và kernel của hệ thống.
 
@@ -603,7 +603,7 @@ Ví dụ:
 
 Trong an toàn thông tin, thông tin kernel rất quan trọng vì một số lỗ hổng bảo mật hoặc phương pháp khai thác phụ thuộc vào phiên bản kernel cụ thể.
 
-## 4.7 Lệnh `pwd`
+## 4.7. Lệnh `pwd`
 
 Lệnh `pwd`, viết đầy đủ là **print working directory**, dùng để hiển thị đường dẫn đầy đủ của thư mục hiện tại mà người dùng đang làm việc.
 
@@ -638,7 +638,7 @@ Kết quả:
 
 Trong Linux, việc nắm rõ thư mục hiện tại rất quan trọng, vì nhiều lệnh sẽ tác động trực tiếp đến vị trí mà người dùng đang đứng. Nếu chạy sai lệnh trong sai thư mục, người dùng có thể chỉnh sửa, di chuyển hoặc xóa nhầm tệp.
 
-## 4.8 Lệnh `clear`
+## 4.8. Lệnh `clear`
 
 Lệnh `clear` dùng để xóa nội dung đang hiển thị trên màn hình terminal, giúp giao diện làm việc trở nên gọn gàng và dễ quan sát hơn.
 
@@ -660,7 +660,7 @@ Phím tắt này có chức năng tương tự `clear`, giúp xóa nhanh màn h�
 
 Lệnh `clear` thường được dùng khi terminal có quá nhiều kết quả hiển thị, đặc biệt sau khi chạy các lệnh tạo nhiều đầu ra như `ls -la`, `ps aux`, `cat` hoặc `find`.
 
-## 4.9 Lịch sử lệnh và tìm kiếm lệnh đã chạy
+## 4.9. Lịch sử lệnh và tìm kiếm lệnh đã chạy
 
 Trong Linux, shell lưu lại các lệnh mà người dùng đã chạy trước đó. Điều này giúp người dùng có thể xem lại, chạy lại hoặc chỉnh sửa các lệnh cũ mà không cần nhập lại từ đầu.
 
@@ -726,6 +726,230 @@ sudo apt update
 ```
 
 Lịch sử lệnh giúp tiết kiệm thời gian, giảm lỗi khi nhập lại lệnh dài và hỗ trợ người dùng làm việc hiệu quả hơn trong terminal.
+
+
+# 5. Tìm kiếm trợ giúp trong Linux
+
+Khi làm việc với Linux, người dùng không thể nhớ hết tất cả lệnh, tùy chọn và cú pháp. Vì vậy, biết cách tự tra cứu tài liệu là một kỹ năng rất quan trọng. Linux cung cấp nhiều công cụ trợ giúp trực tiếp trong terminal như `man`, `--help`, `-h`, `apropos`, ngoài ra cũng có thể sử dụng các công cụ trực tuyến như explainshell để hiểu rõ cấu trúc của một lệnh.
+
+## 5.1. Sử dụng `man`
+
+Lệnh `man`, viết đầy đủ là **manual**, dùng để mở trang hướng dẫn sử dụng của một lệnh trong Linux. Đây là nguồn tài liệu chính thức, có sẵn trực tiếp trên hệ thống.
+
+Cú pháp cơ bản:
+
+```bash
+man <command>
+```
+
+Ví dụ:
+
+```bash
+man ls
+```
+
+Lệnh trên sẽ mở trang hướng dẫn của lệnh `ls`.
+
+Trong trang `man`, người dùng thường thấy các phần như:
+
+| Phần | Ý nghĩa |
+|---|---|
+| `NAME` | Tên lệnh và mô tả ngắn |
+| `SYNOPSIS` | Cú pháp sử dụng lệnh |
+| `DESCRIPTION` | Mô tả chi tiết chức năng của lệnh |
+| `OPTIONS` | Các tùy chọn/flag mà lệnh hỗ trợ |
+| `EXAMPLES` | Ví dụ sử dụng, nếu có |
+| `SEE ALSO` | Các lệnh hoặc tài liệu liên quan |
+
+Một số phím thường dùng khi đọc trang `man`:
+
+| Phím | Chức năng |
+|---|---|
+| `↑` / `↓` | Di chuyển lên/xuống từng dòng |
+| `Space` | Chuyển sang trang tiếp theo |
+| `/keyword` | Tìm kiếm một từ khóa trong trang |
+| `n` | Chuyển đến kết quả tìm kiếm tiếp theo |
+| `q` | Thoát khỏi trang `man` |
+
+
+## 5.2. Sử dụng `--help`
+
+Tùy chọn `--help` thường được dùng để hiển thị hướng dẫn ngắn gọn về cách sử dụng một lệnh. So với `man`, `--help` thường ngắn hơn, dễ đọc hơn và phù hợp khi người dùng cần xem nhanh cú pháp hoặc các tùy chọn phổ biến.
+
+Cú pháp cơ bản:
+
+```bash
+<command> --help
+```
+
+Ví dụ:
+
+```bash
+ls --help
+```
+
+Lệnh trên sẽ hiển thị danh sách các tùy chọn mà lệnh `ls` hỗ trợ.
+
+Ví dụ khác:
+
+```bash
+cp --help
+```
+
+Lệnh này giúp người dùng xem nhanh cách sử dụng lệnh `cp` để sao chép tệp hoặc thư mục.
+
+Thông thường, kết quả của `--help` sẽ bao gồm:
+
+| Nội dung | Ý nghĩa |
+|---|---|
+| Cú pháp lệnh | Cách viết lệnh đúng |
+| Danh sách tùy chọn | Các flag/switch có thể sử dụng |
+| Mô tả ngắn | Giải thích ngắn gọn từng tùy chọn |
+| Gợi ý tài liệu khác | Có thể chỉ tới `man` hoặc tài liệu chi tiết hơn |
+
+Ví dụ:
+
+```bash
+ls --help
+```
+
+Một phần kết quả có thể cho biết:
+
+```bash
+-a, --all     do not ignore entries starting with .
+-l            use a long listing format
+-h, --human-readable
+```
+
+Điều này cho biết:
+
+- `-a` hoặc `--all` dùng để hiển thị cả tệp ẩn;
+- `-l` dùng để hiển thị danh sách chi tiết;
+- `-h` dùng để hiển thị kích thước ở dạng dễ đọc hơn.
+
+Tóm lại, `--help` phù hợp khi cần tra cứu nhanh cách dùng một lệnh mà không cần đọc toàn bộ trang hướng dẫn dài.
+
+
+## 5.3. Sử dụng `-h`
+
+Tùy chọn `-h` trong nhiều lệnh có thể được dùng để hiển thị phần trợ giúp ngắn gọn. Tuy nhiên, cần chú ý rằng `-h` không phải lúc nào cũng có nghĩa là “help”. Ý nghĩa của `-h` phụ thuộc vào từng lệnh cụ thể.
+
+Trong một số lệnh, `-h` có nghĩa là **help**:
+
+```bash
+strace -h
+```
+
+Lệnh trên hiển thị hướng dẫn ngắn về cách sử dụng `strace`.
+
+Nhưng trong một số lệnh khác, `-h` lại có nghĩa là **human-readable**, tức là hiển thị dữ liệu theo dạng dễ đọc hơn.
+
+Ví dụ:
+
+```bash
+ls -lh
+```
+
+Trong lệnh trên:
+
+| Tùy chọn | Ý nghĩa |
+|---|---|
+| `-l` | Hiển thị dạng danh sách chi tiết |
+| `-h` | Hiển thị kích thước tệp dễ đọc hơn, ví dụ KB, MB, GB |
+
+Ví dụ:
+
+```bash
+du -h
+```
+
+Lệnh này hiển thị dung lượng theo dạng dễ đọc hơn.
+
+Vì vậy, khi dùng `-h`, người dùng cần kiểm tra ý nghĩa cụ thể của tùy chọn này đối với từng lệnh. Cách an toàn nhất là tra cứu bằng:
+
+```bash
+man <command>
+```
+
+hoặc:
+
+```bash
+<command> --help
+```
+
+Tóm lại, `-h` có thể là tùy chọn trợ giúp trong một số lệnh, nhưng cũng có thể mang nghĩa khác. Người dùng không nên mặc định rằng `-h` luôn luôn là “help”.
+
+
+## 5.4. Sử dụng `apropos`
+
+Lệnh `apropos` dùng để tìm kiếm các lệnh liên quan đến một từ khóa trong hệ thống tài liệu `man`. Công cụ này rất hữu ích khi người dùng không nhớ chính xác tên lệnh, nhưng biết mình muốn làm việc gì.
+
+Cú pháp cơ bản:
+
+```bash
+apropos <keyword>
+```
+
+Ví dụ, nếu muốn tìm các lệnh liên quan đến việc sao chép, có thể dùng:
+
+```bash
+apropos copy
+```
+
+Kết quả có thể hiển thị các lệnh liên quan như `cp`, `scp`, `rsync` hoặc các mục tài liệu khác có chứa từ khóa “copy”.
+
+Ví dụ khác:
+
+```bash
+apropos password
+```
+
+Lệnh này sẽ tìm các tài liệu liên quan đến mật khẩu, có thể bao gồm các lệnh như `passwd`, `chpasswd` hoặc các tệp cấu hình liên quan.
+
+So sánh ngắn gọn:
+
+| Công cụ | Khi nào dùng? |
+|---|---|
+| `man` | Khi đã biết tên lệnh và muốn đọc tài liệu chi tiết |
+| `--help` | Khi muốn xem nhanh cách dùng lệnh |
+| `apropos` | Khi chưa nhớ tên lệnh, chỉ biết chủ đề hoặc chức năng cần tìm |
+
+Tóm lại, `apropos` giúp người dùng tìm đúng lệnh cần dùng thông qua từ khóa. Đây là công cụ rất hữu ích khi người học Linux chưa nhớ nhiều lệnh.
+
+
+## 5.5. Sử dụng explainshell
+
+**explainshell** là một công cụ trực tuyến giúp giải thích từng thành phần trong một câu lệnh Linux. Công cụ này đặc biệt hữu ích khi người dùng gặp một lệnh dài, có nhiều tùy chọn, pipe hoặc chuyển hướng dữ liệu.
+
+Ví dụ, với lệnh:
+
+```bash
+ls -la /var/log
+```
+
+explainshell có thể giúp giải thích:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `ls` | Lệnh liệt kê tệp và thư mục |
+| `-l` | Hiển thị dạng danh sách chi tiết |
+| `-a` | Hiển thị cả tệp ẩn |
+| `/var/log` | Thư mục cần liệt kê nội dung |
+
+Công cụ này rất hữu ích khi phân tích các lệnh phức tạp như:
+
+```bash
+cat /var/log/syslog | grep "error" | sort | uniq -c
+```
+
+Lệnh trên có nhiều phần kết hợp với nhau bằng pipe `|`. explainshell giúp người dùng hiểu từng phần của lệnh, thay vì chỉ sao chép và chạy mà không biết ý nghĩa.
+
+Tuy nhiên, explainshell nên được xem là công cụ hỗ trợ học tập, không thay thế hoàn toàn cho `man` hoặc `--help`. Khi cần thông tin chính thức và đầy đủ, người dùng vẫn nên đọc tài liệu hệ thống bằng:
+
+```bash
+man <command>
+```
+
 
 
 
