@@ -16,7 +16,7 @@
 
 6. [Điều hướng trong hệ thống tệp](#6-điều-hướng-trong-hệ-thống-tệp)
 
-7. [Task 7: An Introduction to Shell Operators](#task-7-an-introduction-to-shell-operators)
+7. [Làm việc với tệp và thư mục](#7-làm-việc-với-tệp-và-thư-mục)
 
 8. [Task 8: Conclusions & Summaries](#task-8-conclusions-summaries)
 
@@ -946,11 +946,6 @@ cat /var/log/syslog | grep "error" | sort | uniq -c
 
 Lệnh trên có nhiều phần kết hợp với nhau bằng pipe `|`. explainshell giúp người dùng hiểu từng phần của lệnh, thay vì chỉ sao chép và chạy mà không biết ý nghĩa.
 
-Tuy nhiên, explainshell nên được xem là công cụ hỗ trợ học tập, không thay thế hoàn toàn cho `man` hoặc `--help`. Khi cần thông tin chính thức và đầy đủ, người dùng vẫn nên đọc tài liệu hệ thống bằng:
-
-```bash
-man <command>
-```
 
 # 6. Điều hướng trong hệ thống tệp
 
@@ -1197,7 +1192,7 @@ Ví dụ:
 Đặc điểm của đường dẫn tuyệt đối là luôn bắt đầu bằng dấu `/`.
 
 Ví dụ:
-chu
+
 ```bash
 cd /home/student/Documents
 ```
@@ -1455,7 +1450,478 @@ Nhấn `TAB`, terminal có thể hoàn thành thành:
 cd /var/log
 ```
 
+## 7. Làm việc với tệp và thư mục
 
+Sau khi biết cách điều hướng trong hệ thống tệp, người dùng cần nắm được các thao tác cơ bản để làm việc với tệp và thư mục. Đây là nhóm lệnh rất quan trọng trong Linux, vì hầu hết hoạt động quản trị hệ thống, lập trình, xử lý log và an toàn thông tin đều liên quan đến việc tạo, sao chép, di chuyển, đổi tên hoặc xóa tệp.
+
+Các lệnh thường dùng trong phần này gồm `touch`, `mkdir`, `cp`, `mv`, `rm`, `file` và `tree`.
+
+## 7.1. Tạo tệp với `touch`
+
+Lệnh `touch` được dùng để tạo một tệp rỗng mới. Nếu tệp đã tồn tại, lệnh `touch` sẽ cập nhật thời gian chỉnh sửa của tệp đó.
+
+Cú pháp:
+
+```bash
+touch <tên_tệp>
+```
+
+Ví dụ, tạo một tệp tên là `note.txt`:
+
+```bash
+touch note.txt
+```
+
+Sau đó có thể dùng lệnh `ls` để kiểm tra:
+
+```bash
+ls
+```
+
+Kết quả:
+
+```bash
+note.txt
+```
+
+Lưu ý rằng `touch` chỉ tạo tệp rỗng, chưa có nội dung bên trong. Để thêm nội dung vào tệp, người dùng có thể dùng lệnh `echo`, chuyển hướng dữ liệu hoặc trình soạn thảo văn bản như `nano` và `vim`.
+
+Ví dụ:
+
+```bash
+echo "Hello Linux" > note.txt
+```
+
+Lệnh trên sẽ ghi dòng chữ `Hello Linux` vào tệp `note.txt`.
+
+
+## 7.2. Tạo thư mục với `mkdir`
+
+Lệnh `mkdir`, viết đầy đủ là **make directory**, dùng để tạo thư mục mới trong Linux.
+
+Cú pháp:
+
+```bash
+mkdir <tên_thư_mục>
+```
+
+Ví dụ, tạo thư mục tên là `Documents`:
+
+```bash
+mkdir Documents
+```
+
+Kiểm tra lại bằng lệnh:
+
+```bash
+ls
+```
+
+Kết quả:
+
+```bash
+Documents
+```
+
+Người dùng cũng có thể tạo thư mục tại một đường dẫn cụ thể.
+
+Ví dụ:
+
+```bash
+mkdir /home/chu/projects
+```
+
+Lệnh trên tạo thư mục `projects` trong `/home/chu`, nếu người dùng có quyền ghi tại vị trí đó.
+
+Nếu thư mục đã tồn tại, lệnh `mkdir` thông thường sẽ báo lỗi:
+
+```bash
+mkdir: cannot create directory 'Documents': File exists
+```
+
+## 7.3. Tạo thư mục lồng nhau với `mkdir -p`
+
+Trong nhiều trường hợp, người dùng cần tạo nhiều thư mục lồng nhau. Nếu dùng `mkdir` thông thường, thư mục cha phải tồn tại trước thì mới tạo được thư mục con.
+
+Ví dụ, nếu muốn tạo cấu trúc:
+
+```bash
+project/src/logs
+```
+
+mà thư mục `project` và `src` chưa tồn tại, lệnh sau có thể bị lỗi:
+
+```bash
+mkdir project/src/logs
+```
+
+Để tạo toàn bộ cấu trúc thư mục cùng lúc, dùng tùy chọn `-p`.
+
+Cú pháp:
+
+```bash
+mkdir -p <đường_dẫn_thư_mục>
+```
+
+Ví dụ:
+
+```bash
+mkdir -p project/src/logs
+```
+
+Lệnh trên sẽ tự động tạo:
+
+```bash
+project
+project/src
+project/src/logs
+```
+
+## 7.4. Sao chép tệp và thư mục với `cp`
+
+Lệnh `cp`, viết tắt của **copy**, dùng để sao chép tệp hoặc thư mục từ vị trí này sang vị trí khác.
+
+Cú pháp sao chép tệp:
+
+```bash
+cp <nguồn> <đích>
+```
+
+Ví dụ, sao chép tệp `note.txt` thành `note_backup.txt`:
+
+```bash
+cp note.txt note_backup.txt
+```
+
+Sau khi chạy lệnh, thư mục hiện tại sẽ có cả hai tệp:
+
+```bash
+note.txt  note_backup.txt
+```
+
+Có thể sao chép tệp vào một thư mục khác:
+
+```bash
+cp note.txt Documents/
+```
+
+Lệnh trên sao chép tệp `note.txt` vào thư mục `Documents`.
+
+Để sao chép thư mục, cần dùng tùy chọn `-r`, nghĩa là sao chép đệ quy toàn bộ nội dung bên trong thư mục.
+
+Ví dụ:
+
+```bash
+cp -r Documents Documents_backup
+```
+
+Lệnh này sao chép thư mục `Documents` thành thư mục `Documents_backup`.
+
+Một số tùy chọn thường dùng với `cp`:
+
+| Tùy chọn | Ý nghĩa |
+|---|---|
+| `-r` | Sao chép thư mục và toàn bộ nội dung bên trong |
+| `-i` | Hỏi trước khi ghi đè tệp |
+| `-v` | Hiển thị chi tiết quá trình sao chép |
+| `-u` | Chỉ sao chép nếu tệp nguồn mới hơn tệp đích |
+
+
+## 7.5. Di chuyển tệp và thư mục với `mv`
+
+Lệnh `mv`, viết tắt của **move**, dùng để di chuyển tệp hoặc thư mục từ vị trí này sang vị trí khác.
+
+Cú pháp:
+
+```bash
+mv <nguồn> <đích>
+```
+
+Ví dụ, di chuyển tệp `note.txt` vào thư mục `Documents`:
+
+```bash
+mv note.txt Documents/
+```
+
+Sau lệnh này, tệp `note.txt` sẽ không còn ở thư mục hiện tại nữa, mà được chuyển vào thư mục `Documents`.
+
+Có thể kiểm tra bằng:
+
+```bash
+ls Documents
+```
+
+Kết quả:
+
+```bash
+note.txt
+```
+
+Di chuyển thư mục cũng sử dụng cú pháp tương tự.
+
+Ví dụ:
+
+```bash
+mv project Documents/
+```
+
+Lệnh này di chuyển thư mục `project` vào thư mục `Documents`.
+
+Một số tùy chọn thường dùng với `mv`:
+
+| Tùy chọn | Ý nghĩa |
+|---|---|
+| `-i` | Hỏi trước khi ghi đè |
+| `-v` | Hiển thị chi tiết quá trình di chuyển |
+
+
+## 7.6. Đổi tên tệp và thư mục với `mv`
+
+Ngoài chức năng di chuyển, lệnh `mv` còn được dùng để đổi tên tệp hoặc thư mục. Trong Linux, đổi tên thực chất cũng được xem là một dạng “di chuyển” từ tên cũ sang tên mới trong cùng một thư mục.
+
+Cú pháp:
+
+```bash
+mv <tên_cũ> <tên_mới>
+```
+
+Ví dụ, đổi tên tệp `note.txt` thành `notes.txt`:
+
+```bash
+mv note.txt notes.txt
+```
+
+Sau đó kiểm tra:
+
+```bash
+ls
+```
+
+Kết quả:
+
+```bash
+notes.txt
+```
+
+Đổi tên thư mục cũng tương tự.
+
+Ví dụ:
+
+```bash
+mv old_project new_project
+```
+
+Lệnh trên đổi tên thư mục `old_project` thành `new_project`.
+
+Cần chú ý: nếu tên đích đã tồn tại, lệnh `mv` có thể ghi đè hoặc di chuyển tệp vào thư mục đó. Vì vậy, khi chưa chắc chắn, nên dùng tùy chọn `-i`:
+
+```bash
+mv -i note.txt notes.txt
+```
+
+
+## 7.7. Xóa tệp với `rm`
+
+Lệnh `rm`, viết tắt của **remove**, dùng để xóa tệp trong Linux.
+
+Cú pháp:
+
+```bash
+rm <tên_tệp>
+```
+
+Ví dụ, xóa tệp `note.txt`:
+
+```bash
+rm note.txt
+```
+
+Sau khi chạy lệnh này, tệp `note.txt` sẽ bị xóa.
+
+Có thể xóa nhiều tệp cùng lúc:
+
+```bash
+rm file1.txt file2.txt file3.txt
+```
+
+Một số tùy chọn thường dùng với `rm`:
+
+| Tùy chọn | Ý nghĩa |
+|---|---|
+| `-i` | Hỏi trước khi xóa |
+| `-f` | Ép xóa, bỏ qua cảnh báo |
+| `-v` | Hiển thị chi tiết quá trình xóa |
+
+Ví dụ an toàn hơn:
+
+```bash
+rm -i note.txt
+```
+
+Hệ thống sẽ hỏi xác nhận trước khi xóa:
+
+```bash
+rm: remove regular file 'note.txt'?
+```
+
+Cần đặc biệt cẩn thận với lệnh `rm`, vì trên Linux, tệp bị xóa bằng `rm` thường không được đưa vào thùng rác như trong giao diện đồ họa.
+
+## 7.8. Xóa thư mục với `rm -r`
+
+Để xóa một thư mục và toàn bộ nội dung bên trong, cần dùng lệnh `rm` với tùy chọn `-r`.
+
+Cú pháp:
+
+```bash
+rm -r <tên_thư_mục>
+```
+
+Ví dụ, xóa thư mục `project`:
+
+```bash
+rm -r project
+```
+
+Tùy chọn `-r` nghĩa là **recursive**, tức là xóa đệ quy toàn bộ nội dung bên trong thư mục, bao gồm các tệp và thư mục con.
+
+Ví dụ:
+
+```bash
+rm -r old_project
+```
+
+Lệnh này sẽ xóa thư mục `old_project` cùng toàn bộ dữ liệu bên trong.
+
+Để an toàn hơn, có thể dùng:
+
+```bash
+rm -ri old_project
+```
+
+Tùy chọn `-i` sẽ hỏi xác nhận trước khi xóa từng đối tượng.
+
+Cần tránh dùng tùy tiện các lệnh nguy hiểm như:
+
+```bash
+rm -rf /
+```
+
+hoặc:
+
+```bash
+rm -rf *
+```
+
+Trong đó:
+
+| Tùy chọn | Ý nghĩa |
+|---|---|
+| `-r` | Xóa đệ quy thư mục và nội dung bên trong |
+| `-f` | Ép xóa, không hỏi xác nhận |
+
+Khi kết hợp `-r` và `-f`, lệnh sẽ rất nguy hiểm nếu nhập sai đường dẫn.
+
+
+## 7.9. Kiểm tra loại tệp với `file`
+
+Lệnh `file` dùng để xác định loại thực sự của một tệp. Trong Linux, phần mở rộng của tệp không phải lúc nào cũng phản ánh chính xác loại tệp, vì vậy lệnh `file` rất hữu ích để kiểm tra nội dung thực tế của tệp.
+
+Cú pháp:
+
+```bash
+file <tên_tệp>
+```
+
+Ví dụ:
+
+```bash
+file note.txt
+```
+
+Kết quả có thể là:
+
+```bash
+note.txt: ASCII text
+```
+
+Điều này cho biết `note.txt` là một tệp văn bản.
+
+Ví dụ khác:
+
+```bash
+file image.png
+```
+
+Kết quả có thể là:
+
+```bash
+image.png: PNG image data
+```
+
+Hoặc kiểm tra một tệp thực thi:
+
+```bash
+file program
+```
+
+Kết quả có thể là:
+
+```bash
+program: ELF 64-bit LSB executable
+```
+
+Lệnh `file` rất hữu ích trong an toàn thông tin, phân tích mã độc, kiểm tra tệp tải về hoặc xác định loại tệp khi phần mở rộng bị thay đổi.
+
+Ví dụ, một tệp có tên là `document.txt` chưa chắc là tệp văn bản thật. Có thể kiểm tra bằng:
+
+```bash
+file document.txt
+```
+
+## 7.10. Hiển thị cấu trúc thư mục với `tree`
+
+Lệnh `tree` dùng để hiển thị cấu trúc thư mục theo dạng cây. Lệnh này giúp người dùng nhìn rõ mối quan hệ giữa thư mục cha, thư mục con và các tệp bên trong.
+
+Cú pháp:
+
+```bash
+tree
+```
+
+Ví dụ:
+
+```bash
+tree
+```
+
+Kết quả có thể là:
+
+```bash
+.
+├── Documents
+│   ├── note.txt
+│   └── report.txt
+├── Downloads
+└── project
+    ├── src
+    └── logs
+```
+
+Kết quả trên cho thấy cấu trúc thư mục hiện tại gồm `Documents`, `Downloads`, `project` và các thư mục con bên trong.
+
+Có thể chỉ định thư mục cần xem:
+
+```bash
+tree project
+```
+
+Kết quả:
+
+```bash
+project
+├── src
+└── logs
+```
 
 
 ---
