@@ -20,10 +20,11 @@
 
 8. [Xem và chỉnh sửa nội dung tệp](#8-xem-và-chỉnh-sửa-nội-dung-tệp)
 
-9. [ Tìm kiếm tệp và thư mục](#9-tìm-kiếm-tệp-và-thư-mục)
+9. [Tìm kiếm tệp và thư mục](#9-tìm-kiếm-tệp-và-thư-mục)
 
-10. [ Bộ mô tả tệp và chuyển hướng dữ liệu](#10-bộ-mô-tả-tệp-và-chuyển-hướng-dữ-liệu)
+10. [Bộ mô tả tệp và chuyển hướng dữ liệu](#10-bộ-mô-tả-tệp-và-chuyển-hướng-dữ-liệu)
 
+11. [Lọc và xử lý nội dung văn bản](#11-lọc-và-xử-lý-nội-dung-văn-bản)
 
 
 ## Nội dung
@@ -3192,9 +3193,8 @@ command 2> error.log
 
 Tóm lại, `2>/dev/null` dùng để bỏ qua thông báo lỗi, giúp đầu ra gọn hơn khi người dùng chỉ quan tâm đến kết quả chính.
 
----
 
-### 12.9. Chuyển hướng đầu vào với `<`
+## 10.9. Chuyển hướng đầu vào với `<`
 
 Ký hiệu `<` dùng để chuyển hướng STDIN từ một tệp vào một lệnh. Thay vì nhập dữ liệu từ bàn phím, lệnh sẽ đọc dữ liệu từ tệp.
 
@@ -3416,321 +3416,877 @@ Trong đó:
 
 Tóm lại, pipe `|` giúp kết hợp nhiều lệnh lại với nhau. Đây là nền tảng quan trọng trong triết lý Linux: mỗi công cụ làm một việc nhỏ, sau đó kết hợp chúng để giải quyết tác vụ lớn hơn.
 
+# 11. Lọc và xử lý nội dung văn bản
 
+Trong Linux, nhiều dữ liệu quan trọng được lưu dưới dạng văn bản, ví dụ như log hệ thống, log dịch vụ, file cấu hình, danh sách tiến trình, danh sách gói phần mềm hoặc kết quả đầu ra của các lệnh. Vì vậy, người dùng cần biết cách lọc, tìm kiếm, cắt cột, sắp xếp, loại bỏ dữ liệu trùng lặp và phân tích nội dung văn bản trực tiếp trong terminal.
 
+Các công cụ quan trọng trong phần này gồm `grep`, `awk`, `sed`, `cut`, `sort`, `uniq`, `wc`, `nl`, `diff` và `jq`.
 
+## 11.1. Lọc nội dung với `grep`
 
-# Task 4: Running Your First Few Commands
+Lệnh `grep` dùng để tìm kiếm các dòng có chứa một mẫu văn bản trong tệp hoặc trong đầu ra của lệnh khác. Đây là một trong những lệnh quan trọng nhất khi xử lý log và văn bản trong Linux.
 
-Như đã đề cập trước đó, một ưu điểm lớn khi sử dụng những Hệ điều hành như Ubuntu là khả năng hoạt động rất “nhẹ” của chúng. Dĩ nhiên, điều này không phải là không có nhược điểm. Chẳng hạn, thường thì không có giao diện đồ họa (GUI – Graphical User Interface), hay còn được gọi là môi trường desktop, để chúng ta tương tác với máy (trừ khi nó đã được cài đặt). Phần lớn việc tương tác với những hệ thống này được thực hiện qua “Terminal”.
+Cú pháp cơ bản:
 
-“Terminal” hoàn toàn dựa trên văn bản (text-based) và ban đầu có thể khiến bạn e ngại. Tuy nhiên, nếu chúng ta phân tích một số lệnh, sau một thời gian, bạn sẽ nhanh chóng quen thuộc với việc sử dụng terminal!
-
-![Terminal](./img/1_Linux_Fundamentals_Part_1/4.1.png)
-
-Chúng ta cần có khả năng thực hiện những thao tác cơ bản như di chuyển đến các tệp, xuất nội dung của chúng và tạo tệp! Các lệnh để làm việc này khá dễ hiểu (một khi bạn biết chúng là gì, tất nhiên…).
-
-Hãy bắt đầu với hai lệnh đầu tiên mà tôi đã trình bày trong bảng dưới đây:
-
-**Lệnh** | **Mô tả**  
---- | ---  
-**echo** | Xuất (in) bất kỳ đoạn văn bản nào mà chúng ta chỉ định  
-**whoami** | Cho biết chúng ta đang đăng nhập bằng tài khoản người dùng nào  
-
-![Terminal](./img/1_Linux_Fundamentals_Part_1/4.2.png)
-
-**Trả lời các câu hỏi dưới đây**  
-
-1. **Nếu chúng ta muốn xuất ra dòng chữ "TryHackMe", lệnh của chúng ta sẽ là gì?**  
-<details>  
-<summary>Hiển thị đáp án</summary>  
-Đáp án: echo "TryHackMe"  
-</details>  
-
-2. **Tên người dùng mà bạn đang đăng nhập trên máy Linux đã triển khai là gì?**
-
-![Terminal](./img/1_Linux_Fundamentals_Part_1/4.3.png)
-
-<details>  
-<summary>Hiển thị đáp án</summary>  
-Đáp án: tryhackme  
-</details>  
-
-# Task 5: Interacting With the Filesystem!
-
-**Tương tác Với Hệ Thống Tệp!**
-
-Cho đến lúc này, chúng ta mới chỉ đề cập hai lệnh “echo” và “whoami”. Chúng không thật sự hữu dụng lắm nếu xét đến những việc mà chúng ta cần làm — chẳng hạn như di chuyển (điều hướng) qua hệ thống tệp, đọc và ghi vào đó. Trong nhiệm vụ này, chúng ta sẽ học những lệnh cần thiết để làm được điều đó. Tương tự như nhiệm vụ trước, tôi sẽ hiển thị các lệnh trong một bảng ở phần tiếp theo và cho ví dụ về cách sử dụng.
-
-
-## Tương Tác Với Hệ Thống Tệp
-
-Như tôi đã nói, việc có thể điều hướng trên máy mà bạn đang đăng nhập, mà không phụ thuộc vào môi trường máy tính để bàn, là khá quan trọng. Rốt cuộc, nếu chúng ta đăng nhập mà chẳng thể đi đâu thì được gì?
-
-| **Command** | **Full Name**           |
-|-------------|-------------------------|
-| **ls**      | listing (  liệt kê)              |
-| **cd**      | change directory  (chuyển hoặc thay đổi thư mục)      |
-| **cat**     | concatenate   (nối)          |
-| **pwd**     | print working directory (hiển thị thư mục đang làm việc |
-
-## Liệt Kê Tệp Trong Thư Mục Hiện Tại (ls)
-
-Trước khi chúng ta có thể làm bất cứ điều gì, chẳng hạn như xem nội dung của bất kỳ tệp hay thư mục nào, chúng ta cần biết những gì đang có trong đó. Để làm điều này, bạn có thể dùng lệnh “ls” (viết tắt của “listing”).
-
-![ls](./img/1_Linux_Fundamentals_Part_1/5.1.png)
-
-Trong ảnh chụp màn hình ở trên, chúng ta có thể thấy các thư mục sau:  
-- Important Files  
-- My Documents  
-- Notes  
-- Pictures  
-
-Tuyệt! Dựa vào tên, có lẽ bạn cũng đoán được mỗi thư mục sẽ chứa những gì.
-
-> **Mẹo nhỏ**: Bạn có thể liệt kê nội dung của một thư mục mà không cần phải di chuyển vào đó, chỉ cần dùng lệnh `ls` kèm theo tên thư mục, ví dụ: `ls Pictures`.
-
-## Thay Đổi Thư Mục Hiện Tại (cd)
-
-Giờ chúng ta đã biết thư mục nào đang tồn tại, cần sử dụng lệnh `cd` (viết tắt của *change directory*) để chuyển vào thư mục đó. Giả sử tôi muốn mở thư mục “Pictures”, tôi sẽ gõ `cd Pictures`. Sau đó, tôi lại muốn kiểm tra nội dung của thư mục “Pictures” này, và để làm vậy, tôi sẽ tiếp tục dùng lệnh `ls` như trước.
-
-![cd](./img/1_Linux_Fundamentals_Part_1/5.2.png)
-
-Trong trường hợp này, có vẻ như có 4 bức ảnh về chó!
-
-## Xuất Nội Dung Của Một Tệp (cat)
-
-Mặc dù biết được sự tồn tại của các tệp là tốt, nhưng điều đó cũng không có nhiều ý nghĩa nếu chúng ta không thể xem nội dung của chúng. Ở một bài học sau, chúng ta sẽ thảo luận về một số công cụ cho phép chuyển tệp từ máy này sang máy khác. Nhưng hiện tại, chúng ta sẽ chỉ tập trung vào việc xem nội dung của các tệp văn bản bằng cách sử dụng một lệnh có tên là **“cat”**.
-
-“Cat” là viết tắt của “concatenate” và là một cách tuyệt vời để xuất nội dung của tệp (không chỉ riêng tệp văn bản!).
-
-Trong ảnh chụp màn hình bên dưới, bạn có thể thấy cách tôi đã kết hợp lệnh “ls” để liệt kê các tệp bên trong thư mục có tên “Documents”:
-
-![cat](./img/1_Linux_Fundamentals_Part_1/5.3.png)
-
-Chúng ta đã vận dụng một số kiến thức đã học từ nhiệm vụ trước để thực hiện những việc sau:
-
-1. Dùng lệnh **`ls`** để xem những tệp có trong thư mục “Documents” trên máy này. Trong ví dụ, tệp đó có tên là **`todo.txt`**.  
-2. Sau đó chúng ta dùng **`cat todo.txt`** để ghép/xuất nội dung của tệp “todo.txt”, trong đó nội dung là: **"Here's something important for me to do later!"** (Tạm dịch: “Đây là việc quan trọng mà tôi sẽ làm sau!”).
-
-**Mẹo nhỏ**: Bạn có thể dùng **`cat`** để xuất nội dung của một tệp trong các thư mục mà không cần phải di chuyển vào chúng. Ví dụ:  
-
+```bash
+grep "từ_khóa" <tên_tệp>
 ```
-cat /home/ubuntu/Documents/todo.txt
+
+Ví dụ, tìm các dòng có chứa từ `error` trong tệp `logfile.txt`:
+
+```bash
+grep "error" logfile.txt
 ```
-Đôi khi, những thứ như tên người dùng (username), mật khẩu (password) — vâng, thật đấy…, các cờ (flags) hoặc thiết lập cấu hình lại nằm trong tệp, và bạn có thể dùng **`cat`** để lấy chúng.
 
-## Tìm Toàn Bộ Đường Dẫn Đến Thư Mục Hiện Tại (pwd)
+Nếu tệp có nội dung:
 
-Bạn sẽ để ý rằng khi điều hướng trong máy Linux, tên thư mục hiện tại bạn đang làm việc sẽ xuất hiện trong terminal. Nhưng thật dễ để mất dấu vị trí của chúng ta trên hệ thống tệp. Vì vậy, tôi muốn giới thiệu lệnh **`pwd`**, viết tắt của **“print working directory”**.
-
-Với ví dụ máy trước đây, chúng ta đang ở trong thư mục “Documents” — nhưng vị trí của nó chính xác ở đâu trên hệ thống tệp của máy Linux? Chúng ta có thể tìm hiểu điều này bằng cách sử dụng lệnh **`pwd`**, giống như trong ảnh chụp màn hình bên dưới.
-
-![pwd](./img/1_Linux_Fundamentals_Part_1/5.4.png)
-
-**Hãy phân tích điều này:**
-
-1. Chúng ta biết đang ở trong thư mục “Documents” nhờ vào terminal, nhưng tại thời điểm này, chúng ta không biết thư mục “Documents” được lưu ở đâu để có thể quay lại đó một cách dễ dàng về sau.  
-2. Tôi đã dùng lệnh **`pwd`** (print working directory) để tìm toàn bộ đường dẫn của thư mục “Documents” này.  
-3. Linux tiện lợi cho chúng ta biết rằng thư mục “Documents” được lưu tại “/home/ubuntu/Documents” trên máy — thật tuyệt khi biết điều đó!  
-4. Giờ đây, nếu về sau chúng ta chuyển sang vị trí khác, chỉ cần dùng lệnh:
-
-   ```
-   cd /home/ubuntu/Documents
-   ```  
-   để thay đổi thư mục làm việc về “Documents”.
-
-**Trả lời các câu hỏi dưới đây**  
-
-1. **Trên máy Linux mà bạn triển khai, có bao nhiêu thư mục?**  
-
-![](./img/1_Linux_Fundamentals_Part_1/5.5.png)
-
-<details>  
-<summary>Hiển thị đáp án</summary>  
-Đáp án: 4  
-</details>  
-
-2. **Thư mục nào chứa một tệp?**  
-
-![](./img/1_Linux_Fundamentals_Part_1/5.6.png)
-
-<details>  
-<summary>Hiển thị đáp án</summary>  
-Đáp án: folder4  
-</details>  
-
-3. **Nội dung của tệp này là gì?**  
-
-![](./img/1_Linux_Fundamentals_Part_1/5.7.png)
-
-<details>  
-<summary>Hiển thị đáp án</summary>  
-Đáp án: Hello World  
-</details>  
-
-4. **Sử dụng lệnh `cd` để điều hướng đến tệp này và tìm ra thư mục làm việc hiện tại mới. Đường dẫn là gì?**  
-
-![](./img/1_Linux_Fundamentals_Part_1/5.8.png)
-
-<details>  
-<summary>Hiển thị đáp án</summary>  
-Đáp án: /home/tryhackme/folder4  
-</details>  
-
-# Task 6: Searching for Files
-
-Mặc dù đến thời điểm hiện tại có thể trông không rõ lắm, nhưng một trong những điểm nổi bật của Linux chính là bạn có thể làm việc vô cùng hiệu quả với nó. Tất nhiên, mức độ hiệu quả cũng phụ thuộc vào việc bạn thành thạo hệ điều hành này đến đâu. Khi bạn tương tác với những Hệ điều hành như Ubuntu qua thời gian, các lệnh cơ bản mà chúng ta vừa tìm hiểu sẽ dần trở thành “phản xạ tự nhiên”.
-
-Một cách tuyệt vời để thể hiện bạn có thể làm việc hiệu quả thế nào với hệ thống như thế này là sử dụng một bộ lệnh giúp tìm kiếm nhanh các tệp trên toàn bộ hệ thống mà người dùng có quyền truy cập. Không còn cần phải liên tục sử dụng `cd` và `ls` để tìm xem tệp nằm ở đâu. Thay vào đó, chúng ta có thể dùng các lệnh như `find` để tự động hóa việc này!
-
-Đây là lúc Linux bắt đầu trở nên có vẻ hơi đáng sợ để bắt đầu — nhưng chúng ta sẽ phân tích rõ và giúp bạn làm quen dần.
-
-## Sử Dụng `find`
-
-Lệnh `find` rất tuyệt vời ở chỗ nó có thể được dùng một cách đơn giản hoặc khá phức tạp, tùy thuộc vào mục đích cụ thể của bạn. Dù sao, trước hết hãy tập trung vào những kiến thức căn bản.
-
-Hãy xem đoạn mã dưới đây; chúng ta sẽ thấy danh sách các thư mục sẵn có:
-
-![find](./img/1_Linux_Fundamentals_Part_1/6.1.png)
-
-1. Desktop  
-2. Documents  
-3. Pictures  
-4. folder1  
-
-Tất nhiên, các thư mục có thể chứa thêm những thư mục khác bên trong. Việc phải lần tìm qua từng thư mục chỉ để cố gắng tìm đúng tệp cần thiết đúng là đau đầu. Chúng ta có thể dùng lệnh **`find`** để thực hiện việc này!
-
-Hãy bắt đầu đơn giản, giả sử chúng ta đã biết tên của tệp mà mình đang tìm — nhưng lại không nhớ chính xác nó nằm ở đâu! Trong trường hợp này, chúng ta đang tìm tệp “passwords.txt”.
-
-Nếu nhớ tên tệp, bạn chỉ cần dùng:  
-
+```bash
+system started
+error: failed login
+user connected
+error: permission denied
 ```
-find -name passwords.txt
+
+Kết quả sẽ là:
+
+```bash
+error: failed login
+error: permission denied
 ```
-Lệnh này sẽ tìm qua mọi thư mục trong thư mục hiện tại để tìm tệp cụ thể đó, ví dụ như sau:
 
-![find](./img/1_Linux_Fundamentals_Part_1/6.2.png)
+`grep` cũng thường được kết hợp với pipe `|` để lọc kết quả từ lệnh khác.
 
-“Find” đã tìm được tệp — hóa ra nó nằm ở đường dẫn `folder1/passwords.txt` — thật tuyệt. Nhưng giả sử chúng ta không biết tên tệp, hoặc muốn tìm tất cả những tệp có phần mở rộng như “.txt”. May mắn thay, lệnh **find** cũng cho phép chúng ta làm điều đó!
+Ví dụ:
 
-Chúng ta chỉ cần dùng ký tự đại diện (*), gọi là **wildcard**, để tìm mọi thứ có đuôi `.txt`. Trong trường hợp này, chúng ta muốn tìm tất cả các tệp `.txt` có trong thư mục hiện tại. Ta sẽ xây dựng lệnh như sau:  
-
+```bash
+cat /var/log/syslog | grep "error"
 ```
-find -name *.txt
+
+Lệnh trên đọc nội dung `/var/log/syslog`, sau đó chỉ hiển thị các dòng có chứa từ `error`.
+
+Có thể viết gọn hơn:
+
+```bash
+grep "error" /var/log/syslog
 ```
-Lúc này, “Find” sẽ tìm tất cả tệp `.txt` và sau đó trả về vị trí của mỗi tệp.
-
-![find](./img/1_Linux_Fundamentals_Part_1/6.3.png)
-
-**Find** đã tìm được:
-
-1. “passwords.txt” nằm trong “folder1”  
-2. “todo.txt” nằm trong “Documents”  
-
-Không quá khó, phải không nào!
-
-## Sử Dụng `grep`
-
-Một tiện ích tuyệt vời khác rất đáng để tìm hiểu là **grep**. Lệnh **grep** cho phép chúng ta tìm kiếm nội dung bên trong các tệp để tìm những giá trị cụ thể mà ta cần.
-
-Ví dụ, hãy xem xét tệp nhật ký truy cập (access log) của một máy chủ web. Trong trường hợp này, tệp `access.log` của máy chủ web có 244 dòng mục nhập.
-
-![grep](./img/1_Linux_Fundamentals_Part_1/6.4.png)
-
-Dùng một lệnh như **`cat`** sẽ không mấy hiệu quả trong trường hợp này. Lấy ví dụ, giả sử chúng ta muốn tìm kiếm trong tệp nhật ký này để xem những nội dung mà một người dùng hoặc một địa chỉ IP cụ thể đã truy cập? Việc lục soát 244 dòng mục nhập không thật sự tiện lợi khi ta chỉ muốn tìm đúng một giá trị cụ thể.
-
-Chúng ta có thể sử dụng **`grep`** để tìm kiếm trong toàn bộ nội dung của tệp nhằm tìm bất kỳ dòng nào chứa giá trị mà ta đang cần. Với ví dụ về nhật ký truy cập của máy chủ web, chúng ta muốn xem tất cả những gì mà địa chỉ IP **"81.143.211.90"** đã truy cập (lưu ý rằng đây là dữ liệu giả định).
-
-![grep](./img/1_Linux_Fundamentals_Part_1/6.5.png)
-
-"Grep" đã tìm kiếm trong tệp này và hiển thị cho chúng tôi mọi mục nhập mà chúng tôi đã cung cấp và có trong tệp nhật ký này cho IP.
-
-**Câu hỏi: Sử dụng grep trên "access.log" để tìm cờ có tiền tố là "THM". Cờ đó là gì?**
-
-![grep](./img/1_Linux_Fundamentals_Part_1/6.6.png)
-
-<details>  
-<summary>Hiển thị đáp án</summary>  
-Đáp án: THM{ACCESS}  
-</details>  
-
-# Task 7: An Introduction to Shell Operators
-
-**Giới Thiệu Về Các Toán Tử Trong Shell**
-
-**Các toán tử (operators) của Linux** là một cách tuyệt vời để nâng cao kiến thức làm việc với Linux. Có một vài toán tử quan trọng bạn cần lưu ý. Chúng ta sẽ tìm hiểu những điều cơ bản và chia nhỏ chúng thành những phần ngắn gọn dễ hiểu.  
-
-Về tổng quan, tôi sẽ giới thiệu các toán tử sau:
-
-| **Ký hiệu / Toán tử** | **Mô tả**                                                                                                                |
-|-----------------------|---------------------------------------------------------------------------------------------------------------------------|
-| **&**                | Cho phép bạn chạy lệnh dưới nền (background) của terminal.                                                                |
-| **&&**               | Cho phép bạn kết hợp nhiều lệnh lại trong cùng một dòng trên terminal.                                                   |
-| **>**                | Đây là toán tử dùng để chuyển hướng (redirector) — nghĩa là chúng ta có thể lấy đầu ra của một lệnh (ví dụ dùng `cat` để xuất nội dung tệp) rồi chuyển nó đi nơi khác. |
-| **>>**               | Có chức năng giống với toán tử **>** nhưng thay vì ghi đè, nó nối thêm đầu ra vào cuối tệp (nghĩa là không có gì bị ghi đè).                        |
-
-Hãy tìm hiểu chi tiết hơn về chúng.
-
-## Toán Tử “&”
-
-Toán tử này cho phép chúng ta thực thi các lệnh dưới nền. Lấy ví dụ, giả sử ta muốn sao chép một tệp lớn. Điều này rõ ràng sẽ mất khá nhiều thời gian và sẽ khiến ta không thể làm gì khác cho đến khi quá trình sao chép hoàn tất.
-
-Toán tử “&” trong shell cho phép chúng ta chạy một lệnh và để nó chạy dưới nền (chẳng hạn quá trình sao chép tệp), nhờ vậy ta có thể làm việc khác trong lúc chờ!
-
-## **Toán tử "&&"**  
-Toán tử shell này hơi dễ gây hiểu lầm nếu bạn đã quen với người anh em của nó là "&". Không giống như toán tử "&", chúng ta có thể sử dụng "&&" để tạo danh sách các lệnh sẽ được thực thi, ví dụ: `command1 && command2`. Tuy nhiên, cần lưu ý rằng `command2` chỉ được chạy nếu `command1` đã thành công.
 
 
-## **Toán tử ">"**  
-Toán tử này được gọi là công cụ chuyển hướng đầu ra. Điều này có nghĩa là chúng ta lấy kết quả đầu ra của một lệnh và gửi kết quả đó đến một nơi khác.  
+### 11.1.1. Tìm kiếm không phân biệt hoa thường với `grep -i`
 
-Một ví dụ tuyệt vời là chuyển hướng kết quả đầu ra của lệnh `echo` mà chúng ta đã học trong Bài 4. Tất nhiên, chạy một lệnh như `echo howdy` sẽ trả về "howdy" trên terminal — điều đó không thực sự hữu ích. Thay vào đó, chúng ta có thể "chuyển hướng" "howdy" vào một tệp mới!  
+Theo mặc định, `grep` phân biệt chữ hoa và chữ thường. Điều này có nghĩa là `error`, `Error` và `ERROR` được xem là các chuỗi khác nhau.
 
-Giả sử chúng ta muốn tạo một tệp có tên là "welcome" với nội dung "hey". Chúng ta có thể chạy lệnh `echo hey > welcome` để tạo tệp với nội dung "hey", như sau:
+Để tìm kiếm không phân biệt hoa thường, dùng tùy chọn `-i`.
 
-![toán tử >](./img/1_Linux_Fundamentals_Part_1/7.1.png)
+Cú pháp:
 
-**Lưu ý:** Nếu tệp, ví dụ: "welcome", đã tồn tại, nội dung sẽ bị ghi đè!  
+```bash
+grep -i "từ_khóa" <tên_tệp>
+```
+
+Ví dụ:
+
+```bash
+grep -i "error" logfile.txt
+```
+
+Lệnh này sẽ tìm cả:
+
+```bash
+error
+Error
+ERROR
+eRrOr
+```
+
+Ví dụ khi phân tích log:
+
+```bash
+grep -i "failed" /var/log/auth.log
+```
+
+Lệnh trên tìm tất cả các dòng có chứa từ `failed`, bất kể chữ hoa hay chữ thường.
+
+Tùy chọn `-i` rất hữu ích khi không chắc dữ liệu trong tệp được viết theo dạng nào.
+
+Tóm lại, `grep -i` giúp tìm kiếm linh hoạt hơn bằng cách bỏ qua sự khác biệt giữa chữ hoa và chữ thường.
 
 
-## **Toán tử ">>"**  
+### 11.1.2. Tìm kiếm đệ quy với `grep -r`
 
-Toán tử này cũng là một công cụ chuyển hướng đầu ra, giống như toán tử `>` đã đề cập trước đó. Tuy nhiên, điều làm cho toán tử này khác biệt là nó không ghi đè bất kỳ nội dung nào trong tệp, mà thay vào đó chỉ thêm nội dung mới vào cuối tệp.  
+Tùy chọn `-r` của `grep` dùng để tìm kiếm đệ quy trong một thư mục và toàn bộ các thư mục con bên trong.
 
-Theo ví dụ trước, chúng ta có tệp "welcome" chứa nội dung là "hey". Nếu chúng ta sử dụng lệnh `echo` để thêm "hello" vào tệp bằng toán tử `>` thì tệp này sẽ chỉ còn nội dung "hello" và không còn "hey".  
+Cú pháp:
 
-Toán tử `>>` cho phép thêm kết quả đầu ra vào cuối tệp — thay vì thay thế nội dung, như sau:  
+```bash
+grep -r "từ_khóa" <thư_mục>
+```
 
-![toán tử >>](./img/1_Linux_Fundamentals_Part_1/7.2.png)
+Ví dụ, tìm từ `password` trong tất cả tệp bên trong thư mục hiện tại:
 
-**Trả lời các câu hỏi dưới đây**  
+```bash
+grep -r "password" .
+```
 
-1. **Nếu chúng ta muốn chạy một lệnh trong nền, chúng ta sẽ sử dụng toán tử nào?**  
-<details>  
-<summary>Hiển thị đáp án</summary>  
-Đáp án: &  
-</details>  
+Trong đó:
 
-2. **Nếu tôi muốn thay thế nội dung của một tệp có tên là "passwords" bằng từ "password123", lệnh của tôi sẽ là gì?**  
-<details>  
-<summary>Hiển thị đáp án</summary>  
-Đáp án: echo password123 > passwords  
-</details>  
+| Thành phần | Ý nghĩa |
+|---|---|
+| `grep` | Lệnh tìm kiếm văn bản |
+| `-r` | Tìm kiếm đệ quy |
+| `"password"` | Từ khóa cần tìm |
+| `.` | Thư mục hiện tại |
 
-3. **Bây giờ, nếu tôi muốn thêm "tryhackme" vào tệp này có tên là "passwords" nhưng vẫn giữ lại "password123", lệnh của tôi sẽ là gì?**  
-<details>  
-<summary>Hiển thị đáp án</summary>  
-Đáp án: echo tryhackme >> passwords  
-</details>  
+Ví dụ tìm từ `Listen` trong thư mục cấu hình Apache:
 
-# Task 8: Conclusions & Summaries
+```bash
+grep -r "Listen" /etc/apache2
+```
 
-Hãy cùng nhanh chóng điểm lại, chúng ta đã học những nội dung sau:
+Lệnh này sẽ tìm trong tất cả tệp bên trong `/etc/apache2` và các thư mục con của nó.
 
-- Hiểu tại sao Linux lại phổ biến như ngày nay.  
-- Tương tác với máy Linux đầu tiên của bạn!  
-- Chạy một số lệnh cơ bản nhất.  
-- Giới thiệu cách điều hướng trong hệ thống tệp và cách sử dụng các lệnh như `find` và `grep` để tìm dữ liệu hiệu quả hơn!  
-- Tăng cường sức mạnh cho các lệnh của bạn bằng cách tìm hiểu một số toán tử shell quan trọng.  
+Trong an toàn thông tin, `grep -r` thường được dùng để tìm nhanh thông tin nhạy cảm trong mã nguồn hoặc thư mục cấu hình, ví dụ:
+
+```bash
+grep -r "api_key" .
+grep -r "token" .
+grep -r "password" .
+```
+
+Tóm lại, `grep -r` dùng để tìm kiếm nội dung trong nhiều tệp và nhiều thư mục con cùng lúc.
+
+
+### 11.1.3 Hiển thị số dòng với `grep -n`
+
+Tùy chọn `-n` dùng để hiển thị số dòng chứa kết quả khớp. Điều này rất hữu ích khi cần biết chính xác dòng nào trong tệp có chứa nội dung cần tìm.
+
+Cú pháp:
+
+```bash
+grep -n "từ_khóa" <tên_tệp>
+```
+
+Ví dụ:
+
+```bash
+grep -n "error" logfile.txt
+```
+
+Kết quả có thể là:
+
+```bash
+2:error: failed login
+4:error: permission denied
+```
+
+Trong kết quả trên:
+
+| Phần | Ý nghĩa |
+|---|---|
+| `2` | Dòng số 2 trong tệp |
+| `4` | Dòng số 4 trong tệp |
+| Nội dung sau dấu `:` | Dòng có chứa từ khóa cần tìm |
+
+Có thể kết hợp nhiều tùy chọn:
+
+```bash
+grep -in "error" logfile.txt
+```
+
+Lệnh trên vừa tìm không phân biệt hoa thường, vừa hiển thị số dòng.
+
+Tóm lại, `grep -n` giúp xác định vị trí chính xác của dòng khớp trong tệp, thuận tiện khi cần chỉnh sửa hoặc trích dẫn nội dung.
+
+### 11.1.4 Loại trừ dòng khớp với `grep -v`
+
+Tùy chọn `-v` của `grep` dùng để hiển thị các dòng **không khớp** với mẫu tìm kiếm. Nói cách khác, nó loại bỏ các dòng chứa từ khóa được chỉ định.
+
+Cú pháp:
+
+```bash
+grep -v "từ_khóa" <tên_tệp>
+```
+
+Ví dụ, loại bỏ các dòng chứa từ `error`:
+
+```bash
+grep -v "error" logfile.txt
+```
+
+Nếu tệp có nội dung:
+
+```bash
+system started
+error: failed login
+user connected
+error: permission denied
+```
+
+Kết quả sẽ là:
+
+```bash
+system started
+user connected
+```
+
+`grep -v` rất hữu ích khi cần loại bỏ dữ liệu không cần thiết.
+
+Ví dụ, hiển thị các dòng trong `/etc/passwd` không chứa từ `nologin`:
+
+```bash
+grep -v "nologin" /etc/passwd
+```
+
+Có thể kết hợp với pipe:
+
+```bash
+cat /var/log/auth.log | grep -i "ssh" | grep -v "Accepted"
+```
+
+Lệnh trên tìm các dòng liên quan đến SSH nhưng loại bỏ các dòng đăng nhập thành công có chứa từ `Accepted`.
+
+Tóm lại, `grep -v` dùng để loại trừ dòng khớp với mẫu, giúp lọc dữ liệu theo hướng ngược lại.
+
+
+## 11.2. Xử lý cột với `awk`
+
+`awk` là công cụ mạnh dùng để xử lý văn bản theo cột. Nó rất hữu ích khi dữ liệu có cấu trúc theo dòng và cột, ví dụ như log, file CSV, kết quả lệnh `ps`, `df`, `ls -l` hoặc `/etc/passwd`.
+
+Cú pháp cơ bản:
+
+```bash
+awk '{print $cột}' <tên_tệp>
+```
+
+Ví dụ:
+
+```bash
+echo "one two three" | awk '{print $2}'
+```
+
+Kết quả:
+
+```bash
+two
+```
+
+Trong `awk`, các cột được đánh số như sau:
+
+| Ký hiệu | Ý nghĩa |
+|---|---|
+| `$1` | Cột thứ nhất |
+| `$2` | Cột thứ hai |
+| `$3` | Cột thứ ba |
+| `$0` | Toàn bộ dòng |
+
+Ví dụ:
+
+```bash
+echo "user1 192.168.1.10 success" | awk '{print $1}'
+```
+
+Kết quả:
+
+```bash
+user1
+```
+
+Có thể in nhiều cột:
+
+```bash
+echo "user1 192.168.1.10 success" | awk '{print $1, $3}'
+```
+
+Kết quả:
+
+```bash
+user1 success
+```
+
+Với tệp có dấu phân tách đặc biệt, dùng tùy chọn `-F`.
+
+Ví dụ, tệp `/etc/passwd` dùng dấu `:` để phân tách các trường:
+
+```bash
+awk -F ':' '{print $1}' /etc/passwd
+```
+
+Lệnh trên in ra danh sách tên người dùng trong hệ thống.
+
+Ví dụ in tên user và shell đăng nhập:
+
+```bash
+awk -F ':' '{print $1, $7}' /etc/passwd
+```
+
+Tóm lại, `awk` rất phù hợp khi cần trích xuất dữ liệu theo cột hoặc xử lý dòng văn bản có cấu trúc.
+
+
+## 11.3. Chỉnh sửa dòng văn bản với `sed`
+
+`sed`, viết đầy đủ là **stream editor**, là công cụ dùng để xử lý và chỉnh sửa văn bản theo dòng. `sed` thường được dùng để tìm kiếm, thay thế, xóa hoặc in các dòng khớp với mẫu.
+
+Cú pháp thay thế cơ bản:
+
+```bash
+sed 's/mẫu_cũ/mẫu_mới/' <tên_tệp>
+```
+
+Ví dụ:
+
+```bash
+echo "Hello World" | sed 's/World/Linux/'
+```
+
+Kết quả:
+
+```bash
+Hello Linux
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `s` | Substitute, tức thay thế |
+| `World` | Chuỗi cần thay |
+| `Linux` | Chuỗi thay thế |
+
+Theo mặc định, `sed` chỉ thay thế lần xuất hiện đầu tiên trong mỗi dòng. Để thay tất cả các lần xuất hiện trong dòng, dùng `g`.
+
+Ví dụ:
+
+```bash
+echo "cat cat cat" | sed 's/cat/dog/g'
+```
+
+Kết quả:
+
+```bash
+dog dog dog
+```
+
+Có thể dùng `sed` để chỉ in các dòng khớp với mẫu:
+
+```bash
+sed -n '/error/p' logfile.txt
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `-n` | Không in toàn bộ nội dung |
+| `/error/p` | Chỉ in dòng có chứa `error` |
+
+Có thể xóa một dòng cụ thể:
+
+```bash
+sed '2d' file.txt
+```
+
+Lệnh trên xóa dòng thứ 2 trong kết quả hiển thị.
+
+Muốn chỉnh sửa trực tiếp trong tệp, dùng tùy chọn `-i`:
+
+```bash
+sed -i 's/old/new/g' file.txt
+```
+
+Cần cẩn thận với `sed -i`, vì nó sửa trực tiếp nội dung tệp. Khi mới học, nên chạy không có `-i` trước để kiểm tra kết quả.
+
+Tóm lại, `sed` là công cụ mạnh để thay thế và chỉnh sửa văn bản tự động trong terminal hoặc Bash script.
+
+
+## 11.4. Cắt cột với `cut`
+
+Lệnh `cut` dùng để trích xuất một phần cụ thể từ mỗi dòng văn bản. Công cụ này thường được dùng để cắt theo ký tự, theo byte hoặc theo cột với dấu phân tách.
+
+Cú pháp thường dùng:
+
+```bash
+cut -d '<ký_tự_phân_tách>' -f <số_cột> <tên_tệp>
+```
+
+Ví dụ:
+
+```bash
+echo "a,b,c" | cut -d ',' -f 2
+```
+
+Kết quả:
+
+```bash
+b
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `-d ','` | Dấu phân tách là dấu phẩy |
+| `-f 2` | Lấy cột thứ hai |
+
+Ví dụ lấy tên user từ `/etc/passwd`:
+
+```bash
+cut -d ':' -f 1 /etc/passwd
+```
+
+Lấy cả cột 1 và cột 7:
+
+```bash
+cut -d ':' -f 1,7 /etc/passwd
+```
+
+Cũng có thể cắt theo vị trí ký tự bằng tùy chọn `-c`.
+
+Ví dụ:
+
+```bash
+echo "Linux" | cut -c 1-3
+```
+
+Kết quả:
+
+```bash
+Lin
+```
+
+So với `awk`, `cut` đơn giản hơn và rất nhanh khi dữ liệu có dấu phân tách rõ ràng.
+
+Tóm lại, `cut` phù hợp khi cần lấy một hoặc một vài cột cụ thể từ dữ liệu văn bản có cấu trúc.
+
+
+## 11.5. Sắp xếp dữ liệu với `sort`
+
+Lệnh `sort` dùng để sắp xếp các dòng văn bản theo thứ tự tăng dần, giảm dần hoặc theo cột.
+
+Cú pháp:
+
+```bash
+sort <tên_tệp>
+```
+
+Ví dụ, tệp `names.txt` có nội dung:
+
+```bash
+Charlie
+Alice
+Bob
+```
+
+Chạy:
+
+```bash
+sort names.txt
+```
+
+Kết quả:
+
+```bash
+Alice
+Bob
+Charlie
+```
+
+Một số tùy chọn thường dùng:
+
+| Tùy chọn | Ý nghĩa |
+|---|---|
+| `-n` | Sắp xếp theo số |
+| `-r` | Đảo ngược thứ tự |
+| `-k` | Sắp xếp theo cột cụ thể |
+| `-u` | Sắp xếp và loại bỏ dòng trùng lặp |
+
+Ví dụ sắp xếp theo số:
+
+```bash
+sort -n numbers.txt
+```
+
+Sắp xếp giảm dần:
+
+```bash
+sort -r names.txt
+```
+
+Sắp xếp theo cột thứ hai:
+
+```bash
+sort -k 2 data.txt
+```
+
+Sắp xếp và loại bỏ trùng lặp:
+
+```bash
+sort -u names.txt
+```
+
+`sort` thường được kết hợp với `uniq` để thống kê dữ liệu.
+
+Ví dụ:
+
+```bash
+cat access.log | awk '{print $1}' | sort | uniq -c
+```
+
+Lệnh trên trích xuất cột đầu tiên, sắp xếp và đếm số lần xuất hiện của từng giá trị.
+
+Tóm lại, `sort` giúp sắp xếp dữ liệu văn bản, là bước quan trọng trước khi dùng `uniq`.
+
+
+## 11.6. Loại bỏ dòng trùng lặp với `uniq`
+
+Lệnh `uniq` dùng để loại bỏ hoặc thống kê các dòng trùng lặp liền kề nhau. Vì `uniq` chỉ xử lý các dòng trùng nhau nằm cạnh nhau, nên thường cần kết hợp với `sort`.
+
+Cú pháp:
+
+```bash
+uniq <tên_tệp>
+```
+
+Ví dụ, tệp `names.txt` có nội dung:
+
+```bash
+Alice
+Alice
+Bob
+Bob
+Charlie
+```
+
+Chạy:
+
+```bash
+uniq names.txt
+```
+
+Kết quả:
+
+```bash
+Alice
+Bob
+Charlie
+```
+
+Nếu các dòng trùng không nằm cạnh nhau, cần dùng:
+
+```bash
+sort names.txt | uniq
+```
+
+Một số tùy chọn thường dùng:
+
+| Tùy chọn | Ý nghĩa |
+|---|---|
+| `-c` | Đếm số lần xuất hiện |
+| `-d` | Chỉ hiển thị dòng bị trùng |
+| `-u` | Chỉ hiển thị dòng không bị trùng |
+
+Ví dụ đếm số lần xuất hiện:
+
+```bash
+sort names.txt | uniq -c
+```
+
+Kết quả có thể là:
+
+```bash
+2 Alice
+2 Bob
+1 Charlie
+```
+
+Ví dụ phân tích log truy cập web, đếm số lần xuất hiện của từng địa chỉ IP:
+
+```bash
+awk '{print $1}' access.log | sort | uniq -c | sort -nr
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `awk '{print $1}'` | Lấy cột đầu tiên, thường là địa chỉ IP |
+| `sort` | Sắp xếp để các dòng giống nhau nằm cạnh nhau |
+| `uniq -c` | Đếm số lần xuất hiện |
+| `sort -nr` | Sắp xếp số lượng giảm dần |
+
+Tóm lại, `uniq` rất hữu ích khi cần loại bỏ dữ liệu trùng hoặc thống kê số lần xuất hiện của từng dòng.
+
+
+## 11.7. Đếm dòng, từ và ký tự với `wc`
+
+Lệnh `wc`, viết tắt của **word count**, dùng để đếm số dòng, số từ, số byte hoặc số ký tự trong tệp hoặc trong đầu ra của lệnh khác.
+
+Cú pháp:
+
+```bash
+wc <tên_tệp>
+```
+
+Ví dụ:
+
+```bash
+wc file.txt
+```
+
+Kết quả có thể là:
+
+```bash
+10  50  300 file.txt
+```
+
+Thông thường, ba số này lần lượt là:
+
+| Vị trí | Ý nghĩa |
+|---|---|
+| Số thứ nhất | Số dòng |
+| Số thứ hai | Số từ |
+| Số thứ ba | Số byte |
+
+Một số tùy chọn thường dùng:
+
+| Tùy chọn | Ý nghĩa |
+|---|---|
+| `-l` | Đếm số dòng |
+| `-w` | Đếm số từ |
+| `-c` | Đếm số byte |
+| `-m` | Đếm số ký tự |
+
+Ví dụ đếm số dòng:
+
+```bash
+wc -l file.txt
+```
+
+Đếm số từ:
+
+```bash
+wc -w file.txt
+```
+
+Đếm số byte:
+
+```bash
+wc -c file.txt
+```
+
+`wc` thường được kết hợp với pipe để đếm kết quả sau khi lọc.
+
+Ví dụ đếm số dòng có chứa từ `error`:
+
+```bash
+grep "error" logfile.txt | wc -l
+```
+
+Ví dụ đếm số gói đã cài đặt:
+
+```bash
+apt list --installed | grep -c "installed"
+```
+
+Tóm lại, `wc` giúp thống kê nhanh số lượng dòng, từ, ký tự hoặc kết quả sau khi lọc dữ liệu.
+
+
+## 11.8. Đánh số dòng với `nl`
+
+Lệnh `nl`, viết tắt của **number lines**, dùng để đánh số dòng trong nội dung văn bản.
+
+Cú pháp:
+
+```bash
+nl <tên_tệp>
+```
+
+Ví dụ:
+
+```bash
+nl notes.txt
+```
+
+Nếu tệp có nội dung:
+
+```bash
+Linux
+Bash
+Terminal
+```
+
+Kết quả có thể là:
+
+```bash
+     1  Linux
+     2  Bash
+     3  Terminal
+```
+
+`nl` cũng có thể dùng sau pipe để đánh số kết quả của một lệnh khác.
+
+Ví dụ:
+
+```bash
+find /var/log -type f -name "*.log" 2>/dev/null | nl
+```
+
+Lệnh trên tìm các tệp `.log`, ẩn lỗi thiếu quyền, sau đó đánh số từng dòng kết quả.
+
+Có thể dùng `nl` khi muốn trình bày kết quả rõ ràng hơn trong báo cáo hoặc khi cần xác định thứ tự dòng trong một danh sách.
+
+Tóm lại, `nl` giúp đánh số dòng đầu ra, làm kết quả dễ đọc và dễ tham chiếu hơn.
+
+
+## 11.9. So sánh tệp với `diff`
+
+Lệnh `diff` dùng để so sánh sự khác nhau giữa hai tệp văn bản. Đây là công cụ rất hữu ích khi cần kiểm tra sự thay đổi giữa hai phiên bản tệp cấu hình, script hoặc tài liệu.
+
+Cú pháp:
+
+```bash
+diff <file1> <file2>
+```
+
+Ví dụ:
+
+```bash
+diff old.conf new.conf
+```
+
+Nếu hai tệp khác nhau, `diff` sẽ hiển thị những dòng bị thay đổi, thêm hoặc xóa.
+
+Một tùy chọn thường dùng là `-u`, hiển thị kết quả theo định dạng unified, dễ đọc hơn và thường dùng trong lập trình:
+
+```bash
+diff -u old.conf new.conf
+```
+
+Có thể so sánh hai tệp theo dạng song song:
+
+```bash
+diff --side-by-side old.conf new.conf
+```
+
+Ví dụ thực tế:
+
+```bash
+cp /etc/ssh/sshd_config sshd_config.backup
+sudo nano /etc/ssh/sshd_config
+diff -u sshd_config.backup /etc/ssh/sshd_config
+```
+
+Quy trình trên giúp người dùng xem chính xác tệp cấu hình SSH đã thay đổi những gì.
+
+Tóm lại, `diff` dùng để so sánh nội dung hai tệp, rất hữu ích khi kiểm tra thay đổi cấu hình hoặc theo dõi phiên bản file.
+
+
+## 11.10. Xử lý JSON với `jq`
+
+`jq` là công cụ dùng để đọc, định dạng và trích xuất dữ liệu từ JSON trong terminal. JSON là định dạng dữ liệu rất phổ biến trong API, log ứng dụng, cấu hình hệ thống và các công cụ bảo mật.
+
+Ví dụ JSON đơn giản:
+
+```bash
+echo '{"user":"admin","status":"success"}' | jq '.'
+```
+
+Kết quả được định dạng dễ đọc hơn:
+
+```json
+{
+  "user": "admin",
+  "status": "success"
+}
+```
+
+Để lấy giá trị của một trường cụ thể:
+
+```bash
+echo '{"user":"admin","status":"success"}' | jq '.user'
+```
+
+Kết quả:
+
+```bash
+"admin"
+```
+
+Để lấy giá trị không có dấu ngoặc kép, dùng tùy chọn `-r`:
+
+```bash
+echo '{"user":"admin","status":"success"}' | jq -r '.user'
+```
+
+Kết quả:
+
+```bash
+admin
+```
+
+Ví dụ với mảng JSON:
+
+```bash
+echo '[{"user":"admin"},{"user":"guest"}]' | jq '.[].user'
+```
+
+Kết quả:
+
+```bash
+"admin"
+"guest"
+```
+
+Trong an toàn thông tin, `jq` rất hữu ích khi xử lý log JSON, ví dụ log từ Suricata, Zeek, Wazuh, API hoặc các công cụ cloud.
+
+Ví dụ trích xuất trường `src_ip` từ file JSON log:
+
+```bash
+cat alerts.json | jq -r '.src_ip'
+```
+
+
+## 13.11. Một số công cụ xử lý log và text nâng cao
+
+Ngoài các lệnh cơ bản, Linux còn có nhiều công cụ nâng cao giúp tìm kiếm, xử lý và phân tích văn bản hiệu quả hơn.
+
+| Công cụ | Chức năng chính | Ví dụ |
+|---|---|---|
+| `rg` / `ripgrep` | Tìm kiếm văn bản rất nhanh trong thư mục mã nguồn hoặc log | `rg "error"` |
+| `ag` | Tìm kiếm nhanh trong mã nguồn lớn | `ag "main"` |
+| `ack` | Tìm kiếm văn bản, thân thiện với dự án mã nguồn | `ack "class"` |
+| `ngrep` | Tìm kiếm mẫu văn bản trong lưu lượng mạng | `sudo ngrep 'GET' tcp port 80` |
+| `tr` | Chuyển đổi hoặc xóa ký tự | `echo "hello" | tr 'a-z' 'A-Z'` |
+| `tac` | Hiển thị tệp theo thứ tự ngược dòng | `tac file.txt` |
+| `comm` | So sánh hai tệp đã được sắp xếp | `comm file1.txt file2.txt` |
+| `paste` | Ghép các dòng từ nhiều tệp | `paste file1.txt file2.txt` |
+| `ccze` | Tô màu log để dễ đọc hơn | `tail -f logfile.txt | ccze` |
+| `csvcut` | Cắt cột trong tệp CSV | `csvcut -c 2,3 file.csv` |
+| `watch` | Chạy lại lệnh theo chu kỳ để theo dõi thay đổi | `watch "df -h"` |
+
+Ví dụ dùng `tr` để chuyển chữ thường thành chữ hoa:
+
+```bash
+echo "linux" | tr 'a-z' 'A-Z'
+```
+
+Kết quả:
+
+```bash
+LINUX
+```
+
+Ví dụ dùng `tac` để xem tệp từ dòng cuối lên dòng đầu:
+
+```bash
+tac logfile.txt
+```
+
+Ví dụ dùng `watch` để theo dõi dung lượng ổ đĩa:
+
+```bash
+watch "df -h"
+```
+
+Trong thực tế, các công cụ nâng cao này thường được dùng khi cần xử lý dữ liệu lớn, phân tích log nhanh, tìm kiếm trong mã nguồn hoặc giám sát thay đổi theo thời gian.
+
+
 
