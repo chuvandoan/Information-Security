@@ -20,7 +20,8 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 ---
 
 ## [Section 1: Linux Fundamentals](/Linux_Fundamentals/Linux_Fundamentals.md)
->
+> Phần này cung cấp kiến thức nền tảng về hệ điều hành Linux, từ tổng quan, kiến trúc hệ thống, terminal, shell, hệ thống tệp, quyền truy cập, quản lý người dùng, tiến trình, dịch vụ, gói phần mềm, log cho đến Bash scripting cơ bản. Nội dung được xây dựng theo hướng thực hành, giúp người học làm quen với các lệnh Linux quan trọng, hiểu cách hệ thống hoạt động và áp dụng vào quản trị hệ thống, SOC và an toàn thông tin.
+
 ## Nội dung chính
 
 | STT | Nội dung | Mô tả |
@@ -51,7 +52,8 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 | 24 | [Biến và tham số trong Bash](/Linux_Fundamentals/Linux_Fundamentals.md#24-biến-và-tham-số-trong-bash) | Hướng dẫn khai báo biến, sử dụng tham số dòng lệnh, `$0`, `$1`, `$#`, `$@`, `$?` và nhập dữ liệu với `read`. |
 | 25 | [Mảng trong Bash](/Linux_Fundamentals/Linux_Fundamentals.md#25-mảng-trong-bash) | Trình bày cách khai báo mảng, truy cập phần tử, in toàn bộ mảng, thay đổi giá trị và xóa phần tử bằng `unset`. |
 | 26 | [Câu điều kiện trong Bash](/Linux_Fundamentals/Linux_Fundamentals.md#26-câu-điều-kiện-trong-bash) | Hướng dẫn dùng `if`, `then`, `else`, `fi`, so sánh số, chuỗi, kiểm tra tệp/thư mục và kết hợp nhiều điều kiện. |
-|
+
+
 
 ---
 
