@@ -40,6 +40,8 @@
 
 18. [Quản lý tiến trình](#18-quản-lý-tiến-trình)
 
+19. [Quản lý dịch vụ trong Linux](#19-quản-lý-dịch-vụ-trong-linux)
+
 ## Nội dung
 
 # 1: Tổng quan về Linux
@@ -6944,7 +6946,7 @@ Trong Linux, **tiến trình** là một chương trình đang được thực t
 
 Quản lý tiến trình là kỹ năng quan trọng trong Linux vì nó giúp người dùng biết chương trình nào đang chạy, chương trình nào đang tiêu tốn tài nguyên, tiến trình nào bị treo và cách dừng hoặc đưa tiến trình vào chạy nền.
 
-### 18.1. Process là gì?
+## 18.1. Process là gì?
 
 **Process**, hay **tiến trình**, là một chương trình đang chạy trên hệ thống. Một chương trình khi nằm trên ổ đĩa chỉ là một tệp thực thi hoặc script. Khi chương trình đó được khởi chạy, Linux sẽ tạo ra một tiến trình để quản lý việc thực thi chương trình đó.
 
@@ -7537,4 +7539,380 @@ So sánh nhanh:
 | `&` | Chạy lệnh ở background ngay từ đầu |
 
 Tóm lại, `bg` dùng để tiếp tục một tiến trình đã bị tạm dừng và đưa nó chạy nền, giúp người dùng tiếp tục sử dụng terminal cho các công việc khác.
+
+# 19. Quản lý dịch vụ trong Linux
+
+Trong Linux, nhiều chương trình quan trọng chạy dưới dạng **dịch vụ**. Ví dụ: SSH server, web server, database server, Docker, firewall, cron hoặc các dịch vụ ghi log. Những dịch vụ này thường chạy nền và không cần người dùng thao tác trực tiếp qua giao diện.
+
+Quản lý dịch vụ giúp người dùng kiểm soát chương trình nào đang chạy, chương trình nào tự động khởi động cùng hệ thống, dịch vụ nào cần dừng lại và dịch vụ nào có thể tạo ra rủi ro bảo mật.
+
+Công cụ phổ biến nhất để quản lý dịch vụ trên nhiều bản phân phối Linux hiện đại là `systemctl`, thuộc hệ thống `systemd`.
+
+
+## 19.1. Dịch vụ trong Linux là gì?
+
+**Dịch vụ** trong Linux là một chương trình hoặc tiến trình chạy nền để cung cấp một chức năng nào đó cho hệ thống hoặc cho người dùng.
+
+Ví dụ:
+
+| Dịch vụ | Chức năng |
+|---|---|
+| `ssh` | Cho phép đăng nhập từ xa bằng SSH |
+| `apache2` / `nginx` | Cung cấp web server |
+| `mysql` / `mariadb` | Cung cấp database server |
+| `cron` | Chạy tác vụ định kỳ |
+| `docker` | Quản lý container |
+| `ufw` | Quản lý firewall đơn giản |
+| `rsyslog` | Ghi log hệ thống |
+
+Dịch vụ thường chạy ở **background**, nghĩa là chúng hoạt động phía sau mà không chiếm terminal của người dùng.
+
+Ví dụ, khi SSH server đang chạy, người dùng khác có thể kết nối từ xa vào máy:
+
+```bash
+ssh user@192.168.1.10
+```
+
+Dịch vụ SSH vẫn chạy nền để chờ kết nối mới.
+
+Có thể kiểm tra một dịch vụ bằng lệnh:
+
+```bash
+systemctl status ssh
+```
+
+Tóm lại, dịch vụ là các chương trình nền giúp hệ thống Linux cung cấp những chức năng quan trọng như mạng, đăng nhập từ xa, web, database, log và tự động hóa.
+
+
+## 19.2. systemd là gì?
+
+**systemd** là hệ thống quản lý khởi động và dịch vụ trên nhiều bản phân phối Linux hiện đại. Nó chịu trách nhiệm khởi động hệ thống, quản lý dịch vụ, quản lý tiến trình nền, timer, log và nhiều thành phần hệ thống khác.
+
+Khi máy Linux khởi động, `systemd` thường là một trong những tiến trình đầu tiên được chạy. Nó có nhiệm vụ khởi động các dịch vụ cần thiết để hệ thống hoạt động bình thường.
+
+Ví dụ, khi hệ thống khởi động, `systemd` có thể tự động khởi động:
+
+```bash
+ssh
+networking
+cron
+docker
+nginx
+```
+
+Các dịch vụ trong `systemd` thường được gọi là **unit**. Một số loại unit phổ biến:
+
+| Loại unit | Ý nghĩa |
+|---|---|
+| `.service` | Dịch vụ hệ thống |
+| `.timer` | Bộ hẹn giờ chạy tác vụ |
+| `.target` | Nhóm trạng thái hệ thống |
+| `.mount` | Điểm gắn kết hệ thống tệp |
+
+Ví dụ một service có thể có tên:
+
+```bash
+ssh.service
+apache2.service
+docker.service
+```
+
+Tóm lại, `systemd` là thành phần trung tâm dùng để quản lý quá trình khởi động và các dịch vụ nền trong Linux.
+
+
+## 19.3. Quản lý dịch vụ bằng `systemctl`
+
+`systemctl` là lệnh dùng để tương tác với `systemd`. Thông qua `systemctl`, người dùng có thể khởi động, dừng, bật tự động khởi động, tắt tự động khởi động hoặc kiểm tra trạng thái dịch vụ.
+
+Cú pháp tổng quát:
+
+```bash
+systemctl <hành_động> <tên_dịch_vụ>
+```
+
+Ví dụ:
+
+```bash
+sudo systemctl status ssh
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `systemctl` | Lệnh quản lý dịch vụ |
+| `status` | Kiểm tra trạng thái |
+| `ssh` | Tên dịch vụ cần kiểm tra |
+
+Một số hành động thường dùng:
+
+| Lệnh | Chức năng |
+|---|---|
+| `start` | Khởi động dịch vụ |
+| `stop` | Dừng dịch vụ |
+| `restart` | Khởi động lại dịch vụ |
+| `reload` | Nạp lại cấu hình nếu dịch vụ hỗ trợ |
+| `status` | Kiểm tra trạng thái dịch vụ |
+| `enable` | Bật dịch vụ khởi động cùng hệ thống |
+| `disable` | Tắt dịch vụ khởi động cùng hệ thống |
+
+Ví dụ:
+
+```bash
+sudo systemctl start apache2
+sudo systemctl stop apache2
+sudo systemctl restart apache2
+sudo systemctl status apache2
+```
+
+Tóm lại, `systemctl` là công cụ chính để quản lý dịch vụ trên các hệ thống Linux dùng `systemd`.
+
+### 19.3.1. Khởi động dịch vụ với `systemctl start`
+
+Lệnh `systemctl start` dùng để khởi động một dịch vụ ngay tại thời điểm hiện tại.
+
+Cú pháp:
+
+```bash
+sudo systemctl start <tên_dịch_vụ>
+```
+
+Ví dụ khởi động dịch vụ SSH:
+
+```bash
+sudo systemctl start ssh
+```
+
+Ví dụ khởi động Apache web server:
+
+```bash
+sudo systemctl start apache2
+```
+
+Sau khi khởi động, có thể kiểm tra trạng thái dịch vụ:
+
+```bash
+systemctl status apache2
+```
+
+Nếu dịch vụ đang chạy, kết quả thường có trạng thái:
+
+```bash
+active (running)
+```
+
+Cần chú ý rằng `start` chỉ khởi động dịch vụ ở thời điểm hiện tại. Nếu khởi động lại máy, dịch vụ chưa chắc sẽ tự chạy lại, trừ khi đã được bật bằng `enable`.
+
+Tóm lại, `systemctl start` dùng để chạy dịch vụ ngay lập tức.
+
+---
+
+### 19.3.2. Dừng dịch vụ với `systemctl stop`
+
+Lệnh `systemctl stop` dùng để dừng một dịch vụ đang chạy.
+
+Cú pháp:
+
+```bash
+sudo systemctl stop <tên_dịch_vụ>
+```
+
+Ví dụ dừng Apache:
+
+```bash
+sudo systemctl stop apache2
+```
+
+Ví dụ dừng SSH:
+
+```bash
+sudo systemctl stop ssh
+```
+
+Sau khi dừng, kiểm tra lại:
+
+```bash
+systemctl status ssh
+```
+
+Kết quả có thể hiển thị:
+
+```bash
+inactive (dead)
+```
+
+Cần cẩn thận khi dừng dịch vụ quan trọng. Ví dụ, nếu đang kết nối đến máy chủ từ xa bằng SSH mà dừng dịch vụ SSH, có thể mất khả năng đăng nhập từ xa vào máy đó.
+
+Ví dụ:
+
+```bash
+sudo systemctl stop ssh
+```
+
+Lệnh này có thể làm các kết nối SSH mới không thực hiện được.
+
+Tóm lại, `systemctl stop` dùng để dừng dịch vụ hiện tại, nhưng cần kiểm tra kỹ trước khi dừng các dịch vụ quan trọng.
+
+
+### 19.3.3. Bật dịch vụ khởi động cùng hệ thống với `systemctl enable`
+
+Lệnh `systemctl enable` dùng để bật một dịch vụ tự động khởi động cùng hệ thống.
+
+Cú pháp:
+
+```bash
+sudo systemctl enable <tên_dịch_vụ>
+```
+
+Ví dụ bật SSH tự khởi động:
+
+```bash
+sudo systemctl enable ssh
+```
+
+Ví dụ bật Apache tự khởi động:
+
+```bash
+sudo systemctl enable apache2
+```
+
+Điều này có nghĩa là khi máy Linux khởi động lại, dịch vụ sẽ được `systemd` tự động chạy.
+
+Cần phân biệt:
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `systemctl start ssh` | Khởi động SSH ngay bây giờ |
+| `systemctl enable ssh` | Cho phép SSH tự khởi động sau mỗi lần boot |
+
+Thông thường, nếu muốn dịch vụ vừa chạy ngay, vừa tự khởi động cùng hệ thống, có thể dùng cả hai lệnh:
+
+```bash
+sudo systemctl start ssh
+sudo systemctl enable ssh
+```
+
+Hoặc dùng:
+
+```bash
+sudo systemctl enable --now ssh
+```
+
+Tóm lại, `systemctl enable` không nhất thiết khởi động dịch vụ ngay lập tức, mà chủ yếu cấu hình dịch vụ tự chạy khi hệ thống khởi động.
+
+
+### 19.3.4. Tắt tự động khởi động dịch vụ với `systemctl disable`
+
+Lệnh `systemctl disable` dùng để tắt chế độ tự động khởi động của một dịch vụ.
+
+Cú pháp:
+
+```bash
+sudo systemctl disable <tên_dịch_vụ>
+```
+
+Ví dụ:
+
+```bash
+sudo systemctl disable apache2
+```
+
+Lệnh này không nhất thiết dừng Apache ngay lập tức. Nó chỉ ngăn Apache tự động khởi động trong những lần boot tiếp theo.
+
+Cần phân biệt:
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `systemctl stop apache2` | Dừng Apache ngay bây giờ |
+| `systemctl disable apache2` | Không cho Apache tự khởi động khi boot |
+
+Nếu muốn vừa dừng ngay, vừa tắt tự động khởi động:
+
+```bash
+sudo systemctl stop apache2
+sudo systemctl disable apache2
+```
+
+Hoặc:
+
+```bash
+sudo systemctl disable --now apache2
+```
+
+Tóm lại, `systemctl disable` dùng để kiểm soát dịch vụ nào được phép tự chạy sau khi hệ thống khởi động.
+
+
+## 19.3.4. Kiểm tra trạng thái dịch vụ 
+
+Lệnh `systemctl status` dùng để kiểm tra trạng thái hiện tại của một dịch vụ.
+
+Cú pháp:
+
+```bash
+systemctl status <tên_dịch_vụ>
+```
+
+Ví dụ:
+
+```bash
+systemctl status ssh
+```
+
+Kết quả có thể có dạng:
+
+```bash
+● ssh.service - OpenBSD Secure Shell server
+     Loaded: loaded
+     Active: active (running)
+```
+
+Một số trạng thái thường gặp:
+
+| Trạng thái | Ý nghĩa |
+|---|---|
+| `active (running)` | Dịch vụ đang chạy |
+| `inactive (dead)` | Dịch vụ không chạy |
+| `failed` | Dịch vụ chạy lỗi |
+| `enabled` | Dịch vụ được bật tự khởi động |
+| `disabled` | Dịch vụ không tự khởi động |
+
+Có thể kiểm tra dịch vụ có đang hoạt động không bằng:
+
+```bash
+systemctl is-active ssh
+```
+
+Kết quả có thể là:
+
+```bash
+active
+```
+
+Kiểm tra dịch vụ có được bật tự khởi động không:
+
+```bash
+systemctl is-enabled ssh
+```
+
+Kết quả có thể là:
+
+```bash
+enabled
+```
+
+Để xem log của một dịch vụ dùng `systemd`, có thể dùng `journalctl`.
+
+Ví dụ xem log SSH:
+
+```bash
+journalctl -u ssh
+```
+
+Theo dõi log dịch vụ theo thời gian thực:
+
+```bash
+journalctl -u ssh -f
+```
+
+Tóm lại, `systemctl status` cho biết dịch vụ có đang chạy hay không, còn `journalctl -u` giúp xem log chi tiết của dịch vụ đó.
 
