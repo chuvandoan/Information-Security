@@ -20,6 +20,12 @@
 
 8. [Xem và chỉnh sửa nội dung tệp](#8-xem-và-chỉnh-sửa-nội-dung-tệp)
 
+9. [ Tìm kiếm tệp và thư mục](#9-tìm-kiếm-tệp-và-thư-mục)
+
+
+
+
+
 ## Nội dung
 
 # 1: Tổng quan về Linux
@@ -2327,7 +2333,511 @@ Lưu và thoát.
 
 Thoát mà không lưu thay đổi.
 
-Tóm lại, muốn dùng Vim hiệu quả, cần nhớ nguyên tắc cơ bản: mở Vim là ở Normal mode, nhấn `i` để nhập văn bản, nhấn `Esc` để quay lại Normal mode, sau đó dùng `:wq` để lưu và thoát.
+# 9. Tìm kiếm tệp và thư mục
+
+Trong Linux, hệ thống có thể chứa rất nhiều tệp và thư mục nằm ở nhiều vị trí khác nhau. Vì vậy, người dùng cần biết cách tìm kiếm tệp, thư mục hoặc chương trình một cách hiệu quả. Đây là kỹ năng quan trọng trong quản trị hệ thống, xử lý log, phân tích sự cố và an toàn thông tin.
+
+Các công cụ thường dùng để tìm kiếm gồm `which`, `find`, `locate` và `updatedb`.
+
+## 9.1. Tìm chương trình bằng `which`
+
+Lệnh `which` dùng để xác định đường dẫn đầy đủ của một chương trình hoặc lệnh đang được hệ thống sử dụng.
+
+Cú pháp:
+
+```bash
+which <tên_lệnh>
+```
+
+Ví dụ:
+
+```bash
+which ls
+```
+
+Kết quả có thể là:
+
+```bash
+/usr/bin/ls
+```
+
+Điều này cho biết lệnh `ls` nằm tại đường dẫn `/usr/bin/ls`.
+
+Ví dụ khác:
+
+```bash
+which python3
+```
+
+Kết quả có thể là:
+
+```bash
+/usr/bin/python3
+```
+
+Lệnh `which` rất hữu ích khi cần kiểm tra một chương trình đã được cài đặt hay chưa, hoặc muốn biết hệ thống đang chạy chương trình từ vị trí nào.
+
+Ví dụ:
+
+```bash
+which nmap
+```
+
+Nếu `nmap` đã được cài đặt, hệ thống sẽ trả về đường dẫn của chương trình. Nếu chưa được cài đặt, có thể không có kết quả nào được hiển thị.
+
+Tóm lại, `which` dùng để tìm vị trí của chương trình thực thi trong hệ thống.
+
+## 9.2. Tìm tệp và thư mục bằng `find`
+
+Lệnh `find` là công cụ mạnh để tìm kiếm tệp và thư mục trong Linux. Lệnh này có thể tìm theo tên, loại đối tượng, kích thước, thời gian chỉnh sửa, chủ sở hữu và nhiều điều kiện khác.
+
+Cú pháp cơ bản:
+
+```bash
+find <đường_dẫn_bắt_đầu> <điều_kiện_tìm_kiếm>
+```
+
+Ví dụ, tìm trong thư mục hiện tại:
+
+```bash
+find . -name "notes.txt"
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `find` | Lệnh tìm kiếm |
+| `.` | Bắt đầu tìm từ thư mục hiện tại |
+| `-name "notes.txt"` | Tìm đối tượng có tên là `notes.txt` |
+
+Ví dụ tìm trong toàn bộ hệ thống:
+
+```bash
+find / -name "notes.txt"
+```
+
+Lệnh này tìm tệp hoặc thư mục tên `notes.txt` bắt đầu từ thư mục gốc `/`.
+
+Tuy nhiên, khi tìm trong toàn bộ hệ thống, người dùng thường gặp lỗi `Permission denied` vì không có quyền truy cập một số thư mục. Khi đó có thể dùng `2>/dev/null` để ẩn lỗi.
+
+
+### 9.2.1. Tìm theo tên tệp `-name`
+
+Để tìm tệp hoặc thư mục theo tên, sử dụng tùy chọn `-name`.
+
+Cú pháp:
+
+```bash
+find <đường_dẫn> -name "<tên_tệp>"
+```
+
+Ví dụ, tìm tệp `passwords.txt` trong thư mục hiện tại:
+
+```bash
+find . -name "passwords.txt"
+```
+
+Nếu tệp nằm trong thư mục con, `find` vẫn có thể tìm được vì nó tìm kiếm đệ quy bên trong các thư mục.
+
+Có thể dùng ký tự đại diện `*` để tìm nhiều tệp theo mẫu tên.
+
+Ví dụ, tìm tất cả tệp có đuôi `.txt`:
+
+```bash
+find . -name "*.txt"
+```
+
+Tìm tất cả tệp cấu hình có đuôi `.conf` trong thư mục `/etc`:
+
+```bash
+find /etc -name "*.conf"
+```
+
+Lưu ý nên đặt mẫu tìm kiếm trong dấu ngoặc kép `" "`, ví dụ `"*.txt"` hoặc `"*.conf"`, để tránh shell tự mở rộng ký tự `*` trước khi lệnh `find` chạy.
+
+### 9.2.2. Tìm theo loại đối tượng `-type`
+
+Trong Linux, `find` có thể tìm theo loại đối tượng bằng tùy chọn `-type`.
+
+Cú pháp:
+
+```bash
+find <đường_dẫn> -type <loại>
+```
+
+Một số loại thường dùng:
+
+| Tùy chọn | Ý nghĩa |
+|---|---|
+| `-type f` | Tìm tệp thông thường |
+| `-type d` | Tìm thư mục |
+| `-type l` | Tìm liên kết tượng trưng |
+| `-type b` | Tìm block device |
+| `-type c` | Tìm character device |
+
+Ví dụ, tìm tất cả tệp thông thường trong thư mục hiện tại:
+
+```bash
+find . -type f
+```
+
+Tìm tất cả thư mục trong thư mục hiện tại:
+
+```bash
+find . -type d
+```
+
+Tìm tất cả tệp `.log` trong `/var/log`:
+
+```bash
+find /var/log -type f -name "*.log"
+```
+
+Trong ví dụ trên:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `/var/log` | Bắt đầu tìm trong thư mục log |
+| `-type f` | Chỉ tìm tệp thường |
+| `-name "*.log"` | Chỉ lấy tệp có đuôi `.log` |
+
+## 9.2.3 Tìm theo kích thước `-size`
+
+Lệnh `find` có thể tìm tệp theo kích thước bằng tùy chọn `-size`.
+
+Cú pháp:
+
+```bash
+find <đường_dẫn> -size <kích_thước>
+```
+
+Một số đơn vị thường dùng:
+
+| Đơn vị | Ý nghĩa |
+|---|---|
+| `c` | byte |
+| `k` | kilobyte |
+| `M` | megabyte |
+| `G` | gigabyte |
+
+Có thể dùng dấu `+` hoặc `-` để chỉ định lớn hơn hoặc nhỏ hơn.
+
+| Cách viết | Ý nghĩa |
+|---|---|
+| `-size +10M` | Lớn hơn 10 MB |
+| `-size -10M` | Nhỏ hơn 10 MB |
+| `-size 10M` | Xấp xỉ đúng 10 MB |
+
+Ví dụ, tìm các tệp lớn hơn 100 MB trong thư mục home:
+
+```bash
+find /home -type f -size +100M
+```
+
+Tìm các tệp nhỏ hơn 1 MB trong thư mục hiện tại:
+
+```bash
+find . -type f -size -1M
+```
+
+Tìm các tệp cấu hình có kích thước lớn hơn 20 KB:
+
+```bash
+find /etc -type f -name "*.conf" -size +20k
+```
+
+Có thể kết hợp điều kiện để tìm trong một khoảng kích thước.
+
+Ví dụ, tìm tệp lớn hơn 25 KB nhưng nhỏ hơn 28 KB:
+
+```bash
+find / -type f -size +25k -size -28k 2>/dev/null
+```
+
+## 9.2.4. Tìm theo thời gian chỉnh sửa
+
+Lệnh `find` có thể tìm tệp theo thời gian chỉnh sửa bằng các tùy chọn như `-mtime`, `-mmin` hoặc `-newermt`.
+
+Một số tùy chọn thường dùng:
+
+| Tùy chọn | Ý nghĩa |
+|---|---|
+| `-mtime` | Tìm theo số ngày kể từ lần chỉnh sửa cuối |
+| `-mmin` | Tìm theo số phút kể từ lần chỉnh sửa cuối |
+| `-newermt` | Tìm tệp mới hơn một mốc thời gian cụ thể |
+
+Ví dụ, tìm các tệp được chỉnh sửa trong vòng 1 ngày gần đây:
+
+```bash
+find . -type f -mtime -1
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `-mtime -1` | Chỉnh sửa trong vòng ít hơn 1 ngày |
+| `-mtime +7` | Chỉnh sửa cách đây hơn 7 ngày |
+| `-mtime 7` | Chỉnh sửa khoảng 7 ngày trước |
+
+Ví dụ, tìm các tệp đã chỉnh sửa hơn 7 ngày trước:
+
+```bash
+find . -type f -mtime +7
+```
+
+Tìm các tệp được chỉnh sửa trong vòng 30 phút gần đây:
+
+```bash
+find . -type f -mmin -30
+```
+
+Tìm các tệp mới hơn ngày `2020-03-03`:
+
+```bash
+find / -type f -newermt "2020-03-03" 2>/dev/null
+```
+
+Tùy chọn thời gian rất hữu ích khi điều tra sự cố, kiểm tra tệp mới được tạo, phát hiện tệp bị thay đổi hoặc phân tích hoạt động bất thường trong hệ thống.
+
+## 9.2.5. Tìm theo chủ sở hữu `-user`
+
+Lệnh `find` có thể tìm tệp hoặc thư mục theo chủ sở hữu bằng tùy chọn `-user`.
+
+Cú pháp:
+
+```bash
+find <đường_dẫn> -user <tên_user>
+```
+
+Ví dụ, tìm tất cả tệp thuộc sở hữu của user `student` trong thư mục `/home`:
+
+```bash
+find /home -user student
+```
+
+Tìm tất cả tệp thuộc sở hữu của `root` trong `/etc`:
+
+```bash
+find /etc -user root
+```
+
+Có thể kết hợp với `-type f` để chỉ tìm tệp thường:
+
+```bash
+find /etc -type f -user root
+```
+
+Ví dụ tìm các tệp `.conf` thuộc sở hữu của root:
+
+```bash
+find /etc -type f -name "*.conf" -user root
+```
+
+Lệnh này có ý nghĩa:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `/etc` | Tìm trong thư mục cấu hình hệ thống |
+| `-type f` | Chỉ tìm tệp thường |
+| `-name "*.conf"` | Chỉ tìm tệp cấu hình |
+| `-user root` | Chỉ lấy tệp thuộc sở hữu của root |
+
+Tìm theo chủ sở hữu rất hữu ích khi kiểm tra quyền tệp, phát hiện tệp lạ do một user tạo ra hoặc kiểm tra các tệp quan trọng thuộc quyền root.
+
+
+### 9.2.6. Thực thi lệnh trên kết quả tìm kiếm với `-exec`
+
+Tùy chọn `-exec` cho phép thực thi một lệnh trên từng kết quả mà `find` tìm được. Đây là tính năng rất mạnh, thường dùng để hiển thị chi tiết, xóa, đổi quyền hoặc xử lý hàng loạt tệp.
+
+Cú pháp cơ bản:
+
+```bash
+find <đường_dẫn> <điều_kiện> -exec <lệnh> {} \;
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `-exec` | Thực thi lệnh trên kết quả tìm kiếm |
+| `{}` | Đại diện cho từng kết quả tìm được |
+| `\;` | Kết thúc phần lệnh của `-exec` |
+
+Ví dụ, tìm tất cả tệp `.conf` trong `/etc` và hiển thị chi tiết bằng `ls -l`:
+
+```bash
+find /etc -type f -name "*.conf" -exec ls -l {} \;
+```
+
+Ví dụ, tìm các tệp `.log` trong thư mục hiện tại:
+
+```bash
+find . -type f -name "*.log"
+```
+
+Nếu muốn xóa các tệp `.log` tìm được, có thể dùng:
+
+```bash
+find . -type f -name "*.log" -exec rm {} \;
+```
+
+Tuy nhiên, cần rất cẩn thận khi dùng `-exec rm`, vì lệnh này có thể xóa nhiều tệp cùng lúc.
+
+Cách an toàn hơn là kiểm tra trước bằng `ls -l`:
+
+```bash
+find . -type f -name "*.log" -exec ls -l {} \;
+```
+
+Sau khi chắc chắn kết quả đúng, mới thực hiện thao tác xóa.
+
+Một ví dụ đầy đủ hơn:
+
+```bash
+find / -type f -name "*.conf" -user root -size +25k -size -28k -newermt "2020-03-03" -exec ls -al {} \; 2>/dev/null
+```
+
+Lệnh trên tìm các tệp:
+
+- là tệp thường;
+- có đuôi `.conf`;
+- thuộc sở hữu của `root`;
+- lớn hơn 25 KB và nhỏ hơn 28 KB;
+- được chỉnh sửa sau ngày `2020-03-03`;
+- sau đó hiển thị chi tiết bằng `ls -al`.
+
+
+### 9.2.7. Ẩn lỗi Permission Denied với `2>/dev/null`
+
+Khi dùng `find` để tìm kiếm trong các thư mục hệ thống, người dùng thường gặp lỗi:
+
+```bash
+Permission denied
+```
+
+Lỗi này xuất hiện vì user hiện tại không có quyền đọc một số thư mục hoặc tệp.
+
+Ví dụ:
+
+```bash
+find / -name "shadow"
+```
+
+Khi tìm từ thư mục gốc `/`, hệ thống có thể hiển thị nhiều lỗi `Permission denied`.
+
+Để ẩn các lỗi này, có thể chuyển hướng lỗi chuẩn `STDERR` vào `/dev/null`:
+
+```bash
+find / -name "shadow" 2>/dev/null
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `2` | File descriptor của lỗi chuẩn, tức `STDERR` |
+| `>` | Chuyển hướng dữ liệu |
+| `/dev/null` | Thiết bị đặc biệt dùng để bỏ dữ liệu |
+
+Nói cách khác, `2>/dev/null` nghĩa là: đưa toàn bộ thông báo lỗi vào “thùng rác” của hệ thống, không hiển thị ra terminal.
+
+Ví dụ tìm tất cả tệp `.bak` trong hệ thống và ẩn lỗi:
+
+```bash
+find / -type f -name "*.bak" 2>/dev/null
+```
+
+Lệnh này chỉ hiển thị kết quả tìm kiếm hợp lệ, không hiển thị các lỗi do thiếu quyền.
+
+
+## 9.3. Tìm nhanh bằng `locate`
+
+Lệnh `locate` dùng để tìm tệp và thư mục rất nhanh bằng cách tra cứu trong một cơ sở dữ liệu có sẵn, thay vì quét trực tiếp toàn bộ hệ thống như `find`.
+
+Cú pháp:
+
+```bash
+locate <từ_khóa>
+```
+
+Ví dụ:
+
+```bash
+locate passwd
+```
+
+Lệnh này tìm tất cả đường dẫn có chứa từ `passwd`.
+
+Ví dụ tìm các tệp cấu hình `.conf`:
+
+```bash
+locate "*.conf"
+```
+
+So với `find`, lệnh `locate` thường nhanh hơn rất nhiều vì nó không tìm trực tiếp trên ổ đĩa tại thời điểm chạy lệnh. Thay vào đó, nó tìm trong cơ sở dữ liệu đã được tạo sẵn.
+
+So sánh ngắn gọn:
+
+| Công cụ | Đặc điểm |
+|---|---|
+| `find` | Tìm trực tiếp trong hệ thống tệp, kết quả chính xác theo thời điểm hiện tại |
+| `locate` | Tìm trong cơ sở dữ liệu, rất nhanh nhưng có thể chưa cập nhật |
+
+Ví dụ, nếu vừa tạo một tệp mới:
+
+```bash
+touch newfile.txt
+```
+
+sau đó chạy:
+
+```bash
+locate newfile.txt
+```
+
+có thể chưa thấy kết quả, vì cơ sở dữ liệu của `locate` chưa được cập nhật.
+
+
+**Cập nhật cơ sở dữ liệu `locate` với `updatedb`**
+
+Vì `locate` dựa trên cơ sở dữ liệu cục bộ, nên cơ sở dữ liệu này cần được cập nhật để phản ánh các tệp và thư mục mới nhất trong hệ thống.
+
+Lệnh dùng để cập nhật cơ sở dữ liệu là `updatedb`.
+
+Cú pháp:
+
+```bash
+sudo updatedb
+```
+
+Thông thường, cần dùng `sudo` vì việc cập nhật cơ sở dữ liệu có thể yêu cầu quyền truy cập nhiều thư mục trong hệ thống.
+
+Ví dụ:
+
+```bash
+sudo updatedb
+locate newfile.txt
+```
+
+Sau khi chạy `updatedb`, lệnh `locate` có thể tìm thấy các tệp mới được tạo gần đây.
+
+Quy trình sử dụng thường gặp:
+
+```bash
+sudo updatedb
+locate "*.conf"
+```
+
+Trong đó:
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `sudo updatedb` | Cập nhật cơ sở dữ liệu tìm kiếm |
+| `locate "*.conf"` | Tìm nhanh các tệp có đuôi `.conf` |
+
+
 
 
 
