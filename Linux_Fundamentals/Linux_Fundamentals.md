@@ -14,7 +14,7 @@
 
 5. [Tìm kiếm trợ giúp trong Linux](#5-tìm-kiếm-trợ-giúp-trong-linux)
 
-6. [Task 6: Searching for Files](#task-6-searching-for-files)
+6. [Điều hướng trong hệ thống tệp](#6-điều-hướng-trong-hệ-thống-tệp)
 
 7. [Task 7: An Introduction to Shell Operators](#task-7-an-introduction-to-shell-operators)
 
@@ -921,6 +921,8 @@ Tóm lại, `apropos` giúp người dùng tìm đúng lệnh cần dùng thông
 
 **explainshell** là một công cụ trực tuyến giúp giải thích từng thành phần trong một câu lệnh Linux. Công cụ này đặc biệt hữu ích khi người dùng gặp một lệnh dài, có nhiều tùy chọn, pipe hoặc chuyển hướng dữ liệu.
 
+https://explainshell.com/
+
 Ví dụ, với lệnh:
 
 ```bash
@@ -950,6 +952,508 @@ Tuy nhiên, explainshell nên được xem là công cụ hỗ trợ học tập
 man <command>
 ```
 
+# 6. Điều hướng trong hệ thống tệp
+
+Điều hướng trong hệ thống tệp là một kỹ năng cơ bản khi làm việc với Linux. Người dùng cần biết mình đang đứng ở thư mục nào, trong thư mục đó có những tệp gì, cách di chuyển sang thư mục khác và cách sử dụng đường dẫn để truy cập đúng vị trí cần làm việc.
+
+Trong Linux, hệ thống tệp được tổ chức theo dạng cây phân cấp, bắt đầu từ thư mục gốc `/`. Từ thư mục gốc này, các thư mục khác như `/home`, `/etc`, `/var`, `/usr`, `/bin` được sắp xếp theo từng nhánh. Vì vậy, việc hiểu cách điều hướng giúp người dùng thao tác chính xác hơn khi quản lý tệp, cấu hình hệ thống hoặc phân tích log.
+
+## 6.1. Xác định thư mục hiện tại với `pwd`
+
+Lệnh `pwd`, viết đầy đủ là **print working directory**, dùng để hiển thị đường dẫn đầy đủ của thư mục hiện tại mà người dùng đang làm việc.
+
+Cú pháp:
+
+```bash
+pwd
+```
+
+Kết quả có thể là:
+
+```bash
+/home/chu
+```
+
+Điều này cho biết người dùng hiện đang đứng trong thư mục `/home/chu`.
+
+Lệnh `pwd` rất hữu ích khi người dùng đã di chuyển qua nhiều thư mục và không nhớ chính xác vị trí hiện tại. Trong Linux, nhiều lệnh sẽ tác động đến thư mục hiện tại, vì vậy việc biết rõ mình đang ở đâu giúp tránh thao tác nhầm.
+
+
+## 6.2. Liệt kê nội dung thư mục với `ls`
+
+Lệnh `ls`, viết tắt của **list**, dùng để liệt kê nội dung của thư mục. Khi chạy `ls` không kèm tham số, hệ thống sẽ hiển thị các tệp và thư mục trong thư mục hiện tại.
+
+Cú pháp:
+
+```bash
+ls
+```
+
+Kết quả có thể là:
+
+```bash
+Desktop  Documents  Downloads  Pictures  Music
+```
+
+Kết quả trên cho biết trong thư mục hiện tại có các thư mục như `Desktop`, `Documents`, `Downloads`, `Pictures` và `Music`.
+
+Người dùng cũng có thể dùng `ls` để xem nội dung của một thư mục khác mà không cần di chuyển vào thư mục đó.
+
+Ví dụ:
+
+```bash
+ls Documents
+```
+
+Lệnh trên sẽ hiển thị nội dung bên trong thư mục `Documents`.
+
+
+## 6.3. Hiển thị tệp ẩn với `ls -a`
+
+Trong Linux, tệp hoặc thư mục ẩn thường có tên bắt đầu bằng dấu chấm `.`. Theo mặc định, lệnh `ls` không hiển thị các tệp ẩn này. Để xem cả tệp ẩn, người dùng sử dụng tùy chọn `-a`.
+
+Cú pháp:
+
+```bash
+ls -a
+```
+
+Kết quả có thể là:
+
+```bash
+.  ..  .bashrc  .profile  Documents  Downloads
+```
+
+Trong kết quả trên:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `.` | Thư mục hiện tại |
+| `..` | Thư mục cha |
+| `.bashrc` | Tệp cấu hình ẩn của Bash |
+| `.profile` | Tệp cấu hình môi trường người dùng |
+| `Documents`, `Downloads` | Thư mục thông thường |
+
+Tệp ẩn thường là các tệp cấu hình, ví dụ như `.bashrc`, `.profile`, `.ssh`, `.config`. Chúng thường được dùng để lưu cấu hình shell, cấu hình ứng dụng hoặc thông tin môi trường làm việc của người dùng.
+
+## 6.4. Hiển thị chi tiết với `ls -l`
+
+Tùy chọn `-l` của lệnh `ls` dùng để hiển thị nội dung thư mục theo dạng danh sách chi tiết. Thay vì chỉ hiển thị tên tệp và thư mục, `ls -l` cung cấp thêm nhiều thông tin như quyền truy cập, chủ sở hữu, nhóm, kích thước, thời gian chỉnh sửa và tên tệp.
+
+Cú pháp:
+
+```bash
+ls -l
+```
+
+Kết quả có thể là:
+
+```bash
+drwxr-xr-x 2 student student 4096 May 15 10:00 Documents
+-rw-r--r-- 1 student student  120 May 15 10:05 notes.txt
+```
+
+Có thể hiểu kết quả trên như sau:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `drwxr-xr-x` | Loại tệp và quyền truy cập |
+| `2` | Số liên kết |
+| `student` | Chủ sở hữu |
+| `student` | Nhóm sở hữu |
+| `4096` | Kích thước |
+| `May 15 10:00` | Thời gian chỉnh sửa gần nhất |
+| `Documents` | Tên tệp hoặc thư mục |
+
+Ký tự đầu tiên trong dòng kết quả cho biết loại đối tượng:
+
+| Ký tự | Ý nghĩa |
+|---|---|
+| `d` | Thư mục |
+| `-` | Tệp thông thường |
+| `l` | Liên kết tượng trưng |
+
+
+## 6.5. Kết hợp tùy chọn `ls -la`
+
+Trong Linux, các tùy chọn của lệnh có thể được kết hợp với nhau. Lệnh `ls -la` là sự kết hợp giữa `-l` và `-a`.
+
+Cú pháp:
+
+```bash
+ls -la
+```
+
+Trong đó:
+
+| Tùy chọn | Ý nghĩa |
+|---|---|
+| `-l` | Hiển thị chi tiết |
+| `-a` | Hiển thị cả tệp ẩn |
+
+Kết quả có thể là:
+
+```bash
+drwxr-xr-x 5 student student 4096 May 15 10:00 .
+drwxr-xr-x 3 root    root    4096 May 15 09:00 ..
+-rw-r--r-- 1 student student  220 May 15 09:30 .bash_logout
+-rw-r--r-- 1 student student 3771 May 15 09:30 .bashrc
+drwxr-xr-x 2 student student 4096 May 15 10:00 Documents
+```
+
+Lệnh này rất thường được sử dụng vì nó cho phép người dùng xem đầy đủ nội dung thư mục, bao gồm cả tệp ẩn và thông tin chi tiết của từng đối tượng.
+
+Ngoài ra, có thể kết hợp thêm tùy chọn `-h` để hiển thị kích thước dễ đọc hơn:
+
+```bash
+ls -lah
+```
+
+Trong đó `-h` là **human-readable**, giúp kích thước hiển thị dưới dạng KB, MB hoặc GB thay vì chỉ hiển thị số byte.
+
+## 6.6. Di chuyển thư mục với `cd`
+
+Lệnh `cd`, viết đầy đủ là **change directory**, dùng để di chuyển từ thư mục hiện tại sang thư mục khác.
+
+Cú pháp:
+
+```bash
+cd <đường_dẫn_thư_mục>
+```
+
+Ví dụ, để di chuyển vào thư mục `Documents`:
+
+```bash
+cd Documents
+```
+
+Sau đó có thể dùng `pwd` để kiểm tra vị trí hiện tại:
+chu
+```bash
+pwd
+```
+
+Kết quả có thể là:
+
+```bash
+/home/chu/Documents
+```
+
+Để di chuyển đến một thư mục bằng đường dẫn tuyệt đối:
+
+```bash
+cd /var/log
+```
+
+Để quay về thư mục home của người dùng hiện tại:
+
+```bash
+cd ~
+```
+
+hoặc đơn giản hơn:
+
+```bash
+cd
+```
+
+Để di chuyển về thư mục gốc của hệ thống:
+
+```bash
+cd /
+```
+
+Một số ví dụ thường dùng:
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `cd Documents` | Chuyển vào thư mục `Documents` trong thư mục hiện tại |
+| `cd /var/log` | Chuyển đến thư mục `/var/log` bằng đường dẫn tuyệt đối |
+| `cd ~` | Chuyển về thư mục home |
+| `cd` | Chuyển về thư mục home |
+| `cd /` | Chuyển về thư mục gốc |
+
+
+## 6.7. Đường dẫn tuyệt đối và đường dẫn tương đối
+
+Trong Linux, khi truy cập tệp hoặc thư mục, người dùng có thể sử dụng **đường dẫn tuyệt đối** hoặc **đường dẫn tương đối**.
+
+**Đường dẫn tuyệt đối** là đường dẫn bắt đầu từ thư mục gốc `/`. Nó chỉ ra vị trí đầy đủ của một tệp hoặc thư mục trong hệ thống.
+
+Ví dụ:
+
+```bash
+/home/chu/Documents
+```
+
+```bash
+/var/log/syslog
+```
+
+```bash
+/etc/passwd
+```
+
+Đặc điểm của đường dẫn tuyệt đối là luôn bắt đầu bằng dấu `/`.
+
+Ví dụ:
+chu
+```bash
+cd /home/student/Documents
+```
+
+Lệnh trên sẽ đưa người dùng đến đúng thư mục `/home/student/Documents` dù người dùng đang đứng ở bất kỳ vị trí nào trong hệ thống.
+
+Ngược lại, **đường dẫn tương đối** là đường dẫn được tính từ thư mục hiện tại. Nó không bắt đầu bằng dấu `/`.
+
+Ví dụ, nếu người dùng đang ở thư mục:
+
+```bash
+/home/student
+```
+
+và muốn vào thư mục `Documents`, có thể dùng:
+
+```bash
+cd Documents
+```
+
+Ở đây, `Documents` là đường dẫn tương đối, vì nó được tính từ vị trí hiện tại.
+
+So sánh ngắn gọn:
+
+| Loại đường dẫn | Ví dụ | Đặc điểm |
+|---|---|---|
+| Đường dẫn tuyệt đối | `/home/student/Documents` | Bắt đầu từ thư mục gốc `/` |
+| Đường dẫn tương đối | `Documents` | Bắt đầu từ thư mục hiện tại |
+
+Ví dụ khác:
+
+```bash
+cd /var/log
+```
+
+Đây là đường dẫn tuyệt đối.
+
+```bash
+cd logs
+```
+
+Đây là đường dẫn tương đối, nếu thư mục `logs` tồn tại trong thư mục hiện tại.
+
+
+## 8.8. Ký hiệu `.` và `..`
+
+Trong Linux, hai ký hiệu `.` và `..` được sử dụng rất thường xuyên khi điều hướng thư mục.
+
+| Ký hiệu | Ý nghĩa |
+|---|---|
+| `.` | Thư mục hiện tại |
+| `..` | Thư mục cha, tức thư mục nằm ngay phía trên thư mục hiện tại |
+
+Ký hiệu `.` đại diện cho thư mục hiện tại. Ví dụ:
+
+```bash
+ls .
+```
+
+Lệnh này liệt kê nội dung của thư mục hiện tại. Kết quả tương tự như khi chạy:
+
+```bash
+ls
+```
+
+Ký hiệu `..` đại diện cho thư mục cha. Ví dụ, nếu người dùng đang ở:
+
+```bash
+/home/chu/Documents
+```
+
+và chạy:
+
+```bash
+cd ..
+```
+
+thì hệ thống sẽ đưa người dùng về:
+
+```bash
+/home/chu
+```
+
+Có thể sử dụng nhiều dấu `..` để di chuyển lên nhiều cấp thư mục.
+
+Ví dụ:
+
+```bash
+cd ../..
+```
+
+Lệnh này di chuyển lên hai cấp thư mục.
+
+Ví dụ, nếu đang ở:
+
+```bash
+/home/chu/Documents/projects
+```
+
+chạy:
+
+```bash
+cd ../..
+```
+
+thì người dùng sẽ về:
+
+```bash
+/home/chu
+```
+
+Ký hiệu `.` cũng thường được dùng khi chạy script hoặc chương trình trong thư mục hiện tại.
+
+Ví dụ:
+
+```bash
+./script.sh
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `.` | Thư mục hiện tại |
+| `/` | Dấu phân tách đường dẫn |
+| `script.sh` | Tên tệp script cần chạy |
+
+
+## 6.9. Quay lại thư mục trước đó với `cd -`
+
+Lệnh `cd -` dùng để quay lại thư mục mà người dùng vừa đứng trước đó. Đây là một cách di chuyển nhanh giữa hai thư mục.
+
+Cú pháp:
+
+```bash
+cd -
+```
+
+Ví dụ, người dùng đang ở thư mục:
+
+```bash
+/home/chu
+```
+
+Sau đó chuyển sang thư mục:
+
+```bash
+cd /var/log
+```
+
+Bây giờ, nếu chạy:
+
+```bash
+cd -
+```
+
+hệ thống sẽ đưa người dùng quay lại:
+
+```bash
+/home/chu
+```
+
+Nếu tiếp tục chạy:
+
+```bash
+cd -
+```
+
+người dùng sẽ quay lại:
+
+```bash
+/var/log
+```
+
+Lệnh này rất hữu ích khi cần làm việc qua lại giữa hai thư mục khác nhau, ví dụ một thư mục chứa file cấu hình và một thư mục chứa log.
+
+Ví dụ:
+
+```bash
+cd /etc
+cd /var/log
+cd -
+```
+
+Lệnh cuối cùng sẽ đưa người dùng quay lại thư mục `/etc`.
+
+
+## 6.10. Tự động hoàn thành bằng phím `TAB`
+
+Phím `TAB` trong terminal dùng để tự động hoàn thành tên lệnh, tên tệp hoặc tên thư mục. Đây là một tính năng rất hữu ích giúp người dùng nhập lệnh nhanh hơn và giảm lỗi gõ sai.
+
+Ví dụ, nếu trong thư mục hiện tại có thư mục tên là `Documents`, người dùng có thể nhập:
+
+```bash
+cd Doc
+```
+
+Sau đó nhấn `TAB`, terminal có thể tự động hoàn thành thành:
+
+```bash
+cd Documents
+```
+
+Nếu có nhiều kết quả cùng bắt đầu bằng một chuỗi giống nhau, nhấn `TAB` một hoặc hai lần sẽ hiển thị các lựa chọn phù hợp.
+
+Ví dụ, nếu trong thư mục có:
+
+```bash
+Documents  Downloads
+```
+
+Khi nhập:
+
+```bash
+cd Do
+```
+
+rồi nhấn `TAB`, hệ thống có thể chưa hoàn thành ngay vì có hai kết quả cùng bắt đầu bằng `Do`. Khi đó, người dùng có thể nhập thêm ký tự để phân biệt:
+
+```bash
+cd Doc
+```
+
+rồi nhấn `TAB` để hoàn thành thành:
+
+```bash
+cd Documents
+```
+
+Phím `TAB` cũng có thể dùng để hoàn thành tên lệnh.
+
+Ví dụ:
+
+```bash
+una
+```
+
+Nhấn `TAB`, terminal có thể hoàn thành thành:
+
+```bash
+uname
+```
+
+Tính năng tự động hoàn thành đặc biệt hữu ích khi làm việc với đường dẫn dài.
+
+Ví dụ:
+
+```bash
+cd /var/lo
+```
+
+Nhấn `TAB`, terminal có thể hoàn thành thành:
+
+```bash
+cd /var/log
+```
 
 
 
