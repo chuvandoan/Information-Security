@@ -36,6 +36,8 @@
 
 16. [Tải xuống và chia sẻ tệp trong Linux](#16-tải-xuống-và-chia-sẻ-tệp-trong-linux)
 
+17. [Nén, giải nén và lưu trữ dữ liệu](#17-nén-giải-nén-và-lưu-trữ-dữ-liệu)
+
 ## Nội dung
 
 # 1: Tổng quan về Linux
@@ -6511,3 +6513,427 @@ So sánh ngắn gọn:
 
 Tóm lại, `wget` đơn giản và phù hợp để tải file, `curl` linh hoạt hơn khi làm việc với HTTP/API, còn `scp` phù hợp khi cần truyền tệp an toàn giữa hai máy Linux qua SSH.
 
+# 17. Nén, giải nén và lưu trữ dữ liệu
+
+Trong Linux, nén và lưu trữ dữ liệu là thao tác rất phổ biến khi sao lưu tệp, đóng gói thư mục, truyền dữ liệu qua mạng hoặc lưu lại log hệ thống. Các công cụ thường gặp gồm `tar`, `gzip` và `gunzip`.
+
+Cần phân biệt hai khái niệm quan trọng: **archive** và **compression**. Archive là gom nhiều tệp/thư mục thành một tệp duy nhất, còn compression là nén dữ liệu để giảm dung lượng.
+
+---
+
+## 17.1. Khái niệm archive và compression
+
+**Archive** là quá trình gom nhiều tệp hoặc thư mục vào một tệp duy nhất để dễ lưu trữ, sao lưu hoặc truyền đi. File archive không nhất thiết phải được nén.
+
+Ví dụ, file:
+
+```bash
+backup.tar
+```
+
+có thể chứa nhiều tệp và thư mục bên trong, nhưng bản thân nó chưa chắc đã được nén.
+
+**Compression** là quá trình nén dữ liệu để giảm dung lượng tệp. File sau khi nén thường nhỏ hơn file gốc, giúp tiết kiệm dung lượng ổ đĩa và thời gian truyền qua mạng.
+
+Ví dụ:
+
+```bash
+backup.tar.gz
+```
+
+File này thường có nghĩa là:
+
+| Phần mở rộng | Ý nghĩa |
+|---|---|
+| `.tar` | File archive được tạo bằng `tar` |
+| `.gz` | File đã được nén bằng `gzip` |
+
+Có thể hiểu đơn giản:
+
+| Khái niệm | Chức năng |
+|---|---|
+| Archive | Gom nhiều tệp/thư mục thành một tệp |
+| Compression | Giảm dung lượng dữ liệu |
+| `.tar` | File lưu trữ, chưa nén |
+| `.gz` | File được nén bằng gzip |
+| `.tar.gz` | File vừa được gom bằng tar, vừa được nén bằng gzip |
+
+Tóm lại, `tar` thường dùng để đóng gói dữ liệu, còn `gzip` dùng để nén dữ liệu. Trong thực tế, hai công cụ này thường được kết hợp với nhau.
+
+
+## 17.2. Tạo file `.tar` với `tar`
+
+Lệnh `tar`, viết tắt của **tape archive**, dùng để tạo file lưu trữ từ nhiều tệp hoặc thư mục.
+
+Cú pháp tạo file `.tar`:
+
+```bash
+tar -cvf <tên_file.tar> <tệp_hoặc_thư_mục>
+```
+
+Ví dụ, tạo file archive từ thư mục `project`:
+
+```bash
+tar -cvf project_backup.tar project/
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `tar` | Lệnh tạo hoặc xử lý file archive |
+| `-c` | Create, tạo file archive mới |
+| `-v` | Verbose, hiển thị chi tiết quá trình thực hiện |
+| `-f` | File, chỉ định tên file archive |
+| `project_backup.tar` | Tên file archive được tạo |
+| `project/` | Thư mục cần đóng gói |
+
+Sau khi chạy lệnh, có thể kiểm tra bằng:
+
+```bash
+ls -lh
+```
+
+Kết quả có thể là:
+
+```bash
+-rw-r--r-- 1 student student 20K May 15 10:00 project_backup.tar
+```
+
+Có thể đóng gói nhiều tệp cùng lúc:
+
+```bash
+tar -cvf documents.tar file1.txt file2.txt file3.txt
+```
+
+Hoặc đóng gói nhiều thư mục:
+
+```bash
+tar -cvf backup.tar Documents/ Pictures/ scripts/
+```
+
+Tóm lại, `tar -cvf` dùng để tạo file `.tar`, giúp gom nhiều tệp và thư mục thành một file duy nhất.
+
+
+## 17.3. Giải nén file `.tar`
+
+Để giải nén hoặc trích xuất nội dung từ file `.tar`, dùng tùy chọn `-x`.
+
+Cú pháp:
+
+```bash
+tar -xvf <tên_file.tar>
+```
+
+Ví dụ:
+
+```bash
+tar -xvf project_backup.tar
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `-x` | Extract, trích xuất nội dung |
+| `-v` | Hiển thị chi tiết quá trình giải nén |
+| `-f` | Chỉ định file archive cần giải nén |
+| `project_backup.tar` | File cần giải nén |
+
+Sau khi giải nén, thư mục hoặc tệp bên trong archive sẽ xuất hiện trong thư mục hiện tại.
+
+Có thể giải nén vào một thư mục cụ thể bằng tùy chọn `-C`:
+
+```bash
+mkdir extracted
+tar -xvf project_backup.tar -C extracted/
+```
+
+Lệnh trên sẽ giải nén nội dung của `project_backup.tar` vào thư mục `extracted`.
+
+Nếu chỉ muốn xem nội dung bên trong file `.tar` mà chưa giải nén, dùng:
+
+```bash
+tar -tvf project_backup.tar
+```
+
+Trong đó:
+
+| Tùy chọn | Ý nghĩa |
+|---|---|
+| `-t` | List, liệt kê nội dung archive |
+| `-v` | Hiển thị chi tiết |
+| `-f` | Chỉ định file archive |
+
+Tóm lại, `tar -xvf` dùng để trích xuất file `.tar`, còn `tar -tvf` dùng để xem nội dung archive trước khi giải nén.
+
+## 17.4. Nén với gzip
+
+`gzip` là công cụ dùng để nén tệp trong Linux. Khi nén bằng `gzip`, file gốc thường được thay thế bằng file có phần mở rộng `.gz`.
+
+Cú pháp:
+
+```bash
+gzip <tên_tệp>
+```
+
+Ví dụ:
+
+```bash
+gzip notes.txt
+```
+
+Sau khi chạy lệnh, file `notes.txt` sẽ được nén thành:
+
+```bash
+notes.txt.gz
+```
+
+Có thể kiểm tra bằng:
+
+```bash
+ls
+```
+
+Kết quả:
+
+```bash
+notes.txt.gz
+```
+
+Nếu muốn nén file `.tar`, có thể làm như sau:
+
+```bash
+gzip project_backup.tar
+```
+
+Kết quả sẽ tạo ra:
+
+```bash
+project_backup.tar.gz
+```
+
+Tuy nhiên, trong thực tế, người dùng thường kết hợp `tar` và `gzip` trong một lệnh duy nhất bằng tùy chọn `-z`.
+
+Ví dụ:
+
+```bash
+tar -czvf project_backup.tar.gz project/
+```
+
+Trong đó:
+
+| Tùy chọn | Ý nghĩa |
+|---|---|
+| `-c` | Tạo archive |
+| `-z` | Nén bằng gzip |
+| `-v` | Hiển thị chi tiết |
+| `-f` | Chỉ định tên file |
+
+Tóm lại, `gzip` dùng để nén tệp, còn `tar -czvf` thường dùng để vừa đóng gói thư mục, vừa nén thành file `.tar.gz`.
+
+## 17.5. Giải nén file `.gz`
+
+Để giải nén file `.gz`, có thể dùng lệnh `gunzip` hoặc `gzip -d`.
+
+Cú pháp với `gunzip`:
+
+```bash
+gunzip <tên_file.gz>
+```
+
+Ví dụ:
+
+```bash
+gunzip notes.txt.gz
+```
+
+Sau khi chạy lệnh, file `notes.txt.gz` sẽ được giải nén trở lại thành:
+
+```bash
+notes.txt
+```
+
+Cú pháp với `gzip -d`:
+
+```bash
+gzip -d <tên_file.gz>
+```
+
+Ví dụ:
+
+```bash
+gzip -d notes.txt.gz
+```
+
+Nếu file là `.tar.gz`, có thể giải nén trực tiếp bằng `tar`:
+
+```bash
+tar -xzvf project_backup.tar.gz
+```
+
+Trong đó:
+
+| Tùy chọn | Ý nghĩa |
+|---|---|
+| `-x` | Trích xuất |
+| `-z` | Giải nén gzip |
+| `-v` | Hiển thị chi tiết |
+| `-f` | Chỉ định file cần giải nén |
+
+Giải nén `.tar.gz` vào thư mục cụ thể:
+
+```bash
+mkdir extracted
+tar -xzvf project_backup.tar.gz -C extracted/
+```
+
+Tóm lại:
+
+| Loại file | Lệnh giải nén |
+|---|---|
+| `.gz` | `gunzip file.gz` |
+| `.gz` | `gzip -d file.gz` |
+| `.tar` | `tar -xvf file.tar` |
+| `.tar.gz` | `tar -xzvf file.tar.gz` |
+
+
+## 17.6. Các flag thường dùng của `tar`
+
+Lệnh `tar` có nhiều tùy chọn khác nhau. Người dùng cần nhớ một số flag cơ bản vì chúng xuất hiện rất thường xuyên trong thực tế.
+
+| Flag | Tên đầy đủ / Ý nghĩa | Chức năng |
+|---|---|---|
+| `-c` | create | Tạo file archive mới |
+| `-x` | extract | Giải nén/trích xuất archive |
+| `-t` | list | Xem danh sách nội dung trong archive |
+| `-v` | verbose | Hiển thị chi tiết quá trình thực hiện |
+| `-f` | file | Chỉ định tên file archive |
+| `-z` | gzip | Nén hoặc giải nén bằng gzip |
+| `-C` | directory | Chỉ định thư mục đích khi giải nén |
+
+Một số lệnh thường dùng:
+
+Tạo file `.tar`:
+
+```bash
+tar -cvf backup.tar folder/
+```
+
+Giải nén file `.tar`:
+
+```bash
+tar -xvf backup.tar
+```
+
+Xem nội dung file `.tar`:
+
+```bash
+tar -tvf backup.tar
+```
+
+Tạo file `.tar.gz`:
+
+```bash
+tar -czvf backup.tar.gz folder/
+```
+
+Giải nén file `.tar.gz`:
+
+```bash
+tar -xzvf backup.tar.gz
+```
+
+Giải nén vào thư mục cụ thể:
+
+```bash
+tar -xzvf backup.tar.gz -C /tmp/extracted/
+```
+
+Có thể nhớ nhanh:
+
+| Lệnh | Ý nghĩa dễ nhớ |
+|---|---|
+| `tar -cvf` | Create Verbose File |
+| `tar -xvf` | Extract Verbose File |
+| `tar -czvf` | Create gzip Verbose File |
+| `tar -xzvf` | Extract gzip Verbose File |
+
+Tóm lại, các flag quan trọng nhất của `tar` là `c`, `x`, `v`, `f`, `z` và `C`.
+
+
+## 17.7. Ứng dụng nén dữ liệu trong sao lưu và quản trị hệ thống
+
+Nén và lưu trữ dữ liệu được sử dụng rất nhiều trong quản trị Linux. Một số ứng dụng thực tế gồm sao lưu thư mục, đóng gói log, chuyển dữ liệu giữa các máy và lưu trữ cấu hình hệ thống.
+
+#### Sao lưu thư mục home
+
+Ví dụ sao lưu thư mục home của user `student`:
+
+```bash
+tar -czvf student_home_backup.tar.gz /home/student
+```
+
+File `student_home_backup.tar.gz` sẽ chứa dữ liệu trong `/home/student` và được nén bằng gzip.
+
+#### Sao lưu thư mục cấu hình
+
+Ví dụ sao lưu thư mục `/etc`:
+
+```bash
+sudo tar -czvf etc_backup.tar.gz /etc
+```
+
+Thư mục `/etc` chứa nhiều file cấu hình quan trọng của hệ thống, vì vậy cần quyền `sudo` để đọc đầy đủ nội dung.
+
+#### Sao lưu log hệ thống
+
+Ví dụ nén log trong `/var/log`:
+
+```bash
+sudo tar -czvf logs_backup.tar.gz /var/log
+```
+
+Lệnh này hữu ích khi cần lưu log để điều tra sự cố hoặc chuyển log sang máy khác để phân tích.
+
+#### Chuyển file backup sang máy khác
+
+Sau khi tạo file backup, có thể truyền sang máy khác bằng `scp`:
+
+```bash
+scp logs_backup.tar.gz user@192.168.1.20:/home/user/
+```
+
+#### Kiểm tra nội dung backup trước khi giải nén
+
+Trước khi giải nén một file archive, nên xem nội dung bên trong:
+
+```bash
+tar -tvf logs_backup.tar.gz
+```
+
+Điều này giúp tránh giải nén nhầm vào thư mục không mong muốn hoặc ghi đè dữ liệu.
+
+Một số lưu ý khi backup:
+
+| Lưu ý | Ý nghĩa |
+|---|---|
+| Đặt tên file rõ ràng | Dễ biết nội dung và thời điểm backup |
+| Kiểm tra dung lượng | Tránh làm đầy ổ đĩa |
+| Kiểm tra nội dung archive | Đảm bảo backup đúng dữ liệu |
+| Không lưu backup nhạy cảm công khai | File backup có thể chứa mật khẩu, key hoặc log quan trọng |
+| Mã hóa backup nếu cần | Bảo vệ dữ liệu nhạy cảm khi truyền hoặc lưu trữ |
+
+Ví dụ đặt tên backup có ngày tháng:
+
+```bash
+tar -czvf backup_$(date +%F).tar.gz /home/student/project
+```
+
+Kết quả có thể là:
+
+```bash
+backup_2026-05-15.tar.gz
+```
+
+Tóm lại, nén và lưu trữ dữ liệu là kỹ năng quan trọng trong quản trị Linux. Nó giúp sao lưu dữ liệu, tiết kiệm dung lượng, truyền file dễ hơn và hỗ trợ phân tích sự cố trong môi trường hệ thống hoặc SOC.
