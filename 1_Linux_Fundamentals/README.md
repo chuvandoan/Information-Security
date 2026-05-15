@@ -1,4 +1,4 @@
-# Section 2: Linux Fundamentals
+# Section 1: Linux Fundamentals
 
 - [Linux Fundamentals Part 1](/1_Linux_Fundamentals/1_Linux_Fundamentals_Part_1.md)  
 - [Linux Fundamentals Part 2](/1_Linux_Fundamentals/2_Linux_Fundamentals_Part_2.md)  
