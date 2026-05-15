@@ -44,6 +44,8 @@
 
 20. [Quản lý gói phần mềm](#20-quản-lý-gói-phần-mềm)
 
+21. [Tự động hóa và lập lịch tác vụ](#21-tự-động-hóa-và-lập-lịch-tác-vụ)
+
 ## Nội dung
 
 # 1: Tổng quan về Linux
@@ -8274,4 +8276,522 @@ Một số lệnh hữu ích:
 | `dpkg -l` | Liệt kê gói theo cơ sở dữ liệu dpkg |
 
 Tóm lại, việc liệt kê gói đã cài giúp người dùng kiểm tra phần mềm hiện có, phát hiện gói không cần thiết và quản lý hệ thống tốt hơn.
+
+# 21. Tự động hóa và lập lịch tác vụ
+
+Trong Linux, nhiều công việc quản trị hệ thống cần được thực hiện lặp lại, ví dụ: sao lưu dữ liệu, dọn log, kiểm tra dung lượng ổ đĩa, cập nhật hệ thống, chạy script giám sát hoặc tạo báo cáo định kỳ. Thay vì thực hiện thủ công, người dùng có thể dùng các công cụ tự động hóa và lập lịch như `cron`, `crontab`, `at` và `nohup`.
+
+Tự động hóa giúp tiết kiệm thời gian, giảm lỗi thao tác thủ công và đảm bảo các tác vụ quan trọng được thực hiện đúng thời điểm.
+
+
+## 21.1. Tự động hóa trong Linux
+
+**Tự động hóa** là quá trình cấu hình hệ thống để tự thực hiện một công việc mà không cần người dùng nhập lệnh thủ công mỗi lần.
+
+Ví dụ, thay vì mỗi ngày đều chạy lệnh sao lưu:
+
+```bash
+tar -czvf backup.tar.gz /home/student/project
+```
+
+người dùng có thể lập lịch để hệ thống tự chạy lệnh này vào 2 giờ sáng hằng ngày.
+
+Một số tác vụ thường được tự động hóa trong Linux:
+
+| Tác vụ | Ví dụ |
+|---|---|
+| Sao lưu dữ liệu | Backup thư mục `/home` hoặc `/etc` |
+| Dọn dẹp log | Xóa log cũ sau một khoảng thời gian |
+| Kiểm tra hệ thống | Theo dõi dung lượng ổ đĩa, RAM, CPU |
+| Cập nhật phần mềm | Chạy `apt update` định kỳ |
+| Chạy script giám sát | Kiểm tra dịch vụ có đang hoạt động không |
+| Tạo báo cáo | Ghi thông tin hệ thống vào file log |
+
+Ví dụ script kiểm tra dung lượng ổ đĩa:
+
+```bash
+#!/bin/bash
+df -h > /home/student/disk_report.txt
+```
+
+Nếu script này được lập lịch chạy mỗi ngày, người dùng sẽ luôn có báo cáo dung lượng mới nhất.
+
+Tóm lại, tự động hóa trong Linux giúp hệ thống thực hiện các công việc lặp lại một cách đều đặn, chính xác và tiết kiệm thời gian.
+
+
+## 21.2. Cron là gì?
+
+**Cron** là dịch vụ dùng để chạy các tác vụ định kỳ trong Linux. Các tác vụ này có thể chạy theo phút, giờ, ngày, tháng hoặc ngày trong tuần.
+
+Cron thường được dùng cho các công việc lặp lại, ví dụ:
+
+| Lịch chạy | Ví dụ tác vụ |
+|---|---|
+| Mỗi phút | Kiểm tra trạng thái dịch vụ |
+| Mỗi giờ | Ghi thông tin tài nguyên hệ thống |
+| Mỗi ngày | Sao lưu dữ liệu |
+| Mỗi tuần | Dọn log cũ |
+| Mỗi tháng | Tạo báo cáo hệ thống |
+
+Cron hoạt động ở background như một dịch vụ nền. Dịch vụ này thường được gọi là `cron` hoặc `crond`, tùy bản phân phối Linux.
+
+Có thể kiểm tra trạng thái cron bằng:
+
+```bash
+systemctl status cron
+```
+
+Trên một số hệ thống, dịch vụ có thể tên là:
+
+```bash
+systemctl status crond
+```
+
+Tóm lại, cron là công cụ lập lịch định kỳ trong Linux, phù hợp với các tác vụ cần chạy lặp lại theo thời gian.
+
+
+## 21.3. Crontab là gì?
+
+**Crontab**, viết tắt của **cron table**, là bảng chứa danh sách các tác vụ được lập lịch cho cron. Mỗi user có thể có crontab riêng để định nghĩa các lệnh hoặc script cần chạy tự động.
+
+Có thể hiểu đơn giản:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `cron` | Dịch vụ chạy nền để thực thi tác vụ định kỳ |
+| `crontab` | File/bảng chứa lịch chạy tác vụ |
+| `crontab -e` | Lệnh chỉnh sửa lịch cron của user hiện tại |
+
+Mỗi dòng trong crontab thường gồm hai phần:
+
+```bash
+<thời_gian> <lệnh_cần_chạy>
+```
+
+Ví dụ:
+
+```bash
+0 2 * * * /home/student/backup.sh
+```
+
+Lệnh trên có nghĩa là chạy script `/home/student/backup.sh` vào 2:00 sáng mỗi ngày.
+
+Có thể xem crontab hiện tại bằng:
+
+```bash
+crontab -l
+```
+
+Nếu chưa có lịch nào, hệ thống có thể hiển thị:
+
+```bash
+no crontab for student
+```
+
+Tóm lại, crontab là nơi người dùng khai báo các lệnh hoặc script cần được cron chạy tự động theo lịch.
+
+
+## 21.4. Chỉnh sửa lịch với `crontab -e`
+
+Lệnh `crontab -e` dùng để chỉnh sửa crontab của user hiện tại.
+
+Cú pháp:
+
+```bash
+crontab -e
+```
+
+Khi chạy lần đầu, hệ thống có thể yêu cầu chọn trình soạn thảo, ví dụ `nano` hoặc `vim`. Với người mới học, nên chọn `nano` vì dễ sử dụng hơn.
+
+Ví dụ mở crontab:
+
+```bash
+crontab -e
+```
+
+Sau đó thêm một dòng:
+
+```bash
+0 2 * * * /home/student/backup.sh
+```
+
+Lưu lại và thoát. Từ thời điểm đó, cron sẽ tự động chạy script theo lịch đã đặt.
+
+Một số lệnh crontab thường dùng:
+
+| Lệnh | Chức năng |
+|---|---|
+| `crontab -e` | Chỉnh sửa crontab |
+| `crontab -l` | Liệt kê các tác vụ đã lập lịch |
+| `crontab -r` | Xóa toàn bộ crontab của user hiện tại |
+
+Cần cẩn thận với:
+
+```bash
+crontab -r
+```
+
+vì lệnh này xóa toàn bộ lịch cron của user hiện tại.
+
+Tóm lại, `crontab -e` là lệnh chính để thêm, sửa hoặc xóa các tác vụ định kỳ của user.
+
+
+## 21.5. Cấu trúc thời gian trong crontab
+
+Một dòng crontab có cấu trúc cơ bản như sau:
+
+```bash
+* * * * * command
+```
+
+Năm dấu `*` đại diện cho năm trường thời gian:
+
+| Vị trí | Trường | Giá trị |
+|---|---|---|
+| 1 | Phút | `0-59` |
+| 2 | Giờ | `0-23` |
+| 3 | Ngày trong tháng | `1-31` |
+| 4 | Tháng | `1-12` |
+| 5 | Ngày trong tuần | `0-7` |
+
+Trong trường ngày trong tuần, cả `0` và `7` thường đều có thể đại diện cho Chủ nhật.
+
+Ví dụ:
+
+```bash
+* * * * * command
+```
+
+Chạy mỗi phút.
+
+```bash
+0 * * * * command
+```
+
+Chạy vào phút 0 của mỗi giờ.
+
+```bash
+0 2 * * * command
+```
+
+Chạy lúc 2:00 sáng mỗi ngày.
+
+```bash
+30 18 * * 1 command
+```
+
+Chạy lúc 18:30 vào mỗi thứ Hai.
+
+```bash
+0 0 1 * * command
+```
+
+Chạy lúc 00:00 ngày đầu tiên của mỗi tháng.
+
+Một số ký hiệu thường dùng:
+
+| Ký hiệu | Ý nghĩa | Ví dụ |
+|---|---|---|
+| `*` | Mọi giá trị | `* * * * *` |
+| `,` | Liệt kê nhiều giá trị | `0,30 * * * *` |
+| `-` | Khoảng giá trị | `1-5` |
+| `/` | Bước nhảy | `*/5 * * * *` |
+
+Ví dụ chạy mỗi 5 phút:
+
+```bash
+*/5 * * * * command
+```
+
+Ví dụ chạy từ thứ Hai đến thứ Sáu lúc 8:00:
+
+```bash
+0 8 * * 1-5 command
+```
+
+Tóm lại, cấu trúc thời gian trong crontab cho phép lập lịch rất linh hoạt, từ mỗi phút đến từng ngày, tuần hoặc tháng.
+
+
+## 21.6. Lập lịch chạy script
+
+Để lập lịch chạy script bằng cron, cần chuẩn bị script trước, cấp quyền thực thi và khai báo đường dẫn đầy đủ trong crontab.
+
+Ví dụ tạo script sao lưu:
+
+```bash
+nano /home/student/backup.sh
+```
+
+Nội dung script:
+
+```bash
+#!/bin/bash
+tar -czvf /home/student/backup_$(date +\%F).tar.gz /home/student/project
+```
+
+Lưu ý: trong crontab, ký tự `%` có ý nghĩa đặc biệt, nên khi dùng `date +%F` trong dòng cron hoặc script gọi trực tiếp, cần cẩn thận. Cách an toàn là đặt lệnh phức tạp vào script riêng.
+
+Cấp quyền thực thi:
+
+```bash
+chmod +x /home/student/backup.sh
+```
+
+Chỉnh sửa crontab:
+
+```bash
+crontab -e
+```
+
+Thêm dòng:
+
+```bash
+0 2 * * * /home/student/backup.sh
+```
+
+Lệnh trên chạy script backup vào 2:00 sáng mỗi ngày.
+
+Nên chuyển hướng đầu ra và lỗi vào file log để dễ kiểm tra:
+
+```bash
+0 2 * * * /home/student/backup.sh >> /home/student/backup.log 2>&1
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `>> /home/student/backup.log` | Ghi thêm output vào file log |
+| `2>&1` | Chuyển lỗi STDERR vào cùng nơi với STDOUT |
+
+Một số lưu ý khi chạy script bằng cron:
+
+| Lưu ý | Giải thích |
+|---|---|
+| Dùng đường dẫn tuyệt đối | Cron có môi trường hạn chế hơn terminal |
+| Cấp quyền thực thi cho script | Dùng `chmod +x script.sh` |
+| Ghi log khi chạy | Dễ kiểm tra lỗi |
+| Không phụ thuộc vào biến môi trường | Nên khai báo rõ trong script |
+| Kiểm tra script thủ công trước | Đảm bảo script chạy đúng trước khi lập lịch |
+
+Tóm lại, khi lập lịch chạy script, nên dùng đường dẫn đầy đủ, kiểm tra quyền thực thi và lưu log để dễ theo dõi.
+
+
+## 21.7. Chạy lệnh một lần với `at`
+
+Lệnh `at` dùng để lập lịch chạy một lệnh **một lần** tại một thời điểm cụ thể trong tương lai. Khác với cron, `at` không dùng cho tác vụ lặp lại.
+
+Cú pháp:
+
+```bash
+at <thời_gian>
+```
+
+Ví dụ chạy một lệnh lúc 15:30:
+
+```bash
+at 15:30
+```
+
+Sau đó nhập lệnh cần chạy:
+
+```bash
+echo "Backup started" >> /home/student/at_test.log
+```
+
+Kết thúc nhập lệnh bằng:
+
+```bash
+Ctrl + D
+```
+
+Ví dụ chạy một script sau 10 phút:
+
+```bash
+at now + 10 minutes
+```
+
+Sau đó nhập:
+
+```bash
+/home/student/backup.sh
+```
+
+Kết thúc bằng:
+
+```bash
+Ctrl + D
+```
+
+Một số ví dụ thời gian:
+
+```bash
+at now + 1 hour
+at 23:00
+at tomorrow
+at 10:00 tomorrow
+```
+
+Một số lệnh liên quan:
+
+| Lệnh | Chức năng |
+|---|---|
+| `at <time>` | Lập lịch chạy một lần |
+| `atq` | Xem danh sách job `at` đang chờ |
+| `atrm <job_id>` | Xóa job `at` |
+
+Ví dụ xem các job đang chờ:
+
+```bash
+atq
+```
+
+Xóa một job:
+
+```bash
+atrm 3
+```
+
+Trên một số hệ thống, cần cài và bật dịch vụ `atd`:
+
+```bash
+sudo apt install at
+sudo systemctl enable --now atd
+```
+
+Tóm lại, `at` phù hợp khi cần chạy một lệnh hoặc script một lần trong tương lai, còn `cron` phù hợp với tác vụ lặp lại định kỳ.
+
+
+## 21.8. Chạy tiến trình không bị dừng với `nohup`
+
+`nohup`, viết tắt của **no hang up**, dùng để chạy một lệnh sao cho tiến trình không bị dừng khi người dùng thoát khỏi terminal hoặc ngắt phiên SSH.
+
+Cú pháp:
+
+```bash
+nohup <command> &
+```
+
+Ví dụ chạy script ở nền và không bị dừng khi đóng terminal:
+
+```bash
+nohup ./long_task.sh &
+```
+
+Theo mặc định, output của lệnh có thể được ghi vào file:
+
+```bash
+nohup.out
+```
+
+Ví dụ:
+
+```bash
+nohup ping google.com &
+```
+
+Kiểm tra file output:
+
+```bash
+cat nohup.out
+```
+
+Có thể chuyển output sang file riêng:
+
+```bash
+nohup ./long_task.sh > output.log 2>&1 &
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `nohup` | Không dừng tiến trình khi terminal bị đóng |
+| `> output.log` | Ghi STDOUT vào file |
+| `2>&1` | Ghi STDERR vào cùng file với STDOUT |
+| `&` | Chạy lệnh ở background |
+
+Ví dụ chạy một script backup dài:
+
+```bash
+nohup /home/student/backup.sh > /home/student/backup.log 2>&1 &
+```
+
+Sau khi chạy, có thể kiểm tra tiến trình:
+
+```bash
+ps aux | grep backup.sh
+```
+
+Tóm lại, `nohup` rất hữu ích khi chạy tác vụ dài qua SSH, vì tiến trình vẫn tiếp tục chạy ngay cả khi phiên terminal bị đóng.
+
+
+## 23.9. Ứng dụng tự động hóa trong quản trị hệ thống
+
+Tự động hóa được sử dụng rất nhiều trong quản trị Linux vì giúp hệ thống hoạt động ổn định, đều đặn và dễ kiểm soát hơn.
+
+Một số ứng dụng thực tế:
+
+| Ứng dụng | Ví dụ |
+|---|---|
+| Sao lưu dữ liệu | Chạy backup hằng ngày bằng cron |
+| Dọn log | Xóa log cũ sau 30 ngày |
+| Giám sát dịch vụ | Kiểm tra SSH, Apache, Nginx có đang chạy không |
+| Kiểm tra tài nguyên | Ghi dung lượng ổ đĩa, RAM, CPU vào log |
+| Cập nhật hệ thống | Lập lịch kiểm tra bản cập nhật |
+| Tạo báo cáo | Tự động tạo file báo cáo hằng tuần |
+| Điều tra hệ thống | Lưu danh sách process hoặc kết nối mạng theo chu kỳ |
+
+Ví dụ tự động ghi dung lượng ổ đĩa mỗi ngày:
+
+```bash
+0 8 * * * df -h >> /home/student/disk_usage.log
+```
+
+Ví dụ tự động kiểm tra dịch vụ SSH mỗi 5 phút:
+
+```bash
+*/5 * * * * systemctl is-active ssh >> /home/student/ssh_status.log
+```
+
+Ví dụ xóa file `.log` cũ hơn 30 ngày:
+
+```bash
+0 3 * * * find /home/student/logs -type f -name "*.log" -mtime +30 -delete
+```
+
+Ví dụ backup thư mục dự án mỗi ngày lúc 2 giờ sáng:
+
+```bash
+0 2 * * * tar -czvf /home/student/project_backup.tar.gz /home/student/project
+```
+
+Tuy nhiên, khi tự động hóa, cần chú ý bảo mật:
+
+| Lưu ý bảo mật | Ý nghĩa |
+|---|---|
+| Không chạy script không rõ nguồn gốc | Tránh mã độc chạy tự động |
+| Kiểm tra quyền script | Script không nên cho mọi người chỉnh sửa |
+| Ghi log khi chạy tự động | Dễ phát hiện lỗi hoặc hành vi bất thường |
+| Hạn chế chạy với root nếu không cần | Giảm rủi ro khi script lỗi |
+| Kiểm tra nội dung crontab định kỳ | Phát hiện tác vụ lạ hoặc không còn cần thiết |
+| Dùng đường dẫn tuyệt đối | Tránh chạy nhầm lệnh hoặc file |
+
+Ví dụ kiểm tra crontab hiện tại:
+
+```bash
+crontab -l
+```
+
+Kiểm tra quyền script:
+
+```bash
+ls -l /home/student/backup.sh
+```
+
+Một script chạy tự động không nên có quyền ghi cho `others`, ví dụ không nên để:
+
+```bash
+-rwxrwxrwx
+```
 
