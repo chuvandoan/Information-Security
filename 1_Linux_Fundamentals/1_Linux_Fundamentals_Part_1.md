@@ -1,4 +1,4 @@
-# Linux Fundamentals Part 1
+# Linux Fundamentals
 
 >   Bắt đầu hành trình tìm hiểu những điều cơ bản của Linux. Học cách chạy một số lệnh thiết yếu đầu tiên trên thiết bị đầu cuối tương tác.
 
@@ -22,15 +22,29 @@
 
 ## Nội dung
 
-# 1: Introduction
+# 1: Tổng quan về Linux
+## 1.1. Linux là gì?
+
+Linux là một hệ điều hành mã nguồn mở, được sử dụng để quản lý tài nguyên phần cứng và tạo môi trường cho các chương trình phần mềm hoạt động. Về vai trò, Linux tương tự như các hệ điều hành quen thuộc khác như Windows, macOS, Android hoặc iOS. Hệ điều hành chịu trách nhiệm quản lý CPU, bộ nhớ, thiết bị lưu trữ, thiết bị ngoại vi, tiến trình và quá trình giao tiếp giữa phần mềm với phần cứng. :contentReference[oaicite:0]{index=0}
+
+Thành phần trung tâm của Linux là **Linux kernel**, hay còn gọi là nhân Linux. Kernel là phần lõi của hệ điều hành, đóng vai trò trung gian giữa phần cứng và phần mềm. Nó kiểm soát việc phân bổ tài nguyên hệ thống, quản lý thiết bị, xử lý tiến trình và đảm bảo các chương trình có thể hoạt động ổn định trên máy tính. Tuy nhiên, Linux kernel chỉ là một phần của hệ điều hành hoàn chỉnh. Khi kernel được kết hợp với các công cụ hệ thống, thư viện, trình quản lý gói, ứng dụng và giao diện người dùng, nó tạo thành một bản phân phối Linux, còn gọi là **Linux distribution** hoặc **Linux distro**. :contentReference[oaicite:1]{index=1}
+
+Một điểm quan trọng của Linux là tính **mã nguồn mở**. Điều này có nghĩa là mã nguồn của hệ thống có thể được xem, nghiên cứu, chỉnh sửa và phân phối lại bởi cộng đồng hoặc các tổ chức. Nhờ đặc điểm này, Linux có khả năng tùy biến cao, phù hợp với nhiều mục đích sử dụng khác nhau, từ máy tính cá nhân, máy chủ, thiết bị nhúng, điện toán đám mây cho đến các hệ thống phục vụ an toàn thông tin. :contentReference[oaicite:2]{index=2}
+
+Linux hiện nay được sử dụng rất rộng rãi trong lĩnh vực công nghệ thông tin. Trên máy chủ, Linux được đánh giá cao nhờ tính ổn định, hiệu năng tốt và khả năng vận hành lâu dài. Trong lĩnh vực an toàn thông tin, Linux cũng đóng vai trò quan trọng vì nhiều công cụ bảo mật, giám sát, kiểm thử xâm nhập và phân tích hệ thống được phát triển hoặc triển khai trên nền tảng Linux. Một số bản phân phối phổ biến có thể kể đến như Ubuntu, Debian, Fedora, Linux Mint, Arch Linux, Red Hat Enterprise Linux, Kali Linux và Parrot OS. :contentReference[oaicite:3]{index=3}
+
+Tóm lại, Linux không chỉ là một hệ điều hành đơn lẻ mà là một hệ sinh thái mã nguồn mở rộng lớn. Nó bao gồm nhân Linux, các công cụ hệ thống và nhiều bản phân phối khác nhau, phục vụ cho nhiều nhóm người dùng và mục đích sử dụng khác nhau. Với ưu điểm về tính ổn định, bảo mật, linh hoạt và khả năng tùy biến, Linux đã trở thành một nền tảng quan trọng trong quản trị hệ thống, phát triển phần mềm, điện toán đám mây và an toàn thông tin.
+
+
+
+
+
+
 ## 1.1. Linux Structure
-**Cấu trúc Linux**
 
 Các bản phân phối Linux là hệ điều hành được sử dụng cho máy tính cá nhân, máy chủ, và thậm chí cả thiết bị di động. Tuy nhiên, Linux đóng vai trò như một trụ cột nền tảng trong an ninh mạng, nổi tiếng với độ ổn định, tính linh hoạt và mã nguồn mở. Trong phần này, chúng ta sẽ tìm hiểu về cấu trúc Linux, lịch sử, triết lý, kiến trúc, và hệ thống phân cấp tệp — những kiến thức thiết yếu đối với bất kỳ chuyên gia an ninh mạng nào.
 
 Trước tiên, hãy định nghĩa Linux là gì. Linux là một hệ điều hành, giống như Windows, macOS, iOS hoặc Android. Hệ điều hành (OS) là phần mềm quản lý tất cả tài nguyên phần cứng của máy tính, giúp giao tiếp giữa các ứng dụng phần mềm và các thành phần phần cứng. Không giống như một số hệ điều hành khác, Linux có nhiều bản phân phối khác nhau — thường được gọi là “distros” — là các phiên bản Linux được tùy chỉnh để phù hợp với nhiều nhu cầu và sở thích khác nhau.
-
----
 
 ### Lịch sử
 
@@ -112,6 +126,33 @@ Linux được cấu trúc với các thư mục cấp cao tiêu chuẩn sau:
 
 ---
 
+## 1.2. Linux Distributions
+
+Mặc dù nhiều người thường gọi chung là “Linux”, nhưng thực tế Linux kernel chỉ là phần lõi của hệ điều hành. Một hệ điều hành hoàn chỉnh được xây dựng dựa trên Linux kernel được gọi là bản phân phối Linux, hay Linux distribution / Linux distro.
+
+Một bản phân phối Linux thường bao gồm:
+
+* Linux kernel: nhân hệ điều hành, quản lý phần cứng;
+* system utilities: các công cụ hệ thống;
+* libraries: thư viện cần thiết cho phần mềm;
+* applications: các ứng dụng đi kèm;
+* package manager: công cụ cài đặt, cập nhật và gỡ phần mềm;
+* desktop environment: giao diện đồ họa, nếu bản phân phối dành cho người dùng desktop.
+
+Một số bản phân phối Linux thường gặp gồm:
+
+| Bản phân phối                | Đặc điểm chính                              |
+| ---------------------------- | ------------------------------------------- |
+| **Debian**                   | Ổn định, được dùng nhiều cho server         |
+| **Ubuntu**                   | Dễ dùng, phổ biến cho desktop và server     |
+| **Fedora**                   | Hiện đại, phù hợp với lập trình viên        |
+| **Linux Mint**               | Thân thiện với người mới bắt đầu            |
+| **Arch Linux**               | Linh hoạt, cho phép kiểm soát hệ thống sâu  |
+| **openSUSE**                 | Có công cụ quản trị đồ họa mạnh, linh hoạt  |
+| **Gentoo**                   | Tùy biến cao, biên dịch từ mã nguồn         |
+| **Red Hat Enterprise Linux** | Dành cho doanh nghiệp, có hỗ trợ thương mại |
+
+---
 
 # Task 4: Running Your First Few Commands
 
