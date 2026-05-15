@@ -21,7 +21,7 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 
 ---
 
-## [Section 1: Linux Fundamentals](/1_Linux_Fundamentals/)
+## [Section 1: Linux Fundamentals](/Linux_Fundamentals/)
 >Nhiều máy chủ và công cụ bảo mật sử dụng Linux. Tìm hiểu cách sử dụng hệ điều hành Linux, một kỹ năng quan trọng trong an ninh mạng.
 
 1. [Linux Fundamentals Part 1](/1_Linux_Fundamentals/1_Linux_Fundamentals_Part_1.md) 

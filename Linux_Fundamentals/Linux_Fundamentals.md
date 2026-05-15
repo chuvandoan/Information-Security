@@ -4,9 +4,9 @@
 
 ## Mục Lục
 
-1. [1: Tổng quan về Linux](#1-tổng-quan-về-linux)
+1. [Tổng quan về Linux](#1-tổng-quan-về-linux)
 
-2. [2. Cấu trúc và kiến trúc hệ điều hành Linux](#2-cấu-trúc-và-kiến-trúc-hệ-điều-hành-linux)
+2. [Cấu trúc và kiến trúc hệ điều hành Linux](#2-cấu-trúc-và-kiến-trúc-hệ-điều-hành-linux)
 
 3. [Task 3: Interacting With Your First Linux Machine (In-Browser)](#task-3-interacting-with-your-first-linux-machine-in-browser)
 
