@@ -42,6 +42,8 @@
 
 19. [Quản lý dịch vụ trong Linux](#19-quản-lý-dịch-vụ-trong-linux)
 
+20. [Quản lý gói phần mềm](#20-quản-lý-gói-phần-mềm)
+
 ## Nội dung
 
 # 1: Tổng quan về Linux
@@ -7842,7 +7844,7 @@ sudo systemctl disable --now apache2
 Tóm lại, `systemctl disable` dùng để kiểm soát dịch vụ nào được phép tự chạy sau khi hệ thống khởi động.
 
 
-## 19.3.4. Kiểm tra trạng thái dịch vụ 
+## 19.4 Kiểm tra trạng thái dịch vụ 
 
 Lệnh `systemctl status` dùng để kiểm tra trạng thái hiện tại của một dịch vụ.
 
@@ -7915,4 +7917,361 @@ journalctl -u ssh -f
 ```
 
 Tóm lại, `systemctl status` cho biết dịch vụ có đang chạy hay không, còn `journalctl -u` giúp xem log chi tiết của dịch vụ đó.
+
+# 20. Quản lý gói phần mềm
+
+Trong Linux, phần mềm thường được cài đặt, cập nhật và gỡ bỏ thông qua **package manager**. Thay vì tải từng chương trình thủ công từ nhiều website khác nhau, người dùng có thể dùng trình quản lý gói để lấy phần mềm từ kho phần mềm chính thức của bản phân phối.
+
+Trên các hệ thống Debian, Ubuntu và nhiều bản phân phối dựa trên Debian, công cụ quản lý gói phổ biến nhất là **APT**.
+
+
+## 20.1. Package Manager là gì?
+
+**Package Manager**, hay **trình quản lý gói**, là công cụ dùng để cài đặt, cập nhật, nâng cấp, gỡ bỏ và quản lý phần mềm trong Linux.
+
+Một **gói phần mềm** thường chứa:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| File thực thi | Chương trình hoặc lệnh chính |
+| Thư viện phụ thuộc | Các thư viện cần để chương trình hoạt động |
+| File cấu hình | Cấu hình mặc định hoặc cấu hình hệ thống |
+| Metadata | Thông tin về tên gói, phiên bản, mô tả, phụ thuộc |
+| Script cài đặt/gỡ bỏ | Các bước tự động khi cài hoặc xóa gói |
+
+Package manager giúp người dùng:
+
+| Chức năng | Ý nghĩa |
+|---|---|
+| Cài đặt phần mềm | Tải và cài chương trình từ kho phần mềm |
+| Cập nhật danh sách gói | Lấy thông tin mới nhất từ repository |
+| Nâng cấp phần mềm | Cài phiên bản mới hơn của các gói đã có |
+| Gỡ phần mềm | Xóa phần mềm khỏi hệ thống |
+| Giải quyết phụ thuộc | Tự cài các gói cần thiết đi kèm |
+| Theo dõi phiên bản | Biết gói nào đang được cài và phiên bản nào |
+
+Ví dụ, thay vì tự tải trình soạn thảo `vim`, người dùng có thể cài bằng:
+
+```bash
+sudo apt install vim
+```
+
+Trình quản lý gói sẽ tự tìm gói `vim`, kiểm tra phụ thuộc và cài đặt vào đúng vị trí trong hệ thống.
+
+Tóm lại, package manager là công cụ trung tâm để quản lý phần mềm trong Linux, giúp việc cài đặt và cập nhật an toàn, nhất quán và dễ kiểm soát hơn.
+
+
+## 20.2. Quản lý gói trên Debian/Ubuntu với APT
+
+**APT**, viết tắt của **Advanced Package Tool**, là hệ thống quản lý gói được dùng phổ biến trên Debian, Ubuntu, Linux Mint, Kali Linux, Parrot OS và nhiều bản phân phối dựa trên Debian.
+
+APT làm việc với các kho phần mềm, còn gọi là **repository**. Repository là nơi lưu trữ các gói phần mềm đã được đóng gói sẵn để người dùng có thể cài đặt.
+
+Một số lệnh APT thường dùng:
+
+| Lệnh | Chức năng |
+|---|---|
+| `sudo apt update` | Cập nhật danh sách gói |
+| `sudo apt upgrade` | Nâng cấp các gói đã cài |
+| `sudo apt install package` | Cài đặt gói |
+| `sudo apt remove package` | Gỡ gói |
+| `apt search keyword` | Tìm kiếm gói |
+| `apt show package` | Xem thông tin chi tiết của gói |
+| `apt list --installed` | Liệt kê các gói đã cài |
+
+Ví dụ:
+
+```bash
+sudo apt update
+sudo apt install curl
+```
+
+Trong đó:
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `sudo apt update` | Cập nhật thông tin gói mới nhất |
+| `sudo apt install curl` | Cài đặt công cụ `curl` |
+
+APT thường cần quyền `sudo` khi cài, gỡ hoặc nâng cấp phần mềm vì các thao tác này thay đổi hệ thống.
+
+Tóm lại, APT là công cụ chính để quản lý phần mềm trên Debian/Ubuntu và các hệ điều hành dựa trên Debian.
+
+---
+
+## 20.3. Cập nhật danh sách gói với `apt update`
+
+Lệnh `apt update` dùng để cập nhật danh sách gói từ các repository đã cấu hình trong hệ thống. Lệnh này **không nâng cấp phần mềm**, mà chỉ tải về thông tin mới nhất về các gói có sẵn.
+
+Cú pháp:
+
+```bash
+sudo apt update
+```
+
+Khi chạy lệnh này, hệ thống sẽ liên hệ với các repository và cập nhật thông tin như:
+
+| Thông tin | Ý nghĩa |
+|---|---|
+| Tên gói | Gói nào có sẵn trong kho |
+| Phiên bản mới | Gói nào có bản cập nhật |
+| Phụ thuộc | Các gói liên quan cần thiết |
+| Nguồn tải | Repository chứa gói |
+
+Ví dụ:
+
+```bash
+sudo apt update
+```
+
+Kết quả có thể có dạng:
+
+```bash
+Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease
+Get:2 http://security.ubuntu.com/ubuntu noble-security InRelease
+Reading package lists... Done
+Building dependency tree... Done
+```
+
+Sau khi thêm repository mới, người dùng cũng cần chạy:
+
+```bash
+sudo apt update
+```
+
+để APT nhận biết các gói từ repository đó.
+
+Ví dụ quy trình thường gặp:
+
+```bash
+sudo apt update
+sudo apt install nginx
+```
+
+Tóm lại, `apt update` là bước cập nhật thông tin gói. Trước khi cài đặt hoặc nâng cấp phần mềm, nên chạy lệnh này để hệ thống có danh sách gói mới nhất.
+
+
+## 20.4. Nâng cấp gói với `apt upgrade`
+
+Lệnh `apt upgrade` dùng để nâng cấp các gói đã được cài đặt lên phiên bản mới hơn, dựa trên danh sách gói đã được cập nhật bằng `apt update`.
+
+Cú pháp:
+
+```bash
+sudo apt upgrade
+```
+
+Quy trình thông thường:
+
+```bash
+sudo apt update
+sudo apt upgrade
+```
+
+Trong đó:
+
+| Bước | Ý nghĩa |
+|---|---|
+| `apt update` | Cập nhật danh sách gói |
+| `apt upgrade` | Nâng cấp các gói đã cài |
+
+Ví dụ:
+
+```bash
+sudo apt update
+sudo apt upgrade
+```
+
+APT sẽ hiển thị danh sách các gói cần nâng cấp và hỏi người dùng xác nhận.
+
+Có thể dùng tùy chọn `-y` để tự động đồng ý:
+
+```bash
+sudo apt upgrade -y
+```
+
+Tuy nhiên, trong môi trường máy chủ hoặc hệ thống quan trọng, không nên tự động nâng cấp mà chưa kiểm tra, vì một số bản cập nhật có thể ảnh hưởng đến dịch vụ đang chạy.
+
+Một số lệnh liên quan:
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `sudo apt upgrade` | Nâng cấp gói đã cài, hạn chế thay đổi lớn |
+| `sudo apt full-upgrade` | Nâng cấp mạnh hơn, có thể thêm hoặc gỡ gói nếu cần |
+| `sudo apt autoremove` | Gỡ các gói phụ thuộc không còn cần thiết |
+
+Tóm lại, `apt upgrade` giúp hệ thống cập nhật phần mềm lên phiên bản mới hơn, đặc biệt quan trọng để sửa lỗi và vá lỗ hổng bảo mật.
+
+
+## 20.5. Cài đặt gói với `apt install`
+
+Lệnh `apt install` dùng để cài đặt một hoặc nhiều gói phần mềm từ repository.
+
+Cú pháp:
+
+```bash
+sudo apt install <tên_gói>
+```
+
+Ví dụ cài `tree`:
+
+```bash
+sudo apt install tree
+```
+
+Sau khi cài xong, có thể kiểm tra:
+
+```bash
+tree --version
+```
+
+Ví dụ cài `curl`:
+
+```bash
+sudo apt install curl
+```
+
+Ví dụ cài nhiều gói cùng lúc:
+
+```bash
+sudo apt install git curl vim
+```
+
+APT sẽ tự động kiểm tra và cài các gói phụ thuộc cần thiết.
+
+Ví dụ:
+
+```bash
+sudo apt install nginx
+```
+
+Khi cài một web server như `nginx`, APT có thể tự cài thêm các thư viện hoặc gói phụ thuộc để dịch vụ hoạt động đúng.
+
+Có thể dùng tùy chọn `-y` để tự động xác nhận:
+
+```bash
+sudo apt install git -y
+```
+
+Tuy nhiên, khi mới học hoặc khi cài trên máy chủ quan trọng, nên đọc kỹ danh sách gói sẽ được cài trước khi xác nhận.
+
+Tóm lại, `apt install` là lệnh dùng để cài phần mềm mới trên Debian/Ubuntu và các bản phân phối dựa trên Debian.
+
+
+## 20.6. Gỡ gói với `apt remove`
+
+Lệnh `apt remove` dùng để gỡ một gói phần mềm khỏi hệ thống. Lệnh này thường xóa chương trình chính, nhưng có thể giữ lại một số file cấu hình.
+
+Cú pháp:
+
+```bash
+sudo apt remove <tên_gói>
+```
+
+Ví dụ gỡ `tree`:
+
+```bash
+sudo apt remove tree
+```
+
+Ví dụ gỡ `nginx`:
+
+```bash
+sudo apt remove nginx
+```
+
+Nếu muốn xóa cả gói và file cấu hình liên quan, có thể dùng:
+
+```bash
+sudo apt purge <tên_gói>
+```
+
+Ví dụ:
+
+```bash
+sudo apt purge nginx
+```
+
+Sau khi gỡ phần mềm, hệ thống có thể còn một số gói phụ thuộc không còn cần thiết. Có thể dọn bằng:
+
+```bash
+sudo apt autoremove
+```
+
+So sánh ngắn gọn:
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `apt remove package` | Gỡ gói nhưng có thể giữ lại cấu hình |
+| `apt purge package` | Gỡ gói và xóa cấu hình |
+| `apt autoremove` | Xóa các gói phụ thuộc không còn cần thiết |
+
+Tóm lại, `apt remove` dùng để xóa phần mềm không còn cần dùng, giúp hệ thống gọn hơn và giảm bề mặt tấn công.
+
+
+## 20.7. Liệt kê gói đã cài đặt
+
+Để xem các gói đã được cài đặt trên hệ thống, có thể dùng:
+
+```bash
+apt list --installed
+```
+
+Lệnh này hiển thị danh sách các gói hiện có trong hệ thống.
+
+Ví dụ:
+
+```bash
+apt list --installed
+```
+
+Kết quả có thể rất dài, vì hệ thống Linux thường có nhiều gói.
+
+Có thể kết hợp với `grep` để tìm một gói cụ thể:
+
+```bash
+apt list --installed | grep curl
+```
+
+Ví dụ kiểm tra `git` đã được cài chưa:
+
+```bash
+apt list --installed | grep git
+```
+
+Một cách khác là dùng `dpkg`:
+
+```bash
+dpkg -l
+```
+
+Tìm một gói cụ thể với `dpkg`:
+
+```bash
+dpkg -l | grep nginx
+```
+
+Có thể xem thông tin chi tiết của một gói bằng:
+
+```bash
+apt show <tên_gói>
+```
+
+Ví dụ:
+
+```bash
+apt show curl
+```
+
+Một số lệnh hữu ích:
+
+| Lệnh | Chức năng |
+|---|---|
+| `apt list --installed` | Liệt kê gói đã cài |
+| `apt list --upgradable` | Liệt kê gói có thể nâng cấp |
+| `apt search keyword` | Tìm kiếm gói theo từ khóa |
+| `apt show package` | Xem thông tin chi tiết của gói |
+| `dpkg -l` | Liệt kê gói theo cơ sở dữ liệu dpkg |
+
+Tóm lại, việc liệt kê gói đã cài giúp người dùng kiểm tra phần mềm hiện có, phát hiện gói không cần thiết và quản lý hệ thống tốt hơn.
 
