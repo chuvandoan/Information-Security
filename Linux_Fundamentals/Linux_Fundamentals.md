@@ -26,6 +26,7 @@
 
 11. [Lọc và xử lý nội dung văn bản](#11-lọc-và-xử-lý-nội-dung-văn-bản)
 
+12. [Biểu thức chính quy trong Linux](#12-biểu-thức-chính-quy-trong-linux)
 
 ## Nội dung
 
@@ -4244,7 +4245,7 @@ cat alerts.json | jq -r '.src_ip'
 ```
 
 
-## 13.11. Một số công cụ xử lý log và text nâng cao
+## 11.11. Một số công cụ xử lý log và text nâng cao
 
 Ngoài các lệnh cơ bản, Linux còn có nhiều công cụ nâng cao giúp tìm kiếm, xử lý và phân tích văn bản hiệu quả hơn.
 
@@ -4288,5 +4289,411 @@ watch "df -h"
 
 Trong thực tế, các công cụ nâng cao này thường được dùng khi cần xử lý dữ liệu lớn, phân tích log nhanh, tìm kiếm trong mã nguồn hoặc giám sát thay đổi theo thời gian.
 
+# 12. Biểu thức chính quy trong Linux
 
+Biểu thức chính quy, hay **Regular Expression** và thường viết tắt là **Regex**, là một công cụ dùng để mô tả mẫu tìm kiếm trong văn bản. Thay vì chỉ tìm một chuỗi cố định, regex cho phép người dùng tìm các mẫu linh hoạt hơn, ví dụ như dòng bắt đầu bằng một từ, dòng kết thúc bằng một ký tự, chuỗi chứa số, địa chỉ IP, email hoặc các dòng log có cấu trúc nhất định.
+
+Trong Linux, regex thường được sử dụng với các công cụ xử lý văn bản như `grep`, `sed` và `awk`. Đây là kỹ năng rất quan trọng khi làm việc với log, file cấu hình, script và dữ liệu dạng văn bản.
+
+
+## 12.1. Regular Expression là gì?
+
+**Regular Expression** là một chuỗi ký tự đặc biệt dùng để mô tả một mẫu cần tìm trong văn bản. Mẫu này có thể là một từ đơn giản, một nhóm ký tự, một dãy số, một định dạng cụ thể hoặc một cấu trúc phức tạp hơn.
+
+Ví dụ, tìm chính xác từ `error`:
+
+```bash
+grep "error" logfile.txt
+```
+
+Lệnh trên tìm các dòng có chứa chuỗi `error`.
+
+Tuy nhiên, regex cho phép tìm linh hoạt hơn. Ví dụ, tìm các dòng bắt đầu bằng từ `error`:
+
+```bash
+grep "^error" logfile.txt
+```
+
+Trong đó ký hiệu `^` có nghĩa là bắt đầu dòng.
+
+Ví dụ khác, tìm các dòng kết thúc bằng `.conf`:
+
+```bash
+grep "\.conf$" files.txt
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `\.` | Dấu chấm thật sự |
+| `conf` | Chuỗi ký tự cần khớp |
+| `$` | Kết thúc dòng |
+
+Cần chú ý rằng trong regex, một số ký tự có ý nghĩa đặc biệt. Ví dụ dấu `.` không chỉ là dấu chấm thông thường, mà có nghĩa là “một ký tự bất kỳ”. Vì vậy, nếu muốn tìm dấu chấm thật sự, cần thêm dấu escape `\`.
+
+Tóm lại, regex là cách mô tả mẫu tìm kiếm trong văn bản. Nó giúp người dùng tìm kiếm và xử lý dữ liệu chính xác, linh hoạt hơn so với tìm kiếm chuỗi thông thường.
+
+
+## 12.2. Vai trò của Regex trong tìm kiếm và lọc dữ liệu
+
+Regex có vai trò rất quan trọng trong Linux vì phần lớn dữ liệu hệ thống được lưu dưới dạng văn bản. Các tệp như log, cấu hình, danh sách user, kết quả lệnh hoặc dữ liệu mạng đều có thể được tìm kiếm và xử lý bằng regex.
+
+Regex thường được dùng để:
+
+| Mục đích | Ví dụ |
+|---|---|
+| Tìm dòng chứa mẫu cụ thể | Tìm dòng log có `error`, `failed`, `denied` |
+| Tìm dòng bắt đầu hoặc kết thúc bằng mẫu | Tìm dòng bắt đầu bằng `root` |
+| Lọc dữ liệu theo định dạng | Tìm địa chỉ IP, email, URL |
+| Thay thế văn bản hàng loạt | Đổi `http` thành `https` |
+| Trích xuất dữ liệu từ log | Lấy username, IP, status code |
+| Kiểm tra cấu trúc chuỗi | Kiểm tra chuỗi có đúng định dạng hay không |
+
+Ví dụ tìm các dòng liên quan đến SSH trong log xác thực:
+
+```bash
+grep "ssh" /var/log/auth.log
+```
+
+Ví dụ tìm các dòng có chứa địa chỉ IP dạng đơn giản:
+
+```bash
+grep -E "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" access.log
+```
+
+Ví dụ thay thế từ `error` thành `ERROR`:
+
+```bash
+sed 's/error/ERROR/g' logfile.txt
+```
+
+Trong SOC và quản trị hệ thống, regex giúp phân tích log nhanh hơn, phát hiện sự kiện bất thường, lọc địa chỉ IP, tìm tài khoản đăng nhập thất bại hoặc kiểm tra các dòng cấu hình quan trọng.
+
+Tóm lại, regex giúp người dùng Linux tìm kiếm, lọc và xử lý dữ liệu văn bản một cách mạnh mẽ, đặc biệt khi dữ liệu lớn và không thể kiểm tra thủ công từng dòng.
+
+
+## 12.3. Các ký tự Regex cơ bản
+
+Regex sử dụng nhiều ký tự đặc biệt để mô tả mẫu tìm kiếm. Các ký tự này được gọi là **metacharacter**.
+
+Một số ký tự regex cơ bản:
+
+| Ký tự | Ý nghĩa | Ví dụ |
+|---|---|---|
+| `.` | Khớp với một ký tự bất kỳ | `a.c` khớp với `abc`, `axc` |
+| `^` | Bắt đầu dòng | `^root` tìm dòng bắt đầu bằng `root` |
+| `$` | Kết thúc dòng | `bash$` tìm dòng kết thúc bằng `bash` |
+| `*` | Lặp lại 0 hoặc nhiều lần ký tự trước đó | `ab*` khớp với `a`, `ab`, `abb` |
+| `+` | Lặp lại 1 hoặc nhiều lần | `[0-9]+` tìm một hoặc nhiều chữ số |
+| `?` | Có hoặc không có ký tự trước đó | `colou?r` khớp với `color`, `colour` |
+| `[]` | Tập ký tự | `[abc]` khớp với `a`, `b` hoặc `c` |
+| `[^]` | Phủ định tập ký tự | `[^0-9]` khớp ký tự không phải số |
+| `{n}` | Lặp đúng n lần | `[0-9]{3}` khớp 3 chữ số |
+| `{n,m}` | Lặp từ n đến m lần | `[0-9]{2,4}` khớp từ 2 đến 4 chữ số |
+| `|` | Hoặc | `error|failed` khớp `error` hoặc `failed` |
+| `()` | Nhóm biểu thức | `(error|failed)` nhóm hai lựa chọn |
+| `\` | Escape ký tự đặc biệt | `\.` tìm dấu chấm thật sự |
+
+Một số ví dụ:
+
+Tìm dòng bắt đầu bằng `root`:
+
+```bash
+grep "^root" /etc/passwd
+```
+
+Tìm dòng kết thúc bằng `bash`:
+
+```bash
+grep "bash$" /etc/passwd
+```
+
+Tìm dòng có chứa số:
+
+```bash
+grep "[0-9]" file.txt
+```
+
+Tìm dòng có chứa ít nhất một chữ số liên tiếp:
+
+```bash
+grep -E "[0-9]+" file.txt
+```
+
+Tìm dòng chứa `error` hoặc `failed`:
+
+```bash
+grep -E "error|failed" logfile.txt
+```
+
+Một số lớp ký tự thường dùng:
+
+| Mẫu | Ý nghĩa |
+|---|---|
+| `[0-9]` | Một chữ số |
+| `[a-z]` | Một chữ cái thường |
+| `[A-Z]` | Một chữ cái hoa |
+| `[a-zA-Z]` | Một chữ cái hoa hoặc thường |
+| `[a-zA-Z0-9]` | Một chữ cái hoặc chữ số |
+| `[^0-9]` | Một ký tự không phải chữ số |
+
+Lưu ý: với một số công cụ như `grep`, các ký tự như `+`, `?`, `{}`, `|`, `()` thường cần dùng chế độ regex mở rộng bằng tùy chọn `-E`.
+
+Ví dụ:
+
+```bash
+grep -E "[0-9]+" file.txt
+```
+
+Tóm lại, các ký tự regex cơ bản giúp mô tả mẫu tìm kiếm linh hoạt hơn. Khi hiểu các ký tự này, người dùng có thể lọc dữ liệu chính xác hơn rất nhiều.
+
+## 12.4. Ứng dụng Regex với `grep`
+
+`grep` là công cụ phổ biến nhất để tìm kiếm dòng văn bản khớp với một mẫu. Khi kết hợp với regex, `grep` trở thành công cụ rất mạnh để lọc log, file cấu hình và đầu ra của lệnh.
+
+Cú pháp cơ bản:
+
+```bash
+grep "regex" <tên_tệp>
+```
+
+Ví dụ tìm dòng có chứa `root`:
+
+```bash
+grep "root" /etc/passwd
+```
+
+Tìm dòng bắt đầu bằng `root`:
+
+```bash
+grep "^root" /etc/passwd
+```
+
+Tìm dòng kết thúc bằng `bash`:
+
+```bash
+grep "bash$" /etc/passwd
+```
+
+Tìm dòng có chứa chữ số:
+
+```bash
+grep "[0-9]" file.txt
+```
+
+Tìm dòng chứa `error` hoặc `failed`:
+
+```bash
+grep -E "error|failed" logfile.txt
+```
+
+Trong đó `-E` cho phép dùng **Extended Regular Expression**, giúp viết các biểu thức như `+`, `|`, `()` dễ hơn.
+
+Ví dụ tìm địa chỉ IP trong log:
+
+```bash
+grep -E "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" access.log
+```
+
+Giải thích:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `[0-9]+` | Một hoặc nhiều chữ số |
+| `\.` | Dấu chấm thật sự |
+| Lặp lại 4 cụm số | Mô phỏng cấu trúc địa chỉ IPv4 |
+
+Ví dụ tìm các dòng không chứa `nologin` hoặc `false` trong `/etc/passwd`:
+
+```bash
+grep -Ev "nologin|false" /etc/passwd
+```
+
+Trong đó:
+
+| Tùy chọn | Ý nghĩa |
+|---|---|
+| `-E` | Dùng regex mở rộng |
+| `-v` | Loại trừ dòng khớp |
+
+Ví dụ kết hợp với pipe:
+
+```bash
+cat /var/log/auth.log | grep -Ei "failed|invalid|denied"
+```
+
+Lệnh này lọc các dòng log có chứa các từ khóa liên quan đến lỗi đăng nhập.
+
+Tóm lại, `grep` kết hợp với regex giúp tìm kiếm và lọc dòng văn bản rất hiệu quả. Đây là công cụ quan trọng trong xử lý log và phân tích sự kiện hệ thống.
+
+
+## 12.5. Ứng dụng Regex với `sed`
+
+`sed` là công cụ xử lý văn bản theo dòng, thường được dùng để tìm kiếm và thay thế nội dung. Khi kết hợp với regex, `sed` có thể thay thế các mẫu phức tạp thay vì chỉ thay chuỗi cố định.
+
+Cú pháp thay thế cơ bản:
+
+```bash
+sed 's/regex/chuỗi_thay_thế/' <tên_tệp>
+```
+
+Ví dụ thay `error` thành `ERROR`:
+
+```bash
+sed 's/error/ERROR/' logfile.txt
+```
+
+Theo mặc định, lệnh trên chỉ thay lần xuất hiện đầu tiên trong mỗi dòng. Để thay tất cả các lần xuất hiện trong dòng, thêm `g`:
+
+```bash
+sed 's/error/ERROR/g' logfile.txt
+```
+
+Ví dụ thay nhiều khoảng trắng liên tiếp thành một khoảng trắng:
+
+```bash
+sed -E 's/[ ]+/ /g' file.txt
+```
+
+Ví dụ thay các chữ số bằng ký tự `X`:
+
+```bash
+sed -E 's/[0-9]+/X/g' file.txt
+```
+
+Nếu tệp có nội dung:
+
+```bash
+user id 1000
+group id 1000
+```
+
+Kết quả sẽ là:
+
+```bash
+user id X
+group id X
+```
+
+Ví dụ xóa các dòng trống:
+
+```bash
+sed '/^$/d' file.txt
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `^` | Bắt đầu dòng |
+| `$` | Kết thúc dòng |
+| `^$` | Dòng rỗng |
+| `d` | Xóa dòng |
+
+Ví dụ chỉ in các dòng có chứa `error`:
+
+```bash
+sed -n '/error/p' logfile.txt
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `-n` | Không in toàn bộ nội dung |
+| `/error/` | Mẫu cần tìm |
+| `p` | In dòng khớp |
+
+Muốn chỉnh sửa trực tiếp tệp, dùng tùy chọn `-i`:
+
+```bash
+sed -i 's/http/https/g' config.txt
+```
+
+Cần cẩn thận với `sed -i` vì nó sửa trực tiếp nội dung tệp. Khi chưa chắc chắn, nên chạy không có `-i` trước để kiểm tra kết quả.
+
+Tóm lại, `sed` kết hợp với regex rất hữu ích khi cần thay thế, xóa hoặc lọc dòng văn bản tự động trong Linux.
+
+
+## 12.6. Ứng dụng Regex với `awk`
+
+`awk` là công cụ xử lý văn bản theo dòng và cột. Regex trong `awk` thường được dùng để lọc dòng, kiểm tra cột hoặc trích xuất dữ liệu có điều kiện.
+
+Cú pháp lọc dòng bằng regex:
+
+```bash
+awk '/regex/ {print}' <tên_tệp>
+```
+
+Ví dụ in các dòng có chứa `error`:
+
+```bash
+awk '/error/ {print}' logfile.txt
+```
+
+Có thể viết ngắn hơn:
+
+```bash
+awk '/error/' logfile.txt
+```
+
+Ví dụ lọc các dòng bắt đầu bằng `root` trong `/etc/passwd`:
+
+```bash
+awk '/^root/' /etc/passwd
+```
+
+Ví dụ lọc các dòng kết thúc bằng `bash`:
+
+```bash
+awk '/bash$/' /etc/passwd
+```
+
+`awk` mạnh hơn `grep` ở chỗ có thể kết hợp regex với xử lý cột.
+
+Ví dụ in cột thứ nhất của các dòng có chứa `bash` trong `/etc/passwd`:
+
+```bash
+awk -F ':' '/bash$/ {print $1}' /etc/passwd
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `-F ':'` | Dùng dấu `:` làm ký tự phân tách cột |
+| `/bash$/` | Chỉ xử lý dòng kết thúc bằng `bash` |
+| `{print $1}` | In cột thứ nhất |
+
+Ví dụ kiểm tra regex trên một cột cụ thể:
+
+```bash
+awk -F ':' '$7 ~ /bash$/ {print $1, $7}' /etc/passwd
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `$7` | Cột thứ 7 |
+| `~` | Khớp với regex |
+| `/bash$/` | Regex cần kiểm tra |
+| `{print $1, $7}` | In tên user và shell |
+
+Ví dụ lọc các dòng mà cột đầu tiên bắt đầu bằng chữ `s`:
+
+```bash
+awk -F ':' '$1 ~ /^s/ {print $1}' /etc/passwd
+```
+
+Có thể dùng `!~` để lấy các dòng không khớp regex.
+
+Ví dụ in các user không dùng shell `nologin`:
+
+```bash
+awk -F ':' '$7 !~ /nologin/ {print $1, $7}' /etc/passwd
+```
+
+Tóm lại, `awk` kết hợp với regex rất mạnh khi cần vừa lọc dòng theo mẫu, vừa trích xuất hoặc xử lý các cột cụ thể trong dữ liệu văn bản.
 

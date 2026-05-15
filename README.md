@@ -1,15 +1,14 @@
 <h1 align="center">
   <img src="https://media1.giphy.com/media/wvQIqJyNBOCjK/giphy.gif" width="500"/>
 
-Information-Security
+Information Security
 </h1>
 
 <h2 align="center">
 Hê hee heeeeeeeeeeeeee3333
 </h2>
 
-
-# **Bảo mật thông tin**
+---
 
 Lộ trình này được thiết kế thân thiện với người mới bắt đầu, nhằm cung cấp một nền tảng vững chắc về các lĩnh vực khác nhau trong An ninh Máy tính. Nội dung bao gồm các khái niệm cơ bản và ứng dụng trong các chủ đề sau:
 
@@ -17,11 +16,10 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 - Kiến thức cơ bản về MS Windows, Active Directory và Linux  
 - Các công cụ tấn công và khai thác hệ thống  
 - Giải pháp và công cụ phòng thủ an ninh mạng  
-- Định hướng nghề nghiệp trong an ninh mạng  
 
 ---
 
-## [Section 1: Linux Fundamentals](/Linux_Fundamentals/)
+## [Section 1: Linux Fundamentals](/Linux_Fundamentals/Linux_Fundamentals.md)
 >Nhiều máy chủ và công cụ bảo mật sử dụng Linux. Tìm hiểu cách sử dụng hệ điều hành Linux, một kỹ năng quan trọng trong an ninh mạng.
 
 1. [Linux Fundamentals Part 1](/1_Linux_Fundamentals/1_Linux_Fundamentals_Part_1.md) 
