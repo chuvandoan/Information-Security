@@ -225,6 +225,122 @@ cat /etc/shells
 
 Tóm lại, các loại shell trong Linux đều có cùng mục đích chính là giúp người dùng nhập lệnh và điều khiển hệ thống. Tuy nhiên, chúng khác nhau về cú pháp, mức độ tùy chỉnh, tính thân thiện và khả năng hỗ trợ script. Trong thực tế, Bash vẫn là lựa chọn quan trọng nhất cần nắm vững trước khi học các shell nâng cao khác.
 
+## 3.5 Prompt trong Bash
+
+**Prompt trong Bash** là dòng ký hiệu xuất hiện trong terminal để cho biết hệ thống đang sẵn sàng nhận lệnh từ người dùng. Khi mở terminal, người dùng thường nhìn thấy một dòng thông tin hiển thị tên người dùng, tên máy tính và thư mục hiện tại. Ngay sau prompt là vị trí con trỏ, nơi người dùng có thể nhập lệnh để yêu cầu hệ thống thực hiện một tác vụ nào đó.
+
+Thông thường, Bash prompt có dạng cơ bản như sau:
+
+```bash
+username@hostname:current_directory$
+```
+
+Trong đó:
+
+| Thành phần          | Ý nghĩa                                                 |
+| ------------------- | ------------------------------------------------------- |
+| `username`          | Tên người dùng hiện tại đang đăng nhập                  |
+| `hostname`          | Tên máy tính hoặc máy chủ                               |
+| `current_directory` | Thư mục hiện tại mà người dùng đang làm việc            |
+| `$`                 | Ký hiệu của người dùng thông thường                     |
+| `#`                 | Ký hiệu của người dùng root hoặc phiên có đặc quyền cao |
+
+
+Ví dụ
+
+```bash
+chu@chu-latitude-5510:~$ 
+```
+
+Dòng prompt trên cho biết người dùng hiện tại là `chu`, máy tính có tên là `chu-latitude-5510`, và người dùng đang ở thư mục `home`, được biểu diễn bằng ký hiệu `~`.
+
+Ký hiệu `~` trong Bash đại diện cho thư mục `home` của người dùng hiện tại. Ví dụ, nếu người dùng là `chu`, thì `~` thường tương ứng với đường dẫn: ```/home/chu```
+
+![](./img/3.5_shell.png)
+
+
+Nếu người dùng đăng nhập với quyền `root`, prompt thường sẽ kết thúc bằng dấu `#` thay vì dấu `$`. Ví dụ:
+
+```bash
+root@chu-latitude-5510:/home/chu# 
+```
+
+Điều này cho biết người dùng hiện tại đang có quyền quản trị cao nhất trên hệ thống. Vì vậy, khi thấy dấu `#`, người dùng cần cẩn thận hơn vì các lệnh được thực thi có thể ảnh hưởng trực tiếp đến toàn bộ hệ thống.
+
+## 3.6 Sự khác nhau giữa user thường và root trong prompt
+
+Trong Bash prompt, ký hiệu ở cuối dòng prompt cho biết người dùng hiện tại đang làm việc với quyền thông thường hay quyền quản trị cao nhất. Đây là điểm rất quan trọng khi sử dụng Linux, vì quyền của người dùng quyết định những thao tác nào có thể thực hiện trên hệ thống.
+
+Thông thường, prompt của **user thường** kết thúc bằng dấu `$`:
+
+```bash
+chu@chu-latitude-5510:~$
+```
+
+Dấu `$` cho biết đây là tài khoản người dùng thông thường. User thường có thể thực hiện các thao tác cơ bản như tạo tệp trong thư mục cá nhân, đọc tệp được cho phép, chạy chương trình, điều hướng thư mục hoặc sử dụng các lệnh thông thường. Tuy nhiên, user thường không thể tự do thay đổi các tệp hệ thống quan trọng, cài đặt phần mềm toàn hệ thống hoặc chỉnh sửa cấu hình hệ thống nếu không có quyền bổ sung.
+
+Ngược lại, prompt của **root** thường kết thúc bằng dấu `#`:
+
+```bash
+root@chu-latitude-5510:/home/chu#
+```
+
+Dấu `#` cho biết người dùng hiện tại đang có quyền root. Root là tài khoản có quyền quản trị cao nhất trong Linux. Người dùng root có thể thay đổi cấu hình hệ thống, cài đặt hoặc gỡ phần mềm, chỉnh sửa tệp hệ thống, thay đổi quyền truy cập, quản lý người dùng và thực hiện hầu hết mọi thao tác trên hệ điều hành.
+
+Có thể so sánh ngắn gọn như sau:
+
+| Loại người dùng | Ký hiệu prompt | Quyền hạn                                                        |
+| --------------- | -------------- | ---------------------------------------------------------------- |
+| User thường     | `$`            | Quyền hạn giới hạn, chủ yếu thao tác trong phạm vi được cấp phép |
+| Root            | `#`            | Quyền quản trị cao nhất, có thể thay đổi toàn bộ hệ thống        |
+
+
+
+Sự khác biệt này rất quan trọng trong thực tế. Khi làm việc với user thường, nếu nhập sai lệnh, mức độ ảnh hưởng thường bị giới hạn trong phạm vi quyền của user đó. Nhưng khi làm việc với root, một lệnh sai có thể làm hỏng cấu hình hệ thống, xóa dữ liệu quan trọng hoặc gây lỗi cho toàn bộ hệ điều hành.
+
+Ví dụ, lệnh sau nếu chạy bằng root có thể rất nguy hiểm:
+
+```bash
+rm -rf /some/important/path
+```
+
+Vì root có quyền cao nhất, hệ thống có thể cho phép xóa những tệp mà user thường không được phép xóa.
+
+Trong thực tế, người dùng thường không nên đăng nhập trực tiếp bằng root nếu không cần thiết. Thay vào đó, nên làm việc bằng tài khoản thường và chỉ sử dụng quyền quản trị khi cần thông qua lệnh `sudo`.
+
+Ví dụ:
+
+```bash
+sudo apt update
+```
+
+Lệnh trên cho phép user thường chạy một lệnh cụ thể với quyền quản trị, thay vì phải chuyển hoàn toàn sang tài khoản root.
+
+
+## 3.7 Các phím tắt cơ bản trong terminal
+
+Khi làm việc với terminal trong Linux, ngoài việc nhập lệnh trực tiếp, người dùng còn có thể sử dụng nhiều phím tắt để thao tác nhanh hơn. Các phím tắt này giúp tiết kiệm thời gian, chỉnh sửa dòng lệnh dễ dàng hơn, tìm lại lệnh cũ và quản lý tiến trình đang chạy trong terminal.
+
+Một số phím tắt cơ bản thường dùng gồm:
+
+| Phím tắt | Chức năng |
+|---|---|
+| `Ctrl + L` | Xóa màn hình terminal, tương tự lệnh `clear` |
+| `Ctrl + D` | Thoát khỏi terminal hoặc kết thúc phiên shell hiện tại |
+| `Ctrl + A` | Di chuyển con trỏ về đầu dòng lệnh |
+| `Ctrl + E` | Di chuyển con trỏ về cuối dòng lệnh |
+| `Ctrl + U` | Xóa toàn bộ nội dung từ vị trí con trỏ đến đầu dòng |
+| `Ctrl + K` | Xóa toàn bộ nội dung từ vị trí con trỏ đến cuối dòng |
+| `Ctrl + W` | Xóa một từ ở bên trái con trỏ |
+| `Ctrl + Y` | Dán lại nội dung vừa bị xóa bằng các phím tắt như `Ctrl + U`, `Ctrl + K`, `Ctrl + W` |
+| `Ctrl + R` | Tìm kiếm ngược trong lịch sử các lệnh đã chạy |
+| `Ctrl + Z` | Tạm dừng tiến trình đang chạy ở foreground |
+| `Tab` | Tự động hoàn thành tên lệnh, tên tệp hoặc thư mục |
+| `↑` / `↓` | Di chuyển lên/xuống trong lịch sử lệnh |
+| `!!` | Thực thi lại lệnh vừa chạy gần nhất |
+
+
+
 ---
 
 # Task 4: Running Your First Few Commands
