@@ -18,7 +18,7 @@
 
 7. [Làm việc với tệp và thư mục](#7-làm-việc-với-tệp-và-thư-mục)
 
-8. [Task 8: Conclusions & Summaries](#task-8-conclusions-summaries)
+8. [Xem và chỉnh sửa nội dung tệp](#8-xem-và-chỉnh-sửa-nội-dung-tệp)
 
 ## Nội dung
 
@@ -1237,7 +1237,7 @@ cd logs
 Đây là đường dẫn tương đối, nếu thư mục `logs` tồn tại trong thư mục hiện tại.
 
 
-## 8.8. Ký hiệu `.` và `..`
+## 6.8. Ký hiệu `.` và `..`
 
 Trong Linux, hai ký hiệu `.` và `..` được sử dụng rất thường xuyên khi điều hướng thư mục.
 
@@ -1450,7 +1450,7 @@ Nhấn `TAB`, terminal có thể hoàn thành thành:
 cd /var/log
 ```
 
-## 7. Làm việc với tệp và thư mục
+# 7. Làm việc với tệp và thư mục
 
 Sau khi biết cách điều hướng trong hệ thống tệp, người dùng cần nắm được các thao tác cơ bản để làm việc với tệp và thư mục. Đây là nhóm lệnh rất quan trọng trong Linux, vì hầu hết hoạt động quản trị hệ thống, lập trình, xử lý log và an toàn thông tin đều liên quan đến việc tạo, sao chép, di chuyển, đổi tên hoặc xóa tệp.
 
@@ -1923,8 +1923,413 @@ project
 └── logs
 ```
 
+# 8. Xem và chỉnh sửa nội dung tệp
 
----
+Trong Linux, rất nhiều thông tin quan trọng được lưu dưới dạng tệp văn bản, ví dụ như tệp cấu hình, tệp log, script hoặc tài liệu hệ thống. Vì vậy, người dùng cần biết cách xem nhanh nội dung tệp, đọc các tệp dài và chỉnh sửa tệp trực tiếp trong terminal.
+
+Các lệnh thường dùng trong phần này gồm `cat`, `head`, `tail`, `more`, `less`, cùng với các trình soạn thảo văn bản như `nano` và `vim`.
+
+## 8.1. Xem nội dung tệp với `cat`
+
+Lệnh `cat`, viết tắt của **concatenate**, thường được dùng để hiển thị nội dung của tệp ra màn hình terminal.
+
+Cú pháp:
+
+```bash
+cat <tên_tệp>
+```
+
+Ví dụ:
+
+```bash
+cat notes.txt
+```
+
+Kết quả có thể là:
+
+```bash
+Hello Linux
+This is my first text file.
+```
+
+Lệnh `cat` phù hợp để xem nhanh các tệp ngắn. Ví dụ, có thể dùng `cat` để đọc tệp cấu hình nhỏ, tệp ghi chú hoặc nội dung script đơn giản.
+
+Ví dụ xem nội dung tệp `/etc/passwd`:
+
+```bash
+cat /etc/passwd
+```
+
+Tuy nhiên, nếu tệp quá dài, `cat` sẽ in toàn bộ nội dung ra terminal, khiến người dùng khó theo dõi. Trong trường hợp đó, nên dùng `less`, `more`, `head` hoặc `tail`.
+
+
+## 8.2. Xem đầu tệp với `head`
+
+Lệnh `head` dùng để hiển thị những dòng đầu tiên của một tệp. Theo mặc định, `head` thường hiển thị 10 dòng đầu.
+
+Cú pháp:
+
+```bash
+head <tên_tệp>
+```
+
+Ví dụ:
+
+```bash
+head /etc/passwd
+```
+
+Lệnh trên hiển thị 10 dòng đầu tiên của tệp `/etc/passwd`.
+
+Muốn chỉ định số dòng cần xem, dùng tùy chọn `-n`:
+
+```bash
+head -n <số_dòng> <tên_tệp>
+```
+
+Ví dụ:
+
+```bash
+head -n 5 /etc/passwd
+```
+
+Lệnh này hiển thị 5 dòng đầu tiên của tệp.
+
+`head` rất hữu ích khi cần kiểm tra phần mở đầu của tệp, ví dụ như xem cấu trúc dữ liệu, tiêu đề file CSV, hoặc kiểm tra nhanh log ở phần đầu.
+
+## 8.3. Xem cuối tệp với `tail`
+
+Lệnh `tail` dùng để hiển thị những dòng cuối cùng của một tệp. Theo mặc định, `tail` thường hiển thị 10 dòng cuối.
+
+Cú pháp:
+
+```bash
+tail <tên_tệp>
+```
+
+Ví dụ:
+
+```bash
+tail /var/log/syslog
+```
+
+Lệnh trên hiển thị 10 dòng cuối của tệp log hệ thống.
+
+Muốn chỉ định số dòng cần xem, dùng tùy chọn `-n`:
+
+```bash
+tail -n <số_dòng> <tên_tệp>
+```
+
+Ví dụ:
+
+```bash
+tail -n 20 /var/log/syslog
+```
+
+Lệnh này hiển thị 20 dòng cuối của tệp `/var/log/syslog`.
+
+`tail` đặc biệt hữu ích khi làm việc với log, vì các sự kiện mới nhất thường được ghi ở cuối tệp.
+
+
+## 8.4. Theo dõi log theo thời gian thực với `tail -f`
+
+Tùy chọn `-f` của lệnh `tail` dùng để theo dõi nội dung mới được ghi thêm vào tệp theo thời gian thực.
+
+Cú pháp:
+
+```bash
+tail -f <tên_tệp>
+```
+
+Ví dụ:
+
+```bash
+tail -f /var/log/syslog
+```
+
+Lệnh này sẽ hiển thị các dòng cuối của tệp `/var/log/syslog`, đồng thời tiếp tục theo dõi nếu có dòng mới được ghi thêm.
+
+Đây là lệnh rất quan trọng khi giám sát log hệ thống, log dịch vụ hoặc log ứng dụng.
+
+Ví dụ theo dõi log xác thực:
+
+```bash
+tail -f /var/log/auth.log
+```
+
+Lệnh này thường được dùng để quan sát các sự kiện đăng nhập, xác thực SSH hoặc hoạt động liên quan đến quyền người dùng.
+
+Để dừng theo dõi, nhấn:
+
+```bash
+Ctrl + C
+```
+
+Có thể kết hợp `tail -f` với `grep` để lọc thông tin cần quan tâm:
+
+```bash
+tail -f /var/log/auth.log | grep ssh
+```
+
+## 8.5. Xem tệp dài với `more`
+
+Lệnh `more` dùng để xem nội dung tệp dài theo từng trang. Thay vì in toàn bộ nội dung ra terminal như `cat`, `more` cho phép người dùng đọc từng phần của tệp.
+
+Cú pháp:
+
+```bash
+more <tên_tệp>
+```
+
+Ví dụ:
+
+```bash
+more /etc/passwd
+```
+
+Khi đang xem bằng `more`, có thể dùng một số phím sau:
+
+| Phím | Chức năng |
+|---|---|
+| `Space` | Chuyển sang trang tiếp theo |
+| `Enter` | Di chuyển xuống từng dòng |
+| `q` | Thoát khỏi chế độ xem |
+
+Ví dụ:
+
+```bash
+cat /etc/passwd | more
+```
+
+Lệnh trên đưa kết quả của `cat /etc/passwd` vào `more` để xem theo từng trang.
+
+`more` phù hợp khi cần đọc nhanh một tệp dài mà không muốn nội dung trôi toàn bộ trên terminal.
+
+## 8.6. Xem tệp dài với `less`
+
+Lệnh `less` cũng dùng để xem tệp dài theo từng trang, nhưng linh hoạt hơn `more`. Với `less`, người dùng có thể cuộn lên, cuộn xuống, tìm kiếm từ khóa và di chuyển trong tệp dễ dàng hơn.
+
+Cú pháp:
+
+```bash
+less <tên_tệp>
+```
+
+Ví dụ:
+
+```bash
+less /var/log/syslog
+```
+
+Một số phím thường dùng trong `less`:
+
+| Phím | Chức năng |
+|---|---|
+| `Space` | Chuyển sang trang tiếp theo |
+| `b` | Quay lại trang trước |
+| `↑` / `↓` | Di chuyển lên/xuống từng dòng |
+| `/keyword` | Tìm kiếm từ khóa |
+| `n` | Chuyển đến kết quả tìm kiếm tiếp theo |
+| `q` | Thoát khỏi `less` |
+
+Ví dụ tìm từ khóa `error` trong tệp log:
+
+```bash
+less /var/log/syslog
+```
+
+Sau đó nhập:
+
+```bash
+/error
+```
+
+`less` rất phù hợp để đọc log lớn, tệp cấu hình dài hoặc tài liệu văn bản trong terminal.
+
+
+## 8.7. Chỉnh sửa tệp với Nano
+
+**Nano** là trình soạn thảo văn bản chạy trong terminal, dễ dùng và phù hợp với người mới học Linux. Nano thường được dùng để tạo hoặc chỉnh sửa các tệp văn bản, tệp cấu hình và script đơn giản.
+
+Cú pháp:
+
+```bash
+nano <tên_tệp>
+```
+
+Ví dụ tạo hoặc mở tệp `notes.txt`:
+
+```bash
+nano notes.txt
+```
+
+Sau khi chạy lệnh, giao diện Nano sẽ mở ra. Người dùng có thể nhập nội dung trực tiếp, di chuyển bằng các phím mũi tên và chỉnh sửa văn bản giống như một trình soạn thảo cơ bản.
+
+Ví dụ chỉnh sửa tệp cấu hình cần quyền quản trị:
+
+```bash
+sudo nano /etc/hosts
+```
+
+Trong Nano, các phím tắt thường được hiển thị ở cuối màn hình. Ký hiệu `^` trong Nano nghĩa là phím `Ctrl`.
+
+**Các phím tắt cơ bản trong Nano**
+
+Khi sử dụng Nano, người dùng cần nhớ một số phím tắt cơ bản để lưu, thoát, tìm kiếm và chỉnh sửa nội dung.
+
+| Phím tắt | Chức năng |
+|---|---|
+| `Ctrl + O` | Lưu tệp |
+| `Enter` | Xác nhận tên tệp khi lưu |
+| `Ctrl + X` | Thoát khỏi Nano |
+| `Ctrl + W` | Tìm kiếm trong tệp |
+| `Ctrl + K` | Cắt dòng hiện tại |
+| `Ctrl + U` | Dán dòng vừa cắt |
+| `Ctrl + G` | Mở phần trợ giúp |
+| `Ctrl + C` | Hiển thị vị trí dòng/cột hiện tại |
+
+Quy trình lưu và thoát trong Nano:
+
+1. Nhấn `Ctrl + O` để lưu.
+2. Nhấn `Enter` để xác nhận tên tệp.
+3. Nhấn `Ctrl + X` để thoát.
+
+Nếu chỉnh sửa tệp nhưng chưa lưu, khi nhấn `Ctrl + X`, Nano sẽ hỏi có muốn lưu thay đổi hay không. Người dùng có thể chọn:
+
+| Phím | Ý nghĩa |
+|---|---|
+| `Y` | Có, lưu thay đổi |
+| `N` | Không lưu thay đổi |
+| `Ctrl + C` | Hủy thao tác |
+
+Ví dụ, để tìm từ `linux` trong tệp đang mở:
+
+```bash
+Ctrl + W
+```
+
+Sau đó nhập:
+
+```bash
+linux
+```
+
+## 8.8. Chỉnh sửa tệp với Vim
+
+**Vim** là một trình soạn thảo văn bản mạnh trong Linux. Vim khó học hơn Nano, nhưng rất linh hoạt và được sử dụng rộng rãi trong quản trị hệ thống, lập trình và làm việc trên máy chủ.
+
+Cú pháp:
+
+```bash
+vim <tên_tệp>
+```
+
+Ví dụ:
+
+```bash
+vim notes.txt
+```
+
+Khi mở Vim, người dùng chưa thể gõ văn bản ngay như Nano, vì Vim có nhiều chế độ làm việc khác nhau. Để bắt đầu nhập nội dung, cần chuyển sang chế độ Insert bằng cách nhấn:
+
+```bash
+i
+```
+
+Sau khi nhập hoặc chỉnh sửa xong, nhấn:
+
+```bash
+Esc
+```
+
+để quay lại chế độ Normal.
+
+Một số lệnh cơ bản trong Vim:
+
+| Lệnh | Chức năng |
+|---|---|
+| `i` | Chuyển sang chế độ Insert để nhập văn bản |
+| `Esc` | Quay lại chế độ Normal |
+| `:w` | Lưu tệp |
+| `:q` | Thoát khỏi Vim |
+| `:wq` | Lưu và thoát |
+| `:q!` | Thoát không lưu |
+| `dd` | Xóa dòng hiện tại |
+| `yy` | Sao chép dòng hiện tại |
+| `p` | Dán nội dung đã sao chép hoặc cắt |
+
+Ví dụ quy trình chỉnh sửa tệp bằng Vim:
+
+```bash
+vim notes.txt
+```
+
+Sau đó:
+
+1. Nhấn `i` để vào chế độ nhập.
+2. Sửa nội dung tệp.
+3. Nhấn `Esc`.
+4. Gõ `:wq`.
+5. Nhấn `Enter` để lưu và thoát.
+
+**Các chế độ cơ bản trong Vim**
+
+Điểm khác biệt lớn nhất của Vim so với Nano là Vim hoạt động theo nhiều chế độ. Mỗi chế độ có mục đích riêng.
+
+Ba chế độ cơ bản cần biết gồm:
+
+| Chế độ | Chức năng |
+|---|---|
+| Normal mode | Chế độ mặc định, dùng để di chuyển, xóa, sao chép, dán và nhập lệnh |
+| Insert mode | Chế độ nhập văn bản |
+| Command-line mode | Chế độ nhập lệnh như lưu, thoát, tìm kiếm |
+
+Khi mở Vim, người dùng thường bắt đầu ở **Normal mode**. Ở chế độ này, nếu gõ chữ, Vim sẽ không nhập văn bản như Nano. Muốn nhập nội dung, cần nhấn:
+
+```bash
+i
+```
+
+để chuyển sang **Insert mode**.
+
+Muốn quay lại Normal mode, nhấn:
+
+```bash
+Esc
+```
+
+Từ Normal mode, có thể nhập các lệnh bắt đầu bằng dấu `:` để lưu hoặc thoát.
+
+Ví dụ:
+
+```bash
+:w
+```
+
+Lưu tệp.
+
+```bash
+:q
+```
+
+Thoát Vim.
+
+```bash
+:wq
+```
+
+Lưu và thoát.
+
+```bash
+:q!
+```
+
+Thoát mà không lưu thay đổi.
+
+Tóm lại, muốn dùng Vim hiệu quả, cần nhớ nguyên tắc cơ bản: mở Vim là ở Normal mode, nhấn `i` để nhập văn bản, nhấn `Esc` để quay lại Normal mode, sau đó dùng `:wq` để lưu và thoát.
+
+
 
 # Task 4: Running Your First Few Commands
 
