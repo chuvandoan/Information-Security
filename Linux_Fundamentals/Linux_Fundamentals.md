@@ -10,7 +10,7 @@
 
 3. [Terminal, Shell và dòng lệnh](#3-terminal-shell-và-dòng-lệnh)
 
-4. [Task 4: Running Your First Few Commands](#task-4-running-your-first-few-commands)
+4. [Làm quen với các lệnh Linux cơ bản](#4-làm-quen-với-các-lệnh-linux-cơ-bản)
 
 5. [Task 5: Interacting With the Filesystem!](#task-5-interacting-with-the-filesystem)
 
@@ -338,6 +338,395 @@ Một số phím tắt cơ bản thường dùng gồm:
 | `Tab` | Tự động hoàn thành tên lệnh, tên tệp hoặc thư mục |
 | `↑` / `↓` | Di chuyển lên/xuống trong lịch sử lệnh |
 | `!!` | Thực thi lại lệnh vừa chạy gần nhất |
+
+# 4. Làm quen với các lệnh Linux cơ bản
+
+Sau khi đã hiểu terminal, shell và Bash prompt, bước tiếp theo là làm quen với các lệnh Linux cơ bản. Đây là nhóm lệnh đầu tiên mà người học Linux cần nắm vững, vì chúng được sử dụng rất thường xuyên trong quá trình làm việc với hệ thống.
+
+Các lệnh cơ bản giúp người dùng thực hiện những thao tác đơn giản như in văn bản ra màn hình, kiểm tra tên người dùng hiện tại, xem thông tin hệ thống, xác định thư mục đang làm việc, xóa màn hình terminal và tìm lại các lệnh đã chạy trước đó.
+
+Việc sử dụng thành thạo các lệnh này là nền tảng quan trọng trước khi học các nội dung nâng cao hơn như quản lý tệp, phân quyền, tiến trình, dịch vụ, log và Bash scripting.
+
+
+## 4.1 Cách chạy lệnh trong terminal
+
+Để chạy một lệnh trong Linux, người dùng mở terminal, nhập tên lệnh và nhấn phím `Enter`. Sau đó, shell sẽ tiếp nhận lệnh, xử lý và trả kết quả về terminal.
+
+Cú pháp cơ bản của một lệnh thường có dạng:
+
+```bash
+command [option] [argument]
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa                                                               |
+| ---------- | --------------------------------------------------------------------- |
+| `command`  | Tên lệnh cần thực thi                                                 |
+| `option`   | Tùy chọn làm thay đổi cách hoạt động của lệnh                         |
+| `argument` | Đối tượng mà lệnh sẽ xử lý, ví dụ tên tệp, thư mục hoặc chuỗi văn bản |
+
+Ví dụ:
+
+```bash
+echo "Hello Linux"
+```
+
+Trong ví dụ trên:
+
+* `echo` là tên lệnh;
+* `"Hello Linux"` là đối số;
+* kết quả là terminal sẽ in ra dòng chữ `Hello Linux`.
+
+Một số lệnh có thể chạy trực tiếp mà không cần đối số, ví dụ:
+
+```bash
+whoami
+```
+
+Lệnh này sẽ hiển thị tên người dùng hiện tại.
+
+Một số lệnh khác có thể sử dụng thêm tùy chọn. Ví dụ:
+
+```bash
+uname -a
+```
+
+Trong đó, `-a` là tùy chọn dùng để hiển thị đầy đủ thông tin hệ thống.
+
+## 4.2 Lệnh `echo`
+
+Lệnh `echo` được dùng để in văn bản hoặc giá trị ra màn hình terminal. Đây là một trong những lệnh đơn giản và dễ hiểu nhất trong Linux.
+
+Cú pháp cơ bản:
+
+```bash
+echo "nội dung cần in"
+```
+
+Ví dụ:
+
+```bash
+echo "Hello Linux"
+```
+
+Kết quả:
+
+```bash
+Hello Linux
+```
+
+Lệnh `echo` thường được dùng để kiểm tra nhanh nội dung, in thông báo hoặc hiển thị giá trị của biến trong Bash.
+
+Ví dụ in giá trị của một biến:
+
+```bash
+name="Linux"
+echo $name
+```
+
+Kết quả:
+
+```bash
+Linux
+```
+
+Trong Bash scripting, `echo` được sử dụng rất nhiều để hiển thị thông báo cho người dùng hoặc kiểm tra kết quả trong quá trình chạy script.
+
+Ví dụ:
+
+```bash
+#!/bin/bash
+
+echo "Starting script..."
+whoami
+echo "Script finished."
+```
+
+## 4.3 Lệnh `whoami`
+
+Lệnh `whoami` dùng để hiển thị tên người dùng hiện tại đang đăng nhập vào hệ thống.
+
+Cú pháp:
+
+```bash
+whoami
+```
+
+Ví dụ kết quả:
+
+```bash
+student
+```
+
+Lệnh này rất hữu ích khi người dùng cần biết mình đang thao tác dưới tài khoản nào. Trong quản trị hệ thống và an toàn thông tin, điều này đặc biệt quan trọng vì quyền hạn của mỗi tài khoản là khác nhau.
+
+Ví dụ, nếu kết quả là:
+
+```bash
+root
+```
+
+điều đó có nghĩa là người dùng hiện tại đang làm việc với quyền quản trị cao nhất. Khi đó, cần cẩn thận hơn khi chạy các lệnh có thể thay đổi hệ thống.
+
+Lệnh `whoami` cũng thường được sử dụng trong kiểm thử bảo mật để xác định quyền của shell hiện tại sau khi truy cập được vào một hệ thống.
+
+## 4.4 Lệnh `id`
+
+Lệnh `id` dùng để hiển thị thông tin định danh của người dùng hiện tại, bao gồm:
+
+* UID — User ID;
+* GID — Group ID;
+* các nhóm mà người dùng thuộc về.
+
+Cú pháp:
+
+```bash
+id
+```
+
+Ví dụ kết quả:
+
+```bash
+uid=1000(chu) gid=1000(chu) groups=1000(chu),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),109(kvm),119(vboxusers),122(lpadmin),134(lxd),135(sambashare),139(wireshark),140(docker),143(ubridge),145(libvirt),147(debian-tor)
+```
+
+Trong kết quả trên:
+
+| Thành phần | Giá trị trong máy | Ý nghĩa                                                                                            |
+| ---------- | --------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `uid`      | `uid=1000(chu)`       | Đây là **mã định danh của user**. User hiện tại tên là `chu`, có UID là `1000`.                               |
+| `gid`      | `gid=1000(chu)`       | Đây là **group chính** của user `chu`. Khi tạo file mới, file thường thuộc group này.                         |
+| `groups`   | `groups=...`          | Đây là danh sách **tất cả các group** mà user `chu` đang thuộc về. Mỗi group cho thêm một số quyền nhất định. |
+
+
+| Group        | Ý nghĩa                            | Quyền / tác dụng chính                                                    |
+| ------------ | ---------------------------------- | ------------------------------------------------------------------------- |
+| `chu`        | Group cá nhân của user `chu`       | Group mặc định của user.                                                  |
+| `adm`        | Nhóm quản trị log                  | Có thể đọc một số file log hệ thống trong `/var/log`.                     |
+| `cdrom`      | Nhóm truy cập ổ CD/DVD             | Cho phép dùng thiết bị CD/DVD nếu có.                                     |
+| `sudo`       | Nhóm quản trị hệ thống             | Có thể chạy lệnh với quyền root bằng `sudo`. Đây là group rất quan trọng. |
+| `dip`        | Nhóm liên quan đến kết nối mạng cũ | Ít dùng hiện nay, liên quan đến một số kết nối mạng đặc biệt.             |
+| `plugdev`    | Nhóm thiết bị cắm ngoài            | Hỗ trợ truy cập USB hoặc thiết bị ngoại vi.                               |
+| `kvm`        | Nhóm ảo hóa KVM                    | Cho phép dùng máy ảo KVM/QEMU.                                            |
+| `vboxusers`  | Nhóm VirtualBox                    | Cho phép dùng các tính năng của VirtualBox, ví dụ USB trong máy ảo.       |
+| `lpadmin`    | Nhóm quản lý máy in                | Có thể thêm, sửa, quản lý máy in.                                         |
+| `lxd`        | Nhóm container LXD                 | Cho phép dùng LXD container. Quyền này khá mạnh.                          |
+| `sambashare` | Nhóm chia sẻ file Samba            | Dùng để chia sẻ thư mục Linux với Windows hoặc mạng LAN.                  |
+| `wireshark`  | Nhóm Wireshark                     | Cho phép bắt gói mạng bằng Wireshark mà không cần chạy bằng root.         |
+| `docker`     | Nhóm Docker                        | Cho phép chạy Docker không cần `sudo`. Quyền này rất mạnh.                |
+| `ubridge`    | Nhóm liên quan GNS3/uBridge        | Dùng trong mô phỏng mạng, kết nối máy ảo hoặc thiết bị mạng ảo.           |
+| `libvirt`    | Nhóm quản lý máy ảo                | Cho phép quản lý máy ảo qua libvirt/virt-manager.                         |
+| `debian-tor` | Nhóm liên quan Tor                 | Được tạo khi cài Tor hoặc dịch vụ liên quan đến Tor.                      |
+
+
+
+Lệnh `id` rất quan trọng khi kiểm tra quyền truy cập của người dùng. Nếu người dùng thuộc nhóm `sudo`, họ có thể có khả năng chạy lệnh với quyền quản trị. Nếu thuộc nhóm `adm`, họ có thể có quyền đọc một số tệp log hệ thống.
+
+
+## 4.5 Lệnh `hostname`
+
+Lệnh `hostname` dùng để hiển thị tên của máy tính hoặc máy chủ hiện tại.
+
+Cú pháp:
+
+```bash
+hostname
+```
+
+Ví dụ kết quả:
+
+```bash
+chu-latitude-5510
+```
+
+Tên máy chủ giúp phân biệt các hệ thống khác nhau, đặc biệt khi người dùng làm việc với nhiều máy Linux hoặc kết nối đến máy từ xa qua SSH.
+
+
+## 4.6 Lệnh `uname`
+
+Lệnh `uname` dùng để hiển thị thông tin cơ bản về hệ điều hành và kernel của hệ thống.
+
+Cú pháp:
+
+```bash
+uname
+```
+
+Ví dụ kết quả:
+
+```bash
+Linux
+```
+
+Khi chạy không có tùy chọn, `uname` thường chỉ hiển thị tên kernel. Để xem đầy đủ thông tin hơn, có thể dùng tùy chọn `-a`:
+
+```bash
+uname -a
+```
+
+Ví dụ kết quả:
+
+```bash
+Linux chu-latitude-5510 6.8.0-111-generic #111-Ubuntu SMP PREEMPT_DYNAMIC Sat Apr 11 23:16:02 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+```
+
+Kết quả này có thể bao gồm:
+
+| Thông tin                      | Ý nghĩa                                                                                                    |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| `Linux`                        | Tên nhân hệ điều hành đang chạy. Ở đây hệ thống sử dụng nhân **Linux**.                                    |
+| `chu-latitude-5510`            | Tên máy tính, còn gọi là **hostname**. Máy của bạn đang có tên là `chu-latitude-5510`.                     |
+| `6.8.0-111-generic`            | Phiên bản kernel Linux đang sử dụng. Đây là kernel phiên bản `6.8.0-111` của Ubuntu.                       |
+| `#111-Ubuntu`                  | Số hiệu bản build kernel do Ubuntu đóng gói. Nó cho biết đây là bản kernel được build bởi Ubuntu.          |
+| `SMP`                          | Viết tắt của **Symmetric Multi-Processing**. Nghĩa là kernel hỗ trợ nhiều CPU hoặc nhiều nhân CPU.         |
+| `PREEMPT_DYNAMIC`              | Cho biết kernel hỗ trợ cơ chế điều phối linh hoạt, giúp hệ thống phản hồi tốt hơn trong một số tình huống. |
+| `Sat Apr 11 23:16:02 UTC 2026` | Thời điểm kernel này được build, theo múi giờ UTC.                                                         |
+| `x86_64` thứ nhất              | Kiến trúc phần cứng của máy. `x86_64` nghĩa là máy dùng CPU 64-bit.                                        |
+| `x86_64` thứ hai               | Kiến trúc của bộ xử lý đang chạy. Cũng là 64-bit.                                                          |
+| `x86_64` thứ ba                | Kiến trúc nền tảng hệ thống. Vẫn là 64-bit.                                                                |
+| `GNU/Linux`                    | Tên hệ điều hành đầy đủ. Nghĩa là hệ thống dùng nhân Linux kết hợp với các công cụ GNU.                    |
+
+
+
+Một tùy chọn thường dùng khác là `-r`, dùng để hiển thị phiên bản kernel:
+
+```bash
+uname -r
+```
+
+Ví dụ:
+
+```bash
+5.15.0-91-generic
+```
+
+Trong an toàn thông tin, thông tin kernel rất quan trọng vì một số lỗ hổng bảo mật hoặc phương pháp khai thác phụ thuộc vào phiên bản kernel cụ thể.
+
+## 4.7 Lệnh `pwd`
+
+Lệnh `pwd`, viết đầy đủ là **print working directory**, dùng để hiển thị đường dẫn đầy đủ của thư mục hiện tại mà người dùng đang làm việc.
+
+Cú pháp:
+
+```bash
+pwd
+```
+
+Ví dụ kết quả:
+
+```bash
+/home/chu
+```
+
+Điều này có nghĩa là người dùng hiện đang đứng trong thư mục `/home/chu`.
+
+Lệnh `pwd` đặc biệt hữu ích khi người dùng di chuyển qua nhiều thư mục khác nhau và cần xác định chính xác vị trí hiện tại trong hệ thống tệp.
+
+Ví dụ:
+
+```bash
+cd /var/log
+pwd
+```
+
+Kết quả:
+
+```bash
+/var/log
+```
+
+Trong Linux, việc nắm rõ thư mục hiện tại rất quan trọng, vì nhiều lệnh sẽ tác động trực tiếp đến vị trí mà người dùng đang đứng. Nếu chạy sai lệnh trong sai thư mục, người dùng có thể chỉnh sửa, di chuyển hoặc xóa nhầm tệp.
+
+## 4.8 Lệnh `clear`
+
+Lệnh `clear` dùng để xóa nội dung đang hiển thị trên màn hình terminal, giúp giao diện làm việc trở nên gọn gàng và dễ quan sát hơn.
+
+Cú pháp:
+
+```bash
+clear
+```
+
+Sau khi chạy lệnh này, màn hình terminal sẽ được làm sạch, nhưng lịch sử lệnh vẫn được giữ lại. Điều này có nghĩa là người dùng vẫn có thể dùng phím mũi tên lên hoặc chức năng tìm kiếm lịch sử để xem lại các lệnh đã chạy trước đó.
+
+Ngoài lệnh `clear`, người dùng cũng có thể dùng phím tắt:
+
+```bash
+Ctrl + L
+```
+
+Phím tắt này có chức năng tương tự `clear`, giúp xóa nhanh màn hình terminal mà không cần nhập lệnh.
+
+Lệnh `clear` thường được dùng khi terminal có quá nhiều kết quả hiển thị, đặc biệt sau khi chạy các lệnh tạo nhiều đầu ra như `ls -la`, `ps aux`, `cat` hoặc `find`.
+
+## 4.9 Lịch sử lệnh và tìm kiếm lệnh đã chạy
+
+Trong Linux, shell lưu lại các lệnh mà người dùng đã chạy trước đó. Điều này giúp người dùng có thể xem lại, chạy lại hoặc chỉnh sửa các lệnh cũ mà không cần nhập lại từ đầu.
+
+Cách đơn giản nhất để xem lại lệnh đã chạy là dùng phím mũi tên:
+
+| Phím | Chức năng                               |
+| ---- | --------------------------------------- |
+| `↑`  | Xem lệnh đã chạy trước đó               |
+| `↓`  | Di chuyển về lệnh mới hơn trong lịch sử |
+
+Ví dụ, nếu trước đó người dùng đã chạy:
+
+```bash
+sudo apt update
+```
+
+thì có thể nhấn phím `↑` để gọi lại lệnh này, sau đó nhấn `Enter` để chạy lại.
+
+Một cách khác là dùng phím tắt:
+
+```bash
+Ctrl + R
+```
+
+Phím tắt `Ctrl + R` cho phép tìm kiếm ngược trong lịch sử lệnh. Sau khi nhấn `Ctrl + R`, người dùng nhập một phần của lệnh cần tìm, shell sẽ tự động gợi lại lệnh phù hợp.
+
+Ví dụ, nếu cần tìm lại lệnh có chứa từ `ssh`, người dùng nhấn:
+
+```bash
+Ctrl + R
+```
+
+sau đó nhập:
+
+```bash
+ssh
+```
+
+Shell sẽ hiển thị lệnh gần nhất có chứa chuỗi `ssh`.
+
+Ngoài ra, có thể dùng `!!` để chạy lại lệnh gần nhất:
+
+```bash
+!!
+```
+
+Ví dụ:
+
+```bash
+apt update
+```
+
+Nếu lệnh trên cần quyền quản trị và bị lỗi do thiếu `sudo`, người dùng có thể chạy:
+
+```bash
+sudo !!
+```
+
+Khi đó, Bash sẽ hiểu là chạy lại lệnh trước đó với `sudo`:
+
+```bash
+sudo apt update
+```
+
+Lịch sử lệnh giúp tiết kiệm thời gian, giảm lỗi khi nhập lại lệnh dài và hỗ trợ người dùng làm việc hiệu quả hơn trong terminal.
+
 
 
 
