@@ -1,8 +1,7 @@
-# Information-Security
 <h1 align="center">
   <img src="https://media1.giphy.com/media/wvQIqJyNBOCjK/giphy.gif" width="500"/>
 
-Bảo mật thông tin
+Information-Security
 </h1>
 
 <h2 align="center">
@@ -10,7 +9,7 @@ Hê hee heeeeeeeeeeeeee3333
 </h2>
 
 
-# **Hướng Dẫn Bắt Đầu Hành Trình An Ninh Mạng**
+# **Bảo mật thông tin**
 
 Lộ trình này được thiết kế thân thiện với người mới bắt đầu, nhằm cung cấp một nền tảng vững chắc về các lĩnh vực khác nhau trong An ninh Máy tính. Nội dung bao gồm các khái niệm cơ bản và ứng dụng trong các chủ đề sau:
 
@@ -22,30 +21,16 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 
 ---
 
-## [Section 1: Start Your Cyber Security Journey](./1_Start_Your_Cyber_Security_Journey/)
->Khám phá an ninh mạng tấn công và phòng thủ thông qua các bài tập tương tác và tiếp thu các kỹ năng tìm kiếm thông tin thiết yếu.
-
-1. [Offensive Security Intro](/SOC/1_Pre_Security/1_Introduction_to_Cyber_Security/1_Offensive_Security_Intro.md)  
->Tấn công trang web đầu tiên của bạn (hợp pháp trong môi trường an toàn) và trải nghiệm công việc của một hacker mũ trắng.
-
-2. [Defensive Security Intro](/SOC/1_Pre_Security/1_Introduction_to_Cyber_Security/2_Defensive_Security_Intro.md)  
->Giới thiệu về an ninh phòng thủ và các chủ đề liên quan, chẳng hạn như Tình báo mối đe dọa (Threat Intelligence), SOC, DFIR, Phân tích phần mềm độc hại (Malware Analysis) và SIEM.
-
-3. [Search Skills](./1_Start_Your_Cyber_Security_Journey/Search_Skills.md)  
->Học cách tìm kiếm thông tin trên Internet một cách hiệu quả và sử dụng các công cụ tìm kiếm chuyên dụng cùng tài liệu kỹ thuật.
-
----
-
-## [Section 2: Linux Fundamentals](/SOC/1_Pre_Security/4_Linux_Fundamentals/)
+## [Section 1: Linux Fundamentals](/1_Linux_Fundamentals/)
 >Nhiều máy chủ và công cụ bảo mật sử dụng Linux. Tìm hiểu cách sử dụng hệ điều hành Linux, một kỹ năng quan trọng trong an ninh mạng.
 
-1. [Linux Fundamentals Part 1](/SOC/1_Pre_Security/4_Linux_Fundamentals/1_Linux_Fundamentals_Part_1.md) 
+1. [Linux Fundamentals Part 1](/1_Linux_Fundamentals/1_Linux_Fundamentals_Part_1.md) 
 >Bắt đầu hành trình học các kiến thức cơ bản về Linux. Học cách chạy một số lệnh cơ bản đầu tiên trên một terminal tương tác.
 
-2. [Linux Fundamentals Part 2](/SOC/1_Pre_Security/4_Linux_Fundamentals/2_Linux_Fundamentals_Part_2.md) 
+2. [Linux Fundamentals Part 2](/1_Linux_Fundamentals/2_Linux_Fundamentals_Part_2.md) 
 >Tiếp tục hành trình học Linux với phần hai. Bạn sẽ học cách đăng nhập vào máy Linux bằng SSH, cách nâng cao các lệnh của mình và tương tác với hệ thống tệp.
 
-3. [Linux Fundamentals Part 3](/SOC/1_Pre_Security/4_Linux_Fundamentals/3_Linux_Fundamentals_Part_3.md)  
+3. [Linux Fundamentals Part 3](/1_Linux_Fundamentals/3_Linux_Fundamentals_Part_3.md)  
 >Nâng cao kỹ năng Linux và thực hành với một số tiện ích phổ biến mà bạn có khả năng sử dụng hàng ngày.
 
 ---
