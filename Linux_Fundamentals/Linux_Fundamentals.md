@@ -52,6 +52,8 @@
 
 24. [Biến và tham số trong Bash](#24-biến-và-tham-số-trong-bash)
 
+25. [Mảng trong Bash](#25-mảng-trong-bash)
+
 ## Nội dung
 
 # 1: Tổng quan về Linux
@@ -10721,4 +10723,553 @@ fi
 ```
 
 Tóm lại, `read` giúp script tương tác với người dùng bằng cách nhận dữ liệu nhập từ bàn phím và lưu vào biến.
+
+# 25. Mảng trong Bash
+
+Trong Bash, **mảng** dùng để lưu nhiều giá trị trong cùng một biến. Thay vì tạo nhiều biến riêng lẻ như `file1`, `file2`, `file3`, người dùng có thể dùng một mảng để lưu danh sách các giá trị và xử lý chúng dễ dàng hơn.
+
+Mảng rất hữu ích khi cần làm việc với danh sách tệp, danh sách user, danh sách dịch vụ, danh sách IP hoặc danh sách thư mục trong script.
+
+
+## 25.1. Mảng là gì?
+
+**Mảng** là một cấu trúc dữ liệu cho phép lưu nhiều phần tử trong cùng một biến. Mỗi phần tử trong mảng có một vị trí riêng, gọi là **chỉ số**.
+
+Ví dụ, thay vì khai báo nhiều biến:
+
+```bash
+service1="ssh"
+service2="nginx"
+service3="docker"
+```
+
+có thể dùng một mảng:
+
+```bash
+services=("ssh" "nginx" "docker")
+```
+
+Trong ví dụ trên, mảng `services` chứa ba phần tử:
+
+| Chỉ số | Giá trị |
+|---:|---|
+| `0` | `ssh` |
+| `1` | `nginx` |
+| `2` | `docker` |
+
+Mảng trong Bash thường được dùng khi cần xử lý nhiều giá trị tương tự nhau.
+
+Ví dụ:
+
+```bash
+#!/bin/bash
+
+services=("ssh" "nginx" "docker")
+
+echo "First service: ${services[0]}"
+echo "Second service: ${services[1]}"
+echo "Third service: ${services[2]}"
+```
+
+Kết quả:
+
+```bash
+First service: ssh
+Second service: nginx
+Third service: docker
+```
+
+Tóm lại, mảng giúp lưu nhiều giá trị trong một biến duy nhất và truy cập từng giá trị bằng chỉ số.
+
+
+## 25.2. Khai báo mảng trong Bash
+
+Trong Bash, mảng có thể được khai báo bằng cách đặt các phần tử trong dấu ngoặc tròn `()`.
+
+Cú pháp:
+
+```bash
+array_name=("value1" "value2" "value3")
+```
+
+Ví dụ:
+
+```bash
+transport=("car" "train" "bike" "bus")
+```
+
+Mảng `transport` có bốn phần tử:
+
+| Chỉ số | Giá trị |
+|---:|---|
+| `0` | `car` |
+| `1` | `train` |
+| `2` | `bike` |
+| `3` | `bus` |
+
+Ví dụ trong script:
+
+```bash
+#!/bin/bash
+
+transport=("car" "train" "bike" "bus")
+
+echo "Transport list:"
+echo "${transport[@]}"
+```
+
+Kết quả:
+
+```bash
+Transport list:
+car train bike bus
+```
+
+Có thể khai báo mảng rỗng trước, rồi gán giá trị sau:
+
+```bash
+users=()
+
+users[0]="alice"
+users[1]="bob"
+users[2]="charlie"
+```
+
+Có thể khai báo mảng chứa tên file:
+
+```bash
+files=("auth.log" "syslog" "kern.log")
+```
+
+Hoặc mảng chứa địa chỉ IP:
+
+```bash
+ips=("192.168.1.10" "192.168.1.20" "192.168.1.30")
+```
+
+Tóm lại, mảng trong Bash được khai báo bằng dấu ngoặc tròn `()` và các phần tử thường được đặt trong dấu ngoặc kép để tránh lỗi khi có khoảng trắng.
+
+
+## 25.3. Chỉ số của mảng
+
+Trong Bash, chỉ số của mảng bắt đầu từ `0`, không phải từ `1`.
+
+Ví dụ:
+
+```bash
+transport=("car" "train" "bike" "bus")
+```
+
+Bảng chỉ số:
+
+| Chỉ số | Phần tử |
+|---:|---|
+| `0` | `car` |
+| `1` | `train` |
+| `2` | `bike` |
+| `3` | `bus` |
+
+Truy cập phần tử đầu tiên:
+
+```bash
+echo "${transport[0]}"
+```
+
+Kết quả:
+
+```bash
+car
+```
+
+Truy cập phần tử thứ hai:
+
+```bash
+echo "${transport[1]}"
+```
+
+Kết quả:
+
+```bash
+train
+```
+
+Cần chú ý rằng phần tử thứ nhất của mảng có chỉ số `0`. Đây là điểm người mới học thường nhầm.
+
+Ví dụ sai nếu muốn lấy phần tử đầu tiên:
+
+```bash
+echo "${transport[1]}"
+```
+
+Lệnh trên không lấy phần tử đầu tiên, mà lấy phần tử thứ hai.
+
+Có thể xem số lượng phần tử trong mảng bằng:
+
+```bash
+echo "${#transport[@]}"
+```
+
+Kết quả:
+
+```bash
+4
+```
+
+Tóm lại, chỉ số mảng trong Bash bắt đầu từ `0`, vì vậy phần tử đầu tiên là `${array[0]}`.
+
+
+## 25.4. In toàn bộ mảng
+
+Để in toàn bộ các phần tử trong mảng, có thể dùng `${array[@]}` hoặc `${array[*]}`.
+
+Ví dụ:
+
+```bash
+transport=("car" "train" "bike" "bus")
+
+echo "${transport[@]}"
+```
+
+Kết quả:
+
+```bash
+car train bike bus
+```
+
+Có thể dùng:
+
+```bash
+echo "${transport[*]}"
+```
+
+Kết quả cũng thường hiển thị:
+
+```bash
+car train bike bus
+```
+
+Tuy nhiên, khi xử lý trong vòng lặp, `"${array[@]}"` thường an toàn hơn vì nó giữ từng phần tử riêng biệt, đặc biệt khi phần tử có khoảng trắng.
+
+Ví dụ:
+
+```bash
+files=("my file.txt" "report.txt" "log file.txt")
+
+for file in "${files[@]}"
+do
+    echo "File: $file"
+done
+```
+
+Kết quả:
+
+```bash
+File: my file.txt
+File: report.txt
+File: log file.txt
+```
+
+Nếu muốn in mỗi phần tử trên một dòng:
+
+```bash
+for item in "${transport[@]}"
+do
+    echo "$item"
+done
+```
+
+Kết quả:
+
+```bash
+car
+train
+bike
+bus
+```
+
+Tóm lại, để in toàn bộ mảng, nên dùng:
+
+```bash
+echo "${array[@]}"
+```
+
+và khi lặp qua mảng, nên dùng:
+
+```bash
+for item in "${array[@]}"
+```
+
+
+## 25.5. Truy cập phần tử trong mảng
+
+Để truy cập một phần tử cụ thể trong mảng, dùng cú pháp:
+
+```bash
+${array[index]}
+```
+
+Ví dụ:
+
+```bash
+transport=("car" "train" "bike" "bus")
+
+echo "${transport[0]}"
+echo "${transport[1]}"
+echo "${transport[2]}"
+echo "${transport[3]}"
+```
+
+Kết quả:
+
+```bash
+car
+train
+bike
+bus
+```
+
+Có thể gán phần tử vào biến khác:
+
+```bash
+first_transport="${transport[0]}"
+echo "First transport is $first_transport"
+```
+
+Kết quả:
+
+```bash
+First transport is car
+```
+
+Ví dụ kiểm tra dịch vụ theo danh sách:
+
+```bash
+#!/bin/bash
+
+services=("ssh" "cron" "docker")
+
+echo "Checking service: ${services[0]}"
+systemctl status "${services[0]}"
+```
+
+Có thể dùng mảng với vòng lặp để xử lý từng phần tử:
+
+```bash
+#!/bin/bash
+
+services=("ssh" "cron" "docker")
+
+for service in "${services[@]}"
+do
+    echo "Checking $service"
+    systemctl is-active "$service"
+done
+```
+
+Ví dụ xử lý danh sách file log:
+
+```bash
+#!/bin/bash
+
+logs=("/var/log/syslog" "/var/log/auth.log" "/var/log/kern.log")
+
+for log in "${logs[@]}"
+do
+    echo "Last lines of $log:"
+    tail -n 5 "$log"
+done
+```
+
+Tóm lại, cú pháp `${array[index]}` dùng để lấy một phần tử cụ thể trong mảng, còn `"${array[@]}"` dùng để xử lý toàn bộ phần tử.
+
+
+## 25.6. Thay đổi giá trị phần tử
+
+Trong Bash, có thể thay đổi giá trị của một phần tử bằng cách gán giá trị mới cho chỉ số tương ứng.
+
+Cú pháp:
+
+```bash
+array[index]="new_value"
+```
+
+Ví dụ:
+
+```bash
+transport=("car" "train" "bike" "bus")
+
+transport[1]="airplane"
+
+echo "${transport[@]}"
+```
+
+Kết quả:
+
+```bash
+car airplane bike bus
+```
+
+Trong ví dụ trên, phần tử có chỉ số `1` ban đầu là `train`, sau đó được đổi thành `airplane`.
+
+Có thể thêm phần tử mới bằng cách gán vào chỉ số tiếp theo:
+
+```bash
+transport[4]="ship"
+```
+
+Kiểm tra lại:
+
+```bash
+echo "${transport[@]}"
+```
+
+Kết quả:
+
+```bash
+car airplane bike bus ship
+```
+
+Cách thêm phần tử vào cuối mảng thường dùng:
+
+```bash
+transport+=("metro")
+```
+
+Kết quả:
+
+```bash
+car airplane bike bus ship metro
+```
+
+Ví dụ trong script:
+
+```bash
+#!/bin/bash
+
+users=("alice" "bob")
+users+=("charlie")
+
+echo "Users: ${users[@]}"
+
+users[0]="admin"
+
+echo "Updated users: ${users[@]}"
+```
+
+Kết quả:
+
+```bash
+Users: alice bob charlie
+Updated users: admin bob charlie
+```
+
+Tóm lại, có thể thay đổi phần tử bằng cú pháp `array[index]="value"` và thêm phần tử mới bằng `array+=("value")`.
+
+
+## 25.7. Xóa phần tử với `unset`
+
+Lệnh `unset` dùng để xóa một biến hoặc một phần tử trong mảng.
+
+Cú pháp xóa một phần tử:
+
+```bash
+unset array[index]
+```
+
+Ví dụ:
+
+```bash
+transport=("car" "train" "bike" "bus")
+
+unset transport[1]
+
+echo "${transport[@]}"
+```
+
+Kết quả:
+
+```bash
+car bike bus
+```
+
+Trong ví dụ trên, phần tử `train` ở chỉ số `1` đã bị xóa.
+
+Cần chú ý: sau khi xóa một phần tử bằng `unset`, chỉ số của các phần tử còn lại không nhất thiết được sắp xếp lại liên tục.
+
+Ví dụ:
+
+```bash
+transport=("car" "train" "bike" "bus")
+
+unset transport[1]
+
+echo "${transport[0]}"
+echo "${transport[1]}"
+echo "${transport[2]}"
+echo "${transport[3]}"
+```
+
+Kết quả có thể là:
+
+```bash
+car
+
+bike
+bus
+```
+
+Phần tử chỉ số `1` bị rỗng vì đã bị xóa.
+
+Có thể in các chỉ số hiện có trong mảng bằng:
+
+```bash
+echo "${!transport[@]}"
+```
+
+Kết quả có thể là:
+
+```bash
+0 2 3
+```
+
+Nếu muốn xóa toàn bộ mảng:
+
+```bash
+unset transport
+```
+
+Sau đó:
+
+```bash
+echo "${transport[@]}"
+```
+
+sẽ không còn hiển thị phần tử nào.
+
+Ví dụ thực tế:
+
+```bash
+#!/bin/bash
+
+files=("report.txt" "old.log" "data.csv")
+
+echo "Before delete:"
+echo "${files[@]}"
+
+unset files[1]
+
+echo "After delete:"
+echo "${files[@]}"
+```
+
+Kết quả:
+
+```bash
+Before delete:
+report.txt old.log data.csv
+After delete:
+report.txt data.csv
+```
+
+Tóm lại, `unset array[index]` dùng để xóa một phần tử trong mảng, còn `unset array` dùng để xóa toàn bộ mảng.
 
