@@ -50,6 +50,8 @@
 
 23. [Bash Scripting cơ bản](#23-bash-scripting-cơ-bản)
 
+24. [Biến và tham số trong Bash](#24-biến-và-tham-số-trong-bash)
+
 ## Nội dung
 
 # 1: Tổng quan về Linux
@@ -9960,4 +9962,763 @@ echo "Report created: $filename"
 ```
 
 Tóm lại, `set -x` và `set +x` giúp gỡ lỗi có chọn lọc trong Bash script, phù hợp khi script dài hoặc chỉ một phần nhỏ cần kiểm tra.
+
+# 24. Biến và tham số trong Bash
+
+Trong Bash script, **biến** dùng để lưu trữ dữ liệu tạm thời, còn **tham số** dùng để nhận dữ liệu truyền vào khi chạy script. Đây là nền tảng quan trọng để viết script linh hoạt hơn, thay vì chỉ chạy các lệnh cố định.
+
+Nhờ biến và tham số, script có thể xử lý tên file, username, đường dẫn, số lượng đối số, dữ liệu nhập từ người dùng và mã trạng thái của lệnh trước đó.
+
+## 24.1. Khai báo biến trong Bash
+
+Trong Bash, biến được khai báo bằng cách gán giá trị cho tên biến.
+
+Cú pháp:
+
+```bash
+ten_bien="gia_tri"
+```
+
+Ví dụ:
+
+```bash
+name="Linux"
+```
+
+Trong ví dụ trên, biến `name` có giá trị là `Linux`.
+
+Ví dụ trong script:
+
+```bash
+#!/bin/bash
+
+name="Linux"
+echo "Hello $name"
+```
+
+Kết quả:
+
+```bash
+Hello Linux
+```
+
+Lưu ý quan trọng: khi khai báo biến trong Bash, **không được có khoảng trắng** trước hoặc sau dấu `=`.
+
+Đúng:
+
+```bash
+name="Linux"
+```
+
+Sai:
+
+```bash
+name = "Linux"
+```
+
+Nếu viết sai như trên, Bash sẽ hiểu `name` là một lệnh, còn `=` và `"Linux"` là tham số, dẫn đến lỗi.
+
+Tóm lại, biến trong Bash được khai báo bằng cú pháp `name=value` và không có khoảng trắng quanh dấu `=`.
+
+
+## 24.2. Sử dụng biến với `$`
+
+Sau khi khai báo biến, muốn lấy giá trị của biến thì đặt dấu `$` trước tên biến.
+
+Ví dụ:
+
+```bash
+name="Linux"
+echo $name
+```
+
+Kết quả:
+
+```bash
+Linux
+```
+
+Ví dụ khác:
+
+```bash
+user="student"
+echo "Current user is $user"
+```
+
+Kết quả:
+
+```bash
+Current user is student
+```
+
+Có thể dùng biến để lưu đường dẫn:
+
+```bash
+logfile="/var/log/auth.log"
+echo "Log file: $logfile"
+```
+
+Hoặc dùng biến trong lệnh:
+
+```bash
+filename="report.txt"
+cat $filename
+```
+
+Cách viết an toàn hơn là đặt biến trong dấu ngoặc kép:
+
+```bash
+cat "$filename"
+```
+
+Dấu ngoặc kép giúp tránh lỗi nếu giá trị biến có khoảng trắng.
+
+Ví dụ:
+
+```bash
+filename="my report.txt"
+cat "$filename"
+```
+
+Tóm lại, dấu `$` dùng để gọi giá trị của biến. Khi dùng biến trong lệnh, nên viết `"$variable"` để tránh lỗi do khoảng trắng hoặc ký tự đặc biệt.
+
+
+## 24.3. Quy tắc đặt biến trong Bash
+
+Khi đặt tên biến trong Bash, cần tuân theo một số quy tắc cơ bản.
+
+| Quy tắc | Ví dụ đúng | Ví dụ sai |
+|---|---|---|
+| Tên biến nên bắt đầu bằng chữ cái hoặc dấu `_` | `name="Linux"` | `_name="Linux"` |
+| Không có khoảng trắng quanh dấu `=` | `age=20` | `age = 20` |
+| Không dùng dấu cách trong tên biến | `user_name="student"` | `user name="student"` |
+| Có thể dùng chữ, số, dấu `_` | `file_name1="log.txt"` | `file-name="log.txt"` |
+| Phân biệt hoa thường | `name` khác `Name` | — |
+
+Ví dụ đúng:
+
+```bash
+username="student"
+user_id=1000
+log_file="/var/log/syslog"
+```
+
+Ví dụ sai:
+
+```bash
+user name="student"
+user-id=1000
+log file="/var/log/syslog"
+```
+
+Một số lưu ý:
+
+- Nên đặt tên biến rõ nghĩa.
+- Không nên đặt tên biến trùng với tên lệnh Linux.
+- Với biến tự tạo, có thể dùng chữ thường.
+- Với biến môi trường, thường dùng chữ hoa, ví dụ `PATH`, `HOME`, `USER`.
+
+Ví dụ:
+
+```bash
+backup_dir="/home/student/backup"
+log_file="/var/log/syslog"
+```
+
+Tóm lại, tên biến nên ngắn gọn, rõ nghĩa, không có khoảng trắng và không chứa ký tự đặc biệt ngoài dấu `_`.
+
+
+## 24.4. In biến ra màn hình
+
+Lệnh `echo` thường được dùng để in giá trị biến ra màn hình.
+
+Ví dụ:
+
+```bash
+name="Linux"
+echo $name
+```
+
+Kết quả:
+
+```bash
+Linux
+```
+
+Có thể kết hợp biến với chuỗi văn bản:
+
+```bash
+name="Linux"
+echo "Hello $name"
+```
+
+Kết quả:
+
+```bash
+Hello Linux
+```
+
+Ví dụ in nhiều biến:
+
+```bash
+username="student"
+hostname="ubuntu"
+
+echo "User: $username"
+echo "Host: $hostname"
+```
+
+Kết quả:
+
+```bash
+User: student
+Host: ubuntu
+```
+
+Có thể dùng dấu `{}` để phân tách tên biến rõ hơn:
+
+```bash
+name="Linux"
+echo "${name}_server"
+```
+
+Kết quả:
+
+```bash
+Linux_server
+```
+
+Nếu viết:
+
+```bash
+echo "$name_server"
+```
+
+Bash sẽ hiểu là biến `name_server`, không phải biến `name` cộng với chuỗi `_server`.
+
+Tóm lại, để in biến ra màn hình, dùng `echo "$variable"`. Khi cần ghép biến với chuỗi, nên dùng dạng `"${variable}"`.
+
+
+## 24.5. Tham số dòng lệnh
+
+**Tham số dòng lệnh** là các giá trị được truyền vào script khi chạy script từ terminal.
+
+Ví dụ có script tên `hello.sh`:
+
+```bash
+#!/bin/bash
+
+echo "Hello $1"
+```
+
+Chạy script:
+
+```bash
+./hello.sh Linux
+```
+
+Kết quả:
+
+```bash
+Hello Linux
+```
+
+Trong ví dụ trên:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `./hello.sh` | Tên script được chạy |
+| `Linux` | Tham số dòng lệnh thứ nhất |
+| `$1` | Đại diện cho tham số thứ nhất |
+
+Có thể truyền nhiều tham số:
+
+```bash
+./script.sh file.txt backup.txt
+```
+
+Trong script:
+
+```bash
+#!/bin/bash
+
+echo "Source file: $1"
+echo "Destination file: $2"
+```
+
+Kết quả:
+
+```bash
+Source file: file.txt
+Destination file: backup.txt
+```
+
+Tham số dòng lệnh giúp script linh hoạt hơn, vì người dùng có thể truyền dữ liệu khác nhau mỗi lần chạy script.
+
+Tóm lại, tham số dòng lệnh là dữ liệu được truyền vào script khi chạy, thường được truy cập bằng `$1`, `$2`, `$3`, ...
+
+
+## 24.6. Các tham số `$1`, `$2`, `$3`
+
+Trong Bash script, các tham số dòng lệnh được đánh số theo thứ tự.
+
+| Tham số | Ý nghĩa |
+|---|---|
+| `$1` | Đối số thứ nhất |
+| `$2` | Đối số thứ hai |
+| `$3` | Đối số thứ ba |
+| `$4` | Đối số thứ tư |
+| `${10}` | Đối số thứ mười |
+
+Ví dụ script `copy_file.sh`:
+
+```bash
+#!/bin/bash
+
+source_file="$1"
+destination_file="$2"
+
+echo "Copy from: $source_file"
+echo "Copy to: $destination_file"
+
+cp "$source_file" "$destination_file"
+```
+
+Chạy script:
+
+```bash
+./copy_file.sh note.txt note_backup.txt
+```
+
+Kết quả:
+
+```bash
+Copy from: note.txt
+Copy to: note_backup.txt
+```
+
+Script trên dùng:
+
+| Biến / Tham số | Ý nghĩa |
+|---|---|
+| `$1` | `note.txt` |
+| `$2` | `note_backup.txt` |
+
+Ví dụ kiểm tra file được truyền vào:
+
+```bash
+#!/bin/bash
+
+filename="$1"
+
+echo "File name: $filename"
+
+cat "$filename"
+```
+
+Chạy:
+
+```bash
+./read_file.sh report.txt
+```
+
+Tóm lại, `$1`, `$2`, `$3` giúp script nhận dữ liệu từ dòng lệnh và xử lý linh hoạt theo đầu vào của người dùng.
+
+
+## 24.7. Tên script với `$0`
+
+Biến đặc biệt `$0` chứa tên hoặc đường dẫn của script đang được chạy.
+
+Ví dụ script `info.sh`:
+
+```bash
+#!/bin/bash
+
+echo "Script name: $0"
+```
+
+Chạy:
+
+```bash
+./info.sh
+```
+
+Kết quả:
+
+```bash
+Script name: ./info.sh
+```
+
+Nếu chạy bằng đường dẫn đầy đủ:
+
+```bash
+/home/student/info.sh
+```
+
+Kết quả có thể là:
+
+```bash
+Script name: /home/student/info.sh
+```
+
+`$0` thường được dùng để hiển thị hướng dẫn sử dụng script.
+
+Ví dụ:
+
+```bash
+#!/bin/bash
+
+echo "Usage: $0 <filename>"
+```
+
+Nếu script tên là `read_file.sh`, kết quả sẽ là:
+
+```bash
+Usage: ./read_file.sh <filename>
+```
+
+Ví dụ đầy đủ:
+
+```bash
+#!/bin/bash
+
+if [ "$#" -eq 0 ]
+then
+    echo "Usage: $0 <filename>"
+    exit 1
+fi
+
+cat "$1"
+```
+
+Tóm lại, `$0` giúp script biết tên của chính nó, thường dùng trong thông báo hướng dẫn sử dụng.
+
+
+## 24.8. Tổng số đối số với `$#`
+
+Biến đặc biệt `$#` cho biết tổng số đối số được truyền vào script.
+
+Ví dụ script `count_args.sh`:
+
+```bash
+#!/bin/bash
+
+echo "Number of arguments: $#"
+```
+
+Chạy:
+
+```bash
+./count_args.sh one two three
+```
+
+Kết quả:
+
+```bash
+Number of arguments: 3
+```
+
+Có thể dùng `$#` để kiểm tra người dùng đã truyền đủ tham số hay chưa.
+
+Ví dụ script cần đúng 2 tham số:
+
+```bash
+#!/bin/bash
+
+if [ "$#" -ne 2 ]
+then
+    echo "Usage: $0 <source_file> <destination_file>"
+    exit 1
+fi
+
+cp "$1" "$2"
+echo "File copied from $1 to $2"
+```
+
+Chạy sai:
+
+```bash
+./copy_file.sh file1.txt
+```
+
+Kết quả:
+
+```bash
+Usage: ./copy_file.sh <source_file> <destination_file>
+```
+
+Chạy đúng:
+
+```bash
+./copy_file.sh file1.txt file2.txt
+```
+
+Tóm lại, `$#` rất hữu ích để kiểm tra số lượng tham số trước khi script tiếp tục chạy.
+
+
+## 24.9. Tất cả đối số với `$@` và `$*`
+
+Trong Bash, `$@` và `$*` đều dùng để đại diện cho tất cả đối số được truyền vào script. Tuy nhiên, chúng có sự khác biệt khi đặt trong dấu ngoặc kép.
+
+| Biến | Ý nghĩa |
+|---|---|
+| `$@` | Tất cả đối số, thường giữ từng đối số riêng biệt |
+| `$*` | Tất cả đối số, thường gộp thành một chuỗi khi đặt trong ngoặc kép |
+
+Ví dụ script:
+
+```bash
+#!/bin/bash
+
+echo "Using \$@:"
+for arg in "$@"
+do
+    echo "$arg"
+done
+
+echo "Using \$*:"
+for arg in "$*"
+do
+    echo "$arg"
+done
+```
+
+Chạy:
+
+```bash
+./args.sh "file one.txt" "file two.txt"
+```
+
+Kết quả với `"$@"`:
+
+```bash
+file one.txt
+file two.txt
+```
+
+Kết quả với `"$*"` thường được xử lý như một chuỗi:
+
+```bash
+file one.txt file two.txt
+```
+
+Trong thực tế, khi cần lặp qua từng đối số, nên dùng:
+
+```bash
+"$@"
+```
+
+Ví dụ:
+
+```bash
+#!/bin/bash
+
+for filename in "$@"
+do
+    echo "Processing file: $filename"
+done
+```
+
+Chạy:
+
+```bash
+./process.sh file1.txt file2.txt file3.txt
+```
+
+Kết quả:
+
+```bash
+Processing file: file1.txt
+Processing file: file2.txt
+Processing file: file3.txt
+```
+
+Tóm lại, `$@` và `$*` đều biểu diễn tất cả đối số, nhưng `"$@"` thường an toàn và được dùng nhiều hơn khi xử lý từng tham số riêng biệt.
+
+## 24.10. Mã trả về lệnh cuối với `$?`
+
+Biến đặc biệt `$?` chứa mã trả về, hay **exit status**, của lệnh vừa chạy trước đó.
+
+Trong Linux, quy ước phổ biến là:
+
+| Mã trả về | Ý nghĩa |
+|---|---|
+| `0` | Lệnh chạy thành công |
+| Khác `0` | Lệnh lỗi hoặc không thành công |
+
+Ví dụ:
+
+```bash
+ls /home
+echo $?
+```
+
+Nếu lệnh `ls /home` chạy thành công, kết quả có thể là:
+
+```bash
+0
+```
+
+Ví dụ lệnh lỗi:
+
+```bash
+ls /not_exist
+echo $?
+```
+
+Kết quả có thể là:
+
+```bash
+ls: cannot access '/not_exist': No such file or directory
+2
+```
+
+Có thể dùng `$?` trong script để kiểm tra lệnh trước đó có chạy thành công hay không.
+
+Ví dụ:
+
+```bash
+#!/bin/bash
+
+cp "$1" "$2"
+
+if [ "$?" -eq 0 ]
+then
+    echo "Copy successful"
+else
+    echo "Copy failed"
+fi
+```
+
+Tuy nhiên, cách viết tốt hơn thường là kiểm tra trực tiếp lệnh trong `if`:
+
+```bash
+#!/bin/bash
+
+if cp "$1" "$2"
+then
+    echo "Copy successful"
+else
+    echo "Copy failed"
+fi
+```
+
+Ví dụ kiểm tra dịch vụ:
+
+```bash
+#!/bin/bash
+
+systemctl is-active ssh > /dev/null
+
+if [ "$?" -eq 0 ]
+then
+    echo "SSH is running"
+else
+    echo "SSH is not running"
+fi
+```
+
+Tóm lại, `$?` giúp kiểm tra kết quả của lệnh trước đó, rất hữu ích khi viết script có xử lý lỗi.
+
+
+## 24.11. Nhập dữ liệu từ người dùng với `read`
+
+Lệnh `read` dùng để nhận dữ liệu nhập từ bàn phím và lưu vào biến.
+
+Cú pháp:
+
+```bash
+read variable_name
+```
+
+Ví dụ:
+
+```bash
+#!/bin/bash
+
+echo "Enter your name:"
+read name
+
+echo "Hello $name"
+```
+
+Khi chạy script:
+
+```bash
+./hello_read.sh
+```
+
+Người dùng nhập:
+
+```bash
+Student
+```
+
+Kết quả:
+
+```bash
+Hello Student
+```
+
+Có thể đọc nhiều giá trị:
+
+```bash
+#!/bin/bash
+
+echo "Enter your first name and last name:"
+read first_name last_name
+
+echo "First name: $first_name"
+echo "Last name: $last_name"
+```
+
+Có thể dùng tùy chọn `-p` để hiển thị prompt ngay trong lệnh `read`:
+
+```bash
+#!/bin/bash
+
+read -p "Enter your username: " username
+echo "Username: $username"
+```
+
+Ví dụ nhập mật khẩu mà không hiển thị ký tự, dùng `-s`:
+
+```bash
+#!/bin/bash
+
+read -s -p "Enter password: " password
+echo
+echo "Password received"
+```
+
+Ví dụ script hỏi tuổi:
+
+```bash
+#!/bin/bash
+
+echo "Enter your name:"
+read name
+
+echo "Enter your age:"
+read age
+
+echo "$name is $age years old"
+```
+
+Có thể kết hợp `read` với điều kiện:
+
+```bash
+#!/bin/bash
+
+read -p "Enter your age: " age
+
+if [ "$age" -ge 18 ]
+then
+    echo "You can work"
+else
+    echo "You are not eligible for work"
+fi
+```
+
+Tóm lại, `read` giúp script tương tác với người dùng bằng cách nhận dữ liệu nhập từ bàn phím và lưu vào biến.
 
