@@ -22,7 +22,7 @@
 
 9. [ Tìm kiếm tệp và thư mục](#9-tìm-kiếm-tệp-và-thư-mục)
 
-
+10. [ Bộ mô tả tệp và chuyển hướng dữ liệu](#10-bộ-mô-tả-tệp-và-chuyển-hướng-dữ-liệu)
 
 
 
@@ -2502,7 +2502,7 @@ Trong ví dụ trên:
 | `-type f` | Chỉ tìm tệp thường |
 | `-name "*.log"` | Chỉ lấy tệp có đuôi `.log` |
 
-## 9.2.3 Tìm theo kích thước `-size`
+### 9.2.3 Tìm theo kích thước `-size`
 
 Lệnh `find` có thể tìm tệp theo kích thước bằng tùy chọn `-size`.
 
@@ -2555,7 +2555,7 @@ Ví dụ, tìm tệp lớn hơn 25 KB nhưng nhỏ hơn 28 KB:
 find / -type f -size +25k -size -28k 2>/dev/null
 ```
 
-## 9.2.4. Tìm theo thời gian chỉnh sửa
+### 9.2.4. Tìm theo thời gian chỉnh sửa
 
 Lệnh `find` có thể tìm tệp theo thời gian chỉnh sửa bằng các tùy chọn như `-mtime`, `-mmin` hoặc `-newermt`.
 
@@ -2601,7 +2601,7 @@ find / -type f -newermt "2020-03-03" 2>/dev/null
 
 Tùy chọn thời gian rất hữu ích khi điều tra sự cố, kiểm tra tệp mới được tạo, phát hiện tệp bị thay đổi hoặc phân tích hoạt động bất thường trong hệ thống.
 
-## 9.2.5. Tìm theo chủ sở hữu `-user`
+### 9.2.5. Tìm theo chủ sở hữu `-user`
 
 Lệnh `find` có thể tìm tệp hoặc thư mục theo chủ sở hữu bằng tùy chọn `-user`.
 
@@ -2836,6 +2836,585 @@ Trong đó:
 |---|---|
 | `sudo updatedb` | Cập nhật cơ sở dữ liệu tìm kiếm |
 | `locate "*.conf"` | Tìm nhanh các tệp có đuôi `.conf` |
+
+# 10. Bộ mô tả tệp và chuyển hướng dữ liệu
+
+Trong Linux, khi một lệnh được thực thi, nó thường nhận dữ liệu đầu vào, tạo ra kết quả đầu ra và có thể sinh ra thông báo lỗi. Các luồng dữ liệu này được hệ thống quản lý thông qua **file descriptor**. Hiểu file descriptor và chuyển hướng dữ liệu giúp người dùng kiểm soát dữ liệu đi vào và đi ra khỏi lệnh, ghi kết quả vào tệp, ẩn lỗi, đọc dữ liệu từ tệp hoặc kết hợp nhiều lệnh với nhau.
+
+Đây là kiến thức rất quan trọng khi làm việc với Bash, xử lý log, viết script và tự động hóa tác vụ trong Linux.
+
+
+## 10.1. File Descriptor là gì?
+
+**File Descriptor**, viết tắt là **FD**, là một số định danh do hệ điều hành sử dụng để quản lý các luồng vào/ra của một tiến trình. Trong Linux, mọi tiến trình khi chạy thường có ba file descriptor mặc định:
+
+| File Descriptor | Tên | Ý nghĩa |
+|---|---|---|
+| `0` | STDIN | Đầu vào chuẩn |
+| `1` | STDOUT | Đầu ra chuẩn |
+| `2` | STDERR | Lỗi chuẩn |
+
+Có thể hiểu đơn giản như sau:
+
+- **STDIN** là nơi lệnh nhận dữ liệu đầu vào;
+- **STDOUT** là nơi lệnh đưa kết quả bình thường ra;
+- **STDERR** là nơi lệnh đưa thông báo lỗi ra.
+
+Ví dụ, khi chạy:
+
+```bash
+ls
+```
+
+kết quả danh sách tệp được hiển thị trên màn hình chính là **STDOUT**.
+
+Nếu chạy:
+
+```bash
+ls /not_exist
+```
+
+và thư mục `/not_exist` không tồn tại, thông báo lỗi được hiển thị chính là **STDERR**.
+
+Tóm lại, file descriptor là cách Linux phân biệt các luồng dữ liệu khác nhau của một chương trình. Nhờ đó, người dùng có thể chuyển hướng kết quả, lỗi hoặc đầu vào theo ý muốn.
+
+## 10.2. STDIN — Standard Input
+
+**STDIN**, hay **Standard Input**, là đầu vào chuẩn của một chương trình. Trong Linux, STDIN có file descriptor là `0`.
+
+Theo mặc định, STDIN thường lấy dữ liệu từ bàn phím. Khi người dùng nhập dữ liệu vào terminal, dữ liệu đó được gửi đến chương trình thông qua STDIN.
+
+Ví dụ:
+
+```bash
+cat
+```
+
+Khi chạy lệnh này mà không truyền tên tệp, `cat` sẽ chờ người dùng nhập dữ liệu từ bàn phím. Sau khi nhập một dòng và nhấn `Enter`, `cat` sẽ in lại dòng đó ra màn hình.
+
+Ví dụ:
+
+```bash
+cat
+Hello Linux
+Hello Linux
+```
+
+Trong ví dụ trên:
+
+- dòng `Hello Linux` đầu tiên là dữ liệu người dùng nhập vào;
+- dòng `Hello Linux` thứ hai là kết quả mà `cat` in ra.
+
+Để kết thúc nhập dữ liệu, có thể nhấn:
+
+```bash
+Ctrl + D
+```
+
+STDIN rất quan trọng khi dùng chuyển hướng đầu vào hoặc pipe. Ví dụ, thay vì nhập dữ liệu từ bàn phím, có thể cho một chương trình đọc dữ liệu từ tệp bằng ký hiệu `<`.
+
+Tóm lại, STDIN là luồng dữ liệu đầu vào chuẩn, thường đến từ bàn phím hoặc từ một tệp/lệnh khác.
+
+## 10.3. STDOUT — Standard Output
+
+**STDOUT**, hay **Standard Output**, là đầu ra chuẩn của một chương trình. Trong Linux, STDOUT có file descriptor là `1`.
+
+Theo mặc định, STDOUT được hiển thị trực tiếp trên màn hình terminal.
+
+Ví dụ:
+
+```bash
+echo "Hello Linux"
+```
+
+Kết quả:
+
+```bash
+Hello Linux
+```
+
+Dòng `Hello Linux` chính là dữ liệu được gửi ra STDOUT.
+
+Ví dụ khác:
+
+```bash
+ls
+```
+
+Kết quả danh sách tệp và thư mục cũng được gửi ra STDOUT.
+
+STDOUT có thể được chuyển hướng vào tệp bằng ký hiệu `>` hoặc `>>`.
+
+Ví dụ:
+
+```bash
+echo "Hello Linux" > output.txt
+```
+
+Lệnh trên không hiển thị kết quả ra màn hình, mà ghi kết quả vào tệp `output.txt`.
+
+Tóm lại, STDOUT là nơi chương trình đưa ra kết quả bình thường. Theo mặc định, nó hiển thị trên terminal, nhưng có thể chuyển hướng vào tệp hoặc truyền sang lệnh khác.
+
+
+## 10.4. STDERR — Standard Error
+
+**STDERR**, hay **Standard Error**, là luồng lỗi chuẩn của một chương trình. Trong Linux, STDERR có file descriptor là `2`.
+
+STDERR được dùng để hiển thị các thông báo lỗi hoặc cảnh báo trong quá trình thực thi lệnh.
+
+Ví dụ:
+
+```bash
+ls /not_exist
+```
+
+Nếu thư mục `/not_exist` không tồn tại, kết quả có thể là:
+
+```bash
+ls: cannot access '/not_exist': No such file or directory
+```
+
+Thông báo này không phải STDOUT, mà là STDERR.
+
+Việc tách riêng STDOUT và STDERR rất hữu ích vì người dùng có thể lưu kết quả bình thường vào một tệp, còn lỗi vào một tệp khác.
+
+Ví dụ:
+
+```bash
+find /etc -name "passwd" 1> output.txt 2> error.txt
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `1> output.txt` | Ghi STDOUT vào tệp `output.txt` |
+| `2> error.txt` | Ghi STDERR vào tệp `error.txt` |
+
+Tóm lại, STDERR là luồng dành riêng cho thông báo lỗi. Nhờ có STDERR, người dùng có thể xử lý lỗi riêng biệt với kết quả bình thường.
+
+## 10.5. Chuyển hướng đầu ra với `>`
+
+Ký hiệu `>` dùng để chuyển hướng STDOUT vào một tệp. Nếu tệp chưa tồn tại, hệ thống sẽ tạo tệp mới. Nếu tệp đã tồn tại, nội dung cũ sẽ bị ghi đè.
+
+Cú pháp:
+
+```bash
+command > file
+```
+
+Ví dụ:
+
+```bash
+echo "Hello Linux" > hello.txt
+```
+
+Lệnh trên ghi dòng chữ `Hello Linux` vào tệp `hello.txt`.
+
+Kiểm tra nội dung tệp:
+
+```bash
+cat hello.txt
+```
+
+Kết quả:
+
+```bash
+Hello Linux
+```
+
+Ví dụ khác:
+
+```bash
+ls > files.txt
+```
+
+Lệnh này ghi danh sách tệp và thư mục trong thư mục hiện tại vào tệp `files.txt`.
+
+Cần chú ý rằng `>` sẽ ghi đè nội dung cũ.
+
+Ví dụ:
+
+```bash
+echo "Line 1" > test.txt
+echo "Line 2" > test.txt
+cat test.txt
+```
+
+Kết quả:
+
+```bash
+Line 2
+```
+
+Dòng `Line 1` đã bị ghi đè bởi `Line 2`.
+
+Tóm lại, `>` dùng để ghi kết quả đầu ra của lệnh vào tệp, nhưng cần cẩn thận vì nó sẽ thay thế nội dung cũ nếu tệp đã tồn tại.
+
+
+## 10.6. Ghi thêm đầu ra với `>>`
+
+Ký hiệu `>>` dùng để ghi thêm STDOUT vào cuối tệp, thay vì ghi đè nội dung cũ.
+
+Cú pháp:
+
+```bash
+command >> file
+```
+
+Ví dụ:
+
+```bash
+echo "Line 1" > test.txt
+echo "Line 2" >> test.txt
+cat test.txt
+```
+
+Kết quả:
+
+```bash
+Line 1
+Line 2
+```
+
+Trong ví dụ trên:
+
+- `>` tạo tệp và ghi dòng đầu tiên;
+- `>>` ghi thêm dòng thứ hai vào cuối tệp.
+
+Ví dụ khác:
+
+```bash
+date >> log.txt
+```
+
+Lệnh này ghi thêm thời gian hiện tại vào cuối tệp `log.txt`.
+
+Có thể dùng `>>` để lưu kết quả nhiều lần vào cùng một tệp:
+
+```bash
+whoami >> report.txt
+hostname >> report.txt
+uname -a >> report.txt
+```
+
+Tệp `report.txt` sẽ chứa kết quả của cả ba lệnh.
+
+Tóm lại, `>>` dùng để ghi thêm dữ liệu vào cuối tệp. Đây là lựa chọn an toàn hơn `>` khi không muốn mất nội dung cũ.
+
+
+## 10.7. Chuyển hướng lỗi với `2>`
+
+Ký hiệu `2>` dùng để chuyển hướng STDERR, tức luồng lỗi chuẩn, vào một tệp.
+
+Cú pháp:
+
+```bash
+command 2> error.log
+```
+
+Ví dụ:
+
+```bash
+ls /not_exist 2> error.log
+```
+
+Lệnh trên sẽ không hiển thị lỗi ra màn hình, mà ghi lỗi vào tệp `error.log`.
+
+Kiểm tra nội dung tệp lỗi:
+
+```bash
+cat error.log
+```
+
+Kết quả có thể là:
+
+```bash
+ls: cannot access '/not_exist': No such file or directory
+```
+
+Có thể tách STDOUT và STDERR vào hai tệp khác nhau:
+
+```bash
+find /etc -name "passwd" 1> output.txt 2> error.txt
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `1> output.txt` | Ghi kết quả bình thường vào `output.txt` |
+| `2> error.txt` | Ghi lỗi vào `error.txt` |
+
+Trong thực tế, `2>` rất hữu ích khi chạy các lệnh có thể tạo nhiều lỗi, ví dụ `find` trên toàn bộ hệ thống.
+
+Tóm lại, `2>` dùng để chuyển hướng thông báo lỗi vào tệp, giúp người dùng lưu lại lỗi hoặc làm sạch màn hình terminal.
+
+## 10.8. Chuyển hướng lỗi vào `/dev/null`
+
+`/dev/null` là một thiết bị đặc biệt trong Linux, thường được gọi là “thùng rác” của hệ thống. Dữ liệu được chuyển vào `/dev/null` sẽ bị bỏ đi và không hiển thị nữa.
+
+Cú pháp thường dùng:
+
+```bash
+command 2>/dev/null
+```
+
+Ví dụ:
+
+```bash
+find / -name "passwd" 2>/dev/null
+```
+
+Lệnh trên tìm các tệp có tên `passwd` trong toàn bộ hệ thống, nhưng ẩn các lỗi như `Permission denied`.
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `2` | File descriptor của STDERR |
+| `>` | Chuyển hướng |
+| `/dev/null` | Nơi bỏ dữ liệu, không hiển thị ra màn hình |
+
+Ví dụ khác:
+
+```bash
+find / -type f -name "*.conf" 2>/dev/null
+```
+
+Lệnh này chỉ hiển thị các kết quả tìm kiếm hợp lệ, không hiển thị lỗi do thiếu quyền truy cập.
+
+Cần hiểu rằng `2>/dev/null` không sửa lỗi, mà chỉ ẩn lỗi khỏi màn hình. Vì vậy, khi cần phân tích nguyên nhân lỗi, không nên chuyển lỗi vào `/dev/null`, mà nên lưu vào tệp log:
+
+```bash
+command 2> error.log
+```
+
+Tóm lại, `2>/dev/null` dùng để bỏ qua thông báo lỗi, giúp đầu ra gọn hơn khi người dùng chỉ quan tâm đến kết quả chính.
+
+---
+
+### 12.9. Chuyển hướng đầu vào với `<`
+
+Ký hiệu `<` dùng để chuyển hướng STDIN từ một tệp vào một lệnh. Thay vì nhập dữ liệu từ bàn phím, lệnh sẽ đọc dữ liệu từ tệp.
+
+Cú pháp:
+
+```bash
+command < file
+```
+
+Ví dụ:
+
+```bash
+cat < hello.txt
+```
+
+Lệnh trên đọc nội dung từ tệp `hello.txt` thông qua STDIN và hiển thị ra màn hình.
+
+Ví dụ khác:
+
+```bash
+wc -l < hello.txt
+```
+
+Lệnh này đếm số dòng trong tệp `hello.txt`.
+
+So sánh hai cách sau:
+
+```bash
+wc -l hello.txt
+```
+
+và:
+
+```bash
+wc -l < hello.txt
+```
+
+Cả hai đều có thể đếm số dòng, nhưng có sự khác biệt nhỏ về đầu ra. Khi dùng tên tệp trực tiếp, `wc` thường hiển thị cả số dòng và tên tệp. Khi dùng `<`, `wc` chỉ nhận nội dung từ STDIN nên thường chỉ hiển thị số dòng.
+
+Ví dụ:
+
+```bash
+wc -l hello.txt
+```
+
+Kết quả:
+
+```bash
+3 hello.txt
+```
+
+Còn:
+
+```bash
+wc -l < hello.txt
+```
+
+Kết quả:
+
+```bash
+3
+```
+
+Tóm lại, `<` dùng để đưa nội dung của tệp vào lệnh dưới dạng đầu vào chuẩn.
+
+
+## 10.10. Here Document với `<< EOF`
+
+**Here Document** là cách truyền nhiều dòng dữ liệu trực tiếp vào một lệnh thông qua STDIN. Cú pháp thường dùng là `<< EOF`.
+
+Cú pháp cơ bản:
+
+```bash
+command << EOF
+nội dung dòng 1
+nội dung dòng 2
+EOF
+```
+
+Trong đó, `EOF` là dấu kết thúc nội dung. Khi shell gặp dòng `EOF`, nó hiểu rằng phần nhập dữ liệu đã kết thúc.
+
+Ví dụ:
+
+```bash
+cat << EOF
+Hello Linux
+This is a here document.
+EOF
+```
+
+Kết quả:
+
+```bash
+Hello Linux
+This is a here document.
+```
+
+Here Document thường được dùng để tạo tệp nhiều dòng.
+
+Ví dụ:
+
+```bash
+cat << EOF > note.txt
+Line 1
+Line 2
+Line 3
+EOF
+```
+
+Kiểm tra nội dung tệp:
+
+```bash
+cat note.txt
+```
+
+Kết quả:
+
+```bash
+Line 1
+Line 2
+Line 3
+```
+
+Có thể dùng Here Document trong Bash script để tạo file cấu hình hoặc ghi nội dung nhiều dòng.
+
+Ví dụ:
+
+```bash
+cat << EOF > config.txt
+username=admin
+host=localhost
+port=8080
+EOF
+```
+
+Lưu ý rằng `EOF` không bắt buộc phải là từ `EOF`. Người dùng có thể dùng một từ khác, miễn là từ mở đầu và kết thúc giống nhau.
+
+Ví dụ:
+
+```bash
+cat << END
+Hello
+END
+```
+
+Tóm lại, Here Document giúp truyền nhiều dòng dữ liệu vào một lệnh một cách rõ ràng và tiện lợi, đặc biệt hữu ích khi viết script.
+
+## 10.11. Pipes và cách kết hợp lệnh bằng `|`
+
+Ký hiệu pipe `|` dùng để lấy STDOUT của lệnh bên trái làm STDIN cho lệnh bên phải. Đây là một trong những cơ chế mạnh nhất trong Linux, vì nó cho phép kết hợp nhiều lệnh nhỏ để xử lý dữ liệu phức tạp.
+
+Cú pháp:
+
+```bash
+command1 | command2
+```
+
+Ví dụ:
+
+```bash
+ls | wc -l
+```
+
+Trong lệnh trên:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `ls` | Liệt kê tệp và thư mục |
+| `|` | Chuyển kết quả của `ls` sang lệnh tiếp theo |
+| `wc -l` | Đếm số dòng |
+
+Kết quả là số lượng dòng đầu ra của lệnh `ls`, tức có thể hiểu là số lượng mục được liệt kê.
+
+Ví dụ lọc kết quả bằng `grep`:
+
+```bash
+cat /etc/passwd | grep root
+```
+
+Lệnh này đọc nội dung `/etc/passwd`, sau đó lọc các dòng có chứa từ `root`.
+
+Tuy nhiên, có thể viết gọn hơn:
+
+```bash
+grep root /etc/passwd
+```
+
+Pipe đặc biệt hữu ích khi xử lý log.
+
+Ví dụ:
+
+```bash
+cat /var/log/auth.log | grep ssh
+```
+
+Lệnh này hiển thị các dòng log có chứa từ `ssh`.
+
+Có thể kết hợp nhiều pipe:
+
+```bash
+cat /var/log/auth.log | grep ssh | wc -l
+```
+
+Lệnh này đếm số dòng log có chứa từ `ssh`.
+
+Ví dụ khác:
+
+```bash
+find / -type f -name "*.bak" 2>/dev/null | nl
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `find / -type f -name "*.bak"` | Tìm tất cả tệp có đuôi `.bak` |
+| `2>/dev/null` | Ẩn lỗi thiếu quyền truy cập |
+| `| nl` | Đánh số dòng kết quả |
+
+Tóm lại, pipe `|` giúp kết hợp nhiều lệnh lại với nhau. Đây là nền tảng quan trọng trong triết lý Linux: mỗi công cụ làm một việc nhỏ, sau đó kết hợp chúng để giải quyết tác vụ lớn hơn.
 
 
 
