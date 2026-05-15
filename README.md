@@ -20,34 +20,38 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 ---
 
 ## [Section 1: Linux Fundamentals](/Linux_Fundamentals/Linux_Fundamentals.md)
->Nhiều máy chủ và công cụ bảo mật sử dụng Linux. Tìm hiểu cách sử dụng hệ điều hành Linux, một kỹ năng quan trọng trong an ninh mạng.
+>
+## Nội dung chính
 
-1. [Linux Fundamentals Part 1](/1_Linux_Fundamentals/1_Linux_Fundamentals_Part_1.md) 
->Bắt đầu hành trình học các kiến thức cơ bản về Linux. Học cách chạy một số lệnh cơ bản đầu tiên trên một terminal tương tác.
-
-2. [Linux Fundamentals Part 2](/1_Linux_Fundamentals/2_Linux_Fundamentals_Part_2.md) 
->Tiếp tục hành trình học Linux với phần hai. Bạn sẽ học cách đăng nhập vào máy Linux bằng SSH, cách nâng cao các lệnh của mình và tương tác với hệ thống tệp.
-
-3. [Linux Fundamentals Part 3](/1_Linux_Fundamentals/3_Linux_Fundamentals_Part_3.md)  
->Nâng cao kỹ năng Linux và thực hành với một số tiện ích phổ biến mà bạn có khả năng sử dụng hàng ngày.
-
----
-
-## [Section 3: Windows and AD Fundamentals](/SOC/1_Pre_Security/5_Windows_Fundamentals/)
->Trải nghiệm thực hành với Windows và các cơ chế bảo mật của nó. Các kiến thức cơ bản này sẽ giúp bạn xác định, khai thác và bảo vệ Windows.
-
-
-1. [Windows Fundamentals 1](/SOC/1_Pre_Security/5_Windows_Fundamentals/1_Windows_Fundamentals_1.md)  
->Trong phần 1 của mô-đun Windows Fundamentals, chúng ta sẽ bắt đầu hành trình tìm hiểu về màn hình desktop của Windows, hệ thống tệp NTFS, UAC, Bảng điều khiển (Control Panel) và hơn thế nữa.
-
-2. [Windows Fundamentals 2](/SOC/1_Pre_Security/5_Windows_Fundamentals/2_Windows_Fundamentals_2.md)
->Trong phần 2 của mô-đun Windows Fundamentals, tìm hiểu thêm về Cấu hình hệ thống (System Configuration), Cài đặt UAC, Giám sát tài nguyên (Resource Monitoring), Windows Registry và hơn thế nữa.
-
-3. [Windows Fundamentals 3](/SOC/1_Pre_Security/5_Windows_Fundamentals/3_Windows_Fundamentals_3.md)  
->Trong phần 3 của mô-đun Windows Fundamentals, tìm hiểu về các công cụ tích hợp của Microsoft giúp bảo vệ thiết bị, chẳng hạn như Windows Updates, Windows Security, BitLocker và hơn thế nữa.
-
-4. [Active Directory Basics](/SOC/1_Pre_Security/5_Windows_Fundamentals/4_Active_Directory_Basics.md)  
->Phần này sẽ giới thiệu các khái niệm cơ bản và chức năng do Active Directory cung cấp.
+| STT | Nội dung | Mô tả |
+|---:|---|---|
+| 1 | [Tổng quan về Linux](/Linux_Fundamentals/Linux_Fundamentals.md#1-tổng-quan-về-linux) | Giới thiệu Linux, lịch sử hình thành, vai trò của Linux và triết lý thiết kế mã nguồn mở. |
+| 2 | [Cấu trúc và kiến trúc hệ điều hành Linux](/Linux_Fundamentals/Linux_Fundamentals.md#2-cấu-trúc-và-kiến-trúc-hệ-điều-hành-linux) | Trình bày các thành phần chính của Linux, kiến trúc hệ điều hành và cấu trúc hệ thống tệp. |
+| 3 | [Terminal, Shell và dòng lệnh](/Linux_Fundamentals/Linux_Fundamentals.md#3-terminal-shell-và-dòng-lệnh) | Giải thích terminal, shell, Bash, prompt và các phím tắt cơ bản khi làm việc với dòng lệnh. |
+| 4 | [Làm quen với các lệnh Linux cơ bản](/Linux_Fundamentals/Linux_Fundamentals.md#4-làm-quen-với-các-lệnh-linux-cơ-bản) | Hướng dẫn các lệnh cơ bản như `echo`, `whoami`, `id`, `hostname`, `uname`, `pwd`, `clear` và lịch sử lệnh. |
+| 5 | [Tìm kiếm trợ giúp trong Linux](/Linux_Fundamentals/Linux_Fundamentals.md#5-tìm-kiếm-trợ-giúp-trong-linux) | Hướng dẫn cách tra cứu tài liệu lệnh bằng `man`, `--help`, `-h`, `apropos` và explainshell. |
+| 6 | [Điều hướng trong hệ thống tệp](/Linux_Fundamentals/Linux_Fundamentals.md#6-điều-hướng-trong-hệ-thống-tệp) | Trình bày cách di chuyển trong hệ thống tệp bằng `pwd`, `ls`, `cd`, đường dẫn tuyệt đối/tương đối và phím `TAB`. |
+| 7 | [Làm việc với tệp và thư mục](/Linux_Fundamentals/Linux_Fundamentals.md#7-làm-việc-với-tệp-và-thư-mục) | Hướng dẫn tạo, sao chép, di chuyển, đổi tên, xóa tệp/thư mục và kiểm tra loại tệp. |
+| 8 | [Xem và chỉnh sửa nội dung tệp](/Linux_Fundamentals/Linux_Fundamentals.md#8-xem-và-chỉnh-sửa-nội-dung-tệp) | Giới thiệu các lệnh xem nội dung tệp như `cat`, `head`, `tail`, `less`, `more` và trình soạn thảo `nano`, `vim`. |
+| 9 | [Tìm kiếm tệp và thư mục](/Linux_Fundamentals/Linux_Fundamentals.md#9-tìm-kiếm-tệp-và-thư-mục) | Hướng dẫn tìm chương trình, tệp và thư mục bằng `which`, `find`, `locate` và `updatedb`. |
+| 10 | [Bộ mô tả tệp và chuyển hướng dữ liệu](/Linux_Fundamentals/Linux_Fundamentals.md#10-bộ-mô-tả-tệp-và-chuyển-hướng-dữ-liệu) | Giải thích STDIN, STDOUT, STDERR, chuyển hướng dữ liệu với `>`, `>>`, `2>`, `<`, `<< EOF` và pipe `|`. |
+| 11 | [Lọc và xử lý nội dung văn bản](/Linux_Fundamentals/Linux_Fundamentals.md#11-lọc-và-xử-lý-nội-dung-văn-bản) | Trình bày các công cụ xử lý văn bản như `grep`, `awk`, `sed`, `cut`, `sort`, `uniq`, `wc`, `nl`, `diff` và `jq`. |
+| 12 | [Biểu thức chính quy trong Linux](/Linux_Fundamentals/Linux_Fundamentals.md#12-biểu-thức-chính-quy-trong-linux) | Giới thiệu Regex và cách ứng dụng với `grep`, `sed`, `awk` để tìm kiếm, lọc và xử lý dữ liệu văn bản. |
+| 13 | [Quyền truy cập trong Linux](/Linux_Fundamentals/Linux_Fundamentals.md#13-quyền-truy-cập-trong-linux) | Giải thích quyền `read`, `write`, `execute`, user/group/others, `chmod`, `chown`, `chgrp` và các rủi ro bảo mật. |
+| 14 | [Quản lý người dùng và nhóm](/Linux_Fundamentals/Linux_Fundamentals.md#14-quản-lý-người-dùng-và-nhóm) | Hướng dẫn quản lý user, group, kiểm tra thông tin người dùng, dùng `su`, `sudo`, tạo/xóa user và quản lý nhóm đặc quyền. |
+| 15 | [Kết nối và quản trị từ xa](/Linux_Fundamentals/Linux_Fundamentals.md#15-kết-nối-và-quản-trị-từ-xa) | Giới thiệu SSH, cách đăng nhập máy Linux từ xa và truyền tệp an toàn bằng SCP. |
+| 16 | [Tải xuống và chia sẻ tệp trong Linux](/Linux_Fundamentals/Linux_Fundamentals.md#16-tải-xuống-và-chia-sẻ-tệp-trong-linux) | Hướng dẫn tải tệp bằng `wget`, `curl`, chia sẻ tệp bằng Python HTTP Server và so sánh với `scp`. |
+| 17 | [Nén, giải nén và lưu trữ dữ liệu](/Linux_Fundamentals/Linux_Fundamentals.md#17-nén-giải-nén-và-lưu-trữ-dữ-liệu) | Trình bày khái niệm archive/compression và cách dùng `tar`, `gzip`, `gunzip` để nén, giải nén và sao lưu dữ liệu. |
+| 18 | [Quản lý tiến trình](/Linux_Fundamentals/Linux_Fundamentals.md#18-quản-lý-tiến-trình) | Giải thích process, PID, cách xem tiến trình bằng `ps`, `top`, kết thúc tiến trình bằng `kill` và quản lý foreground/background. |
+| 19 | [Quản lý dịch vụ trong Linux](/Linux_Fundamentals/Linux_Fundamentals.md#19-quản-lý-dịch-vụ-trong-linux) | Hướng dẫn quản lý dịch vụ bằng `systemd` và `systemctl`, gồm start, stop, enable, disable, status và ý nghĩa bảo mật. |
+| 20 | [Quản lý gói phần mềm](/Linux_Fundamentals/Linux_Fundamentals.md#20-quản-lý-gói-phần-mềm) | Giới thiệu package manager và cách quản lý phần mềm trên Debian/Ubuntu bằng APT. |
+| 21 | [Tự động hóa và lập lịch tác vụ](/Linux_Fundamentals/Linux_Fundamentals.md#21-tự-động-hóa-và-lập-lịch-tác-vụ) | Hướng dẫn tự động hóa công việc với `cron`, `crontab`, `at`, `nohup` và ứng dụng trong quản trị hệ thống. |
+| 22 | [Log trong Linux](/Linux_Fundamentals/Linux_Fundamentals.md#22-log-trong-linux) | Trình bày khái niệm log, thư mục `/var/log`, các tệp log quan trọng và cách phân tích log phục vụ SOC/điều tra sự cố. |
+| 23 | [Bash Scripting cơ bản](/Linux_Fundamentals/Linux_Fundamentals.md#23-bash-scripting-cơ-bản) | Giới thiệu Bash script, shebang, cách chạy script, cấp quyền thực thi, chú thích và gỡ lỗi script. |
+| 24 | [Biến và tham số trong Bash](/Linux_Fundamentals/Linux_Fundamentals.md#24-biến-và-tham-số-trong-bash) | Hướng dẫn khai báo biến, sử dụng tham số dòng lệnh, `$0`, `$1`, `$#`, `$@`, `$?` và nhập dữ liệu với `read`. |
+| 25 | [Mảng trong Bash](/Linux_Fundamentals/Linux_Fundamentals.md#25-mảng-trong-bash) | Trình bày cách khai báo mảng, truy cập phần tử, in toàn bộ mảng, thay đổi giá trị và xóa phần tử bằng `unset`. |
+| 26 | [Câu điều kiện trong Bash](/Linux_Fundamentals/Linux_Fundamentals.md#26-câu-điều-kiện-trong-bash) | Hướng dẫn dùng `if`, `then`, `else`, `fi`, so sánh số, chuỗi, kiểm tra tệp/thư mục và kết hợp nhiều điều kiện. |
+|
 
 ---
 
