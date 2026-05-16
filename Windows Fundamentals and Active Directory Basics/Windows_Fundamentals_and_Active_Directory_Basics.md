@@ -20,6 +20,8 @@
 
 9. [System Configuration — MSConfig](#9-system-configuration--msconfig)
 
+10. [Computer Management](#10-computer-management)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -2049,6 +2051,400 @@ Ví dụ, nếu Windows hoạt động bình thường sau khi tắt các dịch
 Trong an toàn thông tin, MSConfig cũng có thể hỗ trợ kiểm tra một số dấu hiệu bất thường, chẳng hạn như dịch vụ lạ, chương trình khởi động đáng nghi hoặc cấu hình hệ thống bị thay đổi.
 
 Tuy nhiên, MSConfig chỉ là công cụ hỗ trợ ban đầu. Khi cần điều tra sâu hơn, nên kết hợp với Task Manager, Event Viewer, Services, Autoruns, Registry Editor và các công cụ bảo mật khác.
+
+
+# 10. Computer Management
+
+## 10.1. Computer Management là gì?
+
+**Computer Management** là một công cụ quản trị tổng hợp trong Windows. Công cụ này tập hợp nhiều tiện ích quản lý hệ thống vào cùng một giao diện, giúp người dùng và quản trị viên dễ dàng theo dõi, cấu hình và xử lý sự cố trên máy tính.
+
+Thông qua Computer Management, người dùng có thể quản lý nhiều thành phần quan trọng như:
+
+- lịch tác vụ;
+- nhật ký sự kiện;
+- thư mục chia sẻ;
+- người dùng và nhóm cục bộ;
+- hiệu suất hệ thống;
+- thiết bị phần cứng;
+- ổ đĩa và phân vùng;
+- dịch vụ Windows;
+- WMI Control.
+
+Computer Management đặc biệt hữu ích trong quản trị hệ thống vì thay vì phải mở từng công cụ riêng lẻ, người dùng có thể truy cập nhiều công cụ quan trọng từ một cửa sổ duy nhất.
+
+Trong lĩnh vực an toàn thông tin, Computer Management cũng rất quan trọng vì nó hỗ trợ kiểm tra tài khoản người dùng, nhóm quyền, dịch vụ đang chạy, log sự kiện và các tài nguyên được chia sẻ trên hệ thống.
+
+
+## 10.2. Cách mở `compmgmt.msc`
+
+Có nhiều cách để mở Computer Management trong Windows.
+
+Cách phổ biến nhất là dùng hộp thoại Run:
+
+1. Nhấn tổ hợp phím:
+
+```text
+Win + R
+````
+
+2. Nhập lệnh:
+
+```text
+compmgmt.msc
+```
+
+3. Nhấn **Enter**.
+
+Ngoài ra, có thể mở bằng Start Menu:
+
+1. Nhấn **Start**.
+2. Gõ từ khóa:
+
+```text
+Computer Management
+```
+
+3. Chọn **Computer Management**.
+
+Cũng có thể mở từ menu chuột phải:
+
+1. Nhấp chuột phải vào **This PC** hoặc **Computer**.
+2. Chọn **Manage**.
+
+![](./img/10.2_computer_managerment.png)
+
+Sau khi mở, cửa sổ Computer Management thường được chia thành ba nhóm chính:
+
+* **System Tools**;
+* **Storage**;
+* **Services and Applications**.
+
+## 10.3. System Tools
+
+**System Tools** là nhóm công cụ dùng để quản lý và giám sát các thành phần hệ thống. Đây là phần quan trọng nhất trong Computer Management vì chứa nhiều tiện ích phục vụ quản trị, kiểm tra log và xử lý sự cố.
+
+![](./img/10.3_system_tools.png)
+
+Trong System Tools thường có các công cụ như:
+
+* Task Scheduler;
+* Event Viewer;
+* Shared Folders;
+* Local Users and Groups;
+* Performance Monitor;
+* Device Manager.
+
+Nhóm System Tools giúp quản trị viên kiểm tra tình trạng hoạt động của Windows, xem sự kiện hệ thống, quản lý tài khoản cục bộ, kiểm tra thiết bị phần cứng và theo dõi hiệu suất.
+
+Đối với người học SOC, System Tools rất cần thiết vì nhiều dữ liệu phục vụ điều tra sự cố ban đầu có thể được tìm thấy tại đây, đặc biệt là trong Event Viewer, Local Users and Groups và Performance Monitor.
+
+
+### 10.3.1. Task Scheduler
+
+**Task Scheduler** là công cụ dùng để tạo và quản lý các tác vụ tự động trong Windows.
+
+![](./img/10.3.1_task_scheduler.png)
+
+Thông qua Task Scheduler, Windows hoặc người dùng có thể cấu hình một chương trình, script hoặc lệnh chạy tự động theo một điều kiện nhất định.
+
+Ví dụ, một tác vụ có thể được cấu hình để chạy khi:
+
+* hệ thống khởi động;
+* người dùng đăng nhập;
+* đến một thời điểm cụ thể;
+* sau một khoảng thời gian lặp lại;
+* một sự kiện nhất định xuất hiện trong log.
+
+Task Scheduler thường được dùng cho các mục đích hợp pháp như:
+
+* chạy script bảo trì;
+* tự động sao lưu;
+* kiểm tra cập nhật;
+* chạy chương trình theo lịch;
+* thực hiện tác vụ quản trị định kỳ.
+
+Tuy nhiên, từ góc độ an toàn thông tin, Task Scheduler cũng là nơi cần kiểm tra vì kẻ tấn công có thể tạo scheduled task để duy trì persistence, tức là tự động chạy lại mã độc sau khi máy tính khởi động hoặc người dùng đăng nhập.
+
+### 10.3.2. Event Viewer
+
+**Event Viewer** là công cụ dùng để xem nhật ký sự kiện của Windows. Đây là một trong những công cụ quan trọng nhất khi xử lý sự cố và phân tích bảo mật.
+
+![](./img/10.3.2_event_viewer.png)
+
+Windows ghi lại nhiều loại sự kiện khác nhau trong Event Viewer, ví dụ:
+
+* lỗi ứng dụng;
+* lỗi hệ thống;
+* cảnh báo;
+* thông tin hoạt động;
+* đăng nhập thành công;
+* đăng nhập thất bại;
+* thay đổi chính sách;
+* hoạt động của dịch vụ.
+
+Các nhóm log thường gặp gồm:
+
+| Nhóm log         | Ý nghĩa                                                   |
+| ---------------- | --------------------------------------------------------- |
+| Application      | Ghi sự kiện liên quan đến ứng dụng                        |
+| Security         | Ghi sự kiện bảo mật, đăng nhập, kiểm toán                 |
+| System           | Ghi sự kiện liên quan đến hệ thống và dịch vụ             |
+| Setup            | Ghi sự kiện liên quan đến cài đặt và cập nhật             |
+| Forwarded Events | Chứa sự kiện được chuyển tiếp từ máy khác nếu có cấu hình |
+
+Trong quản trị hệ thống, Event Viewer giúp tìm nguyên nhân lỗi hệ thống, lỗi ứng dụng hoặc lỗi dịch vụ.
+
+Trong SOC, Event Viewer rất quan trọng vì nhiều dấu hiệu tấn công có thể được phát hiện qua Windows Logs, đặc biệt là log đăng nhập, tạo tài khoản, thay đổi quyền, chạy dịch vụ hoặc lỗi bất thường.
+
+### 10.3.3. Shared Folders
+
+**Shared Folders** là công cụ dùng để xem và quản lý các thư mục được chia sẻ trên máy tính Windows.
+
+![](./img/10.3.3_share_folders.png)
+
+Thông qua Shared Folders, người dùng có thể kiểm tra:
+
+* các thư mục đang được chia sẻ;
+* các phiên kết nối đến thư mục chia sẻ;
+* các tệp đang được mở qua mạng.
+
+Shared Folders thường có ba phần chính:
+
+| Mục        | Ý nghĩa                                    |
+| ---------- | ------------------------------------------ |
+| Shares     | Hiển thị các thư mục đang được chia sẻ     |
+| Sessions   | Hiển thị các phiên người dùng đang kết nối |
+| Open Files | Hiển thị các tệp đang được mở qua mạng     |
+
+Công cụ này rất hữu ích trong môi trường doanh nghiệp vì nhiều máy Windows có thể chia sẻ thư mục hoặc tài nguyên qua mạng nội bộ.
+
+Từ góc độ bảo mật, cần kiểm tra Shared Folders để phát hiện:
+
+* thư mục bị chia sẻ nhầm;
+* quyền truy cập quá rộng;
+* người dùng lạ đang kết nối;
+* tệp nhạy cảm đang được mở qua mạng;
+* chia sẻ ẩn hoặc chia sẻ không cần thiết.
+
+Việc cấu hình sai thư mục chia sẻ có thể dẫn đến rò rỉ dữ liệu hoặc truy cập trái phép.
+
+
+### 10.3.4. Local Users and Groups
+
+**Local Users and Groups** là công cụ dùng để quản lý tài khoản người dùng và nhóm cục bộ trên máy Windows.
+
+![](./img/10.3.4_local_users_and_groups.png)
+
+Trong công cụ này có hai phần chính:
+
+* **Users**;
+* **Groups**.
+
+Phần **Users** hiển thị các tài khoản cục bộ trên máy. Phần **Groups** hiển thị các nhóm cục bộ và thành viên của từng nhóm.
+
+Thông qua Local Users and Groups, quản trị viên có thể:
+
+* tạo tài khoản người dùng mới;
+* đổi mật khẩu;
+* vô hiệu hóa tài khoản;
+* thêm người dùng vào nhóm;
+* xóa người dùng khỏi nhóm;
+* kiểm tra tài khoản lạ;
+* kiểm tra nhóm có quyền cao.
+
+Một nhóm đặc biệt cần chú ý là **Administrators**. Người dùng thuộc nhóm này có quyền quản trị trên hệ thống.
+
+Trong an toàn thông tin, Local Users and Groups thường được kiểm tra để xác định liệu có tài khoản bất thường, tài khoản bị tạo trái phép hoặc người dùng không phù hợp nằm trong nhóm quản trị hay không.
+
+### 10.3.5. Performance Monitor
+
+**Performance Monitor** là công cụ dùng để theo dõi hiệu suất hệ thống Windows một cách chi tiết.
+
+![](./img/10.3.5_performance.png)
+
+Công cụ này cho phép người dùng quan sát nhiều chỉ số hoạt động của hệ thống, ví dụ:
+
+* CPU;
+* RAM;
+* ổ đĩa;
+* mạng;
+* tiến trình;
+* dịch vụ;
+* bộ đếm hiệu suất.
+
+Performance Monitor có thể hiển thị dữ liệu theo thời gian thực hoặc ghi lại dữ liệu để phân tích sau.
+
+So với Task Manager, Performance Monitor chi tiết hơn và phù hợp hơn cho việc theo dõi lâu dài hoặc phân tích hiệu suất chuyên sâu.
+
+Một số tình huống sử dụng Performance Monitor gồm:
+
+* kiểm tra nguyên nhân máy chạy chậm;
+* theo dõi mức sử dụng CPU hoặc RAM theo thời gian;
+* phân tích nghẽn cổ chai hệ thống;
+* giám sát hiệu suất máy chủ;
+* thu thập dữ liệu phục vụ báo cáo kỹ thuật.
+
+Trong môi trường doanh nghiệp, Performance Monitor có thể hỗ trợ quản trị viên phát hiện sớm vấn đề về tài nguyên trước khi hệ thống bị gián đoạn.
+
+### 10.3.6. Device Manager
+
+**Device Manager** là công cụ dùng để quản lý thiết bị phần cứng và driver trong Windows.
+
+![](./img/10.3.6_device_manager.png)
+
+Thông qua Device Manager, người dùng có thể xem danh sách các thiết bị được hệ thống nhận diện, chẳng hạn như:
+
+* card mạng;
+* card đồ họa;
+* ổ đĩa;
+* bàn phím;
+* chuột;
+* màn hình;
+* USB controller;
+* thiết bị âm thanh;
+* thiết bị Bluetooth.
+
+Device Manager cho phép thực hiện các thao tác như:
+
+* kiểm tra trạng thái thiết bị;
+* cập nhật driver;
+* gỡ driver;
+* vô hiệu hóa thiết bị;
+* bật lại thiết bị;
+* xem thuộc tính phần cứng;
+* kiểm tra lỗi driver.
+
+Nếu một thiết bị có vấn đề, Device Manager thường hiển thị biểu tượng cảnh báo màu vàng. Đây là dấu hiệu cho thấy thiết bị có thể bị lỗi driver, không hoạt động đúng hoặc chưa được cài đặt đầy đủ.
+
+Trong an toàn thông tin, Device Manager cũng có thể hỗ trợ kiểm tra các thiết bị lạ, adapter mạng ảo, USB bất thường hoặc phần cứng không được phép kết nối vào hệ thống.
+
+
+## 10.4. Storage
+
+**Storage** là nhóm công cụ dùng để quản lý thiết bị lưu trữ, ổ đĩa và phân vùng trong Windows.
+
+![](./img/10.4_storage.png)
+
+Thành phần quan trọng nhất trong nhóm Storage là **Disk Management**. Công cụ này cho phép người dùng xem và quản lý các ổ đĩa vật lý, phân vùng, volume và ký tự ổ đĩa.
+
+Thông qua Storage, người dùng có thể:
+
+* xem danh sách ổ đĩa;
+* kiểm tra dung lượng ổ đĩa;
+* tạo phân vùng mới;
+* xóa phân vùng;
+* định dạng phân vùng;
+* thay đổi ký tự ổ đĩa;
+* kiểm tra trạng thái volume;
+* quản lý ổ đĩa gắn ngoài.
+
+Trong quản trị hệ thống, Storage rất quan trọng vì lỗi ổ đĩa, thiếu dung lượng hoặc cấu hình phân vùng sai có thể ảnh hưởng trực tiếp đến hoạt động của Windows.
+
+Trong an toàn thông tin, việc kiểm tra Storage cũng có ý nghĩa khi cần phân tích ổ đĩa, xác định phân vùng lạ, kiểm tra thiết bị lưu trữ ngoài hoặc chuẩn bị môi trường điều tra số.
+
+### 10.4.1. Disk Management
+
+**Disk Management** là công cụ dùng để quản lý ổ đĩa, phân vùng và volume trong Windows.
+
+![](./img/10.4.1_disk_managerment.png)
+
+Thông qua Disk Management, người dùng có thể:
+
+* xem ổ đĩa vật lý;
+* xem phân vùng;
+* tạo volume mới;
+* xóa volume;
+* định dạng phân vùng;
+* thay đổi ký tự ổ đĩa;
+* mở rộng hoặc thu nhỏ volume;
+* kiểm tra trạng thái ổ đĩa;
+* quản lý ổ đĩa gắn ngoài.
+
+Ví dụ, khi cắm một ổ USB hoặc thêm ổ đĩa mới vào máy tính, Disk Management có thể được dùng để kiểm tra ổ đĩa đã được nhận hay chưa và có ký tự ổ đĩa hay chưa.
+
+Cần cẩn thận khi sử dụng Disk Management vì các thao tác như xóa volume hoặc định dạng ổ đĩa có thể làm mất dữ liệu.
+
+Trong điều tra số và an toàn thông tin, Disk Management có thể giúp kiểm tra cấu trúc ổ đĩa, phát hiện phân vùng lạ hoặc xác định các thiết bị lưu trữ đang được kết nối.
+
+## 10.5. Services and Applications
+
+**Services and Applications** là nhóm công cụ dùng để quản lý các dịch vụ và một số thành phần ứng dụng hệ thống.
+
+![](./img/10.5_services_and_applications.png)
+
+Trong nhóm này thường có:
+
+* Services;
+* WMI Control.
+
+**Services** cho phép xem và quản lý các dịch vụ đang chạy hoặc được cấu hình trên Windows. **WMI Control** liên quan đến Windows Management Instrumentation, một cơ chế cho phép quản lý và truy vấn thông tin hệ thống.
+
+Nhóm Services and Applications thường được sử dụng khi cần:
+
+* kiểm tra dịch vụ đang chạy;
+* khởi động hoặc dừng dịch vụ;
+* thay đổi kiểu khởi động của dịch vụ;
+* kiểm tra dịch vụ bất thường;
+* xem cấu hình WMI;
+* xử lý lỗi liên quan đến dịch vụ nền.
+
+Từ góc độ bảo mật, đây là phần cần chú ý vì nhiều mã độc hoặc công cụ tấn công có thể tạo dịch vụ để duy trì quyền truy cập lâu dài trên hệ thống.
+
+### 10.5.1. Services
+
+**Services** là công cụ dùng để quản lý các dịch vụ chạy nền trong Windows.
+
+![](./img/10.6.1_services.png)
+
+Dịch vụ là các chương trình chạy ở chế độ nền để cung cấp chức năng cho hệ điều hành hoặc ứng dụng. Một số dịch vụ khởi động cùng Windows, một số khác chỉ chạy khi cần.
+
+Thông qua Services, người dùng có thể:
+
+* xem danh sách dịch vụ;
+* kiểm tra trạng thái dịch vụ;
+* khởi động dịch vụ;
+* dừng dịch vụ;
+* khởi động lại dịch vụ;
+* thay đổi kiểu khởi động;
+* xem mô tả dịch vụ;
+* kiểm tra tài khoản dùng để chạy dịch vụ.
+
+Các kiểu khởi động thường gặp gồm:
+
+| Kiểu khởi động          | Ý nghĩa                                      |
+| ----------------------- | -------------------------------------------- |
+| Automatic               | Tự động chạy khi Windows khởi động           |
+| Automatic Delayed Start | Tự động chạy sau khi hệ thống khởi động xong |
+| Manual                  | Chỉ chạy khi được gọi                        |
+| Disabled                | Bị vô hiệu hóa                               |
+
+Trong an toàn thông tin, Services là khu vực rất quan trọng vì kẻ tấn công có thể tạo dịch vụ độc hại để duy trì quyền truy cập. Vì vậy, khi điều tra hệ thống Windows, cần kiểm tra các dịch vụ lạ, dịch vụ mới được tạo hoặc dịch vụ chạy từ đường dẫn bất thường.
+
+### 10.5.2. WMI Control
+
+**WMI Control** là công cụ dùng để quản lý và cấu hình **Windows Management Instrumentation**, viết tắt là **WMI**.
+
+![](./img/10.6.2_wmi_control.png)
+
+WMI là một thành phần của Windows cho phép truy vấn thông tin hệ thống, quản lý thiết bị, quản lý dịch vụ và thực hiện một số thao tác quản trị từ xa hoặc cục bộ.
+
+Thông qua WMI, quản trị viên hoặc công cụ quản lý có thể lấy thông tin như:
+
+* tên máy;
+* hệ điều hành;
+* phần cứng;
+* tiến trình;
+* dịch vụ;
+* ổ đĩa;
+* thông tin mạng;
+* trạng thái hệ thống.
+
+WMI Control trong Computer Management cho phép kiểm tra thuộc tính, cấu hình và trạng thái của WMI trên máy tính.
+
+Trong quản trị hệ thống, WMI rất hữu ích vì nó hỗ trợ tự động hóa và quản lý nhiều máy tính. Tuy nhiên, trong an toàn thông tin, WMI cũng là một thành phần cần chú ý vì kẻ tấn công có thể lạm dụng WMI để thực thi lệnh, thu thập thông tin hoặc duy trì persistence.
+
+Vì vậy, khi phân tích bảo mật Windows, cần quan tâm đến các hoạt động bất thường liên quan đến WMI, đặc biệt trong môi trường doanh nghiệp hoặc domain.
 
 
 
