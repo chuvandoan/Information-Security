@@ -46,6 +46,8 @@
 
 22. [Device Security](#22-device-security)
 
+23. [BitLocker](#23-bitlocker)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -5759,7 +5761,254 @@ Ví dụ, khi dùng BitLocker để mã hóa ổ đĩa, TPM có thể lưu trữ
 
 Trong các phiên bản Windows hiện đại, TPM là một thành phần rất quan trọng đối với bảo mật thiết bị.
 
+# 23. BitLocker
 
+## 23.1. BitLocker là gì?
+
+**BitLocker** là tính năng mã hóa ổ đĩa được tích hợp trong Windows. Tính năng này giúp bảo vệ dữ liệu bằng cách mã hóa toàn bộ ổ đĩa hoặc phân vùng.
+
+Khi BitLocker được bật, dữ liệu trên ổ đĩa sẽ được mã hóa. Nếu người khác tháo ổ đĩa ra khỏi máy tính hoặc cố gắng truy cập dữ liệu từ môi trường khác, họ sẽ không thể đọc được dữ liệu nếu không có khóa giải mã phù hợp.
+
+BitLocker thường được sử dụng để bảo vệ:
+
+- ổ đĩa hệ thống;
+- ổ dữ liệu;
+- máy tính xách tay;
+- máy tính doanh nghiệp;
+- thiết bị lưu trữ ngoài;
+- USB hoặc ổ cứng di động.
+
+BitLocker đặc biệt quan trọng trong trường hợp thiết bị bị mất hoặc bị đánh cắp. Ngay cả khi kẻ tấn công có được ổ đĩa vật lý, dữ liệu vẫn được bảo vệ bằng mã hóa.
+
+
+## 23.2. BitLocker Drive Encryption
+
+**BitLocker Drive Encryption** là chức năng mã hóa ổ đĩa của BitLocker. Nó cho phép mã hóa toàn bộ volume thay vì chỉ mã hóa từng tệp riêng lẻ.
+
+BitLocker Drive Encryption có thể được áp dụng cho:
+
+- ổ đĩa chứa hệ điều hành Windows;
+- ổ dữ liệu bên trong máy;
+- ổ cứng gắn ngoài;
+- USB nếu dùng BitLocker To Go.
+
+Khi mã hóa ổ hệ thống, BitLocker sẽ bảo vệ các tệp hệ điều hành, tệp người dùng, chương trình và dữ liệu khác nằm trên ổ đó.
+
+Một hệ thống sử dụng BitLocker thường yêu cầu người dùng có một trong các yếu tố sau để mở khóa ổ đĩa:
+
+- TPM;
+- PIN;
+- Startup Key;
+- Recovery Key;
+- mật khẩu đối với ổ dữ liệu hoặc thiết bị di động.
+
+BitLocker Drive Encryption giúp đảm bảo rằng dữ liệu không thể bị đọc trực tiếp nếu ổ đĩa bị truy cập ngoài hệ điều hành Windows hợp lệ.
+
+
+## 23.3. Vai trò của BitLocker trong bảo vệ dữ liệu
+
+BitLocker có vai trò quan trọng trong bảo vệ dữ liệu, đặc biệt là dữ liệu trên máy tính xách tay và thiết bị doanh nghiệp.
+
+Nếu máy tính không được mã hóa, kẻ tấn công có thể tháo ổ cứng ra và gắn vào máy khác để đọc dữ liệu. Trong trường hợp dùng BitLocker, dữ liệu trên ổ đĩa đã được mã hóa nên không thể đọc được nếu không có khóa giải mã.
+
+BitLocker giúp bảo vệ dữ liệu trong các tình huống như:
+
+- máy tính bị mất;
+- máy tính bị đánh cắp;
+- ổ cứng bị tháo ra khỏi máy;
+- người không có quyền cố gắng truy cập dữ liệu;
+- thiết bị lưu trữ ngoài bị thất lạc;
+- dữ liệu doanh nghiệp nằm trên máy cá nhân hoặc laptop.
+
+Trong môi trường doanh nghiệp, BitLocker thường được dùng để bảo vệ dữ liệu nhạy cảm như:
+
+- tài liệu nội bộ;
+- thông tin khách hàng;
+- dữ liệu tài chính;
+- thông tin xác thực;
+- dữ liệu dự án;
+- tài liệu pháp lý.
+
+BitLocker không ngăn được mọi loại tấn công, nhưng nó là lớp bảo vệ rất quan trọng đối với dữ liệu khi thiết bị không còn nằm trong sự kiểm soát của người dùng.
+
+
+## 23.4. BitLocker và TPM
+
+BitLocker thường hoạt động kết hợp với **TPM** để tăng cường bảo mật.
+
+**TPM** là viết tắt của **Trusted Platform Module**. Đây là thành phần bảo mật phần cứng dùng để lưu trữ khóa mã hóa và kiểm tra trạng thái tin cậy của hệ thống khi khởi động.
+
+Khi BitLocker sử dụng TPM, khóa mã hóa ổ đĩa được bảo vệ bởi TPM. TPM chỉ giải phóng khóa nếu quá trình khởi động của hệ thống không có dấu hiệu bị thay đổi bất thường.
+
+Ví dụ, nếu kẻ tấn công cố gắng thay đổi bootloader hoặc can thiệp vào quá trình khởi động, TPM có thể không giải phóng khóa mã hóa. Khi đó, hệ thống có thể yêu cầu Recovery Key.
+
+Lợi ích khi BitLocker kết hợp với TPM:
+
+- bảo vệ khóa mã hóa tốt hơn;
+- giảm nguy cơ ổ đĩa bị giải mã trái phép;
+- kiểm tra tính toàn vẹn của quá trình khởi động;
+- hỗ trợ mở khóa tự động khi hệ thống ở trạng thái tin cậy;
+- tăng mức độ bảo mật cho máy tính xách tay và endpoint doanh nghiệp.
+
+Trong các máy tính hiện đại, BitLocker thường được khuyến nghị sử dụng cùng TPM để đạt mức bảo vệ tốt hơn.
+
+
+## 23.5. BitLocker trên hệ thống không có TPM
+
+BitLocker vẫn có thể được sử dụng trên hệ thống không có TPM, nhưng cần cấu hình bổ sung.
+
+Khi không có TPM, Windows không thể dùng phần cứng để bảo vệ khóa mã hóa theo cách thông thường. Vì vậy, hệ thống cần một phương thức khác để mở khóa ổ đĩa khi khởi động.
+
+Một cách phổ biến là sử dụng **Startup Key** được lưu trên USB.
+
+Trong trường hợp này, khi máy tính khởi động, người dùng cần cắm USB chứa Startup Key để BitLocker có thể mở khóa ổ đĩa hệ thống.
+
+BitLocker không có TPM vẫn có thể bảo vệ dữ liệu, nhưng thường kém tiện lợi hơn và phụ thuộc nhiều hơn vào việc người dùng bảo quản khóa bên ngoài.
+
+Một số lưu ý khi dùng BitLocker không có TPM:
+
+- cần cấu hình chính sách cho phép BitLocker chạy không cần TPM;
+- cần bảo quản Startup Key cẩn thận;
+- không nên để USB chứa Startup Key cùng với máy tính;
+- cần lưu Recovery Key ở nơi an toàn;
+- nếu mất khóa, có thể không truy cập được dữ liệu.
+
+Trong môi trường doanh nghiệp, nên ưu tiên thiết bị có TPM để triển khai BitLocker hiệu quả và an toàn hơn.
+
+
+## 23.6. Startup Key
+
+**Startup Key** là khóa khởi động được dùng để mở khóa ổ đĩa BitLocker trong quá trình khởi động hệ thống.
+
+Startup Key thường được lưu trên USB. Khi máy tính bật lên, người dùng cần cắm USB chứa Startup Key để Windows có thể giải mã ổ đĩa và tiếp tục khởi động.
+
+Startup Key thường được dùng trong trường hợp:
+
+- máy tính không có TPM;
+- tổ chức muốn thêm một lớp xác thực khi khởi động;
+- cần bảo vệ ổ hệ thống bằng khóa ngoài;
+- yêu cầu chính sách bảo mật cao hơn.
+
+Startup Key có vai trò giống như một yếu tố vật lý. Nếu không có USB chứa khóa, ổ đĩa sẽ không được mở khóa.
+
+Tuy nhiên, cần bảo quản Startup Key rất cẩn thận. Nếu để USB chứa khóa cùng với máy tính, khi máy bị đánh cắp, kẻ tấn công cũng có thể có luôn khóa để mở ổ đĩa.
+
+Khuyến nghị bảo mật:
+
+- không cắm Startup Key thường xuyên khi không cần;
+- không để Startup Key trong cùng túi với laptop;
+- tạo bản sao dự phòng nếu chính sách cho phép;
+- lưu Recovery Key riêng biệt;
+- kiểm soát ai được giữ Startup Key.
+
+
+## 23.7. Recovery Key
+
+**Recovery Key** là khóa khôi phục BitLocker. Đây là chuỗi khóa dùng để mở khóa ổ đĩa trong trường hợp BitLocker không thể mở khóa theo cách thông thường.
+
+Recovery Key rất quan trọng vì nếu mất Recovery Key, người dùng có thể không thể truy cập dữ liệu đã mã hóa.
+
+BitLocker có thể yêu cầu Recovery Key trong các trường hợp như:
+
+- TPM phát hiện thay đổi bất thường trong quá trình khởi động;
+- BIOS/UEFI bị thay đổi;
+- bootloader bị thay đổi;
+- phần cứng quan trọng bị thay đổi;
+- người dùng quên PIN;
+- mất Startup Key;
+- ổ đĩa được gắn sang máy khác;
+- cấu hình BitLocker bị lỗi.
+
+Recovery Key có thể được lưu ở nhiều nơi tùy cấu hình, ví dụ:
+
+- tài khoản Microsoft;
+- file văn bản;
+- bản in giấy;
+- USB;
+- Active Directory;
+- Azure AD hoặc Microsoft Entra ID;
+- hệ thống quản lý endpoint của doanh nghiệp.
+
+Trong môi trường doanh nghiệp, Recovery Key nên được lưu tập trung và quản lý bởi bộ phận IT. Không nên để người dùng lưu Recovery Key ở nơi dễ mất hoặc dễ bị truy cập trái phép.
+
+
+## 23.8. BitLocker To Go
+
+**BitLocker To Go** là tính năng dùng để mã hóa thiết bị lưu trữ di động như USB hoặc ổ cứng ngoài.
+
+Khác với BitLocker Drive Encryption thường dùng cho ổ đĩa bên trong máy, BitLocker To Go tập trung bảo vệ dữ liệu trên thiết bị có thể tháo rời.
+
+BitLocker To Go hữu ích trong các tình huống:
+
+- USB chứa tài liệu quan trọng;
+- ổ cứng ngoài lưu dữ liệu sao lưu;
+- thiết bị di động dùng để chuyển dữ liệu giữa các máy;
+- nhân viên mang dữ liệu ra ngoài văn phòng;
+- cần bảo vệ dữ liệu khi thiết bị bị mất.
+
+Khi bật BitLocker To Go, người dùng thường cần đặt mật khẩu để mở khóa thiết bị. Nếu nhập đúng mật khẩu, Windows sẽ cho phép truy cập dữ liệu. Nếu không có mật khẩu hoặc Recovery Key, dữ liệu trên thiết bị sẽ không thể đọc được.
+
+Trong doanh nghiệp, BitLocker To Go giúp giảm nguy cơ rò rỉ dữ liệu qua USB hoặc ổ đĩa di động bị thất lạc.
+
+
+## 23.9. Sự khác nhau giữa BitLocker và EFS
+
+BitLocker và EFS đều là cơ chế mã hóa dữ liệu trong Windows, nhưng chúng hoạt động ở cấp độ khác nhau.
+
+| Tiêu chí | BitLocker | EFS |
+|---|---|---|
+| Tên đầy đủ | BitLocker Drive Encryption | Encrypting File System |
+| Cấp độ mã hóa | Mã hóa toàn bộ ổ đĩa hoặc volume | Mã hóa từng tệp hoặc thư mục |
+| Mục đích chính | Bảo vệ dữ liệu khi thiết bị hoặc ổ đĩa bị mất | Bảo vệ tệp khỏi người dùng khác trên cùng hệ thống |
+| Phạm vi bảo vệ | Toàn bộ ổ đĩa | Tệp/thư mục được chọn |
+| Phụ thuộc TPM | Có thể dùng TPM để tăng bảo mật | Không dùng TPM theo cách BitLocker |
+| Phù hợp cho | Laptop, ổ hệ thống, ổ dữ liệu, USB | Tệp hoặc thư mục nhạy cảm riêng lẻ |
+| Quản lý doanh nghiệp | Thường quản lý tập trung qua chính sách | Có thể quản lý qua chứng chỉ và chính sách |
+
+Ví dụ:
+
+- Nếu muốn bảo vệ toàn bộ laptop khi bị mất, nên dùng BitLocker.
+- Nếu chỉ muốn mã hóa một thư mục tài liệu riêng, có thể dùng EFS.
+
+Trong thực tế, BitLocker thường được ưu tiên trong doanh nghiệp vì nó bảo vệ toàn bộ ổ đĩa và giảm nguy cơ dữ liệu bị đọc khi thiết bị bị đánh cắp.
+
+EFS vẫn có ích trong một số trường hợp, nhưng nếu người dùng mất chứng chỉ mã hóa hoặc cấu hình sai, có thể gặp khó khăn khi khôi phục dữ liệu.
+
+
+## 23.10. Ý nghĩa bảo mật của mã hóa ổ đĩa
+
+Mã hóa ổ đĩa là một biện pháp bảo mật quan trọng để bảo vệ dữ liệu khi thiết bị rơi vào tay người không có quyền.
+
+Nếu không có mã hóa ổ đĩa, kẻ tấn công có thể:
+
+- tháo ổ cứng và đọc dữ liệu trên máy khác;
+- dùng hệ điều hành ngoài để truy cập tệp;
+- sao chép dữ liệu nhạy cảm;
+- khai thác dữ liệu từ máy bị mất;
+- truy cập tài liệu doanh nghiệp mà không cần đăng nhập Windows.
+
+Khi ổ đĩa được mã hóa bằng BitLocker, dữ liệu sẽ không thể đọc được nếu không có khóa giải mã phù hợp.
+
+Mã hóa ổ đĩa đặc biệt quan trọng đối với:
+
+- laptop doanh nghiệp;
+- thiết bị chứa dữ liệu khách hàng;
+- máy tính của nhân viên làm việc từ xa;
+- ổ đĩa sao lưu;
+- USB chứa dữ liệu nhạy cảm;
+- hệ thống có yêu cầu tuân thủ bảo mật.
+
+Tuy nhiên, mã hóa ổ đĩa không thay thế các biện pháp bảo mật khác. Nếu người dùng đã đăng nhập vào Windows và mã độc chạy trong phiên làm việc đó, dữ liệu đã mở khóa vẫn có thể bị truy cập. Vì vậy, BitLocker cần được kết hợp với các biện pháp khác như:
+
+- mật khẩu mạnh;
+- MFA nếu có;
+- antivirus;
+- cập nhật hệ thống;
+- kiểm soát quyền truy cập;
+- sao lưu dữ liệu;
+- giám sát bảo mật.
+
+Tóm lại, BitLocker là công cụ quan trọng giúp bảo vệ dữ liệu ở cấp ổ đĩa. Đối với Windows trong môi trường doanh nghiệp, mã hóa ổ đĩa là một lớp phòng thủ cần thiết để giảm rủi ro rò rỉ dữ liệu khi thiết bị bị mất hoặc bị đánh cắp.
 
 
 
