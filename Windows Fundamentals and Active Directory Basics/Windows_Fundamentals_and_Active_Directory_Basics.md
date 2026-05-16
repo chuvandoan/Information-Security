@@ -22,6 +22,8 @@
 
 10. [Computer Management](#10-computer-management)
 
+11. [Task Scheduler](#11-task-scheduler)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -2445,6 +2447,215 @@ WMI Control trong Computer Management cho phép kiểm tra thuộc tính, cấu 
 Trong quản trị hệ thống, WMI rất hữu ích vì nó hỗ trợ tự động hóa và quản lý nhiều máy tính. Tuy nhiên, trong an toàn thông tin, WMI cũng là một thành phần cần chú ý vì kẻ tấn công có thể lạm dụng WMI để thực thi lệnh, thu thập thông tin hoặc duy trì persistence.
 
 Vì vậy, khi phân tích bảo mật Windows, cần quan tâm đến các hoạt động bất thường liên quan đến WMI, đặc biệt trong môi trường doanh nghiệp hoặc domain.
+
+
+# 11. Task Scheduler
+
+## 11.1. Task Scheduler là gì?
+
+**Task Scheduler** là công cụ trong Windows dùng để tạo, quản lý và tự động chạy các tác vụ theo điều kiện hoặc thời gian nhất định.
+
+Thông qua Task Scheduler, người dùng hoặc quản trị viên có thể cấu hình để Windows tự động chạy một chương trình, script, lệnh hoặc tác vụ hệ thống mà không cần thao tác thủ công.
+
+Ví dụ, Task Scheduler có thể được dùng để:
+
+- chạy script sao lưu dữ liệu hằng ngày;
+- tự động mở một chương trình vào thời điểm nhất định;
+- chạy tác vụ bảo trì hệ thống;
+- kiểm tra cập nhật;
+- xóa tệp tạm theo lịch;
+- chạy lệnh khi người dùng đăng nhập;
+- thực hiện hành động khi hệ thống khởi động.
+
+Task Scheduler rất hữu ích trong quản trị hệ thống vì nó giúp tự động hóa các công việc lặp lại. Tuy nhiên, từ góc độ an toàn thông tin, đây cũng là một thành phần cần kiểm tra vì kẻ tấn công có thể lợi dụng scheduled task để duy trì quyền truy cập trên hệ thống.
+
+
+## 11.2. Tác vụ tự động trong Windows
+
+Tác vụ tự động trong Windows là những công việc được cấu hình để chạy mà không cần người dùng trực tiếp khởi động.
+
+Một tác vụ tự động thường bao gồm ba thành phần chính:
+
+- **Trigger**: điều kiện kích hoạt tác vụ;
+- **Action**: hành động sẽ được thực hiện;
+- **Conditions/Settings**: điều kiện bổ sung và thiết lập nâng cao.
+
+Ví dụ, một tác vụ có thể được cấu hình như sau:
+
+```text
+Trigger: chạy mỗi ngày lúc 08:00
+Action: chạy file backup.bat
+````
+
+Hoặc:
+
+```text
+Trigger: khi người dùng đăng nhập
+Action: mở một chương trình giám sát hệ thống
+```
+
+Trong Windows, nhiều tác vụ hệ thống cũng được tạo sẵn để phục vụ cập nhật, bảo trì, đồng bộ thời gian, kiểm tra bảo mật hoặc thu thập thông tin hệ thống.
+
+Việc hiểu tác vụ tự động giúp người học quản trị Windows biết cách tự động hóa công việc, đồng thời biết kiểm tra các tác vụ bất thường khi phân tích sự cố.
+
+## 11.3. Tạo Basic Task
+
+**Create Basic Task** là chức năng trong Task Scheduler dùng để tạo một tác vụ tự động đơn giản thông qua giao diện hướng dẫn từng bước.
+
+Để tạo Basic Task, có thể thực hiện như sau:
+
+1. Mở **Task Scheduler**.
+
+![](./img/13.3_open_task_scheduler.png)
+
+2. Chọn **Create Basic Task**.
+
+![](./img/13.3_open_create_a_basic_task.png)
+
+3. Nhập tên và mô tả cho tác vụ.
+
+![](./img/13.3_enter_name.png)
+
+4. Chọn **Trigger** để xác định khi nào tác vụ chạy.
+
+![](./img/13.3_select_trigger.png)
+
+5. Chọn **Action** để xác định hành động cần thực hiện.
+
+![](./img/13.3_select_action.png)
+
+6. Chọn chương trình cần chạy 
+
+![](./img/13.3_select_program.png)
+
+7. Nhấn **Finish** để hoàn tất.
+
+![](./img/13.3_finish.png)
+
+## 11.4. Trigger trong Task Scheduler
+
+**Trigger** là điều kiện dùng để kích hoạt một tác vụ trong Task Scheduler.
+
+Nói cách khác, Trigger trả lời câu hỏi: **khi nào tác vụ sẽ chạy?**
+
+Một số loại Trigger thường gặp gồm:
+
+| Trigger                         | Ý nghĩa                                               |
+| ------------------------------- | ----------------------------------------------------- |
+| Daily                           | Chạy hằng ngày                                        |
+| Weekly                          | Chạy hằng tuần                                        |
+| Monthly                         | Chạy hằng tháng                                       |
+| One time                        | Chạy một lần tại thời điểm cụ thể                     |
+| When the computer starts        | Chạy khi máy tính khởi động                           |
+| When I log on                   | Chạy khi người dùng đăng nhập                         |
+| When a specific event is logged | Chạy khi một sự kiện cụ thể xuất hiện trong Event Log |
+
+Ví dụ, nếu muốn chạy script kiểm tra hệ thống mỗi sáng, có thể chọn Trigger là **Daily** và đặt thời gian là `08:00`.
+
+Nếu muốn chạy chương trình khi người dùng đăng nhập vào Windows, có thể chọn Trigger là **When I log on**.
+
+Trigger rất quan trọng vì nếu cấu hình sai, tác vụ có thể không chạy đúng thời điểm hoặc chạy quá thường xuyên, gây ảnh hưởng đến hiệu suất hệ thống.
+
+## 11.5. Action trong Task Scheduler
+
+**Action** là hành động mà Task Scheduler sẽ thực hiện khi Trigger được kích hoạt.
+
+Nói cách khác, Action trả lời câu hỏi: **tác vụ sẽ làm gì?**
+
+Action phổ biến nhất là:
+
+```text
+Start a program
+```
+
+Với Action này, Task Scheduler có thể chạy:
+
+* một chương trình `.exe`;
+* một script `.bat`;
+* một script PowerShell `.ps1`;
+* một lệnh hệ thống;
+* một công cụ quản trị;
+* một file thực thi do người dùng chỉ định.
+
+Ví dụ:
+
+```text
+Action: Start a program
+Program/script: powershell.exe
+Arguments: -File C:\Scripts\check_logs.ps1
+```
+
+Hoặc:
+
+```text
+Action: Start a program
+Program/script: C:\Scripts\backup.bat
+```
+
+Khi cấu hình Action, cần kiểm tra kỹ đường dẫn đến chương trình hoặc script. Nếu đường dẫn sai, tác vụ sẽ không chạy thành công.
+
+Từ góc độ bảo mật, phần Action rất quan trọng vì nó cho biết tác vụ đang chạy chương trình hoặc lệnh nào. Khi điều tra hệ thống, nếu thấy một scheduled task chạy file lạ trong thư mục tạm, thư mục người dùng hoặc đường dẫn bất thường, cần kiểm tra kỹ.
+
+## 11.6. Ứng dụng Task Scheduler trong quản trị hệ thống
+
+Task Scheduler được sử dụng rất nhiều trong quản trị hệ thống vì nó giúp tự động hóa các công việc lặp lại.
+
+Một số ứng dụng phổ biến gồm:
+
+* tự động sao lưu dữ liệu;
+* chạy script kiểm tra hệ thống;
+* xóa file tạm định kỳ;
+* thu thập log;
+* kiểm tra dung lượng ổ đĩa;
+* khởi động lại dịch vụ theo lịch;
+* gửi báo cáo hệ thống;
+* chạy tác vụ bảo trì ngoài giờ làm việc.
+
+Ví dụ, quản trị viên có thể tạo một scheduled task để chạy script kiểm tra dung lượng ổ đĩa mỗi ngày. Nếu dung lượng còn quá thấp, script có thể ghi log hoặc gửi cảnh báo.
+
+Một ví dụ khác là tự động chạy script thu thập log từ máy trạm vào cuối ngày để phục vụ giám sát bảo mật.
+
+Task Scheduler giúp giảm thao tác thủ công, giảm sai sót và đảm bảo các công việc quan trọng được thực hiện đúng lịch.
+
+Tuy nhiên, cần quản lý Task Scheduler cẩn thận. Nếu có quá nhiều tác vụ không cần thiết, hệ thống có thể bị chậm hoặc khó kiểm soát.
+
+## 11.7. Ý nghĩa bảo mật của Scheduled Tasks
+
+Từ góc độ an toàn thông tin, **Scheduled Tasks** là một khu vực rất quan trọng cần kiểm tra trong Windows.
+
+Kẻ tấn công có thể lợi dụng Task Scheduler để duy trì **persistence**, tức là giữ khả năng tự động chạy lại mã độc sau khi máy tính khởi động hoặc sau khi người dùng đăng nhập.
+
+Ví dụ, một mã độc có thể tạo scheduled task để:
+
+* chạy file độc hại khi Windows khởi động;
+* chạy script PowerShell khi người dùng đăng nhập;
+* kết nối ra máy chủ điều khiển theo lịch;
+* tải thêm payload từ Internet;
+* khôi phục lại mã độc nếu bị xóa;
+* thực hiện lệnh định kỳ mà người dùng không biết.
+
+Khi phân tích bảo mật, cần kiểm tra các yếu tố sau:
+
+* tên tác vụ có bất thường không;
+* tác vụ được tạo khi nào;
+* tác vụ chạy bằng tài khoản nào;
+* Trigger của tác vụ là gì;
+* Action của tác vụ chạy file hoặc lệnh nào;
+* đường dẫn chương trình có đáng tin cậy không;
+* tác vụ có chạy từ thư mục tạm hoặc thư mục người dùng không;
+* tác vụ có dùng PowerShell, cmd.exe hoặc script lạ không.
+
+Một số dấu hiệu đáng nghi gồm:
+
+* tên tác vụ giống hệ thống nhưng viết sai hoặc lạ;
+* tác vụ chạy file trong `AppData`, `Temp` hoặc `Downloads`;
+* tác vụ chạy PowerShell với tham số khó hiểu;
+* tác vụ mới được tạo gần thời điểm xảy ra sự cố;
+* tác vụ chạy bằng tài khoản có quyền cao;
+* tác vụ không có mô tả rõ ràng.
+
+Vì vậy, trong điều tra sự cố Windows, Task Scheduler là một trong những nơi cần kiểm tra sớm. Nó giúp phát hiện các cơ chế tự động chạy chương trình, cả hợp pháp lẫn độc hại.
+
 
 
 
