@@ -8,6 +8,8 @@
 
 3. [Hệ thống tệp trong Windows](#3-hệ-thống-tệp-trong-windows)
 
+4. [Thư mục hệ thống Windows](#4-thư-mục-hệ-thống-windows)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -722,4 +724,139 @@ Tuy nhiên, không phải mọi ADS đều độc hại. Như đã đề cập, 
 Đối với chuyên viên SOC hoặc người làm điều tra số, ADS là một điểm cần chú ý khi phân tích hệ thống Windows. Nếu nghi ngờ có hành vi ẩn dữ liệu, cần sử dụng PowerShell hoặc các công cụ chuyên dụng để kiểm tra các luồng dữ liệu phụ.
 
 Tóm lại, ADS là một tính năng hợp pháp của NTFS, nhưng do khả năng ẩn dữ liệu, nó cũng có thể trở thành kỹ thuật bị lạm dụng trong tấn công mạng.
+
+# 4. Thư mục hệ thống Windows
+
+## 4.1. Thư mục `C:\Windows`
+
+Thư mục `C:\Windows` là thư mục hệ thống chính của hệ điều hành Windows. Đây là nơi lưu trữ nhiều tệp, thư mục con, thư viện, công cụ và thành phần quan trọng giúp Windows có thể khởi động và hoạt động bình thường.
+
+Thông thường, thư mục Windows nằm tại đường dẫn `C:\Windows`. Tuy nhiên, về mặt kỹ thuật, Windows không bắt buộc phải luôn được cài đặt ở ổ `C:`. Trong một số trường hợp, hệ điều hành có thể được cài ở ổ đĩa hoặc thư mục khác.
+
+![](./img/4.1_c_windows.png)
+
+Thư mục `C:\Windows` thường chứa các thành phần như:
+
+- tệp hệ thống của Windows;
+- thư viện hệ thống;
+- trình điều khiển;
+- công cụ quản trị;
+- tệp cấu hình;
+- thư mục `System32`;
+- các thành phần phục vụ cập nhật và bảo trì hệ thống.
+
+Người dùng thông thường không nên chỉnh sửa trực tiếp các tệp trong thư mục này nếu không hiểu rõ chức năng của chúng, vì điều đó có thể làm hệ thống hoạt động không ổn định hoặc gây lỗi nghiêm trọng.
+
+
+## 4.2. Biến môi trường `%windir%`
+
+`%windir%` là một biến môi trường trong Windows, được dùng để chỉ đường dẫn đến thư mục cài đặt hệ điều hành Windows.
+
+Thông thường, giá trị của biến `%windir%` là `C:\Windows`.
+
+Ví dụ:
+
+- `%windir%` thường tương đương với `C:\Windows`;
+- `%windir%\System32` thường tương đương với `C:\Windows\System32`.
+
+Việc sử dụng biến môi trường giúp Windows và các chương trình tham chiếu đến thư mục hệ thống mà không cần viết cố định đường dẫn. Điều này rất hữu ích trong trường hợp Windows được cài đặt ở vị trí khác.
+
+Ngoài `%windir%`, Windows còn có nhiều biến môi trường khác như `%SystemRoot%`, `%TEMP%`, `%USERPROFILE%` và `%ComSpec%`.
+
+Trong quản trị hệ thống, hiểu biến môi trường giúp người dùng đọc script, chạy lệnh và xử lý lỗi đường dẫn chính xác hơn.
+
+Để mở chúng ta nhấn tổ hợp phím Windows + R
+
+![](./img/4.2.png)
+
+## 4.3. Thư mục `System32`
+
+`System32` là một thư mục con rất quan trọng nằm trong thư mục Windows. Đường dẫn phổ biến của thư mục này là `C:\Windows\System32`.
+
+![](./img/4.3_system32.png)
+
+Thư mục này chứa nhiều tệp thực thi, thư viện hệ thống và công cụ quan trọng của Windows. Nhiều chương trình và lệnh hệ thống được gọi trực tiếp từ thư mục này khi người dùng thao tác trong Windows, Command Prompt hoặc PowerShell.
+
+Một số loại tệp thường có trong `System32` gồm:
+
+- tệp `.exe` của các công cụ hệ thống;
+- tệp `.dll` chứa thư viện dùng chung;
+- công cụ dòng lệnh;
+- tiện ích quản trị;
+- thành phần mạng;
+- thành phần bảo mật;
+- tệp cấu hình hệ thống.
+
+Mặc dù có tên là `System32`, thư mục này vẫn rất quan trọng trên cả hệ điều hành Windows 64-bit. Đây là một trong những thư mục cốt lõi của Windows.
+
+
+## 4.4. Vai trò của `System32`
+
+Thư mục `System32` đóng vai trò trung tâm trong hoạt động của hệ điều hành Windows. Nhiều chức năng quan trọng của hệ thống phụ thuộc vào các tệp nằm trong thư mục này.
+
+Vai trò chính của `System32` gồm:
+
+- lưu trữ các chương trình hệ thống quan trọng;
+- chứa thư viện DLL cần thiết cho Windows và ứng dụng;
+- cung cấp công cụ quản trị hệ thống;
+- hỗ trợ các lệnh trong Command Prompt;
+- cung cấp tiện ích mạng;
+- hỗ trợ cấu hình, giám sát và xử lý sự cố;
+- chứa nhiều thành phần liên quan đến bảo mật.
+
+Ví dụ, khi người dùng mở Command Prompt, Task Manager, Control Panel, System Information hoặc một số công cụ quản trị khác, Windows có thể gọi các tệp nằm trong `System32`.
+
+Đối với quản trị viên hệ thống và người học an toàn thông tin, `System32` là một vị trí cần hiểu rõ vì nó chứa nhiều công cụ hợp pháp của Windows. Các công cụ này có thể được sử dụng cho quản trị, xử lý sự cố, điều tra bảo mật hoặc trong một số trường hợp bị kẻ tấn công lạm dụng.
+
+
+## 4.5. Vì sao không nên xóa hoặc chỉnh sửa tùy tiện trong `System32`?
+
+Không nên xóa hoặc chỉnh sửa tùy tiện trong `System32` vì đây là thư mục chứa nhiều thành phần cốt lõi của Windows. Nếu xóa nhầm hoặc thay đổi sai tệp trong thư mục này, hệ điều hành có thể gặp lỗi nghiêm trọng.
+
+Một số hậu quả có thể xảy ra gồm:
+
+- Windows hoạt động không ổn định;
+- một số công cụ hệ thống không mở được;
+- dịch vụ Windows bị lỗi;
+- lỗi kết nối mạng;
+- lỗi đăng nhập;
+- lỗi cập nhật hệ thống;
+- hệ điều hành không thể khởi động.
+
+Ngoài ra, việc chỉnh sửa tùy tiện trong `System32` còn có thể tạo ra rủi ro bảo mật. Nếu một tệp hệ thống bị thay thế bằng tệp độc hại, kẻ tấn công có thể lợi dụng nó để duy trì quyền truy cập, leo thang đặc quyền hoặc che giấu hành vi độc hại.
+
+Windows thường áp dụng cơ chế phân quyền để bảo vệ thư mục này. Người dùng thông thường không có toàn quyền chỉnh sửa nhiều tệp trong `System32`, nhằm giảm nguy cơ làm hỏng hệ thống.
+
+Chỉ nên thao tác với `System32` khi:
+
+- hiểu rõ tệp hoặc công cụ đang sử dụng;
+- có quyền quản trị phù hợp;
+- có hướng dẫn đáng tin cậy;
+- đã sao lưu dữ liệu quan trọng;
+- thao tác phục vụ mục đích quản trị, sửa lỗi hoặc điều tra hợp lệ.
+
+
+## 4.6. Các công cụ Windows thường nằm trong `System32`
+
+Nhiều công cụ quan trọng của Windows được lưu trong thư mục `System32`. Các công cụ này có thể được mở từ Start Menu, hộp thoại Run, Command Prompt hoặc PowerShell.
+
+| Công cụ | Lệnh / tệp thực thi | Chức năng chính |
+|---|---|---|
+| Command Prompt | `cmd.exe` | Mở giao diện dòng lệnh của Windows |
+| Control Panel | `control.exe` | Mở Bảng điều khiển |
+| Task Manager | `taskmgr.exe` | Quản lý tiến trình và tài nguyên hệ thống |
+| System Configuration | `msconfig.exe` | Cấu hình khởi động và dịch vụ |
+| Computer Management | `compmgmt.msc` | Quản lý hệ thống tổng hợp |
+| Event Viewer | `eventvwr.msc` | Xem nhật ký sự kiện Windows |
+| Device Manager | `devmgmt.msc` | Quản lý thiết bị phần cứng |
+| Disk Management | `diskmgmt.msc` | Quản lý ổ đĩa và phân vùng |
+| Services | `services.msc` | Quản lý dịch vụ Windows |
+| System Information | `msinfo32.exe` | Xem thông tin phần cứng và phần mềm |
+| Resource Monitor | `resmon.exe` | Theo dõi CPU, RAM, Disk và Network |
+| Registry Editor | `regedit.exe` | Xem và chỉnh sửa Windows Registry |
+| Windows Defender Firewall | `WF.msc` | Cấu hình tường lửa nâng cao |
+| IP Configuration | `ipconfig.exe` | Xem cấu hình mạng |
+| Network Statistics | `netstat.exe` | Xem kết nối mạng và thống kê TCP/IP |
+
+Các công cụ này rất hữu ích trong quản trị hệ thống, xử lý sự cố và phân tích bảo mật. Ví dụ, `eventvwr.msc` giúp kiểm tra log sự kiện, `taskmgr.exe` giúp xem tiến trình đang chạy, còn `ipconfig.exe` hỗ trợ kiểm tra cấu hình mạng.
 
