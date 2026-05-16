@@ -40,6 +40,8 @@
 
 19. [Virus & Threat Protection](#19-virus--threat-protection)
 
+20. [Firewall & Network Protection](#20-firewall--network-protection)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -5209,35 +5211,253 @@ Trong Windows Security, Ransomware Protection thường liên quan đến:
 Ransomware Protection không thay thế hoàn toàn việc sao lưu dữ liệu. Sao lưu ngoại tuyến hoặc sao lưu trên hệ thống được bảo vệ vẫn là biện pháp rất quan trọng.
 
 
-## 19.8. Lưu ý bảo mật khi cấu hình Antivirus
+# 20. Firewall & Network Protection
 
-Khi cấu hình antivirus trong Windows Security, cần đảm bảo rằng các tính năng bảo vệ chính được bật và không tạo ra lỗ hổng do cấu hình sai.
+## 20.1. Windows Defender Firewall là gì?
 
-Một số lưu ý quan trọng gồm:
+**Windows Defender Firewall** là tường lửa tích hợp sẵn trong Windows. Công cụ này giúp kiểm soát lưu lượng mạng đi vào và đi ra khỏi máy tính.
 
-- không tắt Real-Time Protection nếu không có lý do rõ ràng;
-- nên bật Cloud-Delivered Protection để tăng khả năng phát hiện mối đe dọa mới;
-- cẩn thận khi cấu hình Exclusions;
-- không cho phép tệp bị phát hiện là độc hại nếu chưa kiểm tra kỹ;
-- thường xuyên xem Threat History;
-- kiểm tra Quarantined Threats và Allowed Threats;
-- bật Ransomware Protection nếu phù hợp;
-- cập nhật Windows và Microsoft Defender thường xuyên;
-- không bỏ qua cảnh báo màu đỏ hoặc màu vàng trong Windows Security.
+Firewall hoạt động như một lớp bảo vệ giữa máy tính và mạng bên ngoài. Nó có thể cho phép hoặc chặn kết nối dựa trên các quy tắc bảo mật đã được cấu hình.
 
-Trong môi trường doanh nghiệp, cấu hình antivirus nên được quản lý tập trung và có chính sách rõ ràng. Người dùng thông thường không nên tự ý tắt bảo vệ hoặc thêm exclusion nếu không được phép.
+Windows Defender Firewall có thể kiểm soát:
 
-Từ góc độ SOC, cần giám sát các sự kiện liên quan đến antivirus như:
+- ứng dụng nào được phép kết nối mạng;
+- cổng mạng nào được mở;
+- kết nối nào được phép đi vào máy;
+- kết nối nào bị chặn;
+- quy tắc mạng theo từng loại mạng khác nhau.
 
-- Real-Time Protection bị tắt;
-- phát hiện malware;
-- malware bị cách ly;
-- threat được allow;
-- exclusion mới được thêm;
-- nhiều cảnh báo xảy ra trên cùng một máy;
-- ransomware protection bị vô hiệu hóa.
+Trong Windows Security, phần quản lý firewall nằm tại:
 
-Tóm lại, Virus & Threat Protection là một lớp bảo vệ quan trọng của Windows. Nếu được cấu hình đúng, nó giúp giảm nguy cơ nhiễm malware, hỗ trợ phát hiện tấn công và bảo vệ dữ liệu người dùng.
+```text
+Windows Security → Firewall & network protection
+```
+
+## 20.2. Vai trò của firewall
+
+Firewall có vai trò kiểm soát và lọc lưu lượng mạng để bảo vệ hệ thống khỏi các kết nối không mong muốn hoặc nguy hiểm.
+
+Một firewall giúp:
+
+* ngăn truy cập trái phép từ bên ngoài;
+* giảm nguy cơ bị khai thác qua cổng mạng;
+* kiểm soát ứng dụng nào được phép giao tiếp qua mạng;
+* bảo vệ máy tính khi kết nối mạng công cộng;
+* giới hạn bề mặt tấn công của hệ thống;
+* hỗ trợ phát hiện và điều tra một số hành vi bất thường.
+
+Ví dụ, nếu một dịch vụ trên máy tính đang lắng nghe trên một cổng mạng, firewall có thể chặn kết nối từ bên ngoài vào dịch vụ đó. Điều này giúp giảm nguy cơ kẻ tấn công truy cập trái phép.
+
+Trong môi trường doanh nghiệp, firewall trên từng máy trạm là một lớp bảo vệ quan trọng bên cạnh firewall mạng, IDS/IPS, EDR và SIEM.
+
+## 20.3. Firewall Profiles
+
+Windows Defender Firewall sử dụng các **Firewall Profiles** để áp dụng mức bảo vệ khác nhau tùy theo loại mạng mà máy tính đang kết nối.
+
+![](./img/20.3_firewall_profile.png)
+
+Có ba profile chính:
+
+* Domain Profile;
+* Private Profile;
+* Public Profile.
+
+Mỗi profile có mục đích sử dụng khác nhau. Khi máy tính kết nối vào một mạng, Windows sẽ xác định loại mạng và áp dụng profile tương ứng.
+
+### 20.3.1. Domain Profile
+
+**Domain Profile** được sử dụng khi máy tính tham gia vào domain của doanh nghiệp và kết nối với mạng domain.
+
+![](./img/20.3_domain.png)
+
+Profile này thường áp dụng cho các máy tính trong môi trường tổ chức, nơi có Active Directory, Domain Controller và các chính sách quản lý tập trung.
+
+Trong Domain Profile, quản trị viên có thể cấu hình firewall thông qua Group Policy để đảm bảo tất cả máy tính trong domain tuân thủ cùng một chính sách bảo mật.
+
+Ví dụ, doanh nghiệp có thể cấu hình:
+
+* cho phép một số dịch vụ nội bộ;
+* chặn kết nối không cần thiết;
+* cho phép quản trị từ xa từ máy quản trị;
+* áp dụng quy tắc firewall thống nhất cho toàn bộ máy trạm.
+
+Domain Profile thường được kiểm soát bởi quản trị viên hệ thống.
+
+### 20.3.2. Private Profile
+
+**Private Profile** được sử dụng khi máy tính kết nối vào mạng riêng đáng tin cậy, ví dụ như mạng gia đình hoặc mạng nội bộ nhỏ.
+
+![](./img/20.3_private.png)
+
+Mạng Private thường được xem là an toàn hơn mạng công cộng. Vì vậy, Windows có thể cho phép một số chức năng chia sẻ hoặc phát hiện thiết bị trong mạng nội bộ.
+
+Private Profile thường phù hợp với:
+
+* mạng gia đình;
+* mạng văn phòng nhỏ;
+* mạng nội bộ đáng tin cậy;
+* môi trường lab cá nhân.
+
+Tuy nhiên, dù là mạng riêng, vẫn cần bật firewall để bảo vệ máy tính khỏi các thiết bị khác trong cùng mạng nếu chúng bị nhiễm malware hoặc bị kiểm soát bởi kẻ tấn công.
+
+### 20.3.3. Public Profile
+
+**Public Profile** được sử dụng khi máy tính kết nối vào mạng công cộng hoặc mạng không đáng tin cậy.
+
+![](./img/20.3_public.png)
+
+Ví dụ:
+
+* Wi-Fi ở quán cà phê;
+* Wi-Fi sân bay;
+* Wi-Fi khách sạn;
+* mạng công cộng ở trường học;
+* mạng không rõ chủ sở hữu.
+
+Public Profile thường có mức bảo vệ nghiêm ngặt hơn Private Profile. Windows sẽ hạn chế khả năng chia sẻ và chặn nhiều kết nối đi vào hơn để giảm rủi ro bị tấn công.
+
+Khi sử dụng mạng công cộng, nên để firewall bật và tránh bật các chức năng chia sẻ tệp nếu không cần thiết.
+
+Từ góc độ bảo mật, Public Profile là profile cần được bảo vệ chặt chẽ nhất.
+
+## 20.4. Bật và tắt Firewall
+
+Người dùng có thể bật hoặc tắt Windows Defender Firewall trong phần Firewall & network protection.
+
+Các bước cơ bản:
+
+1. Mở **Windows Security**.
+2. Chọn **Firewall & network protection**.
+3. Chọn profile cần cấu hình: Domain, Private hoặc Public.
+4. Bật hoặc tắt **Microsoft Defender Firewall**.
+
+Tuy nhiên, không nên tắt firewall nếu không có lý do rõ ràng. Khi firewall bị tắt, máy tính có thể dễ bị truy cập trái phép hơn qua mạng.
+
+Một số trường hợp người dùng tạm thời tắt firewall để kiểm tra lỗi kết nối hoặc kiểm thử trong lab. Sau khi kiểm tra xong, nên bật lại ngay.
+
+Trong môi trường doanh nghiệp, người dùng thông thường thường không được phép tự ý tắt firewall. Thiết lập này có thể được quản lý tập trung bằng Group Policy hoặc công cụ quản lý endpoint.
+
+## 20.5. Block All Incoming Connections
+
+**Block All Incoming Connections** là tùy chọn dùng để chặn tất cả kết nối đi vào máy tính, kể cả các kết nối có thể đã nằm trong danh sách được cho phép.
+
+Tùy chọn này thường được dùng khi cần tăng mức bảo vệ, đặc biệt khi máy tính đang kết nối vào mạng không đáng tin cậy.
+
+Khi bật Block All Incoming Connections:
+
+* các kết nối từ bên ngoài vào máy sẽ bị chặn;
+* ứng dụng khác khó truy cập dịch vụ trên máy;
+* giảm nguy cơ bị dò quét hoặc khai thác từ mạng;
+* một số chức năng chia sẻ mạng có thể không hoạt động.
+
+Tùy chọn này phù hợp khi:
+
+* dùng Wi-Fi công cộng;
+* nghi ngờ mạng đang không an toàn;
+* cần tạm thời khóa các kết nối vào máy;
+* muốn giảm tối đa bề mặt tấn công.
+
+Tuy nhiên, nếu bật tùy chọn này trong mạng doanh nghiệp, một số dịch vụ hợp pháp như chia sẻ file, quản trị từ xa hoặc ứng dụng nội bộ có thể bị ảnh hưởng.
+
+## 20.6. Allow an App Through Firewall
+
+**Allow an App Through Firewall** là chức năng cho phép người dùng cấu hình ứng dụng nào được phép giao tiếp qua Windows Defender Firewall.
+
+![](./img/20.6_allow_an_app_through_firewall.png)
+
+Một số ứng dụng cần kết nối mạng để hoạt động, ví dụ:
+
+* trình duyệt web;
+* ứng dụng chat;
+* phần mềm họp trực tuyến;
+* game online;
+* dịch vụ chia sẻ file;
+* công cụ quản trị từ xa;
+* ứng dụng nội bộ doanh nghiệp.
+
+Để cho phép một ứng dụng đi qua firewall:
+
+1. Mở **Windows Security**.
+2. Chọn **Firewall & network protection**.
+3. Chọn **Allow an app through firewall**.
+4. Nhấn **Change settings** nếu cần quyền chỉnh sửa.
+5. Chọn ứng dụng cần cho phép.
+6. Chọn profile tương ứng: Private hoặc Public.
+7. Nhấn **OK**.
+
+Cần cẩn thận khi cho phép ứng dụng qua firewall. Không nên cho phép ứng dụng lạ hoặc không rõ nguồn gốc, đặc biệt trên Public Network.
+
+Trong kiểm tra bảo mật, danh sách ứng dụng được cho phép qua firewall cần được rà soát định kỳ để phát hiện ứng dụng không cần thiết hoặc đáng nghi.
+
+## 20.7. Advanced Firewall Settings
+
+**Advanced Firewall Settings** là phần cấu hình nâng cao của Windows Defender Firewall.
+
+![](./img/20.7_advanced_firewall_settings.png)
+
+Tại đây, người dùng hoặc quản trị viên có thể tạo và quản lý các quy tắc firewall chi tiết hơn.
+
+Các loại quy tắc chính gồm:
+
+| Loại quy tắc              | Ý nghĩa                                              |
+| ------------------------- | ---------------------------------------------------- |
+| Inbound Rules             | Kiểm soát kết nối đi vào máy tính                    |
+| Outbound Rules            | Kiểm soát kết nối đi ra khỏi máy tính                |
+| Connection Security Rules | Cấu hình quy tắc bảo mật kết nối                     |
+| Monitoring                | Theo dõi trạng thái firewall và quy tắc đang áp dụng |
+
+Trong Advanced Firewall Settings, có thể tạo rule dựa trên:
+
+* chương trình;
+* cổng mạng;
+* giao thức TCP hoặc UDP;
+* địa chỉ IP;
+* profile mạng;
+* dịch vụ;
+* hành động Allow hoặc Block.
+
+Ví dụ, quản trị viên có thể tạo rule để:
+
+* chặn kết nối đến một cổng cụ thể;
+* chỉ cho phép Remote Desktop từ một địa chỉ IP quản trị;
+* chặn ứng dụng không được kết nối Internet;
+* cho phép dịch vụ nội bộ trong Domain Profile;
+* chặn lưu lượng không cần thiết trên Public Profile.
+
+Advanced Firewall Settings rất quan trọng trong môi trường doanh nghiệp vì nó cho phép kiểm soát kết nối mạng chi tiết và phù hợp với chính sách bảo mật.
+
+**Công cụ `WF.msc`**
+
+`WF.msc` là lệnh dùng để mở nhanh giao diện **Windows Defender Firewall with Advanced Security**.
+
+Có thể mở bằng hộp thoại Run:
+
+1. Nhấn tổ hợp phím:
+
+```text
+Win + R
+```
+
+2. Nhập lệnh:
+
+```text
+WF.msc
+```
+
+3. Nhấn **Enter**.
+
+Công cụ này cho phép quản lý firewall ở mức nâng cao, bao gồm:
+
+* Inbound Rules;
+* Outbound Rules;
+* Connection Security Rules;
+* Monitoring;
+* cấu hình profile Domain, Private và Public;
+* tạo rule cho chương trình, cổng, giao thức hoặc địa chỉ IP.
+
+`WF.msc` thường được sử dụng bởi quản trị viên hệ thống, người học Windows nâng cao và người làm an toàn thông tin.
+
+Trong thực tế, khi cần cấu hình firewall chi tiết hơn phần Windows Security thông thường, `WF.msc` là công cụ nên sử dụng.
 
 
 
