@@ -60,6 +60,8 @@
 
 29. [Quản lý người dùng trong Active Directory](#29-quản-lý-người-dùng-trong-active-directory)
 
+30. [Quản lý máy tính trong Active Directory](#30-quản-lý-máy-tính-trong-active-directory)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -7974,6 +7976,416 @@ Từ góc độ bảo mật, cần giám sát các thao tác PowerShell liên qu
 - xóa người dùng hoặc OU.
 
 Tóm lại, quản lý người dùng trong Active Directory là nhiệm vụ cơ bản nhưng rất quan trọng. Quản trị viên cần biết cách tạo, chỉnh sửa, reset mật khẩu, xóa tài khoản, ủy quyền quản trị và sử dụng PowerShell một cách an toàn.
+
+
+# 30. Quản lý máy tính trong Active Directory
+
+## 30.1. Computer Objects trong AD
+
+Trong Active Directory, **Computer Object** là đối tượng đại diện cho một máy tính đã tham gia vào domain.
+
+Khi một máy tính được join vào domain, Active Directory sẽ tạo một đối tượng máy tính tương ứng. Đối tượng này giúp domain nhận diện, xác thực và quản lý máy tính đó trong hệ thống.
+
+Computer Object có thể đại diện cho:
+
+- máy trạm của người dùng;
+- laptop doanh nghiệp;
+- máy chủ;
+- máy ảo;
+- Domain Controller;
+- thiết bị Windows tham gia domain.
+
+Ví dụ, nếu một máy tính có tên là:
+
+```text
+PC01
+````
+
+thì trong Active Directory sẽ có một Computer Object tên là:
+
+```text
+PC01
+```
+
+Computer Object rất quan trọng vì nó cho phép máy tính:
+
+* xác thực với Domain Controller;
+* nhận Group Policy;
+* được quản lý tập trung;
+* truy cập tài nguyên domain nếu được cấp quyền;
+* được phân loại theo OU;
+* được áp dụng chính sách bảo mật phù hợp.
+
+Từ góc độ bảo mật, cần quản lý Computer Objects cẩn thận vì mỗi máy tính trong domain đều là một điểm truy cập vào hệ thống doanh nghiệp.
+
+## 30.2. Container Computers mặc định
+
+Khi một máy tính mới tham gia domain, nếu quản trị viên không chỉ định vị trí khác, Computer Object thường được đưa vào container mặc định có tên là **Computers**.
+
+Container này có thể có dạng:
+
+```text
+domain.local
+└── Computers
+    ├── PC01
+    ├── PC02
+    └── LAPTOP01
+```
+
+Container **Computers** giúp lưu trữ các máy tính mới join domain, nhưng trong môi trường doanh nghiệp, không nên để toàn bộ máy tính ở đây lâu dài.
+
+Lý do là container Computers không phù hợp để tổ chức chính sách chi tiết theo từng loại thiết bị. Máy trạm, máy chủ và các thiết bị quan trọng thường cần chính sách khác nhau.
+
+Ví dụ:
+
+* máy trạm cần chính sách khóa màn hình, hạn chế Control Panel;
+* máy chủ cần chính sách bảo mật nghiêm ngặt hơn;
+* Domain Controller cần chính sách riêng;
+* laptop có thể cần BitLocker và chính sách firewall khác.
+
+Vì vậy, sau khi máy tính join domain, quản trị viên nên di chuyển chúng vào OU phù hợp.
+
+## 30.3. Vì sao cần phân loại máy tính trong AD?
+
+Cần phân loại máy tính trong Active Directory để quản lý và áp dụng chính sách chính xác hơn.
+
+Nếu tất cả máy tính đều nằm chung một container, rất khó áp dụng chính sách khác nhau cho từng nhóm thiết bị. Trong thực tế, không phải máy tính nào cũng có cùng vai trò và mức độ nhạy cảm.
+
+Ví dụ:
+
+| Loại thiết bị      | Yêu cầu quản lý                                      |
+| ------------------ | ---------------------------------------------------- |
+| Workstations       | Máy người dùng, cần chính sách sử dụng hằng ngày     |
+| Servers            | Máy cung cấp dịch vụ, cần bảo mật và ổn định cao hơn |
+| Domain Controllers | Máy quản lý domain, cần bảo vệ đặc biệt              |
+
+Việc phân loại máy tính giúp:
+
+* áp dụng Group Policy phù hợp;
+* dễ quản lý máy trạm và máy chủ;
+* giảm rủi ro cấu hình sai;
+* phân quyền quản trị rõ ràng;
+* dễ kiểm kê tài sản;
+* hỗ trợ điều tra sự cố;
+* tăng mức độ bảo mật của domain.
+
+Ví dụ, quản trị viên có thể tạo các OU riêng:
+
+```text
+Workstations
+Servers
+Domain Controllers
+```
+
+Sau đó di chuyển máy tính vào đúng OU để áp dụng chính sách phù hợp.
+
+Đây là cách quản lý tốt hơn so với để tất cả máy tính trong container Computers mặc định.
+
+## 30.4. Workstations
+
+**Workstations** là các máy trạm được người dùng sử dụng để làm việc hằng ngày.
+
+Workstations thường là:
+
+* máy tính để bàn của nhân viên;
+* laptop công ty;
+* máy trong phòng lab;
+* máy của sinh viên hoặc nhân viên văn phòng;
+* máy người dùng đăng nhập bằng tài khoản domain.
+
+Máy trạm là loại thiết bị phổ biến nhất trong domain. Người dùng domain thường đăng nhập vào các máy này để làm việc, truy cập tài liệu, sử dụng ứng dụng nội bộ và kết nối tài nguyên mạng.
+
+Các chính sách thường áp dụng cho Workstations gồm:
+
+* khóa màn hình tự động;
+* hạn chế quyền Administrator cục bộ;
+* bật Windows Defender Firewall;
+* bật antivirus;
+* cấu hình Windows Update;
+* chặn truy cập Control Panel nếu cần;
+* cấu hình BitLocker cho laptop;
+* giới hạn cài đặt phần mềm;
+* thu thập log bảo mật.
+
+Từ góc độ bảo mật, Workstations là mục tiêu phổ biến của tấn công vì người dùng thường mở email, tải tệp và truy cập web trên các máy này.
+
+Do đó, không nên đăng nhập tài khoản có quyền cao như Domain Admin vào máy trạm thông thường, trừ khi thật sự cần thiết và có kiểm soát.
+
+## 30.5. Servers
+
+**Servers** là các máy chủ trong domain, dùng để cung cấp dịch vụ cho người dùng hoặc các hệ thống khác.
+
+Máy chủ có thể đảm nhiệm nhiều vai trò như:
+
+* File Server;
+* Web Server;
+* Database Server;
+* DNS Server;
+* DHCP Server;
+* Application Server;
+* Backup Server;
+* Remote Desktop Server.
+
+Servers thường quan trọng hơn máy trạm vì chúng lưu trữ dữ liệu, cung cấp dịch vụ hoặc xử lý chức năng trọng yếu của doanh nghiệp.
+
+Các chính sách thường áp dụng cho Servers gồm:
+
+* hạn chế đăng nhập cục bộ;
+* chỉ cho phép quản trị viên được truy cập;
+* bật firewall với rule chặt chẽ;
+* giới hạn phần mềm được cài đặt;
+* bật audit logging;
+* cấu hình backup;
+* cập nhật bảo mật theo kế hoạch;
+* giám sát dịch vụ quan trọng;
+* bảo vệ tài khoản dịch vụ.
+
+Không nên áp dụng chính sách giống hệt máy trạm cho máy chủ nếu chính sách đó có thể làm gián đoạn dịch vụ.
+
+Ví dụ, chính sách tự động restart sau cập nhật có thể phù hợp với máy trạm, nhưng với máy chủ cần được lập lịch cẩn thận để tránh ảnh hưởng đến người dùng.
+
+## 30.6. Domain Controllers
+
+**Domain Controllers** là các máy chủ đặc biệt trong domain. Chúng chạy dịch vụ **Active Directory Domain Services — AD DS** và chịu trách nhiệm xác thực người dùng, máy tính, quản lý dữ liệu AD và phân phối chính sách.
+
+Domain Controllers là thành phần nhạy cảm nhất trong Windows Domain vì chúng liên quan trực tiếp đến:
+
+* xác thực người dùng;
+* xác thực máy tính;
+* dữ liệu Active Directory;
+* tài khoản domain;
+* nhóm bảo mật;
+* Group Policy;
+* mật khẩu băm;
+* quyền truy cập trong domain.
+
+Trong Active Directory, Domain Controllers thường nằm trong OU mặc định:
+
+```text
+Domain Controllers
+```
+
+OU này thường được áp dụng chính sách riêng, ví dụ:
+
+```text
+Default Domain Controllers Policy
+```
+
+Không nên di chuyển Domain Controllers sang OU khác nếu không có lý do rõ ràng.
+
+Một số nguyên tắc bảo mật với Domain Controllers:
+
+* không dùng Domain Controller như máy trạm;
+* không cài phần mềm không cần thiết;
+* hạn chế đăng nhập trực tiếp;
+* chỉ quản trị viên được phép truy cập;
+* bật audit logging;
+* cập nhật bảo mật định kỳ;
+* sao lưu System State;
+* giám sát thay đổi AD;
+* bảo vệ vật lý và mạng.
+
+Nếu Domain Controller bị chiếm quyền, toàn bộ domain có thể bị kiểm soát.
+
+## 30.7. Tạo OU cho Workstations
+
+Để quản lý máy trạm tốt hơn, nên tạo OU riêng cho Workstations.
+
+Các bước tạo OU trong ADUC:
+
+1. Mở **Active Directory Users and Computers**.
+2. Nhấp chuột phải vào domain.
+3. Chọn **New → Organizational Unit**.
+4. Nhập tên OU:
+
+```text
+Workstations
+```
+
+5. Nhấn **OK**.
+
+Sau khi tạo, cấu trúc có thể như sau:
+
+```text
+domain.local
+└── Workstations
+```
+
+OU Workstations sẽ được dùng để chứa các máy trạm của người dùng.
+
+Ví dụ:
+
+```text
+Workstations
+├── PC01
+├── PC02
+├── LAPTOP01
+└── LAPTOP02
+```
+
+Khi các máy trạm nằm trong OU này, quản trị viên có thể áp dụng GPO riêng cho máy trạm, ví dụ:
+
+* tự động khóa màn hình sau 5 phút;
+* bật Windows Firewall;
+* cấu hình Windows Update;
+* chặn người dùng cài phần mềm;
+* cấu hình audit policy;
+* triển khai script quản trị.
+
+Việc tạo OU riêng cho Workstations giúp chính sách rõ ràng và dễ kiểm soát hơn.
+
+## 30.8. Tạo OU cho Servers
+
+Tương tự Workstations, nên tạo OU riêng cho Servers để quản lý máy chủ.
+
+Các bước tạo OU Servers:
+
+1. Mở **Active Directory Users and Computers**.
+2. Nhấp chuột phải vào domain.
+3. Chọn **New → Organizational Unit**.
+4. Nhập tên OU:
+
+```text
+Servers
+```
+
+5. Nhấn **OK**.
+
+Cấu trúc ví dụ:
+
+```text
+domain.local
+└── Servers
+```
+
+Bên trong OU Servers có thể chứa các máy chủ như:
+
+```text
+Servers
+├── FILE-SERVER01
+├── WEB-SERVER01
+├── DB-SERVER01
+└── BACKUP-SERVER01
+```
+
+Trong môi trường lớn hơn, có thể chia OU Servers thành các OU con:
+
+```text
+Servers
+├── File Servers
+├── Web Servers
+├── Database Servers
+└── Backup Servers
+```
+
+Cách chia này giúp áp dụng chính sách riêng cho từng nhóm máy chủ.
+
+Ví dụ:
+
+* File Servers cần chính sách audit truy cập file;
+* Web Servers cần cấu hình firewall theo cổng web;
+* Database Servers cần bảo vệ quyền truy cập cơ sở dữ liệu;
+* Backup Servers cần chính sách bảo vệ dữ liệu sao lưu.
+
+Việc tạo OU Servers giúp giảm nguy cơ áp dụng nhầm chính sách của máy trạm lên máy chủ.
+
+## 30.9. Di chuyển máy tính vào OU phù hợp
+
+Sau khi tạo OU, cần di chuyển các Computer Objects vào đúng OU.
+
+Các bước di chuyển máy tính trong ADUC:
+
+1. Mở **Active Directory Users and Computers**.
+2. Mở container **Computers** hoặc OU hiện tại.
+3. Chọn máy tính cần di chuyển.
+4. Nhấp chuột phải vào máy tính.
+5. Chọn **Move**.
+6. Chọn OU đích, ví dụ `Workstations` hoặc `Servers`.
+7. Nhấn **OK**.
+
+Ví dụ, có thể di chuyển:
+
+```text
+PC01 → Workstations
+FILE-SERVER01 → Servers
+```
+
+Sau khi di chuyển, cấu trúc có thể là:
+
+```text
+domain.local
+├── Workstations
+│   ├── PC01
+│   └── PC02
+└── Servers
+    ├── FILE-SERVER01
+    └── WEB-SERVER01
+```
+
+Việc di chuyển máy tính vào đúng OU giúp máy nhận đúng Group Policy.
+
+Nếu một máy không nhận chính sách ngay, có thể chạy lệnh trên máy đó:
+
+```cmd
+gpupdate /force
+```
+
+Sau đó kiểm tra lại chính sách đã áp dụng hay chưa.
+
+Trong thực tế, cần có quy trình rõ ràng sau khi join domain: máy mới không nên nằm lâu trong container Computers mà nên được đưa vào OU phù hợp.
+
+## 30.10. Nguyên tắc bảo mật khi quản lý máy trạm và máy chủ
+
+Khi quản lý máy tính trong Active Directory, cần áp dụng các nguyên tắc bảo mật phù hợp cho từng loại thiết bị.
+
+Đối với **Workstations**, nên chú ý:
+
+* không cho người dùng thông thường có quyền Administrator cục bộ;
+* bật Windows Defender hoặc antivirus;
+* bật Windows Defender Firewall;
+* cập nhật hệ thống định kỳ;
+* cấu hình khóa màn hình tự động;
+* hạn chế chạy phần mềm không rõ nguồn gốc;
+* bật BitLocker cho laptop;
+* thu thập log bảo mật;
+* không đăng nhập tài khoản Domain Admin vào máy trạm thông thường.
+
+Đối với **Servers**, nên chú ý:
+
+* chỉ cài dịch vụ cần thiết;
+* hạn chế số người được đăng nhập;
+* bật audit logging;
+* cấu hình firewall chặt chẽ;
+* cập nhật bảo mật theo kế hoạch;
+* sao lưu dữ liệu quan trọng;
+* giám sát dịch vụ đang chạy;
+* bảo vệ tài khoản dịch vụ;
+* không dùng máy chủ cho công việc cá nhân.
+
+Đối với **Domain Controllers**, cần bảo vệ nghiêm ngặt hơn:
+
+* chỉ quản trị viên được phép truy cập;
+* không cài phần mềm không cần thiết;
+* không dùng làm file server hoặc máy trạm;
+* giám sát log xác thực;
+* giám sát thay đổi nhóm quyền cao;
+* sao lưu System State;
+* kiểm tra thành viên Domain Admins;
+* bảo vệ khỏi truy cập vật lý trái phép.
+
+Một số nguyên tắc chung:
+
+* phân loại máy tính theo OU rõ ràng;
+* áp dụng GPO phù hợp từng nhóm;
+* xóa hoặc disable computer objects không còn sử dụng;
+* đặt tên máy theo quy ước dễ hiểu;
+* kiểm tra máy lạ mới join domain;
+* theo dõi thay đổi trong AD;
+* áp dụng nguyên tắc least privilege;
+* không dùng chung chính sách cho mọi loại thiết bị nếu nhu cầu khác nhau.
+
+Tóm lại, quản lý máy tính trong Active Directory không chỉ là việc đưa máy vào domain. Quan trọng hơn là phải phân loại đúng, áp dụng chính sách phù hợp và bảo vệ từng nhóm thiết bị theo mức độ rủi ro của chúng.
+
 
 
 
