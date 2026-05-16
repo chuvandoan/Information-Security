@@ -16,6 +16,7 @@
 
 7. [Settings và Control Panel](#7-settings-và-control-panel)
 
+8. [Task Manager](#8-task-manager)
 
 ## Nội dung
 
@@ -1419,7 +1420,7 @@ Windows Settings phù hợp khi cần thay đổi nhanh các thiết lập thư�
 Trong thực tế, người dùng Windows nên biết sử dụng cả hai vì có những thiết lập chỉ dễ tìm trong Settings, nhưng cũng có những thiết lập vẫn cần mở Control Panel.
 
 
-### 7.4. Cách mở Settings
+## 7.4. Cách mở Settings
 
 Có nhiều cách để mở Windows Settings.
 
@@ -1625,5 +1626,203 @@ Tóm lại, có thể hiểu đơn giản như sau:
 
 * dùng **Settings** cho các cài đặt cơ bản, nhanh và hiện đại;
 * dùng **Control Panel** cho các cài đặt chi tiết, truyền thống và nâng cao.
+
+# 8. Task Manager
+
+## 8.1. Task Manager là gì?
+
+**Task Manager** là công cụ quản lý tác vụ của Windows. Công cụ này cho phép người dùng xem các chương trình, tiến trình và dịch vụ đang chạy trên hệ thống.
+
+
+Thông qua Task Manager, người dùng có thể theo dõi tình trạng sử dụng tài nguyên của máy tính như CPU, RAM, ổ đĩa và mạng. Đây là một công cụ rất quan trọng khi cần kiểm tra hiệu suất hệ thống hoặc xử lý sự cố.
+
+Task Manager thường được dùng để:
+
+- xem ứng dụng nào đang chạy;
+- kiểm tra tiến trình đang sử dụng nhiều tài nguyên;
+- đóng chương trình bị treo;
+- theo dõi CPU, RAM, Disk và Network;
+- kiểm tra ứng dụng khởi động cùng Windows;
+- xem thông tin người dùng đang đăng nhập;
+- hỗ trợ phát hiện tiến trình bất thường.
+
+Đối với người học an toàn thông tin, Task Manager là công cụ cơ bản nhưng rất hữu ích để quan sát hoạt động của hệ thống Windows.
+
+
+## 8.2. Cách mở Task Manager
+
+Có nhiều cách để mở Task Manager trong Windows.
+
+Cách nhanh nhất là sử dụng tổ hợp phím:
+
+```text
+Ctrl + Shift + Esc
+````
+
+Ngoài ra, có thể mở Task Manager bằng các cách sau:
+
+1. Nhấn chuột phải vào **Taskbar**.
+2. Chọn **Task Manager**.
+
+![](./img/8.2_open_task_manager.png)
+
+Hoặc:
+
+1. Nhấn tổ hợp phím:
+
+```text
+Ctrl + Alt + Delete
+```
+
+2. Chọn **Task Manager**.
+
+Cũng có thể mở Task Manager từ Start Menu:
+
+1. Nhấn **Start**.
+2. Gõ từ khóa `Task Manager`.
+3. Chọn ứng dụng **Task Manager**.
+
+Trong một số tình huống hệ thống bị chậm hoặc ứng dụng bị treo, tổ hợp phím `Ctrl + Shift + Esc` là cách mở Task Manager nhanh và hiệu quả nhất.
+
+## 8.3. Simple View và More Details
+
+Khi mở Task Manager lần đầu, Windows có thể hiển thị ở dạng đơn giản, gọi là **Simple View**.
+
+![](./img/8.3_task_manager_simple_view.png)
+
+Ở chế độ Simple View, Task Manager chỉ hiển thị danh sách các ứng dụng đang chạy. Người dùng có thể chọn một ứng dụng và nhấn **End task** để đóng ứng dụng đó.
+
+Nếu muốn xem thông tin chi tiết hơn, người dùng có thể nhấn **More details**.
+
+![](./img/8.3_task_manager_simple_view.png)
+
+Sau khi chuyển sang chế độ chi tiết, Task Manager sẽ hiển thị nhiều tab hơn, ví dụ:
+
+* Processes;
+* Performance;
+* App history;
+* Startup;
+* Users;
+* Details;
+* Services.
+
+Chế độ **More Details** hữu ích hơn cho quản trị hệ thống và xử lý sự cố vì nó cung cấp thông tin đầy đủ về tiến trình, tài nguyên, hiệu suất và dịch vụ đang chạy.
+
+## 8.4. Tab Processes
+
+Tab **Processes** hiển thị danh sách các ứng dụng và tiến trình đang chạy trên Windows.
+
+![](./img/8.4_tab_processes.png)
+
+Trong tab này, người dùng có thể xem mỗi tiến trình đang sử dụng bao nhiêu tài nguyên hệ thống, bao gồm:
+
+* CPU;
+* Memory;
+* Disk;
+* Network.
+
+Các tiến trình thường được chia thành nhiều nhóm, ví dụ:
+
+* Apps;
+* Background processes;
+* Windows processes.
+
+**Apps** là các ứng dụng người dùng đang mở, ví dụ như trình duyệt, trình soạn thảo văn bản hoặc File Explorer.
+
+**Background processes** là các tiến trình chạy nền. Chúng có thể thuộc về ứng dụng, dịch vụ hệ thống hoặc phần mềm bảo mật.
+
+**Windows processes** là các tiến trình liên quan trực tiếp đến hoạt động của hệ điều hành Windows.
+
+Tab Processes thường được dùng để xác định chương trình nào đang làm máy tính chậm, chiếm nhiều RAM hoặc sử dụng CPU bất thường.
+
+## 8.5. Tab Performance
+
+Tab **Performance** hiển thị thông tin hiệu suất của hệ thống theo thời gian thực.
+
+![](./img/8.5_tab_performance.png)
+
+Trong tab này, người dùng có thể theo dõi hoạt động của các thành phần phần cứng chính như:
+
+* CPU;
+* Memory;
+* Disk;
+* Ethernet hoặc Wi-Fi;
+* GPU nếu hệ thống hỗ trợ.
+
+Thông tin thường được hiển thị dưới dạng biểu đồ, giúp người dùng dễ quan sát mức sử dụng tài nguyên theo thời gian.
+
+Ví dụ, nếu CPU luôn ở mức gần 100%, hệ thống có thể đang chạy một tiến trình nặng hoặc có vấn đề về hiệu suất. Nếu RAM gần đầy, máy tính có thể bị chậm do thiếu bộ nhớ. Nếu Disk hoạt động liên tục ở mức cao, ổ đĩa có thể đang bị quá tải.
+
+Tab Performance rất hữu ích khi cần đánh giá tổng quan tình trạng hoạt động của máy tính.
+
+## 8.6. Theo dõi CPU, RAM, Disk và Network
+
+Task Manager cho phép theo dõi các tài nguyên quan trọng của hệ thống, bao gồm CPU, RAM, Disk và Network.
+
+| Thành phần   | Ý nghĩa                                  |
+| ------------ | ---------------------------------------- |
+| CPU          | Cho biết mức độ sử dụng bộ xử lý         |
+| Memory / RAM | Cho biết lượng bộ nhớ đang được sử dụng  |
+| Disk         | Cho biết mức độ đọc/ghi của ổ đĩa        |
+| Network      | Cho biết lưu lượng mạng đang gửi và nhận |
+
+Nếu **CPU** sử dụng quá cao trong thời gian dài, máy tính có thể bị chậm, nóng hoặc phản hồi kém.
+
+Nếu **RAM** gần đầy, Windows có thể phải sử dụng bộ nhớ ảo trên ổ đĩa, làm hệ thống chậm hơn.
+
+Nếu **Disk** luôn ở mức cao, máy có thể bị chậm khi mở ứng dụng, sao chép tệp hoặc khởi động hệ thống.
+
+Nếu **Network** có lưu lượng bất thường, có thể có ứng dụng đang tải dữ liệu, đồng bộ dữ liệu hoặc trong một số trường hợp là có tiến trình đáng nghi đang kết nối ra ngoài.
+
+Đối với người làm SOC hoặc điều tra sự cố, việc theo dõi các chỉ số này giúp phát hiện dấu hiệu bất thường ban đầu trên máy tính Windows.
+
+## 8.7. Quản lý ứng dụng đang chạy
+
+Task Manager cho phép người dùng quản lý các ứng dụng và tiến trình đang chạy trên hệ thống.
+
+Một chức năng thường dùng là **End task**. Chức năng này dùng để đóng một ứng dụng hoặc tiến trình khi nó bị treo, không phản hồi hoặc sử dụng quá nhiều tài nguyên.
+
+Các bước đóng một ứng dụng bằng Task Manager:
+
+1. Mở **Task Manager**.
+2. Vào tab **Processes**.
+3. Chọn ứng dụng hoặc tiến trình cần đóng.
+4. Nhấn **End task**.
+
+![](./img/8.7_end_task.png)
+
+Tuy nhiên, cần cẩn thận khi kết thúc tiến trình. Nếu đóng nhầm tiến trình hệ thống quan trọng, Windows có thể hoạt động không ổn định hoặc một số chức năng có thể bị lỗi.
+
+Người dùng nên ưu tiên đóng các ứng dụng thông thường trước, ví dụ như trình duyệt, trình soạn thảo, phần mềm bị treo hoặc chương trình không cần thiết.
+
+Không nên tùy tiện kết thúc các tiến trình thuộc nhóm **Windows processes** nếu không hiểu rõ chức năng của chúng.
+
+## 8.8. Ý nghĩa của Task Manager trong quản trị và xử lý sự cố
+
+Task Manager là một công cụ quan trọng trong quản trị và xử lý sự cố Windows. Công cụ này giúp người dùng nhanh chóng đánh giá tình trạng hoạt động của hệ thống.
+
+Trong quản trị hệ thống, Task Manager có thể được dùng để:
+
+* kiểm tra hiệu suất máy tính;
+* xác định ứng dụng gây chậm hệ thống;
+* đóng chương trình bị treo;
+* theo dõi tài nguyên phần cứng;
+* kiểm tra tiến trình chạy nền;
+* xem người dùng đang đăng nhập;
+* hỗ trợ phân tích sự cố ban đầu.
+
+Trong an toàn thông tin, Task Manager cũng có giá trị nhất định. Nó có thể giúp phát hiện một số dấu hiệu bất thường như:
+
+* tiến trình lạ đang chạy;
+* chương trình sử dụng CPU hoặc RAM bất thường;
+* lưu lượng mạng bất thường;
+* ứng dụng không rõ nguồn gốc;
+* tiến trình chạy nền đáng nghi.
+
+Tuy nhiên, Task Manager chỉ là công cụ kiểm tra cơ bản. Trong điều tra bảo mật chuyên sâu, cần kết hợp thêm các công cụ khác như Event Viewer, Resource Monitor, Sysinternals Process Explorer, Windows Defender, EDR hoặc SIEM.
+
+Tóm lại, Task Manager là công cụ đầu tiên nên kiểm tra khi Windows bị chậm, ứng dụng bị treo hoặc hệ thống có dấu hiệu hoạt động bất thường.
+
+
 
 
