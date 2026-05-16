@@ -70,6 +70,10 @@
 
 34. [Kerberos Authentication](#34-kerberos-authentication)
 
+35. [NetNTLM Authentication](#35-netntlm-authentication)
+
+36. [Trees, Forests và Trusts](#36-trees-forests-và-trusts)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -9862,6 +9866,662 @@ Tuy nhiên, Kerberos vẫn cần được cấu hình và giám sát đúng các
 Từ góc độ SOC, Kerberos là nguồn dữ liệu quan trọng để phân tích xác thực trong domain. Các log liên quan đến TGT, TGS, lỗi xác thực và truy cập dịch vụ có thể giúp phát hiện hành vi bất thường.
 
 Tóm lại, Kerberos là giao thức xác thực chính trong Windows Domain hiện đại. Nó sử dụng ticket, KDC, TGT, TGS, Session Key và SPN để xác thực người dùng với dịch vụ một cách an toàn và hiệu quả.
+
+
+# 35. NetNTLM Authentication
+
+## 35.1. NetNTLM là gì?
+
+**NetNTLM** là cơ chế xác thực cũ trong Windows, được sử dụng khi Kerberos không thể hoạt động hoặc khi hệ thống cần tương thích với các dịch vụ cũ.
+
+NetNTLM thường được gọi chung là **NTLM authentication** trong môi trường Windows. Đây là cơ chế xác thực dựa trên mô hình **Challenge-Response**, nghĩa là máy chủ gửi một giá trị thử thách cho client, sau đó client tạo phản hồi để chứng minh danh tính.
+
+NetNTLM có thể xuất hiện trong các trường hợp như:
+
+- máy tính không thuộc domain;
+- dịch vụ không hỗ trợ Kerberos;
+- truy cập tài nguyên bằng địa chỉ IP thay vì hostname;
+- SPN bị thiếu hoặc cấu hình sai;
+- không liên hệ được Domain Controller;
+- hệ thống legacy vẫn cần NTLM.
+
+Trong các domain Windows hiện đại, Kerberos là giao thức mặc định. NetNTLM chủ yếu được giữ lại để đảm bảo khả năng tương thích ngược.
+
+
+## 35.2. Cơ chế Challenge-Response
+
+NetNTLM sử dụng cơ chế **Challenge-Response** để xác thực người dùng mà không gửi mật khẩu dạng rõ qua mạng.
+
+Quy trình này có thể hiểu đơn giản như sau:
+
+1. Client yêu cầu truy cập tài nguyên.
+2. Server gửi một chuỗi ngẫu nhiên gọi là **challenge**.
+3. Client dùng thông tin liên quan đến mật khẩu để tính toán **response**.
+4. Response được gửi lại cho server.
+5. Server hoặc Domain Controller kiểm tra response.
+6. Nếu response đúng, người dùng được xác thực.
+
+Điểm quan trọng là client không gửi mật khẩu thật qua mạng. Thay vào đó, nó gửi một giá trị phản hồi được tạo từ challenge và thông tin xác thực của người dùng.
+
+Tuy nhiên, dù không gửi mật khẩu trực tiếp, NetNTLM vẫn có nhiều rủi ro bảo mật, đặc biệt là Pass-the-Hash và NTLM Relay.
+
+
+## 35.3. Client gửi yêu cầu xác thực
+
+Quá trình NetNTLM bắt đầu khi client muốn truy cập một tài nguyên trên mạng.
+
+Ví dụ, người dùng truy cập thư mục chia sẻ:
+
+```text
+\\FILE-SERVER\Share
+```
+
+Client sẽ gửi yêu cầu xác thực đến server để chứng minh rằng người dùng có quyền truy cập.
+
+Yêu cầu này có thể xuất hiện khi người dùng:
+
+* truy cập file share;
+* kết nối đến máy chủ nội bộ;
+* truy cập ứng dụng cũ;
+* kết nối SMB;
+* dùng tài khoản domain để truy cập tài nguyên;
+* truy cập tài nguyên bằng địa chỉ IP.
+
+Ví dụ:
+
+```text
+Client → Server: Tôi muốn truy cập tài nguyên này
+```
+
+Server chưa tin tưởng client ngay lập tức. Nó sẽ yêu cầu client chứng minh danh tính bằng cách gửi challenge.
+
+## 35.4. Server tạo Challenge
+
+Sau khi nhận yêu cầu từ client, server tạo một giá trị ngẫu nhiên gọi là **challenge**.
+
+Challenge là một chuỗi dữ liệu được server gửi về cho client. Client phải dùng challenge này để tạo response.
+
+Ví dụ đơn giản:
+
+```text
+Server → Client: Đây là challenge, hãy chứng minh danh tính của bạn
+```
+
+Challenge có vai trò quan trọng vì nó giúp tránh việc client chỉ gửi lại một giá trị cố định. Mỗi lần xác thực, challenge có thể khác nhau, nên response cũng khác nhau.
+
+Tuy nhiên, nếu quá trình này bị kẻ tấn công chặn và chuyển tiếp sang dịch vụ khác, nó có thể bị lợi dụng trong tấn công **NTLM Relay**.
+
+## 35.5. Client tạo Response
+
+Sau khi nhận challenge từ server, client sẽ tạo **response**.
+
+Response được tính toán dựa trên:
+
+* challenge từ server;
+* thông tin liên quan đến mật khẩu của người dùng;
+* NTLM hash;
+* một số thông tin phiên xác thực.
+
+Client không gửi mật khẩu thật. Nó chỉ gửi response được tạo ra từ quá trình tính toán.
+
+Ví dụ:
+
+```text
+Client → Server: Đây là response của tôi
+```
+
+Response chứng minh rằng client có thông tin xác thực hợp lệ mà không cần truyền mật khẩu dưới dạng rõ.
+
+Tuy nhiên, vì NTLM hash có thể được dùng để tạo response, nếu kẻ tấn công đánh cắp được hash, họ có thể lạm dụng nó trong một số kiểu tấn công.
+
+## 35.6. Domain Controller xác minh Response
+
+Nếu tài khoản được dùng là tài khoản domain, server thường cần Domain Controller để xác minh response.
+
+Quy trình có thể hiểu như sau:
+
+1. Server nhận response từ client.
+2. Server gửi thông tin xác thực đến Domain Controller.
+3. Domain Controller kiểm tra response dựa trên dữ liệu tài khoản trong Active Directory.
+4. Nếu response hợp lệ, Domain Controller xác nhận người dùng.
+5. Server cho phép hoặc từ chối truy cập tài nguyên.
+
+Ví dụ:
+
+```text
+Server → Domain Controller: Response này có hợp lệ không?
+Domain Controller → Server: Hợp lệ hoặc không hợp lệ
+```
+
+Nếu response hợp lệ, người dùng được xác thực. Tuy nhiên, việc được xác thực không có nghĩa là người dùng tự động có quyền truy cập mọi tài nguyên. Sau xác thực, hệ thống vẫn cần kiểm tra quyền truy cập.
+
+## 35.7. Mật khẩu có được truyền qua mạng không?
+
+Trong NetNTLM, **mật khẩu thật không được truyền qua mạng**.
+
+Client không gửi mật khẩu dạng rõ cho server hoặc Domain Controller. Thay vào đó, client gửi response được tạo từ challenge và thông tin xác thực.
+
+Điều này giúp tránh việc mật khẩu bị lộ trực tiếp trên đường truyền.
+
+Tuy nhiên, cần hiểu rõ rằng:
+
+* mật khẩu không được gửi trực tiếp;
+* NTLM hash cũng không nhất thiết được gửi trực tiếp trong quá trình thông thường;
+* response vẫn có thể bị chặn hoặc lạm dụng;
+* nếu hash bị đánh cắp từ máy, kẻ tấn công có thể dùng cho Pass-the-Hash;
+* nếu challenge-response bị chuyển tiếp, có thể xảy ra NTLM Relay.
+
+Vì vậy, việc không truyền mật khẩu trực tiếp không có nghĩa là NetNTLM hoàn toàn an toàn.
+
+## 35.8. Pass-the-Hash
+
+**Pass-the-Hash** là kỹ thuật tấn công trong đó kẻ tấn công sử dụng NTLM hash để xác thực mà không cần biết mật khẩu thật.
+
+Thông thường, khi người dùng đăng nhập, Windows có thể lưu thông tin xác thực dưới dạng hash trong bộ nhớ hoặc hệ thống. Nếu kẻ tấn công có quyền truy cập vào máy, họ có thể cố gắng trích xuất hash này.
+
+Sau đó, thay vì bẻ khóa hash để tìm mật khẩu gốc, kẻ tấn công có thể dùng trực tiếp hash để xác thực đến hệ thống khác.
+
+Ví dụ nguy hiểm:
+
+* kẻ tấn công lấy được hash của local Administrator;
+* nhiều máy dùng cùng mật khẩu local admin;
+* kẻ tấn công dùng hash đó để truy cập các máy khác;
+* phạm vi kiểm soát bị mở rộng trong mạng nội bộ.
+
+Pass-the-Hash đặc biệt nguy hiểm khi hash thuộc về tài khoản có quyền cao như:
+
+* Domain Admin;
+* local Administrator;
+* service account;
+* tài khoản quản trị máy chủ.
+
+Biện pháp giảm rủi ro:
+
+* không dùng chung mật khẩu local Administrator trên nhiều máy;
+* hạn chế đăng nhập tài khoản quyền cao vào máy trạm;
+* sử dụng nguyên tắc least privilege;
+* bật Credential Guard nếu phù hợp;
+* giám sát đăng nhập bất thường;
+* quản lý tài khoản quản trị cục bộ bằng giải pháp phù hợp;
+* giảm phụ thuộc vào NTLM nếu có thể.
+
+## 35.9. NTLM Relay
+
+**NTLM Relay** là kỹ thuật tấn công trong đó kẻ tấn công chặn hoặc chuyển tiếp quá trình xác thực NTLM đến một dịch vụ khác.
+
+Trong tấn công này, kẻ tấn công không cần biết mật khẩu thật. Họ lợi dụng quá trình challenge-response để chuyển tiếp thông tin xác thực từ nạn nhân sang một máy chủ khác.
+
+Mô hình đơn giản:
+
+```text
+Victim → Attacker → Target Server
+```
+
+Quy trình có thể hiểu như sau:
+
+1. Nạn nhân bị dụ xác thực đến máy của attacker.
+2. Attacker chuyển tiếp yêu cầu xác thực đến target server.
+3. Target server gửi challenge.
+4. Attacker chuyển challenge về victim.
+5. Victim tạo response hợp lệ.
+6. Attacker chuyển response đến target server.
+7. Target server xác thực attacker như thể đó là victim.
+
+NTLM Relay nguy hiểm vì attacker có thể truy cập tài nguyên mà không cần biết mật khẩu của nạn nhân.
+
+Rủi ro này tăng lên nếu hệ thống thiếu các cơ chế bảo vệ như:
+
+* SMB Signing;
+* LDAP Signing;
+* Extended Protection for Authentication;
+* cấu hình hạn chế NTLM;
+* phân tách quyền phù hợp;
+* giám sát xác thực bất thường.
+
+Từ góc độ SOC, cần chú ý các dấu hiệu như:
+
+* xác thực NTLM đến máy chủ lạ;
+* nhiều kết nối SMB bất thường;
+* tài khoản quyền cao xác thực bằng NTLM;
+* sự kiện NTLM bất thường trong Event Viewer;
+* truy cập tài nguyên từ máy không thường dùng.
+
+## 35.10. Vì sao NetNTLM bị xem là lỗi thời?
+
+NetNTLM bị xem là lỗi thời vì nó là cơ chế xác thực cũ và có nhiều hạn chế bảo mật so với Kerberos.
+
+Một số lý do chính:
+
+| Lý do                        | Giải thích                                          |
+| ---------------------------- | --------------------------------------------------- |
+| Cơ chế cũ                    | NetNTLM được thiết kế cho môi trường Windows cũ hơn |
+| Bảo mật thấp hơn Kerberos    | Không dùng mô hình ticket-based mạnh như Kerberos   |
+| Dễ bị relay                  | Có nguy cơ NTLM Relay nếu thiếu cấu hình bảo vệ     |
+| Rủi ro Pass-the-Hash         | NTLM hash có thể bị lạm dụng nếu bị đánh cắp        |
+| Khó kiểm soát trong mạng lớn | NTLM có thể xuất hiện ở nhiều dịch vụ legacy        |
+| Chủ yếu để tương thích       | Vẫn tồn tại vì một số hệ thống cũ cần dùng          |
+
+Trong môi trường hiện đại, nên ưu tiên Kerberos vì:
+
+* an toàn hơn;
+* phù hợp với Active Directory;
+* sử dụng ticket;
+* giảm nhu cầu xác thực lại bằng mật khẩu;
+* hỗ trợ tốt hơn cho quản trị domain;
+* ít phụ thuộc vào challenge-response kiểu cũ.
+
+Tuy nhiên, việc tắt NetNTLM hoàn toàn cần được thực hiện cẩn thận. Một số ứng dụng cũ hoặc dịch vụ legacy có thể vẫn phụ thuộc vào NTLM. Nếu tắt đột ngột, hệ thống có thể bị lỗi xác thực.
+
+Cách tiếp cận an toàn hơn là:
+
+1. Giám sát việc sử dụng NTLM.
+2. Xác định hệ thống nào còn dùng NTLM.
+3. Sửa lỗi SPN hoặc DNS để Kerberos hoạt động.
+4. Thay thế hoặc nâng cấp ứng dụng legacy.
+5. Bật các cơ chế bảo vệ như SMB Signing nếu phù hợp.
+6. Giảm dần NTLM theo kế hoạch.
+7. Chỉ tắt NTLM khi đã kiểm tra đầy đủ.
+
+Tóm lại, NetNTLM vẫn có thể xuất hiện trong Windows Domain, nhưng không nên được xem là cơ chế xác thực ưu tiên. Trong môi trường doanh nghiệp hiện đại, cần ưu tiên Kerberos, giám sát NTLM và giảm dần sự phụ thuộc vào NetNTLM để giảm rủi ro bảo mật.
+
+
+# 36. Trees, Forests và Trusts
+
+## 36.1. Tree trong Active Directory là gì?
+
+**Tree** trong Active Directory là một nhóm các Windows Domain có chung một không gian tên liên tục.
+
+Nói đơn giản, tree là một cấu trúc gồm nhiều miền có quan hệ cha — con với nhau và cùng thuộc một namespace.
+
+Ví dụ:
+
+```text
+company.local
+├── sales.company.local
+├── it.company.local
+└── hr.company.local
+````
+
+Trong ví dụ trên:
+
+* `company.local` là domain gốc;
+* `sales.company.local` là child domain;
+* `it.company.local` là child domain;
+* `hr.company.local` là child domain.
+
+Tất cả các domain này cùng chia sẻ namespace `company.local`, vì vậy chúng thuộc cùng một tree.
+
+Tree giúp doanh nghiệp tổ chức domain theo cấu trúc logic, ví dụ theo phòng ban, khu vực địa lý hoặc đơn vị quản lý.
+
+### 36.2. Child Domain
+
+**Child Domain** là miền con nằm dưới một domain cha trong Active Directory tree.
+
+Ví dụ:
+
+```text
+company.local
+└── sales.company.local
+```
+
+Trong đó:
+
+* `company.local` là parent domain;
+* `sales.company.local` là child domain.
+
+Child Domain thường được dùng khi doanh nghiệp muốn tách biệt quản trị hoặc tài nguyên nhưng vẫn giữ cùng một namespace.
+
+Ví dụ, một công ty có thể tạo child domain theo khu vực:
+
+```text
+company.local
+├── eu.company.local
+├── asia.company.local
+└── us.company.local
+```
+
+Mỗi child domain có thể có:
+
+* người dùng riêng;
+* máy tính riêng;
+* nhóm riêng;
+* chính sách riêng;
+* Domain Controllers riêng;
+* đội ngũ IT quản lý riêng.
+
+Tuy nhiên, các child domain vẫn thuộc cùng một tree và có quan hệ tin cậy với các domain khác trong tree.
+
+## 36.3. Namespace trong Active Directory
+
+**Namespace** là không gian tên dùng để tổ chức và định danh các domain trong Active Directory.
+
+Trong một tree, các domain chia sẻ cùng một namespace liên tục.
+
+Ví dụ:
+
+```text
+company.local
+sales.company.local
+it.company.local
+hr.company.local
+```
+
+Các domain trên cùng thuộc namespace `company.local`.
+
+Namespace giúp xác định vị trí logic của domain trong cấu trúc Active Directory. Nó cũng giúp người quản trị hiểu domain nào là domain cha, domain nào là domain con.
+
+Ví dụ:
+
+```text
+asia.company.local
+```
+
+Tên này cho thấy domain `asia` nằm dưới domain `company.local`.
+
+Nếu các domain không chia sẻ cùng namespace, chúng không nằm trong cùng một tree, nhưng vẫn có thể thuộc cùng một forest.
+
+## 36.4. Forest trong Active Directory là gì?
+
+**Forest** là cấu trúc cấp cao nhất trong Active Directory.
+
+Một forest có thể chứa một hoặc nhiều tree. Các tree trong cùng một forest có thể có namespace khác nhau.
+
+Ví dụ:
+
+```text
+company.local
+```
+
+và:
+
+```text
+mht.local
+```
+
+là hai namespace khác nhau. Nếu cả hai cùng nằm trong một môi trường quản lý Active Directory lớn hơn, chúng có thể thuộc cùng một forest.
+
+Có thể hiểu đơn giản:
+
+* **Tree** là nhóm các domain chia sẻ cùng namespace;
+* **Forest** là tập hợp một hoặc nhiều tree;
+* Forest là ranh giới quản trị và bảo mật lớn nhất trong Active Directory.
+
+Forest giúp doanh nghiệp quản lý nhiều hệ thống domain khác nhau trong cùng một môi trường tổng thể.
+
+Ví dụ, khi một công ty mua lại công ty khác, mỗi công ty có thể có tree riêng. Nếu cần tích hợp quản lý, các tree này có thể được đặt trong cùng một forest hoặc thiết lập trust giữa các forest.
+
+## 36.5. Nhiều cây miền trong một forest
+
+Một forest có thể chứa nhiều tree với các namespace khác nhau.
+
+Ví dụ:
+
+```text
+Forest
+├── company.local
+│   ├── sales.company.local
+│   └── it.company.local
+└── mht.local
+    ├── asia.mht.local
+    └── eu.mht.local
+```
+
+Trong ví dụ này:
+
+* `company.local` là một tree;
+* `mht.local` là một tree khác;
+* cả hai tree cùng nằm trong một forest.
+
+Mô hình này phù hợp khi doanh nghiệp có nhiều đơn vị, công ty con hoặc hệ thống tên miền khác nhau.
+
+Một forest nhiều tree có thể xuất hiện trong các tình huống:
+
+* công ty sáp nhập với công ty khác;
+* tập đoàn có nhiều thương hiệu riêng;
+* các đơn vị có namespace khác nhau;
+* mỗi khu vực địa lý có domain riêng;
+* hệ thống cần phân tách quản trị nhưng vẫn duy trì liên kết.
+
+Việc có nhiều tree trong một forest giúp tổ chức linh hoạt hơn, nhưng cũng làm tăng độ phức tạp trong quản trị và bảo mật.
+
+## 36.6. Enterprise Admins
+
+**Enterprise Admins** là nhóm quản trị cấp forest trong Active Directory.
+
+Thành viên của nhóm này có quyền quản trị trên toàn bộ forest, không chỉ trong một domain riêng lẻ.
+
+Enterprise Admins có thể thực hiện các tác vụ như:
+
+* quản lý cấu trúc forest;
+* thêm hoặc quản lý domain trong forest;
+* quản trị nhiều domain;
+* cấu hình trust ở cấp forest;
+* thực hiện thay đổi ảnh hưởng đến toàn forest;
+* quản lý các thiết lập cấp cao trong Active Directory.
+
+Enterprise Admins là nhóm cực kỳ nhạy cảm. Nếu tài khoản thuộc nhóm này bị chiếm quyền, kẻ tấn công có thể ảnh hưởng đến toàn bộ forest.
+
+Vì vậy, nhóm Enterprise Admins cần được kiểm soát rất chặt chẽ:
+
+* chỉ thêm tài khoản thật sự cần thiết;
+* không dùng cho công việc hằng ngày;
+* giám sát mọi lần đăng nhập;
+* giám sát thay đổi thành viên nhóm;
+* dùng tài khoản quản trị riêng;
+* áp dụng nguyên tắc least privilege;
+* hạn chế đăng nhập vào máy trạm thông thường.
+
+## 36.7. Domain Admins và Enterprise Admins
+
+**Domain Admins** và **Enterprise Admins** đều là nhóm quyền cao trong Active Directory, nhưng phạm vi quyền khác nhau.
+
+| Nhóm              | Phạm vi quyền           | Ý nghĩa                               |
+| ----------------- | ----------------------- | ------------------------------------- |
+| Domain Admins     | Trong một domain cụ thể | Quản trị toàn bộ domain đó            |
+| Enterprise Admins | Toàn bộ forest          | Quản trị ở cấp forest và nhiều domain |
+
+Ví dụ:
+
+```text
+Forest
+├── company.local
+└── mht.local
+```
+
+Nếu một tài khoản là **Domain Admin** trong `company.local`, tài khoản đó có quyền quản trị trong domain `company.local`, nhưng không nhất thiết có quyền quản trị trong `mht.local`.
+
+Nếu một tài khoản là **Enterprise Admin**, tài khoản đó có quyền ở cấp forest và có thể ảnh hưởng đến nhiều domain trong forest.
+
+So sánh đơn giản:
+
+* **Domain Admins**: quyền cao trong một domain.
+* **Enterprise Admins**: quyền cao hơn, phạm vi toàn forest.
+
+Khuyến nghị bảo mật:
+
+* hạn chế số lượng Domain Admins;
+* hạn chế nghiêm ngặt Enterprise Admins;
+* không dùng các tài khoản này cho công việc hằng ngày;
+* không đăng nhập vào máy trạm thông thường;
+* giám sát mọi thay đổi nhóm;
+* sử dụng tài khoản quản trị tách biệt;
+* kiểm tra định kỳ thành viên nhóm quyền cao.
+
+## 36.8. Trust Relationship là gì?
+
+**Trust Relationship** là mối quan hệ tin cậy giữa các domain hoặc forest trong Active Directory.
+
+Trust cho phép một domain tin tưởng thông tin xác thực từ domain khác, từ đó có thể ủy quyền cho người dùng ở domain này truy cập tài nguyên ở domain kia.
+
+Ví dụ:
+
+```text
+Domain A: company.local
+Domain B: mht.local
+```
+
+Nếu có trust relationship giữa hai domain, người dùng từ `company.local` có thể được cấp quyền truy cập tài nguyên trong `mht.local`, nếu quản trị viên cấu hình quyền phù hợp.
+
+Trust Relationship thường được dùng khi:
+
+* có nhiều domain trong một tổ chức;
+* công ty sáp nhập hoặc mua lại công ty khác;
+* cần chia sẻ tài nguyên giữa các đơn vị;
+* cần cho người dùng ở domain khác truy cập file server hoặc ứng dụng;
+* có forest hoặc domain riêng nhưng cần liên kết xác thực.
+
+Điều quan trọng là trust chỉ tạo điều kiện cho xác thực giữa domain. Nó không tự động cấp quyền truy cập vào mọi tài nguyên.
+
+## 36.9. One-Way Trust
+
+**One-Way Trust** là mối quan hệ tin cậy một chiều giữa hai domain.
+
+Trong one-way trust, một domain tin cậy domain khác. Người dùng từ domain được tin cậy có thể được cấp quyền truy cập tài nguyên trong domain tin cậy.
+
+Ví dụ:
+
+```text
+Domain AAA trusts Domain BBB
+```
+
+Điều này có nghĩa là:
+
+```text
+Người dùng từ Domain BBB có thể được cấp quyền truy cập tài nguyên trong Domain AAA
+```
+
+Hướng trust và hướng truy cập tài nguyên thường dễ gây nhầm lẫn. Nếu AAA tin cậy BBB, thì người dùng từ BBB có thể được ủy quyền truy cập tài nguyên trong AAA.
+
+Mô hình đơn giản:
+
+```text
+Trust direction:
+AAA  →  BBB
+
+Resource access:
+BBB user  →  AAA resource
+```
+
+One-Way Trust phù hợp khi chỉ cần cho phép truy cập theo một chiều.
+
+Ví dụ, công ty A muốn cho người dùng công ty B truy cập một thư mục chia sẻ trong công ty A, nhưng không muốn người dùng công ty A truy cập tài nguyên của công ty B.
+
+## 36.10. Two-Way Trust
+
+**Two-Way Trust** là mối quan hệ tin cậy hai chiều giữa hai domain.
+
+Trong two-way trust, cả hai domain tin cậy lẫn nhau. Điều này cho phép người dùng từ mỗi domain có thể được cấp quyền truy cập tài nguyên ở domain còn lại.
+
+Ví dụ:
+
+```text
+Domain A trusts Domain B
+Domain B trusts Domain A
+```
+
+Khi đó:
+
+```text
+User từ Domain A có thể được cấp quyền truy cập tài nguyên trong Domain B
+User từ Domain B có thể được cấp quyền truy cập tài nguyên trong Domain A
+```
+
+Mô hình đơn giản:
+
+```text
+Domain A  ↔  Domain B
+```
+
+Two-Way Trust thường được dùng khi hai domain cần chia sẻ tài nguyên qua lại.
+
+Theo mặc định, khi nhiều domain được tham gia vào cùng một tree hoặc forest, chúng thường có quan hệ tin cậy hai chiều. 
+
+Ví dụ trong cùng một forest:
+
+```text
+company.local
+├── sales.company.local
+└── it.company.local
+```
+
+Người dùng ở `sales.company.local` có thể được cấp quyền truy cập tài nguyên ở `it.company.local`, và ngược lại, nếu quản trị viên cấu hình quyền phù hợp.
+
+## 36.11. Trust không tự động cấp quyền truy cập
+
+Một điểm rất quan trọng là **trust không tự động cấp quyền truy cập vào tất cả tài nguyên**.
+
+Trust chỉ cho phép domain này tin tưởng xác thực từ domain khác. Sau đó, quản trị viên vẫn phải cấp quyền cụ thể trên tài nguyên.
+
+Ví dụ, nếu Domain A và Domain B có trust relationship, điều đó không có nghĩa là mọi người dùng trong Domain A có thể tự động mở mọi thư mục trong Domain B.
+
+Để người dùng truy cập được tài nguyên, cần có thêm bước phân quyền, ví dụ:
+
+* thêm user từ Domain A vào group phù hợp trong Domain B;
+* cấp quyền NTFS trên thư mục;
+* cấp quyền share permission;
+* cấp quyền truy cập ứng dụng;
+* cấu hình quyền trong hệ thống liên quan.
+
+Ví dụ:
+
+```text
+Domain A user: A\user01
+Resource in Domain B: \\FileServerB\SharedFolder
+```
+
+Để `A\user01` truy cập được thư mục này, quản trị viên Domain B cần cấp quyền cụ thể cho user hoặc group tương ứng.
+
+Tóm lại:
+
+```text
+Trust = cho phép xác thực giữa domain
+Permission = cho phép truy cập tài nguyên cụ thể
+```
+
+Nếu chỉ có trust mà không có permission, người dùng vẫn không thể truy cập tài nguyên.
+
+## 36.12. Ý nghĩa bảo mật của Trust Relationship
+
+Trust Relationship có ý nghĩa bảo mật rất lớn trong Active Directory vì nó mở rộng phạm vi xác thực giữa các domain hoặc forest.
+
+Nếu được cấu hình đúng, trust giúp doanh nghiệp chia sẻ tài nguyên linh hoạt giữa các đơn vị, công ty con hoặc hệ thống khác nhau.
+
+Tuy nhiên, nếu cấu hình sai, trust có thể làm tăng rủi ro bảo mật.
+
+Một số rủi ro cần chú ý:
+
+* người dùng từ domain khác được cấp quyền quá rộng;
+* trust không còn cần thiết nhưng vẫn tồn tại;
+* tài khoản quyền cao từ domain khác có thể truy cập tài nguyên nhạy cảm;
+* thiếu giám sát xác thực giữa các domain;
+* nhầm lẫn giữa trust và quyền truy cập thực tế;
+* cấu hình two-way trust khi chỉ cần one-way trust;
+* domain được tin cậy bị tấn công và ảnh hưởng đến domain tin cậy.
+
+Ví dụ, nếu Domain A tin cậy Domain B, nhưng Domain B bị compromise, kẻ tấn công có thể cố gắng lợi dụng mối quan hệ trust để truy cập tài nguyên trong Domain A nếu có quyền được cấu hình sai.
+
+Khuyến nghị bảo mật:
+
+* chỉ tạo trust khi thật sự cần;
+* ưu tiên one-way trust nếu chỉ cần truy cập một chiều;
+* không cấp quyền quá rộng cho người dùng từ domain khác;
+* rà soát trust relationship định kỳ;
+* giám sát xác thực giữa các domain;
+* kiểm tra nhóm có chứa user từ domain khác;
+* xóa trust không còn sử dụng;
+* phân quyền tài nguyên theo nguyên tắc least privilege;
+* ghi log và theo dõi truy cập tài nguyên qua trust.
+
+Từ góc độ SOC, cần chú ý các dấu hiệu như:
+
+* tài khoản từ domain khác truy cập tài nguyên nhạy cảm;
+* xác thực bất thường qua trust;
+* thay đổi cấu hình trust;
+* thêm user từ domain khác vào nhóm quyền cao;
+* truy cập tài nguyên ngoài phạm vi bình thường;
+* nhiều lỗi xác thực giữa các domain.
+
+Tóm lại, Trees, Forests và Trusts giúp Active Directory mở rộng và tổ chức nhiều domain trong môi trường doanh nghiệp. Tree dùng cho các domain chung namespace, Forest dùng cho nhiều tree, còn Trust Relationship cho phép xác thực giữa các domain hoặc forest. Tuy nhiên, trust chỉ tạo điều kiện xác thực, còn quyền truy cập tài nguyên vẫn phải được cấp riêng và cần được kiểm soát chặt chẽ.
 
 
 
