@@ -7155,6 +7155,365 @@ Trong SOC, Domain Controllers là nguồn log cực kỳ quan trọng. Các sự
 
 Tóm lại, nhóm bảo mật trong Active Directory giúp quản lý quyền truy cập theo cách tập trung và hiệu quả. Tuy nhiên, các nhóm có quyền cao như Domain Admins, Server Operators, Backup Operators và Account Operators cần được kiểm soát đặc biệt để tránh rủi ro leo thang đặc quyền và mất quyền kiểm soát domain.
 
+# 28. Organizational Units — OUs
+
+## 28.1. OU là gì?
+
+**OU** là viết tắt của **Organizational Unit**, nghĩa là **Đơn vị tổ chức** trong Active Directory.
+
+OU là một loại container dùng để chứa và sắp xếp các đối tượng trong Active Directory, ví dụ:
+
+- người dùng;
+- máy tính;
+- nhóm;
+- tài khoản dịch vụ;
+- OU con.
+
+Có thể hiểu OU giống như một thư mục dùng để tổ chức các đối tượng trong domain theo cấu trúc rõ ràng hơn.
+
+Ví dụ, trong một công ty, có thể tạo các OU theo phòng ban:
+
+```text
+IT
+HR
+Accounting
+Sales
+Marketing
+Management
+```
+
+Hoặc tạo OU theo loại thiết bị:
+
+```text
+Workstations
+Servers
+Domain Controllers
+```
+
+OU giúp Active Directory dễ quản lý hơn, đặc biệt trong môi trường doanh nghiệp có nhiều người dùng, nhiều máy tính và nhiều chính sách khác nhau.
+
+## 28.2. Vai trò của OU trong Active Directory
+
+Vai trò chính của OU là **tổ chức đối tượng** và **áp dụng chính sách quản trị**.
+
+Trong Active Directory, nếu tất cả người dùng và máy tính nằm chung một vị trí, việc quản lý sẽ rất khó khăn. OU giúp chia nhỏ hệ thống thành các nhóm logic, phù hợp với cơ cấu tổ chức hoặc mục đích quản trị.
+
+OU thường được dùng để:
+
+* phân loại người dùng theo phòng ban;
+* phân loại máy tính theo loại thiết bị;
+* áp dụng Group Policy cho từng nhóm đối tượng;
+* ủy quyền quản trị cho một bộ phận cụ thể;
+* quản lý người dùng và máy tính dễ hơn;
+* giảm nhầm lẫn trong hệ thống lớn.
+
+Ví dụ, người dùng phòng IT có thể cần chính sách khác với người dùng phòng Sales. Khi đó, quản trị viên có thể tạo hai OU riêng:
+
+```text
+IT
+Sales
+```
+
+Sau đó áp dụng chính sách khác nhau cho từng OU.
+
+## 28.3. OU và phòng ban doanh nghiệp
+
+Trong nhiều doanh nghiệp, OU thường được thiết kế dựa trên cơ cấu phòng ban.
+
+Ví dụ, một công ty có các phòng ban sau:
+
+* IT;
+* HR;
+* Accounting;
+* Sales;
+* Marketing;
+* Management.
+
+Khi đó, Active Directory có thể được tổ chức như sau:
+
+```text
+company.local
+├── IT
+├── HR
+├── Accounting
+├── Sales
+├── Marketing
+└── Management
+```
+
+Mỗi OU sẽ chứa các tài khoản người dùng thuộc phòng ban tương ứng.
+
+Ví dụ:
+
+```text
+Sales
+├── user01
+├── user02
+└── user03
+```
+
+Cách tổ chức này có lợi vì mỗi phòng ban có thể có yêu cầu chính sách khác nhau.
+
+Ví dụ:
+
+| OU         | Chính sách có thể áp dụng                           |
+| ---------- | --------------------------------------------------- |
+| IT         | Cho phép truy cập công cụ quản trị                  |
+| Sales      | Hạn chế cài đặt phần mềm                            |
+| HR         | Bảo vệ dữ liệu nhân sự                              |
+| Accounting | Giới hạn truy cập tài nguyên tài chính              |
+| Marketing  | Cho phép một số phần mềm thiết kế hoặc truyền thông |
+
+Tuy nhiên, OU không bắt buộc phải luôn tương ứng với phòng ban. Doanh nghiệp cũng có thể thiết kế OU theo vị trí địa lý, loại thiết bị, mức độ bảo mật hoặc yêu cầu vận hành.
+
+## 28.4. Container mặc định trong Active Directory
+
+Khi tạo domain Active Directory, Windows tự động tạo một số container và OU mặc định.
+
+Các container này giúp lưu trữ các đối tượng quan trọng của domain ngay từ đầu.
+
+Một số container mặc định thường gặp gồm:
+
+* Builtin;
+* Computers;
+* Domain Controllers;
+* Users;
+* Managed Service Accounts.
+
+Các container mặc định này có vai trò khác nhau và không nên xóa tùy tiện.
+
+### 28.4.1. Builtin
+
+**Builtin** là container chứa các nhóm mặc định có sẵn trong Windows Server và Active Directory.
+
+Các nhóm trong Builtin thường được dùng cho các quyền quản trị hoặc vận hành cơ bản.
+
+Ví dụ, trong Builtin có thể có các nhóm như:
+
+* Administrators;
+* Backup Operators;
+* Remote Desktop Users;
+* Server Operators;
+* Account Operators.
+
+Những nhóm này có thể có quyền đặc biệt trên hệ thống, vì vậy cần kiểm soát cẩn thận thành viên của chúng.
+
+Từ góc độ bảo mật, không nên thêm người dùng vào các nhóm trong Builtin nếu không hiểu rõ quyền mà nhóm đó cung cấp.
+
+### 28.4.2. Computers
+
+**Computers** là container mặc định dùng để chứa các máy tính mới tham gia domain.
+
+Khi một máy tính được join vào domain, nếu quản trị viên không chỉ định OU khác, computer object thường sẽ được đưa vào container Computers.
+
+Ví dụ:
+
+```text
+Computers
+├── PC01
+├── PC02
+└── LAPTOP01
+```
+
+Tuy nhiên, trong môi trường doanh nghiệp, không nên để tất cả máy tính nằm lâu dài trong container Computers. Nên di chuyển chúng vào các OU phù hợp để áp dụng chính sách tốt hơn.
+
+Ví dụ:
+
+```text
+Workstations
+Servers
+```
+
+Lý do là máy trạm và máy chủ thường cần các chính sách khác nhau.
+
+### 28.4.3. Domain Controllers
+
+**Domain Controllers** là OU mặc định chứa các Domain Controller trong domain.
+
+Domain Controller là máy chủ rất quan trọng vì nó vận hành Active Directory Domain Services và xử lý xác thực trong domain.
+
+OU Domain Controllers thường được áp dụng các chính sách bảo mật đặc biệt, ví dụ:
+
+* Default Domain Controllers Policy;
+* chính sách đăng nhập quản trị;
+* chính sách audit;
+* cấu hình bảo mật nâng cao;
+* hạn chế quyền truy cập.
+
+Không nên di chuyển Domain Controller sang OU khác nếu không có lý do rõ ràng. Việc cấu hình sai chính sách cho Domain Controller có thể ảnh hưởng nghiêm trọng đến toàn bộ domain.
+
+### 28.4.4. Users
+
+**Users** là container mặc định chứa một số người dùng và nhóm mặc định của domain.
+
+Trong container này có thể có:
+
+* tài khoản Administrator;
+* tài khoản Guest;
+* một số nhóm mặc định;
+* một số tài khoản người dùng được tạo ban đầu.
+
+Tuy nhiên, trong môi trường doanh nghiệp, không nên để toàn bộ người dùng mới trong container Users nếu cần áp dụng chính sách theo phòng ban.
+
+Thay vào đó, nên tạo các OU riêng như:
+
+```text
+IT
+HR
+Accounting
+Sales
+```
+
+Sau đó đưa người dùng vào OU tương ứng.
+
+Điều này giúp áp dụng Group Policy rõ ràng hơn và quản lý người dùng dễ hơn.
+
+### 28.4.5. Managed Service Accounts
+
+**Managed Service Accounts** là container chứa các tài khoản dịch vụ được quản lý trong domain.
+
+Managed Service Account là loại tài khoản được thiết kế để chạy dịch vụ hoặc ứng dụng một cách an toàn hơn so với tài khoản người dùng thông thường.
+
+Container này có thể chứa:
+
+* Managed Service Accounts;
+* Group Managed Service Accounts;
+* tài khoản dùng cho dịch vụ trong domain.
+
+Các tài khoản dịch vụ thường được dùng cho:
+
+* SQL Server;
+* IIS;
+* dịch vụ backup;
+* ứng dụng nội bộ;
+* dịch vụ giám sát;
+* tác vụ tự động.
+
+Từ góc độ bảo mật, tài khoản dịch vụ cần được quản lý cẩn thận vì chúng có thể có quyền truy cập vào hệ thống hoặc dữ liệu quan trọng.
+
+## 28.5. So sánh OU và Security Group
+
+OU và Security Group đều giúp phân loại đối tượng trong Active Directory, nhưng mục đích sử dụng của chúng khác nhau.
+
+| Tiêu chí                     | OU                                               | Security Group                                     |
+| ---------------------------- | ------------------------------------------------ | -------------------------------------------------- |
+| Tên đầy đủ                   | Organizational Unit                              | Security Group                                     |
+| Mục đích chính               | Tổ chức đối tượng và áp dụng chính sách          | Cấp quyền truy cập tài nguyên                      |
+| Dùng cho                     | User, computer, group, OU con                    | User, computer, service account, group khác        |
+| Áp dụng Group Policy         | Có                                               | Không trực tiếp theo cách OU                       |
+| Cấp quyền thư mục/máy in     | Không phải mục đích chính                        | Có                                                 |
+| Một user thuộc bao nhiêu OU? | Thường chỉ nằm trong một OU tại một thời điểm    | Có thể thuộc nhiều nhóm                            |
+| Ví dụ                        | OU `Sales` để áp dụng chính sách cho phòng Sales | Group `Sales_Users` để cấp quyền vào thư mục Sales |
+
+Ví dụ dễ hiểu:
+
+* OU trả lời câu hỏi: **người dùng hoặc máy tính này nằm ở đâu trong cấu trúc quản trị?**
+* Security Group trả lời câu hỏi: **người dùng hoặc máy tính này được quyền truy cập tài nguyên nào?**
+
+Vì vậy, không nên dùng OU để thay thế Security Group và cũng không nên dùng Security Group để thay thế OU.
+
+## 28.6. OU dùng để áp dụng chính sách
+
+OU thường được dùng để áp dụng **Group Policy Object — GPO**.
+
+GPO là tập hợp các cấu hình có thể áp dụng cho người dùng hoặc máy tính trong Active Directory.
+
+Ví dụ, có thể áp dụng chính sách cho OU `Sales` như:
+
+* chặn truy cập Control Panel;
+* không cho cài phần mềm;
+* tự động khóa màn hình sau 5 phút;
+* cấu hình Windows Firewall;
+* cấu hình mật khẩu;
+* cấu hình proxy;
+* triển khai script đăng nhập.
+
+Ví dụ cấu trúc:
+
+```text
+company.local
+├── Sales
+│   ├── user01
+│   └── user02
+├── IT
+│   ├── admin01
+│   └── admin02
+└── Workstations
+    ├── PC01
+    └── PC02
+```
+
+Nếu liên kết một GPO vào OU `Sales`, chính sách đó sẽ áp dụng cho các đối tượng phù hợp trong OU `Sales`.
+
+Một điểm quan trọng là GPO có thể được kế thừa xuống các OU con. Vì vậy, khi thiết kế OU, cần tính đến việc chính sách sẽ ảnh hưởng đến những đối tượng nào.
+
+Ví dụ:
+
+```text
+Sales
+└── Interns
+```
+
+Nếu GPO được áp dụng cho OU `Sales`, OU con `Interns` cũng có thể bị ảnh hưởng bởi chính sách đó.
+
+Từ góc độ bảo mật, OU giúp triển khai chính sách nhất quán cho từng nhóm người dùng hoặc máy tính.
+
+## 28.7. Security Group dùng để cấp quyền tài nguyên
+
+**Security Group** được dùng để cấp quyền truy cập tài nguyên.
+
+Các tài nguyên có thể bao gồm:
+
+* thư mục chia sẻ;
+* máy in mạng;
+* file server;
+* ứng dụng nội bộ;
+* database;
+* hệ thống quản trị;
+* tài nguyên trên máy chủ.
+
+Ví dụ, công ty có thư mục chia sẻ:
+
+```text
+\\FILE-SERVER\Sales
+```
+
+Thay vì cấp quyền trực tiếp cho từng người dùng, quản trị viên nên tạo nhóm:
+
+```text
+Sales_Users
+```
+
+Sau đó:
+
+1. Thêm người dùng phòng Sales vào nhóm `Sales_Users`.
+2. Cấp quyền truy cập thư mục `\\FILE-SERVER\Sales` cho nhóm `Sales_Users`.
+
+Cách này giúp quản lý quyền dễ hơn.
+
+Khi nhân viên mới vào phòng Sales, chỉ cần thêm người đó vào nhóm `Sales_Users`.
+
+Khi nhân viên chuyển phòng hoặc nghỉ việc, chỉ cần xóa người đó khỏi nhóm.
+
+Ví dụ:
+
+```text
+Sales_Users
+├── user01
+├── user02
+└── user03
+```
+
+Security Group đặc biệt quan trọng trong bảo mật vì nó giúp thực hiện nguyên tắc **least privilege** — chỉ cấp quyền vừa đủ cho đúng người cần truy cập.
+
+Tóm lại:
+
+* **OU** dùng để tổ chức đối tượng và áp dụng chính sách.
+* **Security Group** dùng để cấp quyền truy cập tài nguyên.
+
+Hiểu rõ sự khác nhau giữa OU và Security Group là nền tảng quan trọng khi học Active Directory và bảo mật Windows Domain.
+
+
 
 
 
