@@ -32,6 +32,8 @@
 
 15. [Command Prompt](#15-command-prompt)
 
+16. [Windows Registry](#16-windows-registry)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -4121,6 +4123,265 @@ Một số lệnh thường dùng trong kiểm tra bảo mật cơ bản gồm:
 Tuy nhiên, CMD cũng có thể bị kẻ tấn công lạm dụng. Nhiều kỹ thuật tấn công sử dụng các công cụ hợp pháp có sẵn trong Windows để thu thập thông tin, tạo tài khoản, thay đổi nhóm quyền hoặc kết nối mạng.
 
 Vì vậy, trong giám sát bảo mật, việc phát hiện các lệnh CMD bất thường cũng rất quan trọng. Đặc biệt cần chú ý khi CMD được chạy bởi tiến trình lạ, chạy với quyền Administrator hoặc thực hiện các lệnh liên quan đến tài khoản, nhóm, mạng và dịch vụ.
+
+# 16. Windows Registry
+
+## 16.1. Windows Registry là gì?
+
+**Windows Registry** là cơ sở dữ liệu trung tâm của hệ điều hành Windows. Registry lưu trữ các thiết lập cấu hình quan trọng của hệ thống, phần cứng, phần mềm, tài khoản người dùng và nhiều thành phần khác.
+
+Nói đơn giản, Registry giống như một nơi lưu trữ thông tin cấu hình mà Windows và các chương trình đã cài đặt sử dụng để hoạt động đúng.
+
+Registry có thể chứa thông tin về:
+
+- cấu hình hệ điều hành;
+- thiết lập phần mềm;
+- thông tin phần cứng;
+- driver;
+- tài khoản người dùng;
+- dịch vụ hệ thống;
+- chương trình khởi động cùng Windows;
+- thiết lập giao diện;
+- chính sách bảo mật.
+
+Registry là một thành phần rất quan trọng trong Windows. Nếu Registry bị lỗi hoặc bị chỉnh sửa sai, hệ thống có thể hoạt động không ổn định, một số chương trình có thể không chạy được hoặc Windows có thể gặp lỗi nghiêm trọng.
+
+
+## 16.2. Vai trò của Registry trong Windows
+
+Registry đóng vai trò lưu trữ và quản lý cấu hình của Windows. Khi hệ điều hành hoặc một chương trình cần đọc thiết lập nào đó, nó có thể truy cập Registry để lấy thông tin.
+
+Ví dụ, Registry có thể được dùng để lưu:
+
+- chương trình nào sẽ chạy khi Windows khởi động;
+- loại file nào được mở bằng ứng dụng nào;
+- thiết lập của người dùng;
+- cấu hình của dịch vụ Windows;
+- thông tin về driver;
+- thiết lập bảo mật;
+- chính sách hệ thống.
+
+Khi người dùng thay đổi một số cài đặt trong giao diện Windows, thay đổi đó có thể được ghi vào Registry. Ví dụ, khi thay đổi cấu hình phần mềm, thay đổi tùy chọn hệ thống hoặc cài đặt ứng dụng mới, Registry có thể được cập nhật.
+
+Registry giúp Windows quản lý cấu hình một cách tập trung. Thay vì mỗi thành phần lưu cấu hình ở một nơi riêng biệt, nhiều thông tin quan trọng được lưu trong một cấu trúc thống nhất.
+
+Trong quản trị hệ thống, Registry rất quan trọng vì nhiều thiết lập nâng cao của Windows chỉ có thể kiểm tra hoặc chỉnh sửa thông qua Registry.
+
+
+## 16.3. Cấu trúc phân cấp của Registry
+
+Windows Registry có cấu trúc phân cấp giống như cây thư mục. Trong Registry có các nhánh chính, bên trong mỗi nhánh có các khóa con và giá trị cấu hình.
+
+Các thành phần chính trong Registry gồm:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| Hive | Nhánh lớn trong Registry |
+| Key | Khóa Registry, giống như thư mục |
+| Subkey | Khóa con nằm trong một key |
+| Value | Giá trị cấu hình được lưu trong key |
+| Data | Dữ liệu cụ thể của một value |
+
+Một số hive chính thường gặp trong Registry gồm:
+
+| Hive | Ý nghĩa |
+|---|---|
+| `HKEY_CLASSES_ROOT` | Lưu thông tin về loại file, liên kết file và COM objects |
+| `HKEY_CURRENT_USER` | Lưu cấu hình của người dùng hiện tại |
+| `HKEY_LOCAL_MACHINE` | Lưu cấu hình chung của máy tính |
+| `HKEY_USERS` | Lưu cấu hình của tất cả người dùng |
+| `HKEY_CURRENT_CONFIG` | Lưu thông tin cấu hình phần cứng hiện tại |
+
+Ví dụ một đường dẫn Registry có thể có dạng:
+
+```text
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion
+```
+
+Trong đó:
+
+* `HKEY_LOCAL_MACHINE` là hive;
+* `SOFTWARE` là key;
+* `Microsoft`, `Windows`, `CurrentVersion` là các subkey.
+
+Cấu trúc phân cấp này giúp Registry tổ chức dữ liệu cấu hình theo từng nhóm rõ ràng.
+
+## 16.4. Registry Editor
+
+**Registry Editor** là công cụ dùng để xem và chỉnh sửa Windows Registry. Công cụ này cho phép người dùng truy cập vào các hive, key, subkey và value trong Registry.
+
+Registry Editor thường được sử dụng bởi:
+
+* quản trị viên hệ thống;
+* kỹ thuật viên hỗ trợ;
+* người phân tích bảo mật;
+* người dùng nâng cao;
+* phần mềm hoặc tài liệu kỹ thuật cần chỉnh cấu hình sâu.
+
+Thông qua Registry Editor, người dùng có thể:
+
+* xem cấu hình hệ thống;
+* tìm kiếm key hoặc value;
+* tạo key mới;
+* sửa giá trị Registry;
+* xóa key hoặc value;
+* xuất Registry ra file `.reg`;
+* nhập cấu hình từ file `.reg`.
+
+Tuy nhiên, Registry Editor là công cụ nhạy cảm. Việc chỉnh sửa sai có thể làm Windows hoặc ứng dụng hoạt động không đúng. Vì vậy, chỉ nên thay đổi Registry khi hiểu rõ mục đích và có hướng dẫn đáng tin cậy.
+
+## 16.5. Cách mở `regedit`
+
+Có thể mở Registry Editor bằng lệnh `regedit`.
+
+Cách mở bằng hộp thoại Run:
+
+1. Nhấn tổ hợp phím:
+
+```text
+Win + R
+```
+
+2. Nhập lệnh:
+
+```text
+regedit
+```
+
+3. Nhấn **Enter**.
+
+Nếu hệ thống hiển thị UAC Prompt, cần chọn **Yes** để cho phép mở Registry Editor với quyền phù hợp.
+
+Ngoài ra, có thể mở bằng Start Menu:
+
+1. Nhấn **Start**.
+2. Gõ từ khóa:
+
+```text
+regedit
+```
+
+3. Chọn **Registry Editor**.
+
+Sau khi mở, giao diện Registry Editor sẽ hiển thị cây thư mục Registry ở bên trái và các giá trị tương ứng ở bên phải.
+
+![](./img/16.5_regedit.png)
+
+## 16.6. Cách mở `regedt32.exe`
+
+`regedt32.exe` là một cách khác để mở Registry Editor trong Windows.
+
+Có thể mở bằng hộp thoại Run:
+
+1. Nhấn:
+
+```text
+Win + R
+```
+
+2. Nhập:
+
+```text
+regedt32.exe
+```
+
+3. Nhấn **Enter**.
+
+Trong các phiên bản Windows hiện đại, `regedt32.exe` thường mở cùng công cụ Registry Editor như `regedit`.
+
+Trước đây, `regedt32.exe` và `regedit.exe` từng có một số khác biệt. Tuy nhiên, trong các phiên bản Windows mới, người dùng thông thường chỉ cần nhớ rằng cả hai đều có thể dùng để mở Registry Editor.
+
+Trong thực tế, lệnh được sử dụng phổ biến hơn là:
+
+```text
+regedit
+```
+
+## 16.7. Những thông tin được lưu trong Registry
+
+Registry lưu trữ rất nhiều thông tin cấu hình của Windows và phần mềm. Đây là lý do Registry được xem là một trong những thành phần quan trọng nhất của hệ điều hành.
+
+Một số loại thông tin thường được lưu trong Registry gồm:
+
+| Loại thông tin         | Ví dụ                                                         |
+| ---------------------- | ------------------------------------------------------------- |
+| Cấu hình hệ điều hành  | Thiết lập hệ thống, giao diện, dịch vụ                        |
+| Cấu hình phần mềm      | Tùy chọn của chương trình đã cài đặt                          |
+| Thông tin phần cứng    | Driver, thiết bị, cấu hình phần cứng                          |
+| Tài khoản người dùng   | Một số thiết lập liên quan đến người dùng                     |
+| Chương trình khởi động | Ứng dụng chạy khi Windows khởi động hoặc người dùng đăng nhập |
+| Chính sách hệ thống    | Một số thiết lập bảo mật và quản trị                          |
+| Liên kết file          | File `.txt`, `.pdf`, `.docx` mở bằng chương trình nào         |
+| Dịch vụ Windows        | Cấu hình và trạng thái của dịch vụ                            |
+
+Ví dụ, Registry có thể lưu thông tin về chương trình nào được phép tự động chạy khi người dùng đăng nhập vào Windows.
+
+Một số đường dẫn Registry thường được quan tâm trong bảo mật là các vị trí liên quan đến startup, dịch vụ, policy và cấu hình phần mềm.
+
+## 16.8. Rủi ro khi chỉnh sửa Registry
+
+Chỉnh sửa Registry có thể gây rủi ro nếu người dùng không hiểu rõ ý nghĩa của key hoặc value đang thay đổi.
+
+Một số rủi ro khi chỉnh sửa Registry sai gồm:
+
+* Windows hoạt động không ổn định;
+* phần mềm không mở được;
+* dịch vụ Windows bị lỗi;
+* thiết bị hoặc driver hoạt động sai;
+* mất cấu hình người dùng;
+* lỗi đăng nhập;
+* hệ thống khởi động không bình thường;
+* giảm mức độ bảo mật của hệ thống.
+
+Ví dụ, nếu xóa nhầm key liên quan đến một dịch vụ quan trọng, dịch vụ đó có thể không khởi động được. Nếu thay đổi sai cấu hình đăng nhập hoặc startup, Windows có thể gặp lỗi khi người dùng đăng nhập.
+
+Trước khi chỉnh sửa Registry, nên:
+
+* hiểu rõ key/value cần thay đổi;
+* sao lưu Registry hoặc key liên quan;
+* tạo restore point nếu cần;
+* làm theo tài liệu đáng tin cậy;
+* không xóa key lạ nếu chưa biết chức năng;
+* không chạy file `.reg` từ nguồn không rõ ràng.
+
+Trong môi trường doanh nghiệp, việc chỉnh sửa Registry nên được kiểm soát cẩn thận, đặc biệt trên máy chủ hoặc máy tính quan trọng.
+
+## 16.9. Ý nghĩa bảo mật của Registry
+
+Registry có ý nghĩa rất quan trọng trong an toàn thông tin Windows vì nhiều cấu hình bảo mật và hành vi hệ thống được lưu tại đây.
+
+Kẻ tấn công có thể lợi dụng Registry để:
+
+* duy trì persistence;
+* cấu hình chương trình tự khởi động;
+* thay đổi thiết lập bảo mật;
+* vô hiệu hóa công cụ bảo vệ;
+* ẩn cấu hình độc hại;
+* thay đổi hành vi của hệ thống;
+* lưu dữ liệu hoặc cấu hình cho mã độc.
+
+Một số dấu hiệu đáng nghi trong Registry gồm:
+
+* key startup lạ;
+* chương trình chạy từ `AppData`, `Temp` hoặc `Downloads`;
+* value có tên giống hệ thống nhưng đường dẫn bất thường;
+* cấu hình bị thay đổi gần thời điểm xảy ra sự cố;
+* chính sách bảo mật bị tắt hoặc bị sửa;
+* dịch vụ lạ được đăng ký trong Registry.
+
+Trong điều tra sự cố, Registry thường được kiểm tra để tìm dấu vết về:
+
+* chương trình tự khởi động;
+* phần mềm đã cài đặt;
+* dịch vụ độc hại;
+* cấu hình persistence;
+* thay đổi chính sách hệ thống;
+* thông tin người dùng và môi trường hệ thống.
+
+Tuy nhiên, cần phân tích Registry cẩn thận vì không phải mọi key lạ đều là độc hại. Một số phần mềm hợp pháp cũng tạo nhiều key và value trong Registry.
+
+Tóm lại, Registry là cơ sở dữ liệu cấu hình trung tâm của Windows. Đối với quản trị viên và SOC Analyst, hiểu Registry giúp kiểm tra hệ thống sâu hơn, phát hiện cấu hình bất thường và hỗ trợ điều tra bảo mật.
+
 
 
 
