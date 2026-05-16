@@ -42,6 +42,8 @@
 
 20. [Firewall & Network Protection](#20-firewall--network-protection)
 
+21. [App & Browser Control](#21-app--browser-control)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -5459,6 +5461,177 @@ Công cụ này cho phép quản lý firewall ở mức nâng cao, bao gồm:
 
 Trong thực tế, khi cần cấu hình firewall chi tiết hơn phần Windows Security thông thường, `WF.msc` là công cụ nên sử dụng.
 
+
+# 21. App & Browser Control
+
+## 21.1. App & Browser Control là gì?
+
+**App & Browser Control** là một khu vực trong Windows Security dùng để bảo vệ người dùng khi mở ứng dụng, chạy tệp tải xuống và truy cập các nội dung trên Internet.
+
+Tính năng này giúp giảm nguy cơ người dùng chạy phải phần mềm độc hại, ứng dụng không rõ nguồn gốc hoặc truy cập vào website nguy hiểm.
+
+App & Browser Control thường liên quan đến các cơ chế bảo vệ như:
+
+- Microsoft Defender SmartScreen;
+- kiểm tra ứng dụng và tệp tải xuống;
+- cảnh báo website độc hại;
+- bảo vệ khỏi ứng dụng không an toàn;
+- Exploit Protection.
+
+Có thể mở App & Browser Control theo đường dẫn:
+
+```text
+Windows Security → App & browser control
+```
+
+Đối với người dùng thông thường, đây là lớp bảo vệ quan trọng khi tải file từ Internet hoặc mở phần mềm chưa rõ nguồn gốc. Đối với người học an toàn thông tin, App & Browser Control giúp hiểu cách Windows giảm rủi ro từ ứng dụng và trình duyệt.
+
+## 21.2. Microsoft Defender SmartScreen
+
+**Microsoft Defender SmartScreen** là tính năng bảo mật của Windows dùng để kiểm tra ứng dụng, tệp tải xuống và website có dấu hiệu nguy hiểm.
+
+![](./img/21.2_microsoft_defender_smartscreen.png)
+
+SmartScreen có thể cảnh báo người dùng khi:
+
+* mở một ứng dụng không rõ nguồn gốc;
+* chạy file tải xuống từ Internet;
+* truy cập website giả mạo;
+* truy cập trang web có nội dung độc hại;
+* mở tệp có mức độ tin cậy thấp;
+* sử dụng ứng dụng chưa được nhận diện là an toàn.
+
+Khi SmartScreen phát hiện rủi ro, Windows có thể hiển thị cảnh báo để người dùng cân nhắc trước khi tiếp tục. Điều này giúp ngăn người dùng vô tình chạy phần mềm độc hại hoặc truy cập trang web lừa đảo.
+
+Ví dụ, nếu người dùng tải một file `.exe` từ một website không đáng tin cậy, SmartScreen có thể cảnh báo rằng file này có thể gây hại cho hệ thống.
+
+SmartScreen không thay thế hoàn toàn antivirus, nhưng nó là một lớp bảo vệ bổ sung rất quan trọng, đặc biệt trong các tình huống liên quan đến Internet và tệp tải xuống.
+
+## 21.3. Check Apps and Files
+
+**Check Apps and Files** là tính năng kiểm tra ứng dụng và tệp trong App & Browser Control.
+
+![](./img/21.2_check_app_and_files.png)
+
+Tính năng này giúp Windows đánh giá độ an toàn của các ứng dụng và file mà người dùng chuẩn bị chạy. Nếu một file có nguồn gốc không rõ ràng hoặc có dấu hiệu đáng ngờ, Windows có thể hiển thị cảnh báo.
+
+Check Apps and Files có thể giúp bảo vệ khỏi:
+
+* file thực thi độc hại;
+* chương trình không rõ nguồn gốc;
+* phần mềm giả mạo;
+* tệp tải xuống từ website không đáng tin cậy;
+* ứng dụng có hành vi bất thường.
+
+Các trạng thái cấu hình thường gặp có thể gồm:
+
+| Trạng thái | Ý nghĩa                            |
+| ---------- | ---------------------------------- |
+| Block      | Chặn ứng dụng hoặc file đáng ngờ   |
+| Warn       | Cảnh báo người dùng trước khi chạy |
+| Off        | Tắt kiểm tra ứng dụng và file      |
+
+Về mặt bảo mật, nên để tính năng này ở chế độ **Warn** hoặc **Block**. Không nên tắt nếu không có lý do rõ ràng, vì điều đó có thể làm tăng nguy cơ người dùng chạy phải phần mềm độc hại.
+
+## 21.4. Bảo vệ khỏi website độc hại
+
+App & Browser Control giúp bảo vệ người dùng khỏi các website độc hại thông qua Microsoft Defender SmartScreen và các cơ chế kiểm tra nội dung web.
+
+Website độc hại có thể được dùng để:
+
+* đánh cắp tài khoản;
+* phát tán malware;
+* lừa người dùng tải phần mềm giả mạo;
+* giả mạo trang đăng nhập;
+* khai thác lỗ hổng trình duyệt;
+* thu thập thông tin cá nhân.
+
+Khi người dùng truy cập một website có dấu hiệu nguy hiểm, SmartScreen có thể hiển thị cảnh báo. Cảnh báo này giúp người dùng dừng lại trước khi nhập thông tin nhạy cảm hoặc tải file độc hại.
+
+Ví dụ, một website giả mạo trang đăng nhập ngân hàng hoặc email có thể bị SmartScreen chặn nếu nó đã được nhận diện là nguy hiểm.
+
+Đối với người dùng cá nhân, tính năng này giúp giảm nguy cơ bị phishing. Đối với doanh nghiệp, nó giúp hạn chế nguy cơ nhân viên truy cập nhầm các website độc hại trong quá trình làm việc.
+
+## 21.5. Bảo vệ khỏi ứng dụng không an toàn
+
+App & Browser Control cũng giúp bảo vệ hệ thống khỏi các ứng dụng không an toàn hoặc không đáng tin cậy.
+
+Ứng dụng không an toàn có thể bao gồm:
+
+* phần mềm không rõ nguồn gốc;
+* phần mềm giả mạo;
+* phần mềm bị chỉnh sửa;
+* công cụ có hành vi đáng ngờ;
+* ứng dụng có khả năng gây hại;
+* phần mềm không mong muốn.
+
+Khi người dùng chạy một ứng dụng đáng nghi, Windows có thể hiển thị cảnh báo để người dùng quyết định có tiếp tục hay không.
+
+Một số dấu hiệu của ứng dụng không an toàn gồm:
+
+* tải từ website lạ;
+* không có nhà phát hành rõ ràng;
+* yêu cầu quyền Administrator không hợp lý;
+* bị nhiều công cụ bảo mật cảnh báo;
+* tên file giống phần mềm nổi tiếng nhưng nguồn tải không chính thức;
+* nằm trong thư mục tạm hoặc thư mục tải xuống.
+
+Trong an toàn thông tin, người dùng nên chỉ cài đặt phần mềm từ nguồn đáng tin cậy. Không nên bỏ qua cảnh báo của SmartScreen nếu không hiểu rõ file hoặc ứng dụng đó.
+
+## 21.6. Exploit Protection
+
+**Exploit Protection** là tính năng trong Windows dùng để giảm nguy cơ bị khai thác lỗ hổng trong ứng dụng hoặc hệ điều hành.
+
+![](./img/21.6_exploit_protection.png)
+
+Exploit là kỹ thuật lợi dụng lỗ hổng phần mềm để thực hiện hành vi trái phép, ví dụ như chạy mã độc, chiếm quyền điều khiển hoặc vượt qua cơ chế bảo vệ.
+
+Exploit Protection giúp áp dụng một số cơ chế giảm thiểu rủi ro, ví dụ:
+
+* ngăn một số hành vi khai thác bộ nhớ;
+* hạn chế kỹ thuật tấn công vào tiến trình;
+* áp dụng chính sách bảo vệ cho toàn hệ thống;
+* cấu hình bảo vệ riêng cho từng chương trình;
+* giảm khả năng khai thác lỗ hổng chưa được vá.
+
+Trong Windows Security, Exploit Protection thường có hai nhóm cấu hình chính:
+
+| Nhóm cấu hình    | Ý nghĩa                                    |
+| ---------------- | ------------------------------------------ |
+| System settings  | Áp dụng thiết lập bảo vệ cho toàn hệ thống |
+| Program settings | Cấu hình bảo vệ riêng cho từng ứng dụng    |
+
+Thông thường, người dùng phổ thông nên giữ cấu hình mặc định của Exploit Protection. Việc thay đổi tùy tiện có thể làm một số ứng dụng hoạt động không ổn định.
+
+Đối với quản trị viên và chuyên viên bảo mật, Exploit Protection có thể được sử dụng để tăng cường bảo vệ cho các ứng dụng quan trọng hoặc ứng dụng có nguy cơ cao.
+
+## 21.7. Cấu hình mặc định và khuyến nghị bảo mật
+
+Trong hầu hết trường hợp, người dùng nên giữ cấu hình mặc định của App & Browser Control, vì đây là cấu hình đã được Windows thiết kế để cân bằng giữa bảo mật và khả năng sử dụng.
+
+Một số khuyến nghị bảo mật gồm:
+
+* bật Microsoft Defender SmartScreen;
+* không tắt Check Apps and Files;
+* không bỏ qua cảnh báo khi chạy file lạ;
+* chỉ tải phần mềm từ nguồn chính thức;
+* không chạy file `.exe`, `.bat`, `.cmd`, `.ps1` từ nguồn không rõ;
+* giữ Exploit Protection ở cấu hình mặc định nếu không có yêu cầu đặc biệt;
+* kiểm tra kỹ ứng dụng yêu cầu quyền Administrator;
+* cập nhật Windows và trình duyệt thường xuyên.
+
+Trong môi trường doanh nghiệp, App & Browser Control nên được quản lý bằng chính sách tập trung để đảm bảo người dùng không tự ý tắt các cơ chế bảo vệ quan trọng.
+
+Từ góc độ SOC, cần chú ý các dấu hiệu như:
+
+* SmartScreen bị tắt;
+* người dùng thường xuyên bỏ qua cảnh báo;
+* nhiều file không rõ nguồn gốc được tải xuống;
+* ứng dụng lạ yêu cầu quyền cao;
+* Exploit Protection bị thay đổi bất thường;
+* trình duyệt truy cập nhiều website bị cảnh báo.
+
+Tóm lại, App & Browser Control là một lớp bảo vệ quan trọng của Windows. Nó giúp giảm nguy cơ từ website độc hại, phần mềm không an toàn và các kỹ thuật khai thác lỗ hổng.
 
 
 
