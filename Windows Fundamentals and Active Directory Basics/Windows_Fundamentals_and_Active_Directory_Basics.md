@@ -38,6 +38,8 @@
 
 18. [Windows Security](#18-windows-security)
 
+19. [Virus & Threat Protection](#19-virus--threat-protection)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -4849,7 +4851,393 @@ Trên Windows Server, quản trị viên cần quan tâm đến:
 
 Windows Security trên máy chủ có thể không được sử dụng theo cách giống hoàn toàn với máy tính cá nhân. Trong doanh nghiệp, bảo mật máy chủ thường được quản lý kết hợp với Group Policy, Windows Defender for Endpoint, SIEM, EDR và các công cụ quản trị tập trung khác.
 
+# 19. Virus & Threat Protection
 
+## 19.1. Current Threats
+
+**Current Threats** là khu vực hiển thị tình trạng mối đe dọa hiện tại trên hệ thống Windows. Đây là nơi người dùng có thể kiểm tra xem Windows Security có phát hiện virus, malware hoặc hành vi đáng nghi nào hay không.
+
+![](./img/19.1_current_threats.png)
+
+Trong phần Current Threats, Windows thường hiển thị các thông tin như:
+
+- trạng thái bảo vệ hiện tại;
+- thời gian quét gần nhất;
+- số lượng tệp đã được quét;
+- mối đe dọa được phát hiện nếu có;
+- hành động cần thực hiện;
+- trạng thái xử lý mối đe dọa.
+
+Nếu hệ thống không phát hiện vấn đề, Windows Security thường hiển thị trạng thái an toàn. Nếu phát hiện mối đe dọa, người dùng có thể thấy cảnh báo và các tùy chọn xử lý như cách ly, xóa hoặc cho phép.
+
+Current Threats rất quan trọng vì nó giúp người dùng nhanh chóng biết máy tính có đang gặp nguy cơ bảo mật hay không.
+
+
+## 19.2. Scan Options
+
+**Scan Options** là phần cho phép người dùng chọn kiểu quét malware trên hệ thống.
+
+![](./img/19.2_scan_options.png)
+
+Windows Security cung cấp nhiều loại quét khác nhau tùy theo nhu cầu. Nếu cần kiểm tra nhanh, có thể dùng Quick Scan. Nếu cần kiểm tra toàn bộ hệ thống, có thể dùng Full Scan. Nếu chỉ muốn kiểm tra một thư mục hoặc tệp cụ thể, có thể dùng Custom Scan.
+
+Các tùy chọn quét thường gặp gồm:
+
+| Loại quét | Mục đích |
+|---|---|
+| Quick Scan | Quét nhanh các khu vực thường bị malware lợi dụng |
+| Full Scan | Quét toàn bộ hệ thống |
+| Custom Scan | Quét tệp hoặc thư mục do người dùng chọn |
+| Microsoft Defender Offline Scan | Quét ngoại tuyến để xử lý một số malware khó loại bỏ |
+
+Việc chọn đúng loại quét giúp tiết kiệm thời gian và tăng hiệu quả phát hiện mối đe dọa.
+
+
+### 19.2.1. Quick Scan
+
+**Quick Scan** là chế độ quét nhanh của Windows Security.
+
+Chế độ này thường kiểm tra các khu vực quan trọng và thường bị malware lợi dụng, ví dụ:
+
+- thư mục hệ thống;
+- tiến trình đang chạy;
+- vị trí khởi động cùng Windows;
+- một số khu vực nhạy cảm trong hệ điều hành.
+
+Quick Scan có thời gian thực hiện ngắn hơn Full Scan, nên phù hợp để kiểm tra nhanh tình trạng hệ thống.
+
+Nên dùng Quick Scan khi:
+
+- muốn kiểm tra nhanh máy tính;
+- vừa tải tệp từ Internet;
+- nghi ngờ máy có dấu hiệu bất thường nhẹ;
+- cần kiểm tra định kỳ hằng ngày hoặc hằng tuần.
+
+Tuy nhiên, Quick Scan không kiểm tra toàn bộ tệp trên hệ thống, vì vậy nếu nghi ngờ máy bị nhiễm malware nghiêm trọng, nên dùng Full Scan hoặc Microsoft Defender Offline Scan.
+
+
+### 19.2.2. Full Scan
+
+**Full Scan** là chế độ quét toàn bộ hệ thống.
+
+Chế độ này kiểm tra tất cả tệp và chương trình đang chạy trên ổ đĩa. Vì phạm vi quét rộng hơn nên Full Scan thường mất nhiều thời gian hơn Quick Scan.
+
+Full Scan phù hợp trong các trường hợp:
+
+- nghi ngờ máy tính bị nhiễm malware;
+- hệ thống có hành vi bất thường;
+- máy chạy chậm không rõ nguyên nhân;
+- sau khi phát hiện mối đe dọa;
+- cần kiểm tra kỹ toàn bộ hệ thống.
+
+Ưu điểm của Full Scan là kiểm tra sâu hơn và toàn diện hơn. Tuy nhiên, quá trình quét có thể làm máy tính chậm hơn trong lúc đang chạy, đặc biệt trên máy có ổ đĩa lớn hoặc nhiều tệp.
+
+Trong môi trường doanh nghiệp, Full Scan thường được lên lịch vào thời điểm ít ảnh hưởng đến người dùng, ví dụ ngoài giờ làm việc.
+
+
+### 19.2.3. Custom Scan
+
+**Custom Scan** là chế độ quét tùy chỉnh, cho phép người dùng chọn tệp, thư mục hoặc ổ đĩa cụ thể để kiểm tra.
+
+Custom Scan phù hợp khi người dùng muốn kiểm tra một khu vực nhất định, ví dụ:
+
+- thư mục Downloads;
+- USB vừa cắm vào máy;
+- thư mục chứa file nghi ngờ;
+- file cài đặt vừa tải về;
+- thư mục chia sẻ;
+- ổ đĩa ngoài.
+
+Ví dụ, nếu người dùng tải một file lạ từ Internet, có thể dùng Custom Scan để quét riêng file hoặc thư mục đó trước khi mở.
+
+Custom Scan giúp tiết kiệm thời gian vì không cần quét toàn bộ hệ thống. Tuy nhiên, nó chỉ kiểm tra khu vực được chọn, nên không thay thế hoàn toàn cho Full Scan trong trường hợp cần kiểm tra toàn diện.
+
+
+## 19.3. Threat History
+
+**Threat History** là phần hiển thị lịch sử các mối đe dọa mà Windows Security đã phát hiện hoặc xử lý.
+
+![](./img/19.3_threat_history.png)
+
+Trong Threat History, người dùng có thể xem lại:
+
+- mối đe dọa đã phát hiện;
+- thời điểm phát hiện;
+- mức độ nghiêm trọng;
+- hành động đã thực hiện;
+- tệp hoặc vị trí liên quan;
+- trạng thái hiện tại của mối đe dọa.
+
+Threat History rất hữu ích khi cần kiểm tra xem trước đó hệ thống đã từng phát hiện malware hay chưa.
+
+Trong điều tra bảo mật, Threat History giúp trả lời các câu hỏi như:
+
+- malware được phát hiện khi nào;
+- tệp độc hại nằm ở đâu;
+- Windows đã xử lý mối đe dọa như thế nào;
+- mối đe dọa đã bị xóa hay vẫn còn tồn tại;
+- người dùng có cho phép mối đe dọa nào chạy hay không.
+
+
+## 19.4. Quarantined Threats
+
+**Quarantined Threats** là các mối đe dọa đã bị Windows Security cách ly.
+
+Khi một tệp hoặc chương trình bị cách ly, nó không bị xóa ngay lập tức nhưng bị đưa vào trạng thái không thể hoạt động bình thường. Điều này giúp ngăn mối đe dọa tiếp tục gây hại cho hệ thống.
+
+Cách ly thường được sử dụng khi Windows Security phát hiện:
+
+- virus;
+- trojan;
+- spyware;
+- ransomware;
+- file thực thi đáng nghi;
+- script độc hại;
+- phần mềm có hành vi nguy hiểm.
+
+Trong phần Quarantined Threats, người dùng có thể xem các mối đe dọa đã bị cách ly và chọn hành động tiếp theo, ví dụ:
+
+- xóa khỏi hệ thống;
+- khôi phục nếu đó là nhận diện nhầm;
+- xem thêm thông tin chi tiết.
+
+Không nên khôi phục tệp bị cách ly nếu không chắc chắn rằng tệp đó an toàn. Nếu cần khôi phục, nên kiểm tra kỹ nguồn gốc tệp và có thể quét lại bằng công cụ bảo mật khác.
+
+
+## 19.5. Allowed Threats
+
+**Allowed Threats** là danh sách các mối đe dọa hoặc tệp đáng nghi mà người dùng đã cho phép chạy trên hệ thống.
+
+![](./img/19.5_allowed_threats.png)
+
+Khi một tệp bị Windows Security phát hiện là nguy hiểm hoặc đáng nghi, người dùng có thể chọn cho phép nếu tin rằng đó là nhận diện nhầm. Khi đó, tệp có thể xuất hiện trong danh sách Allowed Threats.
+
+Tuy nhiên, đây là khu vực cần đặc biệt cẩn thận. Nếu người dùng cho phép nhầm một tệp độc hại, Windows Security có thể không tiếp tục chặn tệp đó.
+
+Allowed Threats có thể tạo rủi ro nếu:
+
+- người dùng không hiểu rõ tệp đã cho phép;
+- malware bị nhận diện nhưng vẫn được cho chạy;
+- kẻ tấn công lừa người dùng thêm tệp độc hại vào danh sách cho phép;
+- phần mềm nguy hiểm bị bỏ qua trong các lần quét sau.
+
+Trong kiểm tra bảo mật, cần xem lại danh sách Allowed Threats để đảm bảo không có tệp độc hại hoặc tệp không rõ nguồn gốc được cho phép nhầm.
+
+
+## 19.6. Virus & Threat Protection Settings
+
+**Virus & Threat Protection Settings** là phần cài đặt bảo vệ chống virus và mối đe dọa trong Windows Security.
+
+![](./img/19.6_virus_and_threat_protection_settings.png)
+
+Tại đây, người dùng có thể cấu hình các tính năng bảo vệ quan trọng như:
+
+- Real-Time Protection;
+- Cloud-Delivered Protection;
+- Automatic Sample Submission;
+- Controlled Folder Access;
+- Exclusions;
+- Notifications;
+- Ransomware Protection.
+
+Các thiết lập này ảnh hưởng trực tiếp đến khả năng phát hiện và ngăn chặn malware của Windows Security.
+
+Trong hầu hết trường hợp, người dùng nên giữ các tính năng bảo vệ chính ở trạng thái bật. Việc tắt hoặc cấu hình sai có thể làm giảm khả năng bảo vệ của hệ thống.
+
+Trong môi trường doanh nghiệp, các thiết lập này thường được quản lý tập trung bằng Group Policy, Microsoft Intune, Microsoft Defender for Endpoint hoặc các giải pháp quản lý endpoint khác.
+
+
+### 19.6.1. Real-Time Protection
+
+**Real-Time Protection** là tính năng bảo vệ thời gian thực của Microsoft Defender Antivirus.
+
+![](./img/19.6_realtime_protection.png)
+
+Khi tính năng này được bật, Windows Security sẽ liên tục giám sát hệ thống để phát hiện hoạt động đáng nghi hoặc tệp độc hại.
+
+Real-Time Protection có thể kiểm tra:
+
+- file khi được mở;
+- file khi được tải xuống;
+- chương trình khi được chạy;
+- script đáng nghi;
+- tiến trình có hành vi bất thường;
+- một số thay đổi nguy hiểm trên hệ thống.
+
+Đây là một trong những lớp bảo vệ quan trọng nhất của Windows Security. Nếu tắt Real-Time Protection, malware có thể có cơ hội chạy mà không bị phát hiện kịp thời.
+
+Chỉ nên tắt Real-Time Protection trong trường hợp đặc biệt, ví dụ khi kiểm thử trong môi trường lab an toàn hoặc khi có yêu cầu kỹ thuật rõ ràng. Sau đó cần bật lại ngay.
+
+
+### 19.6.2. Cloud-Delivered Protection
+
+**Cloud-Delivered Protection** là tính năng bảo vệ dựa trên đám mây của Microsoft Defender.
+
+![](./img/19.6_cloud_delivered_protection.png)
+
+Khi bật tính năng này, Windows Security có thể sử dụng dữ liệu từ dịch vụ đám mây của Microsoft để phát hiện mối đe dọa nhanh hơn, đặc biệt là các malware mới hoặc chưa phổ biến.
+
+Cloud-Delivered Protection giúp:
+
+- cải thiện khả năng phát hiện malware mới;
+- phản hồi nhanh hơn trước mối đe dọa;
+- sử dụng thông tin bảo mật cập nhật từ Microsoft;
+- hỗ trợ phân tích các tệp đáng nghi;
+- tăng hiệu quả của Microsoft Defender Antivirus.
+
+Tính năng này đặc biệt hữu ích vì nhiều malware hiện đại thay đổi rất nhanh. Nếu chỉ dựa vào chữ ký cục bộ trên máy, hệ thống có thể phản ứng chậm hơn.
+
+Trong môi trường doanh nghiệp, Cloud-Delivered Protection thường được khuyến nghị bật nếu chính sách bảo mật và quyền riêng tư cho phép.
+
+
+### 19.6.3. Automatic Sample Submission
+
+**Automatic Sample Submission** là tính năng cho phép Windows Security tự động gửi mẫu tệp đáng nghi đến Microsoft để phân tích.
+
+![](./img/19.6_automatic_sample_submision.png)
+
+Khi Microsoft Defender phát hiện một tệp có dấu hiệu đáng ngờ nhưng chưa đủ thông tin để kết luận, hệ thống có thể gửi mẫu đó để kiểm tra thêm.
+
+Tính năng này giúp:
+
+- cải thiện khả năng phát hiện malware;
+- hỗ trợ Microsoft phân tích mối đe dọa mới;
+- tăng tốc độ cập nhật nhận diện;
+- bảo vệ người dùng khác khỏi malware tương tự.
+
+Tuy nhiên, trong một số môi trường doanh nghiệp, việc gửi mẫu tự động có thể liên quan đến chính sách bảo mật dữ liệu. Vì vậy, tổ chức cần cấu hình tính năng này phù hợp với yêu cầu nội bộ.
+
+Đối với người dùng cá nhân, nên bật Automatic Sample Submission để tăng khả năng bảo vệ, trừ khi có lý do riêng về quyền riêng tư hoặc dữ liệu nhạy cảm.
+
+
+### 19.6.4. Controlled Folder Access
+
+**Controlled Folder Access** là tính năng giúp bảo vệ các thư mục quan trọng khỏi việc bị thay đổi trái phép bởi ứng dụng không đáng tin cậy.
+
+![](./img/19.6_controlled_folder_access.png)
+
+Tính năng này đặc biệt hữu ích trong việc chống ransomware. Ransomware thường cố gắng mã hóa tài liệu, hình ảnh, dữ liệu cá nhân hoặc thư mục làm việc của người dùng. Controlled Folder Access giúp ngăn các ứng dụng không được phép thay đổi những thư mục được bảo vệ.
+
+Các thư mục thường cần bảo vệ gồm:
+
+- Documents;
+- Pictures;
+- Desktop;
+- Downloads;
+- thư mục dữ liệu công việc;
+- thư mục chứa tài liệu quan trọng.
+
+Khi Controlled Folder Access được bật, chỉ các ứng dụng được tin cậy mới có thể thay đổi nội dung trong thư mục được bảo vệ.
+
+Nếu một ứng dụng hợp pháp bị chặn nhầm, người dùng có thể thêm ứng dụng đó vào danh sách cho phép. Tuy nhiên, cần kiểm tra kỹ trước khi cho phép ứng dụng truy cập thư mục được bảo vệ.
+
+
+### 19.6.5. Exclusions
+
+**Exclusions** là danh sách loại trừ trong Windows Security. Các tệp, thư mục, tiến trình hoặc loại file được thêm vào Exclusions sẽ không bị Microsoft Defender quét hoặc giám sát theo cách thông thường.
+
+![](./img/19.6_exclusions.png)
+
+Exclusions có thể được sử dụng trong một số trường hợp hợp pháp, ví dụ:
+
+- phần mềm nội bộ bị nhận diện nhầm;
+- thư mục chứa file lab bảo mật;
+- môi trường phát triển phần mềm;
+- công cụ kiểm thử được phép sử dụng;
+- thư mục có nhiều file tạm gây ảnh hưởng hiệu suất.
+
+Tuy nhiên, Exclusions là khu vực có rủi ro cao. Nếu thêm sai thư mục hoặc file vào danh sách loại trừ, malware có thể lợi dụng vị trí đó để ẩn khỏi antivirus.
+
+Không nên thêm các thư mục sau vào Exclusions nếu không có lý do rõ ràng:
+
+- `C:\Users\<user>\Downloads`;
+- `C:\Users\<user>\AppData`;
+- `C:\Windows`;
+- `C:\Windows\System32`;
+- toàn bộ ổ `C:\`.
+
+Trong điều tra bảo mật, cần kiểm tra danh sách Exclusions vì kẻ tấn công có thể cố gắng thêm đường dẫn độc hại vào đây để tránh bị phát hiện.
+
+
+### 19.6.6. Notifications
+
+**Notifications** là phần cài đặt thông báo của Windows Security.
+
+![](./img/19.6_notifications.png)
+
+Thông báo giúp người dùng biết khi có vấn đề bảo mật xảy ra, ví dụ:
+
+- phát hiện malware;
+- đã cách ly mối đe dọa;
+- cần quét hệ thống;
+- tính năng bảo vệ bị tắt;
+- firewall có vấn đề;
+- cần thực hiện hành động bảo mật.
+
+Thông báo bảo mật rất quan trọng vì nếu người dùng không nhìn thấy cảnh báo, họ có thể không biết hệ thống đang gặp rủi ro.
+
+Trong môi trường cá nhân, nên bật thông báo quan trọng của Windows Security để kịp thời xử lý khi có mối đe dọa.
+
+Trong môi trường doanh nghiệp, thông báo trên máy người dùng có thể được kết hợp với cảnh báo tập trung gửi về hệ thống quản lý bảo mật, EDR hoặc SIEM.
+
+
+## 19.7. Ransomware Protection
+
+**Ransomware Protection** là nhóm tính năng giúp bảo vệ dữ liệu khỏi ransomware.
+
+![](./img/19.7_ransomware_protection.png)
+
+Ransomware là loại malware mã hóa tệp của nạn nhân và yêu cầu tiền chuộc để khôi phục dữ liệu. Đây là một trong những mối đe dọa nghiêm trọng đối với cả người dùng cá nhân và doanh nghiệp.
+
+Trong Windows Security, Ransomware Protection thường liên quan đến:
+
+- Controlled Folder Access;
+- bảo vệ thư mục quan trọng;
+- quản lý ứng dụng được phép truy cập thư mục;
+- khôi phục dữ liệu nếu có tích hợp với dịch vụ sao lưu phù hợp.
+
+Để tăng khả năng chống ransomware, nên:
+
+- bật Controlled Folder Access nếu phù hợp;
+- không mở file đính kèm đáng nghi;
+- không chạy phần mềm không rõ nguồn gốc;
+- cập nhật Windows thường xuyên;
+- sao lưu dữ liệu quan trọng;
+- không lưu bản sao lưu duy nhất trên cùng máy;
+- kiểm tra cảnh báo từ Windows Security.
+
+Ransomware Protection không thay thế hoàn toàn việc sao lưu dữ liệu. Sao lưu ngoại tuyến hoặc sao lưu trên hệ thống được bảo vệ vẫn là biện pháp rất quan trọng.
+
+
+## 19.8. Lưu ý bảo mật khi cấu hình Antivirus
+
+Khi cấu hình antivirus trong Windows Security, cần đảm bảo rằng các tính năng bảo vệ chính được bật và không tạo ra lỗ hổng do cấu hình sai.
+
+Một số lưu ý quan trọng gồm:
+
+- không tắt Real-Time Protection nếu không có lý do rõ ràng;
+- nên bật Cloud-Delivered Protection để tăng khả năng phát hiện mối đe dọa mới;
+- cẩn thận khi cấu hình Exclusions;
+- không cho phép tệp bị phát hiện là độc hại nếu chưa kiểm tra kỹ;
+- thường xuyên xem Threat History;
+- kiểm tra Quarantined Threats và Allowed Threats;
+- bật Ransomware Protection nếu phù hợp;
+- cập nhật Windows và Microsoft Defender thường xuyên;
+- không bỏ qua cảnh báo màu đỏ hoặc màu vàng trong Windows Security.
+
+Trong môi trường doanh nghiệp, cấu hình antivirus nên được quản lý tập trung và có chính sách rõ ràng. Người dùng thông thường không nên tự ý tắt bảo vệ hoặc thêm exclusion nếu không được phép.
+
+Từ góc độ SOC, cần giám sát các sự kiện liên quan đến antivirus như:
+
+- Real-Time Protection bị tắt;
+- phát hiện malware;
+- malware bị cách ly;
+- threat được allow;
+- exclusion mới được thêm;
+- nhiều cảnh báo xảy ra trên cùng một máy;
+- ransomware protection bị vô hiệu hóa.
+
+Tóm lại, Virus & Threat Protection là một lớp bảo vệ quan trọng của Windows. Nếu được cấu hình đúng, nó giúp giảm nguy cơ nhiễm malware, hỗ trợ phát hiện tấn công và bảo vệ dữ liệu người dùng.
 
 
 
