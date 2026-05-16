@@ -62,6 +62,8 @@
 
 30. [Quản lý máy tính trong Active Directory](#30-quản-lý-máy-tính-trong-active-directory)
 
+31. [Group Policy](#31-group-policy)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -8385,6 +8387,525 @@ Một số nguyên tắc chung:
 * không dùng chung chính sách cho mọi loại thiết bị nếu nhu cầu khác nhau.
 
 Tóm lại, quản lý máy tính trong Active Directory không chỉ là việc đưa máy vào domain. Quan trọng hơn là phải phân loại đúng, áp dụng chính sách phù hợp và bảo vệ từng nhóm thiết bị theo mức độ rủi ro của chúng.
+
+
+# 31. Group Policy
+
+## 31.1. Group Policy là gì?
+
+**Group Policy** là cơ chế trong Active Directory dùng để quản lý tập trung các thiết lập cho người dùng và máy tính trong domain.
+
+Thay vì cấu hình từng máy tính riêng lẻ, quản trị viên có thể tạo chính sách và áp dụng cho nhiều đối tượng cùng lúc.
+
+Group Policy có thể dùng để cấu hình:
+
+- mật khẩu;
+- khóa tài khoản;
+- quyền truy cập Control Panel;
+- Windows Firewall;
+- Windows Update;
+- màn hình khóa;
+- script đăng nhập;
+- cấu hình bảo mật;
+- thiết lập cho người dùng;
+- thiết lập cho máy tính.
+
+Ví dụ, doanh nghiệp có thể tạo chính sách yêu cầu tất cả người dùng phải dùng mật khẩu tối thiểu 10 ký tự. Khi chính sách được áp dụng, người dùng trong phạm vi đó phải tuân theo yêu cầu này.
+
+Group Policy là một thành phần rất quan trọng trong quản trị Windows Domain vì nó giúp đảm bảo cấu hình hệ thống đồng nhất và giảm rủi ro do cấu hình thủ công.
+
+
+## 31.2. Group Policy Object — GPO
+
+**GPO** là viết tắt của **Group Policy Object**. Đây là đối tượng chứa các thiết lập chính sách trong Active Directory.
+
+Có thể hiểu GPO là một “gói cấu hình” dùng để áp dụng cho người dùng hoặc máy tính.
+
+Một GPO có thể chứa các thiết lập như:
+
+- chính sách mật khẩu;
+- chính sách khóa tài khoản;
+- chặn truy cập Control Panel;
+- cấu hình Windows Firewall;
+- cấu hình màn hình khóa;
+- chạy script khi đăng nhập;
+- cấu hình trình duyệt;
+- cấu hình bảo mật hệ thống.
+
+Ví dụ, có thể tạo một GPO tên là:
+
+```text
+Restrict Control Panel
+```
+
+Sau đó cấu hình GPO này để chặn người dùng mở Control Panel.
+
+Một GPO chỉ có hiệu lực khi nó được liên kết với phạm vi phù hợp, ví dụ domain, site hoặc OU.
+
+### 31.3. Vai trò của GPO trong quản trị miền
+
+GPO có vai trò quan trọng trong quản trị miền vì nó cho phép quản trị viên áp dụng cấu hình tập trung cho nhiều người dùng và máy tính.
+
+Nếu không có GPO, quản trị viên phải cấu hình từng máy riêng lẻ. Điều này rất mất thời gian và dễ gây sai sót.
+
+GPO giúp doanh nghiệp:
+
+* áp dụng chính sách bảo mật đồng nhất;
+* giảm cấu hình thủ công;
+* quản lý người dùng theo phòng ban;
+* quản lý máy tính theo loại thiết bị;
+* hạn chế quyền người dùng;
+* triển khai thiết lập bảo mật;
+* kiểm soát môi trường làm việc;
+* hỗ trợ tuân thủ chính sách nội bộ.
+
+Ví dụ:
+
+| Nhu cầu quản trị    | Có thể dùng GPO để làm gì                    |
+| ------------------- | -------------------------------------------- |
+| Bảo vệ tài khoản    | Cấu hình password policy và account lockout  |
+| Bảo vệ máy trạm     | Bật firewall, khóa màn hình tự động          |
+| Giới hạn người dùng | Chặn Control Panel hoặc hạn chế cài phần mềm |
+| Quản lý máy chủ     | Cấu hình audit policy và quyền đăng nhập     |
+| Chuẩn hóa hệ thống  | Áp dụng cấu hình giống nhau cho nhiều máy    |
+
+Từ góc độ bảo mật, GPO giúp giảm rủi ro do người dùng tự ý thay đổi cấu hình hoặc máy tính có thiết lập không đồng nhất.
+
+### 31.4. Group Policy Management
+
+**Group Policy Management** là công cụ dùng để tạo, chỉnh sửa, liên kết và quản lý GPO trong Active Directory.
+
+Công cụ này thường được mở trên Domain Controller hoặc máy quản trị đã cài RSAT.
+
+Có thể mở bằng Start Menu bằng cách tìm:
+
+```text
+Group Policy Management
+```
+
+Hoặc mở bằng lệnh:
+
+```text
+gpmc.msc
+```
+
+Trong Group Policy Management, quản trị viên có thể xem:
+
+* cấu trúc domain;
+* các OU;
+* các GPO đã tạo;
+* GPO đang liên kết với domain hoặc OU;
+* phạm vi áp dụng của GPO;
+* Security Filtering;
+* trạng thái kế thừa chính sách;
+* kết quả áp dụng chính sách.
+
+Công cụ này rất quan trọng vì nó cho phép quản trị viên quản lý chính sách một cách trực quan và tập trung.
+
+## 31.5. Tạo GPO
+
+Để tạo một GPO mới, quản trị viên có thể sử dụng công cụ **Group Policy Management**.
+
+Các bước cơ bản:
+
+1. Mở **Group Policy Management**.
+2. Mở domain cần quản lý.
+3. Nhấp chuột phải vào **Group Policy Objects**.
+4. Chọn **New**.
+5. Nhập tên GPO.
+6. Nhấn **OK**.
+
+Ví dụ tên GPO:
+
+```text
+Lock Screen Policy
+```
+
+Sau khi tạo, GPO mới chưa tự động áp dụng cho người dùng hoặc máy tính. Cần liên kết GPO đó với domain hoặc OU phù hợp.
+
+Sau khi tạo GPO, quản trị viên có thể nhấp chuột phải vào GPO và chọn **Edit** để chỉnh sửa nội dung chính sách.
+
+Ví dụ, trong GPO có thể cấu hình:
+
+* khóa màn hình sau 5 phút;
+* chặn Control Panel;
+* cấu hình password policy;
+* bật firewall;
+* chạy script đăng nhập.
+
+## 31.6. Liên kết GPO với OU
+
+Một GPO cần được **link** với OU, domain hoặc site để có hiệu lực.
+
+Trong thực tế, GPO thường được liên kết với OU để áp dụng chính sách cho nhóm người dùng hoặc máy tính cụ thể.
+
+Các bước liên kết GPO với OU:
+
+1. Mở **Group Policy Management**.
+2. Chọn OU cần áp dụng chính sách.
+3. Nhấp chuột phải vào OU.
+4. Chọn **Link an Existing GPO**.
+5. Chọn GPO muốn liên kết.
+6. Nhấn **OK**.
+
+Ví dụ, nếu muốn áp dụng chính sách khóa màn hình cho máy trạm, có thể link GPO vào OU:
+
+```text
+Workstations
+```
+
+Cấu trúc ví dụ:
+
+```text
+company.local
+└── Workstations
+    ├── PC01
+    └── PC02
+```
+
+Khi GPO được liên kết với OU `Workstations`, các máy tính trong OU đó sẽ nhận chính sách nếu chúng thuộc phạm vi áp dụng của GPO.
+
+Theo tài liệu, GPO liên kết với một OU có thể áp dụng cho OU đó và các OU con bên dưới nó. 
+
+## 31.7. GPO Scope
+
+**GPO Scope** là phạm vi mà GPO được áp dụng trong Active Directory.
+
+Scope cho biết GPO đang được liên kết ở đâu và đối tượng nào có thể nhận chính sách đó.
+
+Một GPO có thể được liên kết với:
+
+* site;
+* domain;
+* OU.
+
+Ví dụ:
+
+```text
+company.local
+├── Sales
+├── IT
+└── Workstations
+```
+
+Nếu GPO được link vào OU `Sales`, chính sách sẽ áp dụng cho các đối tượng phù hợp trong OU `Sales`.
+
+Nếu GPO được link ở cấp domain, chính sách có thể ảnh hưởng đến phạm vi rộng hơn, thậm chí nhiều OU bên dưới.
+
+Khi kiểm tra một GPO trong Group Policy Management, tab **Scope** cho biết:
+
+* GPO được link ở đâu;
+* Security Filtering;
+* WMI Filtering nếu có;
+* đối tượng nào có thể nhận chính sách.
+
+Hiểu đúng GPO Scope rất quan trọng để tránh áp dụng chính sách sai phạm vi.
+
+## 31.8. Security Filtering
+
+**Security Filtering** là cơ chế dùng để giới hạn đối tượng nào được áp dụng GPO.
+
+Theo mặc định, nhiều GPO áp dụng cho nhóm **Authenticated Users**, tức là bao gồm người dùng và máy tính đã xác thực trong domain. 
+
+Tuy nhiên, trong thực tế có thể cần áp dụng GPO cho một nhóm cụ thể thay vì toàn bộ người dùng hoặc máy tính trong OU.
+
+Ví dụ, trong OU `Sales`, chỉ muốn GPO áp dụng cho nhóm:
+
+```text
+Sales_Users
+```
+
+Khi đó, có thể dùng Security Filtering để giới hạn phạm vi.
+
+Security Filtering hữu ích trong các trường hợp:
+
+* chỉ áp dụng chính sách cho một nhóm người dùng;
+* loại trừ một số tài khoản đặc biệt;
+* áp dụng chính sách cho nhóm máy tính cụ thể;
+* triển khai thử nghiệm GPO cho một nhóm nhỏ;
+* giảm rủi ro áp dụng nhầm chính sách.
+
+Cần cấu hình Security Filtering cẩn thận. Nếu bỏ sai nhóm hoặc thiếu quyền đọc và áp dụng chính sách, GPO có thể không hoạt động như mong muốn.
+
+## 31.9. Computer Configuration
+
+**Computer Configuration** là phần trong GPO chứa các thiết lập áp dụng cho máy tính.
+
+Các thiết lập trong Computer Configuration được áp dụng dựa trên Computer Object, không phụ thuộc trực tiếp vào người dùng nào đăng nhập.
+
+Computer Configuration thường dùng để cấu hình:
+
+* chính sách bảo mật máy tính;
+* Windows Firewall;
+* Windows Update;
+* dịch vụ hệ thống;
+* script khởi động hoặc tắt máy;
+* audit policy;
+* thiết lập Registry ở cấp máy;
+* quyền đăng nhập cục bộ;
+* cấu hình phần mềm cho máy tính.
+
+Ví dụ, nếu muốn bật firewall cho tất cả máy trạm trong OU `Workstations`, nên cấu hình trong Computer Configuration.
+
+Một số tình huống dùng Computer Configuration:
+
+| Tình huống        | Ví dụ                                 |
+| ----------------- | ------------------------------------- |
+| Cấu hình máy trạm | Bật firewall, bật audit logging       |
+| Cấu hình máy chủ  | Hạn chế đăng nhập cục bộ              |
+| Bảo mật hệ thống  | Cấu hình quyền user rights assignment |
+| Cập nhật          | Thiết lập Windows Update              |
+| Khởi động máy     | Chạy startup script                   |
+
+Computer Configuration rất quan trọng trong bảo mật vì nó cho phép áp dụng chính sách ổn định cho thiết bị, kể cả khi người dùng khác nhau đăng nhập vào máy.
+
+## 31.10. User Configuration
+
+**User Configuration** là phần trong GPO chứa các thiết lập áp dụng cho người dùng.
+
+Các thiết lập này đi theo tài khoản người dùng. Khi người dùng đăng nhập vào máy tính trong domain, chính sách liên quan đến user có thể được áp dụng.
+
+User Configuration thường dùng để cấu hình:
+
+* Start Menu;
+* Desktop;
+* Control Panel;
+* script đăng nhập hoặc đăng xuất;
+* giới hạn ứng dụng;
+* cấu hình trình duyệt;
+* ổ đĩa mạng;
+* máy in;
+* thiết lập môi trường người dùng;
+* chính sách giao diện.
+
+Ví dụ, nếu muốn chặn người dùng phòng Sales mở Control Panel, có thể cấu hình GPO trong User Configuration và link GPO với OU chứa user phòng Sales.
+
+Một số tình huống dùng User Configuration:
+
+| Tình huống           | Ví dụ                             |
+| -------------------- | --------------------------------- |
+| Giới hạn người dùng  | Chặn Control Panel                |
+| Thiết lập môi trường | Map network drive                 |
+| Quản lý giao diện    | Cấu hình desktop hoặc Start Menu  |
+| Tự động hóa          | Chạy logon script                 |
+| Bảo mật người dùng   | Hạn chế truy cập công cụ hệ thống |
+
+User Configuration giúp quản trị viên kiểm soát trải nghiệm và quyền hạn của người dùng trong môi trường domain.
+
+## 31.11. Default Domain Policy
+
+**Default Domain Policy** là GPO mặc định được tạo khi domain Active Directory được thiết lập.
+
+GPO này thường được liên kết với toàn bộ domain. Theo tài liệu, Default Domain Policy là một trong các GPO có sẵn và được liên kết với toàn bộ miền. 
+
+Default Domain Policy thường chứa các chính sách cơ bản áp dụng cho toàn domain, đặc biệt là:
+
+* Password Policy;
+* Account Lockout Policy;
+* Kerberos Policy;
+* một số thiết lập bảo mật cơ bản.
+
+Trong thực tế, Default Domain Policy nên được sử dụng cẩn thận. Không nên đưa quá nhiều cấu hình không liên quan vào GPO này vì nó có thể ảnh hưởng đến toàn bộ domain.
+
+Khuyến nghị:
+
+* giữ Default Domain Policy cho các chính sách cấp domain quan trọng;
+* không chỉnh sửa tùy tiện;
+* sao lưu trước khi thay đổi lớn;
+* ghi lại mọi thay đổi;
+* không dùng để cấu hình tất cả thiết lập cho mọi OU;
+* tạo GPO riêng cho từng mục đích cụ thể nếu cần.
+
+Ví dụ, chính sách mật khẩu toàn domain có thể nằm trong Default Domain Policy.
+
+## 31.12. Default Domain Controllers Policy
+
+**Default Domain Controllers Policy** là GPO mặc định được áp dụng cho OU **Domain Controllers**.
+
+Theo tài liệu, Default Domain Controllers Policy được liên kết với OU Domain Controllers. 
+
+GPO này chứa các thiết lập dành riêng cho Domain Controllers. Vì Domain Controllers là thành phần rất nhạy cảm trong domain, chính sách áp dụng cho chúng cần được kiểm soát chặt chẽ.
+
+Default Domain Controllers Policy có thể liên quan đến:
+
+* audit policy;
+* user rights assignment;
+* quyền đăng nhập;
+* cấu hình bảo mật cho Domain Controllers;
+* thiết lập hệ thống quan trọng.
+
+Không nên chỉnh sửa GPO này nếu không hiểu rõ tác động, vì cấu hình sai có thể ảnh hưởng đến khả năng xác thực và hoạt động của toàn bộ domain.
+
+Khuyến nghị:
+
+* chỉ quản trị viên có kinh nghiệm mới nên chỉnh sửa;
+* ghi lại mọi thay đổi;
+* kiểm tra trong môi trường lab nếu có thể;
+* không áp dụng chính sách máy trạm cho Domain Controllers;
+* thường xuyên kiểm tra cấu hình bảo mật của Domain Controllers.
+
+## 31.13. Password Policy
+
+**Password Policy** là chính sách quy định yêu cầu đối với mật khẩu của tài khoản trong domain.
+
+Chính sách này thường nằm trong Default Domain Policy và áp dụng ở cấp domain.
+
+Password Policy có thể bao gồm:
+
+* độ dài tối thiểu của mật khẩu;
+* độ phức tạp của mật khẩu;
+* thời gian hết hạn mật khẩu;
+* lịch sử mật khẩu;
+* tuổi tối thiểu của mật khẩu;
+* quy định người dùng có được dùng lại mật khẩu cũ hay không.
+
+Ví dụ, tài liệu đề cập đến cấu hình mật khẩu tối thiểu 10 ký tự trong Group Policy. 
+
+Một chính sách mật khẩu tốt giúp giảm nguy cơ:
+
+* đoán mật khẩu;
+* brute-force;
+* password spraying;
+* dùng mật khẩu quá yếu;
+* dùng lại mật khẩu cũ.
+
+Ví dụ cấu hình khuyến nghị cơ bản:
+
+| Thiết lập                                  | Ý nghĩa                                        |
+| ------------------------------------------ | ---------------------------------------------- |
+| Minimum password length                    | Độ dài tối thiểu của mật khẩu                  |
+| Password must meet complexity requirements | Yêu cầu độ phức tạp                            |
+| Enforce password history                   | Không cho dùng lại mật khẩu gần đây            |
+| Maximum password age                       | Thời gian tối đa được dùng một mật khẩu        |
+| Minimum password age                       | Thời gian tối thiểu trước khi đổi lại mật khẩu |
+
+Trong doanh nghiệp, Password Policy cần cân bằng giữa bảo mật và khả năng sử dụng. Mật khẩu quá yếu gây rủi ro, nhưng chính sách quá khó dùng có thể khiến người dùng ghi mật khẩu ra nơi không an toàn.
+
+## 31.14. Account Lockout Policy
+
+**Account Lockout Policy** là chính sách khóa tài khoản sau một số lần đăng nhập sai.
+
+Chính sách này giúp giảm nguy cơ brute-force mật khẩu trong domain.
+
+Account Lockout Policy thường gồm các thiết lập:
+
+| Thiết lập                           | Ý nghĩa                                          |
+| ----------------------------------- | ------------------------------------------------ |
+| Account lockout threshold           | Số lần đăng nhập sai trước khi tài khoản bị khóa |
+| Account lockout duration            | Thời gian tài khoản bị khóa                      |
+| Reset account lockout counter after | Thời gian đặt lại bộ đếm đăng nhập sai           |
+
+Ví dụ, doanh nghiệp có thể cấu hình:
+
+```text
+Account lockout threshold: 5 invalid attempts
+Account lockout duration: 15 minutes
+Reset account lockout counter after: 15 minutes
+```
+
+Khi đó, nếu người dùng nhập sai mật khẩu 5 lần, tài khoản sẽ bị khóa trong 15 phút.
+
+Account Lockout Policy giúp bảo vệ tài khoản, nhưng cần cấu hình hợp lý. Nếu ngưỡng quá thấp, người dùng có thể bị khóa tài khoản thường xuyên. Nếu ngưỡng quá cao, chính sách có thể không đủ hiệu quả chống brute-force.
+
+Từ góc độ SOC, nhiều tài khoản bị lockout trong thời gian ngắn có thể là dấu hiệu của:
+
+* brute-force;
+* password spraying;
+* người dùng nhập sai mật khẩu hàng loạt;
+* hệ thống hoặc dịch vụ đang dùng mật khẩu cũ;
+* tấn công vào tài khoản domain.
+
+## 31.15. Kế thừa GPO
+
+**Kế thừa GPO** nghĩa là GPO được áp dụng từ cấp cao xuống cấp thấp trong cấu trúc Active Directory.
+
+Nếu một GPO được liên kết với domain hoặc OU cha, các OU con bên dưới có thể cũng bị ảnh hưởng.
+
+Ví dụ:
+
+```text
+company.local
+└── Sales
+    └── Interns
+```
+
+Nếu GPO được link vào OU `Sales`, OU con `Interns` cũng có thể nhận chính sách đó.
+
+Theo tài liệu, bất kỳ GPO nào được liên kết với một OU sẽ áp dụng cho OU đó và tất cả các sub-OU bên dưới nó. 
+
+Kế thừa GPO giúp quản trị viên áp dụng chính sách rộng hơn mà không cần link GPO nhiều lần. Tuy nhiên, nó cũng có thể gây rủi ro nếu không kiểm soát tốt.
+
+Rủi ro khi không hiểu kế thừa GPO:
+
+* chính sách áp dụng nhầm cho OU con;
+* người dùng bị hạn chế ngoài dự kiến;
+* máy chủ nhận chính sách của máy trạm;
+* cấu hình bảo mật bị ghi đè;
+* khó xác định chính sách nào đang tác động.
+
+Khi thiết kế OU và GPO, cần kiểm tra kỹ:
+
+* GPO link ở đâu;
+* OU con nào bị ảnh hưởng;
+* có cần Block Inheritance không;
+* có GPO nào được Enforced không;
+* Security Filtering có đúng không.
+
+## 31.16. Cập nhật GPO với `gpupdate /force`
+
+Thông thường, Windows tự động cập nhật Group Policy theo chu kỳ. Tuy nhiên, khi cần áp dụng chính sách ngay lập tức, có thể dùng lệnh:
+
+```cmd
+gpupdate /force
+```
+
+Lệnh này cưỡng chế cập nhật lại Group Policy trên máy tính hiện tại.
+
+Cách chạy:
+
+1. Mở Command Prompt hoặc PowerShell.
+2. Chạy lệnh:
+
+```cmd
+gpupdate /force
+```
+
+3. Chờ quá trình cập nhật hoàn tất.
+4. Khởi động lại hoặc đăng xuất nếu Windows yêu cầu.
+
+Theo tài liệu, nếu đã tạo và liên kết GPO nhưng chính sách chưa hoạt động, có thể chạy `gpupdate /force` để cưỡng chế cập nhật GPO. 
+
+Lệnh này hữu ích trong các trường hợp:
+
+* vừa tạo GPO mới;
+* vừa chỉnh sửa GPO;
+* vừa di chuyển máy tính sang OU khác;
+* vừa thay đổi Security Filtering;
+* cần kiểm tra chính sách trong lab;
+* chính sách chưa áp dụng ngay.
+
+Ví dụ:
+
+```cmd
+gpupdate /force
+```
+
+Sau khi chạy, có thể kiểm tra GPO đã áp dụng hay chưa bằng các công cụ như:
+
+```cmd
+gpresult /r
+```
+
+Hoặc:
+
+```cmd
+rsop.msc
+```
+
+Từ góc độ quản trị và bảo mật, `gpupdate /force` là lệnh rất quan trọng khi triển khai hoặc kiểm tra chính sách trong Windows Domain.
+
+Tóm lại, Group Policy là cơ chế cốt lõi giúp quản trị viên áp dụng cấu hình và chính sách bảo mật tập trung trong Active Directory. Hiểu rõ GPO, scope, security filtering, computer/user configuration và kế thừa chính sách là nền tảng quan trọng để quản lý Windows Domain an toàn.
+
 
 
 
