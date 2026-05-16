@@ -36,6 +36,8 @@
 
 17. [Windows Update](#17-windows-update)
 
+18. [Windows Security](#18-windows-security)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -4404,7 +4406,7 @@ Trong các phiên bản Windows hiện đại, Windows Update thường hoạt �
 Windows Update là một thành phần quan trọng giúp hệ điều hành hoạt động ổn định, an toàn và tương thích tốt hơn với phần mềm, phần cứng mới.
 
 
-### 17.2. Vai trò của Windows Update trong bảo mật
+## 17.2. Vai trò của Windows Update trong bảo mật
 
 Windows Update có vai trò rất quan trọng trong bảo mật hệ thống. Nhiều cuộc tấn công mạng khai thác các lỗ hổng đã biết trong hệ điều hành, dịch vụ hoặc thành phần phần mềm. Nếu hệ thống không được cập nhật, các lỗ hổng này có thể bị kẻ tấn công lợi dụng.
 
@@ -4571,6 +4573,281 @@ Khi Windows Update hiển thị trạng thái Restart Required, người dùng n
 Nếu không khởi động lại, bản cập nhật có thể chưa được áp dụng đầy đủ. Điều này có thể khiến hệ thống vẫn còn tồn tại lỗi hoặc lỗ hổng bảo mật.
 
 Trong môi trường doanh nghiệp, việc khởi động lại sau cập nhật cần được quản lý cẩn thận để tránh gián đoạn công việc. Quản trị viên thường cấu hình thời gian cập nhật và khởi động lại ngoài giờ làm việc.
+
+# 18. Windows Security
+
+## 18.1. Windows Security là gì?
+
+**Windows Security** là trung tâm bảo mật tích hợp sẵn trong Windows. Đây là nơi người dùng có thể kiểm tra trạng thái bảo vệ của hệ thống và quản lý các tính năng bảo mật quan trọng.
+
+![](./img/18.1_windows_security.png)
+
+Windows Security giúp bảo vệ máy tính khỏi nhiều rủi ro như:
+
+- virus;
+- malware;
+- ransomware;
+- truy cập trái phép;
+- ứng dụng không an toàn;
+- website độc hại;
+- cấu hình bảo mật yếu;
+- vấn đề liên quan đến thiết bị và phần cứng.
+
+Trong các phiên bản Windows hiện đại, Windows Security được tích hợp trực tiếp vào hệ điều hành. Người dùng không cần cài đặt thêm phần mềm bên ngoài để có các chức năng bảo vệ cơ bản.
+
+Windows Security thường bao gồm nhiều khu vực bảo vệ khác nhau, ví dụ như:
+
+- Virus & Threat Protection;
+- Firewall & Network Protection;
+- App & Browser Control;
+- Device Security.
+
+Đối với người dùng cá nhân, Windows Security giúp kiểm tra nhanh máy tính có đang được bảo vệ hay không. Đối với người học an toàn thông tin, đây là công cụ cơ bản để hiểu các lớp bảo vệ mặc định của Windows.
+
+
+## 18.2. Protection Areas
+
+**Protection Areas** là các khu vực bảo vệ chính trong Windows Security. Mỗi khu vực phụ trách một nhóm chức năng bảo mật riêng.
+
+Các Protection Areas quan trọng gồm:
+
+| Protection Area | Chức năng chính |
+|---|---|
+| Virus & Threat Protection | Bảo vệ hệ thống khỏi virus, malware và các mối đe dọa khác |
+| Firewall & Network Protection | Quản lý tường lửa và bảo vệ kết nối mạng |
+| App & Browser Control | Bảo vệ khi chạy ứng dụng và truy cập web |
+| Device Security | Kiểm tra các tính năng bảo mật phần cứng và bảo mật lõi hệ thống |
+
+Ngoài ra, tùy phiên bản Windows và cấu hình hệ thống, Windows Security có thể hiển thị thêm một số khu vực khác như:
+
+- Account Protection;
+- Device Performance & Health;
+- Family Options.
+
+Các Protection Areas giúp người dùng kiểm tra tình trạng bảo mật theo từng nhóm rõ ràng. Nếu có vấn đề, Windows Security thường hiển thị cảnh báo để người dùng xử lý.
+
+
+## 18.3. Ý nghĩa biểu tượng trạng thái bảo mật
+
+Windows Security sử dụng các biểu tượng trạng thái để cho biết tình trạng bảo mật của từng khu vực.
+
+Các màu thường gặp gồm:
+
+- màu xanh lá cây;
+- màu vàng;
+- màu đỏ.
+
+Nhờ các biểu tượng này, người dùng có thể nhanh chóng biết hệ thống đang an toàn, cần chú ý hay đang có vấn đề nghiêm trọng.
+
+
+### 18.3.1. Màu xanh lá cây
+
+Biểu tượng **màu xanh lá cây** thường cho biết trạng thái bảo mật đang tốt.
+
+![](./img/18.3_green.png)
+
+Điều này có nghĩa là khu vực bảo vệ đó đang hoạt động bình thường và không có hành động khẩn cấp nào cần thực hiện.
+
+Ví dụ:
+
+- antivirus đang bật;
+- không phát hiện mối đe dọa;
+- firewall đang hoạt động;
+- thiết bị không có cảnh báo bảo mật quan trọng;
+- các thiết lập bảo vệ chính đang được bật.
+
+Khi thấy biểu tượng màu xanh lá cây, người dùng có thể hiểu rằng Windows Security chưa phát hiện vấn đề nghiêm trọng ở khu vực đó.
+
+
+### 18.3.2. Màu vàng
+
+Biểu tượng **màu vàng** thường cho biết có vấn đề cần chú ý hoặc cần người dùng kiểm tra thêm.
+
+![](./img/18.3_yellow.png)
+
+Trạng thái này không nhất thiết có nghĩa là hệ thống đang bị tấn công, nhưng cho thấy có một thiết lập hoặc cảnh báo cần được xem xét.
+
+Ví dụ:
+
+- cần bật một tính năng bảo vệ;
+- cần kiểm tra cảnh báo bảo mật;
+- có khuyến nghị từ Windows Security;
+- cần cập nhật hoặc quét hệ thống;
+- có thiết lập chưa tối ưu.
+
+Khi thấy biểu tượng màu vàng, người dùng nên mở khu vực đó để xem Windows đề xuất hành động gì.
+
+
+### 18.3.3. Màu đỏ
+
+Biểu tượng **màu đỏ** thường cho biết có vấn đề nghiêm trọng cần xử lý ngay.
+
+![](./img/18.3_red.png)
+
+Ví dụ:
+
+- antivirus bị tắt;
+- firewall bị tắt;
+- phát hiện mối đe dọa;
+- hệ thống có nguy cơ cao;
+- một thành phần bảo vệ quan trọng không hoạt động.
+
+Khi thấy biểu tượng màu đỏ, người dùng không nên bỏ qua. Cần mở Windows Security, kiểm tra nguyên nhân và thực hiện hành động khắc phục càng sớm càng tốt.
+
+Trong môi trường doanh nghiệp, trạng thái màu đỏ trên máy trạm có thể là dấu hiệu cần gửi cảnh báo cho quản trị viên hoặc SOC.
+
+
+## 18.4. Virus & Threat Protection
+
+**Virus & Threat Protection** là khu vực trong Windows Security dùng để bảo vệ hệ thống khỏi virus, malware và các mối đe dọa khác.
+
+![](./img/18.4_virus_and_threat_protection.png)
+
+Khu vực này thường liên quan đến Microsoft Defender Antivirus, công cụ chống mã độc tích hợp sẵn trong Windows.
+
+Trong Virus & Threat Protection, người dùng có thể:
+
+- kiểm tra trạng thái bảo vệ hiện tại;
+- xem lịch sử mối đe dọa;
+- chạy quét nhanh;
+- chạy quét đầy đủ;
+- chạy quét tùy chỉnh;
+- cấu hình bảo vệ thời gian thực;
+- bật bảo vệ dựa trên đám mây;
+- quản lý exclusions;
+- kiểm tra ransomware protection.
+
+Một số loại quét thường gặp gồm:
+
+| Loại quét | Ý nghĩa |
+|---|---|
+| Quick scan | Quét nhanh các khu vực thường bị mã độc lợi dụng |
+| Full scan | Quét toàn bộ hệ thống |
+| Custom scan | Quét tệp hoặc thư mục do người dùng chọn |
+| Microsoft Defender Offline scan | Quét ngoại tuyến để xử lý một số mã độc khó loại bỏ |
+
+Virus & Threat Protection rất quan trọng vì malware có thể gây nhiều hậu quả như đánh cắp dữ liệu, mã hóa tệp, theo dõi người dùng hoặc mở cửa hậu cho kẻ tấn công.
+
+Đối với người học SOC, khu vực này giúp hiểu cách Windows phát hiện, cách ly và xử lý các mối đe dọa cơ bản trên endpoint.
+
+
+## 18.5. Firewall & Network Protection
+
+**Firewall & Network Protection** là khu vực dùng để quản lý tường lửa và bảo vệ kết nối mạng của Windows.
+
+![](./img/18.5_firewall_network_protection.png)
+
+Windows Firewall giúp kiểm soát lưu lượng mạng vào và ra khỏi máy tính. Nó có thể cho phép hoặc chặn kết nối dựa trên hồ sơ mạng, ứng dụng, cổng hoặc quy tắc tường lửa.
+
+Trong Firewall & Network Protection, thường có ba loại network profile:
+
+| Network Profile | Ý nghĩa |
+|---|---|
+| Domain network | Dùng khi máy tính tham gia domain trong doanh nghiệp |
+| Private network | Dùng cho mạng riêng đáng tin cậy, ví dụ mạng gia đình hoặc nội bộ |
+| Public network | Dùng cho mạng công cộng, ví dụ Wi-Fi ở quán cà phê, sân bay |
+
+Public network thường có mức bảo vệ nghiêm ngặt hơn vì đây là môi trường ít đáng tin cậy hơn.
+
+Trong khu vực này, người dùng có thể:
+
+- kiểm tra firewall đang bật hay tắt;
+- xem trạng thái từng network profile;
+- cho phép ứng dụng đi qua firewall;
+- mở Advanced settings;
+- cấu hình quy tắc inbound và outbound;
+- khôi phục firewall về mặc định.
+
+Từ góc độ bảo mật, firewall là lớp phòng thủ quan trọng giúp giảm nguy cơ truy cập trái phép vào máy tính qua mạng.
+
+
+## 18.6. App & Browser Control
+
+**App & Browser Control** là khu vực trong Windows Security dùng để bảo vệ người dùng khi chạy ứng dụng và truy cập nội dung trên web.
+
+![](./img/18.6_app_browser_control.png)
+
+Khu vực này liên quan đến các cơ chế như Microsoft Defender SmartScreen và Exploit Protection.
+
+App & Browser Control có thể giúp bảo vệ khỏi:
+
+- ứng dụng không rõ nguồn gốc;
+- tệp tải xuống đáng ngờ;
+- website độc hại;
+- nội dung lừa đảo;
+- khai thác lỗ hổng trong ứng dụng;
+- phần mềm có hành vi không an toàn.
+
+Một số chức năng thường gặp gồm:
+
+| Chức năng | Ý nghĩa |
+|---|---|
+| Check apps and files | Kiểm tra ứng dụng và tệp tải xuống |
+| SmartScreen for Microsoft Edge | Bảo vệ khi duyệt web bằng Microsoft Edge |
+| Potentially unwanted app blocking | Chặn ứng dụng không mong muốn |
+| Exploit Protection | Giảm rủi ro từ các kỹ thuật khai thác lỗ hổng |
+
+Khi người dùng tải hoặc chạy một tệp không rõ nguồn gốc, SmartScreen có thể hiển thị cảnh báo nếu tệp đó có dấu hiệu đáng ngờ.
+
+Đối với an toàn thông tin, App & Browser Control rất quan trọng vì nhiều cuộc tấn công bắt đầu từ việc người dùng tải tệp độc hại hoặc truy cập website giả mạo.
+
+
+## 18.7. Device Security
+
+**Device Security** là khu vực trong Windows Security dùng để kiểm tra và quản lý các tính năng bảo mật liên quan đến phần cứng và bảo vệ lõi hệ thống.
+
+![](./img/18.7_device_security.png)
+
+Khu vực này thường hiển thị các tính năng như:
+
+- Core Isolation;
+- Memory Integrity;
+- Security Processor;
+- TPM;
+- Secure Boot nếu thiết bị hỗ trợ.
+
+Một số thành phần quan trọng:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| Core Isolation | Cô lập các tiến trình quan trọng của hệ thống để tăng bảo mật |
+| Memory Integrity | Giúp ngăn mã độc can thiệp vào vùng nhớ quan trọng |
+| Security Processor | Liên quan đến TPM và bảo vệ khóa mã hóa |
+| TPM | Chip hoặc mô-đun bảo mật dùng cho các chức năng như BitLocker |
+| Secure Boot | Giúp ngăn mã độc can thiệp vào quá trình khởi động |
+
+Device Security phụ thuộc vào phần cứng của máy tính. Nếu thiết bị không hỗ trợ một số tính năng, Windows có thể không hiển thị đầy đủ các mục này.
+
+Trong môi trường doanh nghiệp, Device Security giúp nâng cao mức bảo vệ của endpoint, đặc biệt khi kết hợp với BitLocker, Secure Boot và các chính sách bảo mật tập trung.
+
+
+## 18.8. Windows Security trong Windows Server
+
+Trong Windows Server, các chức năng bảo mật cũng rất quan trọng, nhưng cách quản lý có thể khác so với Windows Desktop.
+
+Windows Server thường được dùng để cung cấp dịch vụ cho nhiều người dùng hoặc nhiều hệ thống khác nhau. Vì vậy, bảo mật trên Windows Server cần được cấu hình cẩn thận hơn, đặc biệt đối với các máy chủ như:
+
+- Domain Controller;
+- File Server;
+- DNS Server;
+- DHCP Server;
+- Web Server;
+- Remote Desktop Server.
+
+Trên Windows Server, quản trị viên cần quan tâm đến:
+
+- cập nhật bảo mật;
+- firewall;
+- antivirus hoặc Microsoft Defender;
+- quyền truy cập;
+- chính sách đăng nhập;
+- dịch vụ đang chạy;
+- cấu hình mạng;
+- Event Logs;
+- tài khoản quản trị;
+- bảo vệ dữ liệu.
+
+Windows Security trên máy chủ có thể không được sử dụng theo cách giống hoàn toàn với máy tính cá nhân. Trong doanh nghiệp, bảo mật máy chủ thường được quản lý kết hợp với Group Policy, Windows Defender for Endpoint, SIEM, EDR và các công cụ quản trị tập trung khác.
 
 
 
