@@ -53,21 +53,51 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 | 25 | [Mảng trong Bash](/Linux_Fundamentals/Linux_Fundamentals.md#25-mảng-trong-bash) | Trình bày cách khai báo mảng, truy cập phần tử, in toàn bộ mảng, thay đổi giá trị và xóa phần tử bằng `unset`. |
 | 26 | [Câu điều kiện trong Bash](/Linux_Fundamentals/Linux_Fundamentals.md#26-câu-điều-kiện-trong-bash) | Hướng dẫn dùng `if`, `then`, `else`, `fi`, so sánh số, chuỗi, kiểm tra tệp/thư mục và kết hợp nhiều điều kiện. |
 
-
-
 ---
 
-## [Section 4: Command Line](./4_Command_Line/)
->Tìm hiểu dòng lệnh và PowerShell trong Windows bằng cách thực hành nhiều lệnh thiết yếu. Sau đó, khám phá cách sử dụng Bash trong hệ điều hành Linux.
+## [Section 2: Windows Fundamentals and Active Directory Basics](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md)
 
-1. [Windows Command Line](./4_Command_Line/1_Windows_Command_Line.md)  
->Học các lệnh cơ bản thiết yếu trong Windows.
+| STT | Nội dung chính | Mô tả |
+|---|---|---|
+| 1 | [Tổng quan về hệ điều hành Windows](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#1-tổng-quan-về-hệ-điều-hành-windows) | Giới thiệu khái niệm Windows, vai trò của Windows trong máy tính cá nhân, doanh nghiệp và an toàn thông tin. |
+| 2 | [Giao diện Desktop của Windows](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#2-giao-diện-desktop-của-windows) | Trình bày các thành phần cơ bản của giao diện Windows như Desktop, Start Menu, Taskbar và khu vực thông báo. |
+| 3 | [Hệ thống tệp trong Windows](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#3-hệ-thống-tệp-trong-windows) | Giải thích các hệ thống tệp phổ biến trong Windows, đặc biệt là NTFS và ý nghĩa bảo mật của quyền truy cập tệp. |
+| 4 | [Thư mục hệ thống Windows](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#4-thư-mục-hệ-thống-windows) | Mô tả các thư mục quan trọng như `C:\Windows`, `%windir%`, `System32` và các công cụ hệ thống thường gặp. |
+| 5 | [Tài khoản người dùng, hồ sơ và quyền](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#5-tài-khoản-người-dùng-hồ-sơ-và-quyền) | Trình bày tài khoản người dùng, hồ sơ cá nhân, nhóm quyền và nguyên tắc phân quyền trong Windows. |
+| 6 | [User Account Control — UAC](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#6-user-account-control--uac) | Giải thích cơ chế UAC, quyền nâng cao, UAC Prompt và vai trò của UAC trong bảo vệ hệ thống. |
+| 7 | [Settings và Control Panel](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#7-settings-và-control-panel) | So sánh Windows Settings và Control Panel, đồng thời hướng dẫn khi nào nên sử dụng từng công cụ. |
+| 8 | [Task Manager](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#8-task-manager) | Giới thiệu công cụ quản lý tiến trình, theo dõi tài nguyên và xử lý ứng dụng bị treo trong Windows. |
+| 9 | [System Configuration — MSConfig](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#9-system-configuration--msconfig) | Trình bày công cụ MSConfig dùng để cấu hình khởi động, dịch vụ và hỗ trợ khắc phục sự cố hệ thống. |
+| 10 | [Computer Management](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#10-computer-management) | Tổng hợp các công cụ quản trị như Task Scheduler, Event Viewer, Disk Management, Services và Local Users and Groups. |
+| 11 | [Task Scheduler](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#11-task-scheduler) | Giới thiệu cách tạo và quản lý tác vụ tự động, cùng ý nghĩa bảo mật của Scheduled Tasks. |
+| 12 | [Event Viewer và Windows Logs](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#12-event-viewer-và-windows-logs) | Trình bày Event Viewer, các loại Windows Logs và vai trò của log trong điều tra sự cố bảo mật. |
+| 13 | [System Information](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#13-system-information) | Hướng dẫn xem thông tin phần cứng, phần mềm, môi trường hệ thống và biến môi trường bằng `msinfo32`. |
+| 14 | [Resource Monitor](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#14-resource-monitor) | Giới thiệu công cụ theo dõi chi tiết CPU, RAM, Disk, Network và phân tích tiến trình bất thường. |
+| 15 | [Command Prompt](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#15-command-prompt) | Trình bày CMD và các lệnh cơ bản như `hostname`, `whoami`, `ipconfig`, `netstat`, `net user`. |
+| 16 | [Windows Registry](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#16-windows-registry) | Giải thích Registry, cấu trúc hive/key/value, công cụ `regedit` và ý nghĩa bảo mật của Registry. |
+| 17 | [Windows Update](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#17-windows-update) | Trình bày vai trò của Windows Update, bản vá bảo mật, Feature Updates và Patch Tuesday. |
+| 18 | [Windows Security](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#18-windows-security) | Giới thiệu trung tâm bảo mật Windows Security và các khu vực bảo vệ chính của hệ thống. |
+| 19 | [Virus & Threat Protection](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#19-virus--threat-protection) | Trình bày chức năng quét, phát hiện, cách ly và xử lý virus, malware bằng Microsoft Defender. |
+| 20 | [Firewall & Network Protection](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#20-firewall--network-protection) | Giải thích Windows Firewall, network profile và cách kiểm soát kết nối mạng trong Windows. |
+| 21 | [App & Browser Control](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#21-app--browser-control) | Trình bày SmartScreen, Exploit Protection và cơ chế bảo vệ khi chạy ứng dụng hoặc truy cập web. |
+| 22 | [Device Security](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#22-device-security) | Giới thiệu các tính năng bảo mật thiết bị như TPM, Secure Boot, Core Isolation và Memory Integrity. |
+| 23 | [BitLocker](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#23-bitlocker) | Trình bày cơ chế mã hóa ổ đĩa BitLocker và vai trò của nó trong bảo vệ dữ liệu. |
+| 24 | [Volume Shadow Copy Service — VSS](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#24-volume-shadow-copy-service--vss) | Giải thích VSS, bản sao bóng và vai trò của VSS trong sao lưu, khôi phục và điều tra bảo mật. |
+| 25 | [Tổng quan về Windows Domains](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#25-tổng-quan-về-windows-domains) | Giới thiệu khái niệm Windows Domain và vai trò của domain trong quản lý tập trung doanh nghiệp. |
+| 26 | [Active Directory cơ bản](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#26-active-directory-cơ-bản) | Trình bày các khái niệm nền tảng của Active Directory như domain, domain controller, object và directory service. |
+| 27 | [Nhóm bảo mật trong Active Directory](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#27-nhóm-bảo-mật-trong-active-directory) | Giải thích security groups và cách sử dụng nhóm để quản lý quyền trong môi trường Active Directory. |
+| 28 | [Organizational Units — OUs](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#28-organizational-units--ous) | Trình bày OU và cách tổ chức người dùng, máy tính, nhóm theo cấu trúc quản trị trong domain. |
+| 29 | [Quản lý người dùng trong Active Directory](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#29-quản-lý-người-dùng-trong-active-directory) | Hướng dẫn các thao tác cơ bản khi quản lý tài khoản người dùng trong Active Directory. |
+| 30 | [Quản lý máy tính trong Active Directory](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#30-quản-lý-máy-tính-trong-active-directory) | Trình bày cách quản lý computer objects và vai trò của máy tính domain trong hệ thống doanh nghiệp. |
+| 31 | [Group Policy](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#31-group-policy) | Giới thiệu Group Policy và cách áp dụng chính sách tập trung cho người dùng, máy tính trong domain. |
+| 32 | [Triển khai chính sách bảo mật bằng GPO](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#32-triển-khai-chính-sách-bảo-mật-bằng-gpo) | Trình bày cách dùng GPO để triển khai các chính sách bảo mật như mật khẩu, khóa tài khoản và cấu hình hệ thống. |
+| 33 | [Phương thức xác thực trong Windows Domain](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#33-phương-thức-xác-thực-trong-windows-domain) | Giới thiệu các phương thức xác thực trong Windows Domain và vai trò của xác thực trong bảo mật doanh nghiệp. |
+| 34 | [Kerberos Authentication](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#34-kerberos-authentication) | Giải thích cơ chế xác thực Kerberos, vé xác thực và vai trò của Kerberos trong Active Directory. |
+| 35 | [NetNTLM Authentication](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#35-netntlm-authentication) | Trình bày cơ chế NetNTLM, cách hoạt động và các rủi ro bảo mật liên quan đến xác thực NTLM. |
+| 36 | [Trees, Forests và Trusts](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#36-trees-forests-và-trusts) | Giải thích các khái niệm tree, forest và trust trong Active Directory để hiểu cấu trúc domain lớn. |
+| 37 | [Công cụ quản trị Windows cần nhớ](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#37-công-cụ-quản-trị-windows-cần-nhớ) | Tổng hợp các công cụ quản trị Windows quan trọng như `control.exe`, `taskmgr.exe`, `eventvwr.msc`, `regedit.exe` và `gpmc.msc`. |
 
-2. [Windows PowerShell](./4_Command_Line/2_Windows_PowerShell.md)  
->Khám phá sức mạnh của PowerShell và học các kiến thức cơ bản.
 
-3. [Linux Shells](./4_Command_Line/3_Linux_Shells.md)  
->Tìm hiểu về scripting và các loại shell khác nhau trong Linux.
 
 ---
 
