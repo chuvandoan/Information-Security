@@ -6,6 +6,7 @@
 
 2. [Giao diện Desktop của Windows](#2-giao-diện-desktop-của-windows)
 
+3. [Hệ thống tệp trong Windows](#3-hệ-thống-tệp-trong-windows)
 
 ## Nội dung
 
@@ -393,4 +394,332 @@ Trong trường hợp sử dụng nhiều màn hình, Display Settings cho phép
 - chọn màn hình chính.
 
 Lưu ý rằng khi sử dụng Remote Desktop, một số tùy chọn hiển thị có thể bị giới hạn hoặc không thể thay đổi trực tiếp trên máy từ xa.
+
+# 3. Hệ thống tệp trong Windows
+
+## 3.1. Khái niệm hệ thống tệp
+
+Hệ thống tệp là cơ chế mà hệ điều hành sử dụng để tổ chức, lưu trữ, quản lý và truy cập dữ liệu trên thiết bị lưu trữ như ổ cứng, SSD, USB hoặc thẻ nhớ.
+
+![](./img/3.1_new_technology_file_system.png)
+
+Nói đơn giản, hệ thống tệp quyết định cách tệp và thư mục được tạo, đặt tên, lưu trữ, đọc, ghi và bảo vệ trên ổ đĩa. Nếu không có hệ thống tệp, hệ điều hành sẽ không thể biết dữ liệu nằm ở đâu, thuộc về tệp nào và cần được truy cập như thế nào.
+
+Trong Windows, hệ thống tệp có vai trò rất quan trọng vì nó ảnh hưởng trực tiếp đến:
+
+- cách lưu trữ tệp và thư mục;
+- giới hạn kích thước tệp;
+- quyền truy cập của người dùng;
+- khả năng khôi phục khi có lỗi;
+- khả năng mã hóa và nén dữ liệu;
+- mức độ bảo mật của hệ thống.
+
+Các phiên bản Windows hiện đại chủ yếu sử dụng hệ thống tệp NTFS (New Technology File System). Trước NTFS, Windows từng sử dụng các hệ thống tệp như FAT16, FAT32 và HPFS.
+
+
+## 3.2. FAT16, FAT32 và HPFS
+
+Trước khi NTFS trở thành hệ thống tệp chính trong Windows hiện đại, Microsoft đã sử dụng một số hệ thống tệp cũ hơn như FAT16, FAT32 và HPFS.
+
+FAT là viết tắt của File Allocation Table. FAT16 và FAT32 từng được sử dụng rộng rãi trên các hệ điều hành cũ và các thiết bị lưu trữ ngoài. Ngày nay, FAT32 vẫn có thể gặp trên USB, thẻ nhớ SD hoặc các thiết bị cần khả năng tương thích với nhiều hệ điều hành khác nhau.
+
+Tuy nhiên, FAT32 có nhiều hạn chế. Một trong những hạn chế phổ biến nhất là không hỗ trợ tệp có dung lượng lớn hơn 4 GB. Ngoài ra, FAT32 không hỗ trợ cơ chế phân quyền chi tiết như NTFS, vì vậy nó không phù hợp cho các hệ thống cần bảo mật dữ liệu tốt.
+
+HPFS, viết tắt của High Performance File System, cũng là một hệ thống tệp từng được sử dụng trước đây. Tuy nhiên, trong các hệ thống Windows hiện đại, HPFS gần như không còn phổ biến.
+
+Có thể tóm tắt như sau:
+
+| Hệ thống tệp | Đặc điểm chính |
+|---|---|
+| FAT16 | Hệ thống tệp cũ, giới hạn dung lượng thấp |
+| FAT32 | Tương thích tốt với USB/thẻ nhớ, nhưng không hỗ trợ tệp trên 4 GB |
+| HPFS | Hệ thống tệp hiệu năng cao trước đây, hiện ít phổ biến |
+| NTFS | Hệ thống tệp chính của Windows hiện đại, hỗ trợ bảo mật và nhiều tính năng nâng cao |
+
+Trong thực tế, nếu cài đặt Windows trên máy tính cá nhân hoặc máy chủ hiện đại, hệ thống tệp được sử dụng gần như luôn là NTFS.
+
+
+## 3.3. NTFS là gì?
+
+NTFS là viết tắt của New Technology File System. Đây là hệ thống tệp được sử dụng trong các phiên bản Windows hiện đại.
+
+NTFS được thiết kế để khắc phục nhiều hạn chế của các hệ thống tệp cũ như FAT16 và FAT32. So với FAT32, NTFS mạnh hơn, ổn định hơn và hỗ trợ nhiều tính năng bảo mật hơn.
+
+Một đặc điểm quan trọng của NTFS là đây là hệ thống tệp có cơ chế ghi nhật ký. Điều này có nghĩa là hệ thống có thể lưu lại một số thông tin về thay đổi trên ổ đĩa. Khi xảy ra lỗi, Windows có thể sử dụng thông tin này để hỗ trợ sửa chữa hoặc khôi phục trạng thái của hệ thống tệp.
+
+NTFS cũng cho phép thiết lập quyền truy cập chi tiết trên từng tệp và thư mục. Đây là một điểm rất quan trọng trong môi trường nhiều người dùng hoặc môi trường doanh nghiệp, nơi không phải ai cũng được phép truy cập cùng một dữ liệu.
+
+Ngoài ra, NTFS còn hỗ trợ các tính năng như:
+
+- tệp có kích thước lớn;
+- phân quyền tệp và thư mục;
+- nén dữ liệu;
+- mã hóa dữ liệu;
+- ghi nhật ký hệ thống tệp;
+- Alternate Data Streams.
+
+Vì vậy, NTFS không chỉ là nơi lưu trữ dữ liệu, mà còn là một thành phần quan trọng trong mô hình bảo mật của Windows.
+
+
+## 3.4. Ưu điểm của NTFS
+
+NTFS có nhiều ưu điểm so với các hệ thống tệp cũ. Những ưu điểm này giúp NTFS trở thành lựa chọn mặc định cho các phiên bản Windows hiện đại.
+
+Một số ưu điểm quan trọng của NTFS gồm:
+
+- hỗ trợ tệp có dung lượng lớn hơn 4 GB;
+- hỗ trợ quyền truy cập riêng biệt cho từng tệp và thư mục;
+- hỗ trợ nén tệp và thư mục;
+- hỗ trợ mã hóa dữ liệu;
+- có cơ chế ghi nhật ký để hỗ trợ phục hồi khi có lỗi;
+- phù hợp với môi trường nhiều người dùng;
+- phù hợp với hệ thống doanh nghiệp cần kiểm soát quyền truy cập.
+
+Trong FAT32, người dùng không thể thiết lập quyền chi tiết cho từng tệp hoặc thư mục. Điều này khiến FAT32 không phù hợp với hệ thống cần bảo mật cao. Ngược lại, NTFS cho phép quản trị viên xác định rõ ai được đọc, ghi, chỉnh sửa hoặc thực thi một tệp cụ thể.
+
+Ví dụ, trong một doanh nghiệp, thư mục chứa tài liệu kế toán chỉ nên được truy cập bởi bộ phận kế toán và quản lý. Với NTFS, quản trị viên có thể cấu hình quyền để những người dùng khác không thể mở hoặc chỉnh sửa thư mục này.
+
+NTFS cũng hỗ trợ EFS, tức Encrypting File System. Đây là cơ chế mã hóa tệp ở cấp hệ thống tệp, giúp bảo vệ dữ liệu khỏi truy cập trái phép.
+
+Từ góc độ an toàn thông tin, NTFS rất quan trọng vì nó là nền tảng cho việc kiểm soát truy cập dữ liệu trên Windows.
+
+
+## 3.5. Quyền truy cập trong NTFS
+
+Quyền truy cập trong NTFS cho phép Windows kiểm soát người dùng hoặc nhóm người dùng nào được phép thao tác với tệp và thư mục.
+
+Mỗi tệp hoặc thư mục trên phân vùng NTFS có thể được gán các quyền khác nhau. Các quyền này xác định người dùng có thể đọc, ghi, chỉnh sửa, thực thi hoặc xóa dữ liệu hay không.
+
+Quyền NTFS thường được áp dụng cho:
+
+- người dùng cụ thể;
+- nhóm người dùng;
+- tài khoản hệ thống;
+- tài khoản dịch vụ.
+
+Ví dụ, một thư mục có thể cho phép nhóm Administrators toàn quyền kiểm soát, trong khi nhóm Users chỉ được phép đọc và thực thi. Điều này giúp hệ thống hạn chế người dùng thông thường thay đổi hoặc xóa các tệp quan trọng.
+
+Quyền NTFS có thể được sử dụng để:
+
+- bảo vệ tệp hệ thống;
+- giới hạn truy cập vào dữ liệu nhạy cảm;
+- phân quyền theo phòng ban;
+- ngăn người dùng chỉnh sửa dữ liệu không thuộc phạm vi của họ;
+- hỗ trợ điều tra khi có truy cập trái phép.
+
+Trong môi trường doanh nghiệp, quyền NTFS thường được kết hợp với tài khoản người dùng, nhóm bảo mật và Active Directory để quản lý truy cập một cách tập trung và hiệu quả.
+
+
+## 3.6. Các quyền cơ bản trong NTFS
+
+NTFS cung cấp nhiều loại quyền cơ bản để kiểm soát cách người dùng tương tác với tệp và thư mục. Các quyền này có thể được cấp hoặc từ chối tùy theo yêu cầu bảo mật.
+
+Các quyền cơ bản trong NTFS gồm:
+
+- Full Control;
+- Modify;
+- Read & Execute;
+- List Folder Contents;
+- Read;
+- Write.
+
+Mỗi quyền có ý nghĩa khác nhau đối với tệp và thư mục. Việc hiểu rõ từng quyền là rất quan trọng để tránh cấu hình sai, đặc biệt trong các hệ thống có nhiều người dùng.
+
+
+### 3.6.1. Full Control
+
+Full Control là quyền cao nhất trong NTFS. Người dùng có quyền Full Control có thể thực hiện hầu như mọi thao tác đối với tệp hoặc thư mục.
+
+Đối với thư mục, quyền Full Control cho phép người dùng:
+
+- đọc nội dung thư mục;
+- tạo tệp và thư mục con;
+- chỉnh sửa tệp;
+- xóa tệp và thư mục;
+- thay đổi quyền truy cập;
+- thay đổi chủ sở hữu nếu được phép.
+
+Đối với tệp, quyền Full Control cho phép người dùng:
+
+- đọc tệp;
+- ghi vào tệp;
+- chỉnh sửa nội dung;
+- thực thi tệp nếu đó là tệp chương trình;
+- xóa tệp;
+- thay đổi quyền của tệp.
+
+Quyền này chỉ nên cấp cho người dùng hoặc nhóm thật sự cần quản trị dữ liệu. Nếu cấp Full Control quá rộng, người dùng có thể vô tình hoặc cố ý xóa, sửa hoặc thay đổi quyền truy cập của dữ liệu quan trọng.
+
+
+### 3.6.2. Modify
+
+Modify là quyền cho phép người dùng đọc, ghi, chỉnh sửa và xóa tệp hoặc thư mục. Tuy nhiên, quyền này thấp hơn Full Control vì thường không bao gồm quyền thay đổi quyền truy cập hoặc thay đổi chủ sở hữu.
+
+Đối với thư mục, quyền Modify cho phép:
+
+- xem nội dung thư mục;
+- tạo tệp mới;
+- chỉnh sửa tệp;
+- xóa tệp hoặc thư mục con.
+
+Đối với tệp, quyền Modify cho phép:
+
+- đọc nội dung tệp;
+- ghi dữ liệu vào tệp;
+- chỉnh sửa tệp;
+- xóa tệp.
+
+Quyền Modify phù hợp cho người dùng cần làm việc trực tiếp với dữ liệu, ví dụ như nhân viên cần tạo, sửa và xóa tài liệu trong thư mục làm việc của phòng ban.
+
+Tuy nhiên, quyền này vẫn cần được cấp cẩn thận vì người dùng có thể xóa hoặc thay đổi dữ liệu.
+
+
+### 3.6.3. Read & Execute
+
+Read & Execute là quyền cho phép người dùng đọc nội dung và thực thi tệp chương trình hoặc script.
+
+Đối với thư mục, quyền này cho phép người dùng:
+
+- xem danh sách tệp và thư mục con;
+- đọc nội dung;
+- thực thi các tệp có thể chạy bên trong thư mục.
+
+Đối với tệp, quyền này cho phép người dùng:
+
+- đọc nội dung tệp;
+- chạy tệp nếu đó là tệp thực thi.
+
+Quyền Read & Execute thường được sử dụng cho các thư mục chứa chương trình hoặc script mà người dùng cần chạy nhưng không được phép chỉnh sửa.
+
+Ví dụ, một thư mục chứa công cụ nội bộ của công ty có thể cấp quyền Read & Execute cho nhân viên. Khi đó, nhân viên có thể chạy chương trình nhưng không thể thay đổi hoặc xóa tệp chương trình.
+
+
+### 3.6.4. List Folder Contents
+
+List Folder Contents là quyền cho phép người dùng xem danh sách các tệp và thư mục con bên trong một thư mục.
+
+Quyền này chủ yếu áp dụng cho thư mục, không áp dụng trực tiếp theo cùng cách đối với tệp. Người dùng có quyền này có thể nhìn thấy những gì có trong thư mục, nhưng không nhất thiết có quyền mở, sửa hoặc xóa nội dung bên trong nếu các quyền khác không được cấp.
+
+Đối với thư mục, quyền List Folder Contents cho phép:
+
+- xem tên tệp;
+- xem tên thư mục con;
+- điều hướng qua cấu trúc thư mục nếu được cho phép.
+
+Quyền này hữu ích khi người dùng cần biết trong thư mục có những tài nguyên nào, nhưng không cần chỉnh sửa chúng.
+
+Ví dụ, trong một thư mục chia sẻ, người dùng có thể được phép xem danh sách tài liệu nhưng chỉ một số tài liệu nhất định mới cho phép đọc hoặc chỉnh sửa.
+
+
+### 3.6.5. Read
+
+Read là quyền cho phép người dùng xem nội dung của tệp hoặc thư mục.
+
+Đối với thư mục, quyền Read cho phép:
+
+- xem tên tệp và thư mục con;
+- xem thuộc tính của thư mục;
+- xem quyền được gán nếu được phép.
+
+Đối với tệp, quyền Read cho phép:
+
+- mở tệp;
+- đọc nội dung tệp;
+- xem thuộc tính của tệp.
+
+Quyền Read phù hợp với những trường hợp người dùng chỉ cần tham khảo dữ liệu mà không được thay đổi. Ví dụ, một thư mục chứa quy định nội bộ của công ty có thể cấp quyền Read cho toàn bộ nhân viên.
+
+Từ góc độ bảo mật, quyền Read cũng cần được kiểm soát. Với dữ liệu nhạy cảm, chỉ cho phép đọc cũng có thể gây rủi ro nếu người dùng không có thẩm quyền được xem nội dung.
+
+
+### 3.6.6. Write
+
+Write là quyền cho phép người dùng ghi dữ liệu vào tệp hoặc thêm nội dung vào thư mục.
+
+Đối với thư mục, quyền Write cho phép:
+
+- tạo tệp mới;
+- tạo thư mục con;
+- ghi dữ liệu vào thư mục.
+
+Đối với tệp, quyền Write cho phép:
+
+- ghi nội dung mới;
+- thay đổi nội dung tệp;
+- cập nhật dữ liệu trong tệp.
+
+Quyền Write thường được sử dụng khi người dùng cần gửi dữ liệu, tạo tài liệu hoặc lưu kết quả làm việc. Tuy nhiên, nếu chỉ có Write mà không có Read, người dùng có thể ghi dữ liệu nhưng không nhất thiết đọc được nội dung đã có.
+
+Quyền Write cần được cấu hình cẩn thận vì nó có thể cho phép người dùng ghi đè dữ liệu, tạo tệp không mong muốn hoặc đưa nội dung độc hại vào thư mục nếu không có kiểm soát phù hợp.
+
+
+## 3.7. Cách kiểm tra quyền của tệp và thư mục
+
+Để kiểm tra quyền của một tệp hoặc thư mục trên Windows, người dùng có thể sử dụng giao diện đồ họa.
+
+Các bước cơ bản như sau:
+
+![](./img/3.7.png)
+
+1. Nhấp chuột phải vào tệp hoặc thư mục cần kiểm tra.
+2. Chọn **Properties**.
+3. Mở tab **Security**.
+4. Trong phần **Group or user names**, chọn người dùng hoặc nhóm muốn kiểm tra.
+5. Xem các quyền được hiển thị trong phần quyền truy cập.
+
+Trong tab Security, Windows sẽ hiển thị danh sách các nhóm hoặc người dùng có quyền đối với đối tượng đó. Khi chọn một nhóm hoặc người dùng, hệ thống sẽ hiển thị các quyền tương ứng như Read, Write, Modify hoặc Full Control.
+
+Ví dụ, khi kiểm tra thư mục hệ thống `C:\Windows`, ta có thể thấy các nhóm như Administrators, SYSTEM hoặc Users có các quyền khác nhau. Người dùng thông thường thường không có quyền chỉnh sửa sâu trong thư mục hệ thống để tránh gây lỗi hoặc phá hoại hệ điều hành.
+
+Việc kiểm tra quyền thường được dùng trong các tình huống sau:
+
+- xác định ai có quyền truy cập dữ liệu;
+- xử lý lỗi không mở được tệp hoặc thư mục;
+- kiểm tra cấu hình bảo mật;
+- điều tra truy cập trái phép;
+- đảm bảo dữ liệu nhạy cảm không bị chia sẻ sai đối tượng.
+
+Trong môi trường doanh nghiệp, kiểm tra quyền NTFS là một kỹ năng quan trọng đối với quản trị viên hệ thống và chuyên viên an toàn thông tin.
+
+
+## 3.8. Alternate Data Streams — ADS
+
+Alternate Data Streams, viết tắt là ADS, là một tính năng đặc biệt của hệ thống tệp NTFS. ADS cho phép một tệp có thể chứa nhiều luồng dữ liệu khác nhau.
+
+Thông thường, khi người dùng nhìn thấy một tệp trong Windows Explorer, họ chỉ thấy nội dung chính của tệp. Tuy nhiên, trên NTFS, một tệp có thể có thêm các luồng dữ liệu phụ mà Windows Explorer không hiển thị trực tiếp theo mặc định.
+
+Nói đơn giản, ADS cho phép gắn thêm dữ liệu vào một tệp mà không làm thay đổi nội dung chính mà người dùng nhìn thấy. Đây là một tính năng hợp pháp của NTFS và có nhiều mục đích sử dụng khác nhau.
+
+Một ví dụ phổ biến là khi tải tệp từ Internet, Windows có thể thêm thông tin về nguồn gốc của tệp vào một luồng dữ liệu phụ. Thông tin này giúp Windows biết rằng tệp được tải xuống từ Internet và có thể cần cảnh báo người dùng trước khi mở.
+
+Tuy nhiên, vì ADS không dễ thấy trong giao diện thông thường, nó cũng có thể bị lợi dụng để ẩn dữ liệu.
+
+Đặc điểm chính của ADS gồm:
+
+- chỉ có trên NTFS;
+- cho phép tệp chứa nhiều luồng dữ liệu;
+- không hiển thị rõ ràng trong Windows Explorer mặc định;
+- có thể được kiểm tra bằng PowerShell hoặc công cụ chuyên dụng;
+- có thể được dùng hợp pháp hoặc bị lạm dụng bởi mã độc.
+
+
+## 3.9. Ý nghĩa bảo mật của ADS
+
+Từ góc độ bảo mật, Alternate Data Streams là một tính năng cần được quan tâm vì nó có thể bị lợi dụng để ẩn dữ liệu hoặc che giấu hành vi độc hại.
+
+Kẻ tấn công hoặc phần mềm độc hại có thể sử dụng ADS để lưu dữ liệu trong một luồng phụ của tệp. Vì Windows Explorer không hiển thị ADS theo cách thông thường, người dùng có thể không nhận ra rằng một tệp đang chứa thêm dữ liệu ẩn.
+
+ADS có thể bị lợi dụng trong các tình huống như:
+
+- ẩn payload độc hại;
+- giấu script hoặc nội dung bất thường;
+- che giấu dữ liệu đánh cắp;
+- tránh sự chú ý của người dùng thông thường;
+- gây khó khăn cho quá trình kiểm tra thủ công.
+
+Tuy nhiên, không phải mọi ADS đều độc hại. Như đã đề cập, Windows cũng có thể dùng ADS để lưu thông tin về nguồn gốc của tệp tải xuống từ Internet. Vì vậy, khi phát hiện ADS, cần phân tích ngữ cảnh trước khi kết luận đó là dấu hiệu tấn công.
+
+Đối với chuyên viên SOC hoặc người làm điều tra số, ADS là một điểm cần chú ý khi phân tích hệ thống Windows. Nếu nghi ngờ có hành vi ẩn dữ liệu, cần sử dụng PowerShell hoặc các công cụ chuyên dụng để kiểm tra các luồng dữ liệu phụ.
+
+Tóm lại, ADS là một tính năng hợp pháp của NTFS, nhưng do khả năng ẩn dữ liệu, nó cũng có thể trở thành kỹ thuật bị lạm dụng trong tấn công mạng.
 
