@@ -34,6 +34,8 @@
 
 16. [Windows Registry](#16-windows-registry)
 
+17. [Windows Update](#17-windows-update)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -4382,6 +4384,193 @@ Tuy nhiên, cần phân tích Registry cẩn thận vì không phải mọi key 
 
 Tóm lại, Registry là cơ sở dữ liệu cấu hình trung tâm của Windows. Đối với quản trị viên và SOC Analyst, hiểu Registry giúp kiểm tra hệ thống sâu hơn, phát hiện cấu hình bất thường và hỗ trợ điều tra bảo mật.
 
+# 17. Windows Update
+
+## 17.1. Windows Update là gì?
+
+**Windows Update** là dịch vụ cập nhật của Microsoft dành cho hệ điều hành Windows. Dịch vụ này cho phép Windows tải xuống và cài đặt các bản cập nhật cần thiết để cải thiện bảo mật, sửa lỗi và bổ sung tính năng mới cho hệ thống.
+
+Windows Update có thể cung cấp nhiều loại cập nhật khác nhau, ví dụ:
+
+- bản vá bảo mật;
+- bản sửa lỗi hệ thống;
+- bản cập nhật tính năng;
+- bản cập nhật driver;
+- bản cập nhật cho Microsoft Defender;
+- bản cập nhật chất lượng hệ thống.
+
+Trong các phiên bản Windows hiện đại, Windows Update thường hoạt động tự động. Hệ thống sẽ kiểm tra, tải xuống và cài đặt các bản cập nhật khi có sẵn. Tuy nhiên, trong một số trường hợp, người dùng vẫn cần khởi động lại máy để hoàn tất quá trình cập nhật.
+
+Windows Update là một thành phần quan trọng giúp hệ điều hành hoạt động ổn định, an toàn và tương thích tốt hơn với phần mềm, phần cứng mới.
+
+
+### 17.2. Vai trò của Windows Update trong bảo mật
+
+Windows Update có vai trò rất quan trọng trong bảo mật hệ thống. Nhiều cuộc tấn công mạng khai thác các lỗ hổng đã biết trong hệ điều hành, dịch vụ hoặc thành phần phần mềm. Nếu hệ thống không được cập nhật, các lỗ hổng này có thể bị kẻ tấn công lợi dụng.
+
+Vai trò bảo mật của Windows Update gồm:
+
+- vá các lỗ hổng bảo mật đã được phát hiện;
+- giảm nguy cơ bị khai thác bởi mã độc;
+- cập nhật cơ chế bảo vệ của Windows;
+- cải thiện khả năng chống lại các kỹ thuật tấn công mới;
+- cập nhật Microsoft Defender và các thành phần bảo mật;
+- tăng độ ổn định của hệ thống.
+
+Ví dụ, nếu một lỗ hổng nghiêm trọng trong Windows được công bố, Microsoft có thể phát hành bản vá thông qua Windows Update. Nếu người dùng không cài đặt bản vá, máy tính vẫn có thể bị tấn công qua lỗ hổng đó.
+
+Trong môi trường doanh nghiệp, việc quản lý cập nhật là một phần quan trọng của chiến lược bảo mật. Máy tính không được cập nhật thường xuyên có thể trở thành điểm yếu trong toàn bộ hệ thống mạng.
+
+
+## 17.3. Security Updates
+
+**Security Updates** là các bản cập nhật bảo mật dùng để vá lỗ hổng trong Windows hoặc các thành phần liên quan.
+
+Các bản cập nhật này thường được phát hành khi Microsoft phát hiện hoặc xác nhận một vấn đề bảo mật có thể ảnh hưởng đến người dùng. Mục tiêu chính của Security Updates là giảm nguy cơ hệ thống bị khai thác.
+
+Security Updates có thể khắc phục các vấn đề như:
+
+- lỗ hổng thực thi mã từ xa;
+- lỗ hổng leo thang đặc quyền;
+- lỗ hổng bỏ qua cơ chế bảo mật;
+- lỗi trong dịch vụ hệ thống;
+- lỗi trong giao thức mạng;
+- lỗi trong thành phần xác thực;
+- lỗ hổng trong trình điều khiển hoặc thư viện hệ thống.
+
+Từ góc độ an toàn thông tin, Security Updates là loại cập nhật quan trọng nhất. Nếu không cài đặt các bản vá bảo mật kịp thời, hệ thống có thể bị tấn công ngay cả khi người dùng không trực tiếp thực hiện hành động nguy hiểm.
+
+Vì vậy, người dùng cá nhân và doanh nghiệp cần ưu tiên cài đặt Security Updates, đặc biệt là các bản vá cho lỗ hổng nghiêm trọng.
+
+
+## 17.4. Feature Updates
+
+**Feature Updates** là các bản cập nhật tính năng của Windows. Khác với Security Updates, Feature Updates thường bổ sung chức năng mới, cải thiện giao diện hoặc thay đổi một số thành phần lớn của hệ điều hành.
+
+Feature Updates có thể bao gồm:
+
+- tính năng mới của Windows;
+- thay đổi giao diện người dùng;
+- cải thiện hiệu suất;
+- cải thiện khả năng tương thích;
+- cập nhật công cụ hệ thống;
+- thay đổi trong Windows Security;
+- bổ sung chức năng quản trị mới.
+
+Các bản cập nhật tính năng thường có dung lượng lớn hơn và thời gian cài đặt lâu hơn so với bản cập nhật bảo mật thông thường.
+
+Trong môi trường doanh nghiệp, Feature Updates cần được kiểm tra kỹ trước khi triển khai rộng rãi. Lý do là một số tính năng mới có thể ảnh hưởng đến phần mềm nội bộ, driver, chính sách hệ thống hoặc quy trình làm việc của người dùng.
+
+Vì vậy, doanh nghiệp thường triển khai Feature Updates theo kế hoạch, thử nghiệm trên một nhóm máy trước khi áp dụng cho toàn bộ tổ chức.
+
+
+## 17.5. Patch Tuesday
+
+**Patch Tuesday** là thuật ngữ dùng để chỉ ngày Microsoft thường phát hành các bản vá định kỳ hằng tháng.
+
+Thông thường, Patch Tuesday diễn ra vào **thứ Ba của tuần thứ hai trong tháng**. Vào thời điểm này, Microsoft có thể phát hành các bản vá bảo mật, bản sửa lỗi và các cập nhật liên quan cho Windows và sản phẩm Microsoft khác.
+
+Patch Tuesday quan trọng vì đây là thời điểm quản trị viên hệ thống thường theo dõi các bản vá mới, đánh giá mức độ nghiêm trọng và lập kế hoạch triển khai cập nhật.
+
+Trong môi trường doanh nghiệp, quy trình sau Patch Tuesday thường gồm:
+
+1. Theo dõi danh sách bản vá mới.
+2. Xác định bản vá nào quan trọng hoặc nghiêm trọng.
+3. Kiểm tra ảnh hưởng đến hệ thống hiện tại.
+4. Thử nghiệm trên một nhóm máy nhỏ.
+5. Triển khai cho toàn bộ hệ thống.
+6. Theo dõi lỗi sau cập nhật.
+
+Từ góc độ bảo mật, Patch Tuesday giúp doanh nghiệp duy trì lịch cập nhật định kỳ và giảm nguy cơ tồn tại lỗ hổng chưa được vá trong hệ thống.
+
+
+## 17.6. Cách mở Windows Update
+
+Có nhiều cách để mở Windows Update trong Windows.
+
+Cách phổ biến nhất là mở qua Windows Settings:
+
+1. Nhấn **Start**.
+2. Chọn **Settings**.
+3. Chọn **Update & Security**.
+4. Chọn **Windows Update**.
+
+Trong Windows 11, đường dẫn có thể là:
+
+```text
+Settings → Windows Update
+````
+
+Ngoài ra, có thể mở nhanh bằng cách:
+
+1. Nhấn **Start**.
+2. Gõ từ khóa:
+
+```text
+Windows Update
+```
+
+3. Chọn **Windows Update settings**.
+
+Trong giao diện Windows Update, người dùng có thể:
+
+* kiểm tra bản cập nhật mới;
+* xem trạng thái cập nhật;
+* tải xuống bản cập nhật;
+* cài đặt bản cập nhật;
+* xem lịch sử cập nhật;
+* tạm dừng cập nhật;
+* cấu hình giờ hoạt động;
+* kiểm tra yêu cầu khởi động lại.
+
+
+Có thể mở Windows Update bằng lệnh trong hộp thoại Run, Command Prompt hoặc PowerShell.
+
+Một lệnh thường dùng là:
+
+```cmd
+control /name Microsoft.WindowsUpdate
+```
+
+Cách thực hiện:
+
+1. Nhấn tổ hợp phím:
+
+```text
+Win + R
+```
+
+2. Nhập lệnh:
+
+```cmd
+control /name Microsoft.WindowsUpdate
+```
+
+3. Nhấn **Enter**.
+
+Lệnh này giúp mở nhanh giao diện Windows Update mà không cần đi qua nhiều bước trong Settings.
+
+Ngoài ra, người dùng có thể tìm kiếm trực tiếp bằng Start Menu với từ khóa:
+
+```text
+Windows Update
+```
+
+![](./img/17.6_windows_update.png)
+
+Trong quản trị hệ thống, việc biết lệnh mở nhanh Windows Update giúp tiết kiệm thời gian khi cần kiểm tra trạng thái cập nhật trên nhiều máy.
+
+## 17.7. Restart Required
+
+**Restart Required** nghĩa là hệ thống cần được khởi động lại để hoàn tất quá trình cài đặt bản cập nhật.
+
+Một số bản cập nhật có thể được cài đặt khi Windows đang chạy. Tuy nhiên, các bản cập nhật liên quan đến kernel, driver, dịch vụ hệ thống hoặc tệp đang được sử dụng thường cần khởi động lại để áp dụng hoàn toàn.
+
+Khi Windows Update hiển thị trạng thái Restart Required, người dùng nên lưu lại công việc đang làm và khởi động lại máy vào thời điểm phù hợp.
+
+Nếu không khởi động lại, bản cập nhật có thể chưa được áp dụng đầy đủ. Điều này có thể khiến hệ thống vẫn còn tồn tại lỗi hoặc lỗ hổng bảo mật.
+
+Trong môi trường doanh nghiệp, việc khởi động lại sau cập nhật cần được quản lý cẩn thận để tránh gián đoạn công việc. Quản trị viên thường cấu hình thời gian cập nhật và khởi động lại ngoài giờ làm việc.
 
 
 
