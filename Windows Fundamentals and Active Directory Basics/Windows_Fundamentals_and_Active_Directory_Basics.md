@@ -68,6 +68,8 @@
 
 33. [Phương thức xác thực trong Windows Domain](#32-triển-khai-chính-sách-bảo-mật-bằng-gpo)
 
+34. [Kerberos Authentication](#34-kerberos-authentication)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -9598,6 +9600,268 @@ Từ góc độ SOC, cần chú ý các dấu hiệu như:
 * nhiều thất bại xác thực trong thời gian ngắn.
 
 Tóm lại, Kerberos là giao thức xác thực chính và an toàn hơn trong Windows Domain hiện đại. NetNTLM vẫn tồn tại để tương thích, nhưng cần được giám sát và hạn chế vì có nhiều rủi ro như Pass-the-Hash và NTLM Relay.
+
+# 34. Kerberos Authentication
+
+## 34.1. Kerberos là gì?
+
+**Kerberos** là giao thức xác thực mặc định trong các môi trường Windows Domain hiện đại.
+
+Kerberos sử dụng cơ chế **ticket-based authentication**, nghĩa là xác thực dựa trên vé. Thay vì gửi mật khẩu trực tiếp qua mạng mỗi khi người dùng truy cập dịch vụ, Kerberos cấp cho người dùng các vé xác thực để chứng minh rằng họ đã được xác thực trước đó.
+
+Trong môi trường Active Directory, Kerberos giúp người dùng truy cập nhiều tài nguyên khác nhau như:
+
+- file server;
+- printer server;
+- web server nội bộ;
+- database;
+- ứng dụng doanh nghiệp;
+- tài nguyên chia sẻ trong domain.
+
+Ví dụ, sau khi người dùng đăng nhập vào domain, họ có thể truy cập thư mục chia sẻ mà không cần nhập lại mật khẩu nhiều lần. Kerberos sử dụng ticket để chứng minh danh tính của người dùng với dịch vụ đó.
+
+Kerberos quan trọng vì nó giúp xác thực an toàn hơn so với cơ chế cũ như NetNTLM.
+
+
+## 34.2. Key Distribution Center — KDC
+
+**KDC** là viết tắt của **Key Distribution Center**. Đây là thành phần trung tâm trong Kerberos, thường chạy trên **Domain Controller** trong môi trường Active Directory.
+
+KDC chịu trách nhiệm cấp các loại vé Kerberos cho người dùng và dịch vụ.
+
+KDC gồm hai thành phần chính:
+
+| Thành phần | Vai trò |
+|---|---|
+| Authentication Service — AS | Xác thực ban đầu và cấp TGT |
+| Ticket Granting Service — TGS | Cấp ticket để truy cập dịch vụ cụ thể |
+
+Khi người dùng đăng nhập vào domain, máy client sẽ liên hệ với KDC để xin vé xác thực ban đầu. Nếu thông tin đăng nhập hợp lệ, KDC sẽ cấp **Ticket Granting Ticket — TGT**.
+
+KDC rất quan trọng vì nếu không có KDC, Kerberos không thể cấp ticket và người dùng sẽ không thể xác thực bình thường trong domain.
+
+
+## 34.3. Ticket Granting Ticket — TGT
+
+**TGT** là viết tắt của **Ticket Granting Ticket**. Đây là vé ban đầu mà người dùng nhận được sau khi xác thực thành công với KDC.
+
+TGT không dùng trực tiếp để truy cập dịch vụ cuối cùng. Thay vào đó, nó được dùng để xin các vé khác gọi là **TGS Ticket** khi người dùng muốn truy cập một dịch vụ cụ thể.
+
+Có thể hiểu đơn giản:
+
+- TGT chứng minh rằng người dùng đã đăng nhập hợp lệ vào domain;
+- TGT được dùng để xin vé truy cập dịch vụ;
+- người dùng không cần gửi lại mật khẩu mỗi lần muốn truy cập tài nguyên.
+
+Ví dụ, sau khi người dùng đăng nhập thành công, họ nhận được TGT. Khi muốn truy cập file server, người dùng dùng TGT để xin ticket truy cập file server.
+
+TGT được mã hóa và người dùng không thể tự ý đọc hoặc chỉnh sửa nội dung bên trong nó.
+
+
+## 34.4. Ticket Granting Service — TGS
+
+**TGS** là viết tắt của **Ticket Granting Service**. Đây là thành phần của KDC chịu trách nhiệm cấp ticket cho từng dịch vụ cụ thể.
+
+Khi người dùng muốn truy cập một dịch vụ, ví dụ thư mục chia sẻ trên file server, client sẽ gửi TGT đến TGS để yêu cầu một ticket truy cập dịch vụ đó.
+
+Ticket được cấp cho dịch vụ cụ thể thường gọi là:
+
+```text
+TGS Ticket
+````
+
+Ví dụ:
+
+```text
+Người dùng muốn truy cập \\FILE-SERVER\Share
+→ Client dùng TGT để xin TGS Ticket
+→ TGS cấp ticket cho dịch vụ file sharing trên FILE-SERVER
+```
+
+TGS Ticket chỉ hợp lệ cho dịch vụ mà nó được cấp. Điều này giúp giới hạn phạm vi sử dụng của ticket và tăng tính bảo mật.
+
+Nếu người dùng muốn truy cập một dịch vụ khác, họ cần xin một TGS Ticket khác.
+
+## 34.5. Session Key
+
+**Session Key** là khóa phiên được sử dụng trong quá trình xác thực Kerberos.
+
+Khi KDC cấp TGT cho người dùng, nó cũng cung cấp một Session Key. Khóa này được dùng để tạo và bảo vệ các yêu cầu tiếp theo khi người dùng muốn xin ticket truy cập dịch vụ.
+
+Vai trò của Session Key:
+
+* giúp client giao tiếp an toàn với KDC;
+* dùng để mã hóa timestamp hoặc thông tin xác thực;
+* chứng minh rằng client đang giữ thông tin hợp lệ;
+* tránh việc phải gửi lại mật khẩu nhiều lần;
+* hỗ trợ quá trình xin TGS Ticket.
+
+Session Key chỉ có giá trị trong một phiên nhất định. Điều này giúp giảm rủi ro nếu thông tin xác thực cũ bị lộ.
+
+Trong Kerberos, việc sử dụng Session Key giúp quá trình xác thực an toàn hơn và giảm việc truyền thông tin nhạy cảm qua mạng.
+
+## 34.6. Service Principal Name — SPN
+
+**SPN** là viết tắt của **Service Principal Name**. Đây là tên định danh duy nhất của một dịch vụ trong môi trường Active Directory.
+
+SPN cho Kerberos biết người dùng muốn truy cập dịch vụ nào và trên máy chủ nào.
+
+Một SPN thường có dạng:
+
+```text
+service/hostname
+```
+
+Ví dụ:
+
+```text
+HTTP/webserver.company.local
+MSSQLSvc/sqlserver.company.local
+CIFS/fileserver.company.local
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa                      |
+| ---------- | ---------------------------- |
+| `HTTP`     | Dịch vụ web                  |
+| `MSSQLSvc` | Dịch vụ Microsoft SQL Server |
+| `CIFS`     | Dịch vụ chia sẻ file SMB     |
+| `hostname` | Tên máy chủ cung cấp dịch vụ |
+
+SPN rất quan trọng vì Kerberos cần SPN để cấp đúng ticket cho đúng dịch vụ.
+
+Nếu SPN bị thiếu hoặc cấu hình sai, Kerberos có thể không hoạt động và Windows có thể fallback sang NetNTLM. Đây là lý do trong môi trường doanh nghiệp, cấu hình SPN cần được quản lý cẩn thận.
+
+## 34.7. Service Session Key
+
+**Service Session Key** là khóa phiên được sử dụng giữa client và dịch vụ mà người dùng muốn truy cập.
+
+Khi KDC cấp TGS Ticket cho một dịch vụ cụ thể, nó cũng tạo ra Service Session Key. Khóa này giúp client và service giao tiếp an toàn trong phiên làm việc đó.
+
+Vai trò của Service Session Key:
+
+* xác thực client với service;
+* hỗ trợ bảo vệ phiên giao tiếp;
+* giúp service xác minh ticket hợp lệ;
+* giảm nhu cầu sử dụng mật khẩu trong quá trình truy cập dịch vụ;
+* đảm bảo ticket chỉ dùng được trong phạm vi dịch vụ cụ thể.
+
+Ví dụ, khi người dùng truy cập file server, Kerberos cấp ticket và Service Session Key cho phiên làm việc giữa client và file server.
+
+Điều này giúp quá trình truy cập tài nguyên diễn ra an toàn hơn mà không cần gửi mật khẩu của người dùng đến file server.
+
+## 34.8. Quy trình xác thực Kerberos
+
+Quy trình Kerberos có thể chia thành ba giai đoạn chính:
+
+1. Người dùng đăng nhập và xin TGT.
+2. Người dùng dùng TGT để xin ticket truy cập dịch vụ.
+3. Người dùng dùng ticket để truy cập dịch vụ.
+
+Quy trình chi tiết:
+
+#### Bước 1: Người dùng đăng nhập vào domain
+
+Người dùng nhập username và password trên máy tính domain.
+
+Client sẽ tạo yêu cầu xác thực gửi đến KDC. Yêu cầu này có thể bao gồm username và timestamp được mã hóa bằng khóa dẫn xuất từ mật khẩu người dùng.
+
+```text
+Client → KDC: Yêu cầu xác thực ban đầu
+```
+
+Nếu KDC xác minh thành công, nó cấp cho client:
+
+* TGT;
+* Session Key.
+
+#### Bước 2: Client nhận TGT
+
+TGT chứng minh rằng người dùng đã được xác thực với domain.
+
+Client lưu TGT để sử dụng trong các yêu cầu tiếp theo. Người dùng không cần gửi lại mật khẩu mỗi khi truy cập dịch vụ khác.
+
+```text
+KDC → Client: TGT + Session Key
+```
+
+#### Bước 3: Người dùng yêu cầu truy cập dịch vụ
+
+Khi người dùng muốn truy cập một dịch vụ, ví dụ file server, client sẽ gửi yêu cầu đến TGS.
+
+Yêu cầu này gồm:
+
+* TGT;
+* username;
+* timestamp được mã hóa bằng Session Key;
+* SPN của dịch vụ cần truy cập.
+
+```text
+Client → TGS: TGT + SPN
+```
+
+#### Bước 4: TGS cấp ticket cho dịch vụ
+
+Nếu yêu cầu hợp lệ, TGS cấp một TGS Ticket cho dịch vụ cụ thể.
+
+Ticket này chỉ dùng để truy cập dịch vụ đã được yêu cầu.
+
+```text
+TGS → Client: TGS Ticket + Service Session Key
+```
+
+#### Bước 5: Client truy cập dịch vụ
+
+Client gửi TGS Ticket đến dịch vụ, ví dụ file server.
+
+```text
+Client → Service: TGS Ticket
+```
+
+Dịch vụ kiểm tra ticket. Nếu ticket hợp lệ, người dùng được phép truy cập tài nguyên theo quyền được cấp.
+
+Tóm tắt quy trình:
+
+```text
+User login
+→ Client xin TGT từ KDC
+→ Client dùng TGT để xin TGS Ticket
+→ Client gửi TGS Ticket đến dịch vụ
+→ Dịch vụ xác thực và cho phép truy cập
+```
+
+## 34.9. Ưu điểm bảo mật của Kerberos
+
+Kerberos có nhiều ưu điểm bảo mật so với các cơ chế xác thực cũ.
+
+Một số ưu điểm chính gồm:
+
+| Ưu điểm                               | Ý nghĩa                                                     |
+| ------------------------------------- | ----------------------------------------------------------- |
+| Không gửi mật khẩu trực tiếp qua mạng | Giảm nguy cơ mật khẩu bị nghe lén                           |
+| Dùng ticket để xác thực               | Người dùng không phải gửi lại thông tin đăng nhập nhiều lần |
+| Có thời hạn ticket                    | Ticket chỉ hợp lệ trong khoảng thời gian nhất định          |
+| Xác thực tập trung                    | Domain Controller/KDC quản lý quá trình cấp ticket          |
+| Hỗ trợ dịch vụ trong domain           | Phù hợp với môi trường doanh nghiệp có nhiều tài nguyên     |
+| An toàn hơn NetNTLM                   | Giảm một số rủi ro của cơ chế challenge-response cũ         |
+| Hỗ trợ quản lý truy cập tốt hơn       | Kết hợp với AD, group và GPO để kiểm soát quyền             |
+
+Kerberos giúp giảm rủi ro vì mật khẩu không được gửi trực tiếp đến từng dịch vụ. Thay vào đó, người dùng dùng ticket để chứng minh rằng họ đã được xác thực.
+
+Trong môi trường doanh nghiệp, Kerberos giúp người dùng truy cập tài nguyên thuận tiện nhưng vẫn đảm bảo kiểm soát bảo mật.
+
+Tuy nhiên, Kerberos vẫn cần được cấu hình và giám sát đúng cách. Một số vấn đề cần chú ý gồm:
+
+* thời gian hệ thống giữa client và Domain Controller phải đồng bộ;
+* SPN phải được cấu hình đúng;
+* tài khoản dịch vụ cần được bảo vệ;
+* Domain Controller cần được giám sát chặt chẽ;
+* tài khoản có quyền cao không nên bị lộ thông tin xác thực.
+
+Từ góc độ SOC, Kerberos là nguồn dữ liệu quan trọng để phân tích xác thực trong domain. Các log liên quan đến TGT, TGS, lỗi xác thực và truy cập dịch vụ có thể giúp phát hiện hành vi bất thường.
+
+Tóm lại, Kerberos là giao thức xác thực chính trong Windows Domain hiện đại. Nó sử dụng ticket, KDC, TGT, TGS, Session Key và SPN để xác thực người dùng với dịch vụ một cách an toàn và hiệu quả.
 
 
 
