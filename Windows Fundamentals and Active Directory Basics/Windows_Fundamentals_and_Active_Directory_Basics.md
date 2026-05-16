@@ -4,6 +4,7 @@
 
 1. [Tổng quan về hệ điều hành Windows](#1-tổng-quan-về-hệ-điều-hành-windows)
 
+2. [Giao diện Desktop của Windows](#2-giao-diện-desktop-của-windows)
 
 
 ## Nội dung
@@ -49,7 +50,7 @@ Một số vai trò quan trọng của Windows trong doanh nghiệp gồm:
 Do được sử dụng phổ biến trong doanh nghiệp, Windows cũng trở thành một mục tiêu quan trọng đối với các cuộc tấn công mạng. Vì vậy, hiểu rõ Windows là nền tảng cần thiết đối với quản trị viên hệ thống và chuyên viên an toàn thông tin.
 
 
-### 1.3. Vì sao cần học Windows trong an toàn thông tin?
+## 1.3. Vì sao cần học Windows trong an toàn thông tin?
 
 Windows là một trong những hệ điều hành phổ biến nhất trong môi trường doanh nghiệp. Nhiều máy trạm, máy chủ, hệ thống xác thực và tài nguyên nội bộ được xây dựng trên nền tảng Windows. Vì vậy, đối với lĩnh vực an toàn thông tin, việc hiểu Windows là điều rất quan trọng.
 
@@ -161,4 +162,235 @@ Một trong những vai trò quan trọng nhất của Windows Server là triể
 Windows Server cũng đóng vai trò quan trọng trong bảo mật doanh nghiệp. Thông qua Windows Server và Active Directory, tổ chức có thể áp dụng chính sách mật khẩu, giới hạn quyền người dùng, kiểm soát truy cập tài nguyên, ghi log sự kiện và triển khai các chính sách bảo vệ hệ thống.
 
 Đối với người học an toàn thông tin, Windows Server là nền tảng cần nắm vững vì nhiều cuộc tấn công trong doanh nghiệp thường liên quan đến Active Directory, tài khoản domain, quyền quản trị, dịch vụ mạng và cấu hình sai trên máy chủ Windows.
+
+# 2. Giao diện Desktop của Windows
+
+## 2.1. Windows Desktop là gì?
+
+Windows Desktop là giao diện người dùng đồ họa của hệ điều hành Windows. Đây là màn hình chính xuất hiện sau khi người dùng đăng nhập thành công vào hệ thống.
+
+Thông qua Desktop, người dùng có thể mở chương trình, truy cập tệp tin, thư mục, cài đặt hệ thống và các công cụ quản trị cơ bản. Thay vì phải nhập lệnh thủ công, Windows Desktop cho phép người dùng thao tác với hệ thống bằng chuột, bàn phím, biểu tượng và các cửa sổ đồ họa.
+
+Trong môi trường Windows, Desktop không chỉ là nơi hiển thị hình nền, mà còn là khu vực làm việc trung tâm. Từ đây, người dùng có thể truy cập Start Menu, thanh tác vụ, khu vực thông báo, hộp tìm kiếm và các ứng dụng đang chạy.
+
+Một giao diện Desktop Windows thông thường bao gồm các thành phần chính sau:
+
+![](./img/2.1_windows_desktop.png)
+
+1. màn hình Desktop;
+
+1. Màn hình Desktop  
+2. Menu Start  
+3. Hộp tìm kiếm (Cortana)  
+4. Chế độ xem tác vụ (Task View)  
+5. Thanh tác vụ (Taskbar)  
+6. Thanh công cụ (Toolbars)  
+7. Khu vực thông báo (Notification Area)  
+
+Việc hiểu rõ các thành phần này giúp người dùng thao tác với Windows nhanh hơn, đồng thời hỗ trợ quá trình quản trị và xử lý sự cố cơ bản.
+
+
+## 2.2. Màn hình Desktop
+
+Màn hình Desktop là khu vực làm việc chính của Windows. Đây là nơi người dùng thường đặt các biểu tượng, shortcut, thư mục hoặc tệp tin cần truy cập nhanh.
+
+Ví dụ, trên Desktop có thể có các shortcut đến trình duyệt web, thư mục tài liệu, ứng dụng văn phòng hoặc các công cụ quản trị hệ thống. Người dùng có thể mở nhanh các đối tượng này bằng cách nhấp đúp chuột vào biểu tượng tương ứng.
+
+Màn hình Desktop có thể được sắp xếp theo nhiều cách khác nhau. Người dùng có thể:
+
+- thay đổi kích thước biểu tượng;
+- sắp xếp biểu tượng theo tên, loại, ngày sửa đổi hoặc kích thước;
+- tạo thư mục mới;
+- tạo shortcut;
+- sao chép hoặc dán tệp vào Desktop;
+- thay đổi hình nền và giao diện hiển thị.
+
+Khi nhấp chuột phải vào vùng trống trên Desktop, Windows sẽ hiển thị một menu ngữ cảnh. Menu này cho phép người dùng thực hiện nhiều thao tác nhanh như thay đổi cách hiển thị biểu tượng, tạo đối tượng mới, mở Display Settings hoặc mở Personalization.
+
+Menu trên Desktop:
+
+![](./img/2.2_menu.png)
+
+
+Trong thực tế, Desktop thường được sử dụng để truy cập nhanh các tài nguyên quan trọng. Tuy nhiên, không nên lưu quá nhiều tệp quan trọng trực tiếp trên Desktop vì có thể gây khó quản lý, làm rối giao diện và tăng nguy cơ mất dữ liệu nếu hồ sơ người dùng gặp lỗi.
+
+
+## 2.3. Start Menu
+
+Start Menu là một trong những thành phần quan trọng nhất của giao diện Windows. Đây là nơi người dùng có thể truy cập ứng dụng, công cụ hệ thống, cài đặt, thư mục cá nhân và các tùy chọn nguồn như tắt máy hoặc khởi động lại.
+
+Trong các phiên bản Windows hiện đại, Start Menu thường được mở bằng cách nhấp vào biểu tượng Windows ở góc dưới bên trái màn hình. Mặc dù giao diện Start Menu đã thay đổi qua từng phiên bản Windows, chức năng chính của nó vẫn là cung cấp điểm truy cập trung tâm đến các chương trình và tính năng của hệ điều hành.
+
+Start Menu thường bao gồm các khu vực chính sau:
+
+![](./img/2.3_menu_start.jpg)
+
+- khu vực tài khoản người dùjpgng;
+- lối tắt đến Documents, Pictures và Settings;
+- nút Power để tắt máy, khởi động lại hoặc đăng xuất;
+- danh sách ứng dụng đã cài đặt;
+- khu vực các ô ứng dụng được ghim.
+
+Người dùng có thể tìm kiếm ứng dụng trong Start Menu bằng cách cuộn danh sách ứng dụng hoặc nhập tên ứng dụng vào hộp tìm kiếm. Ngoài ra, có thể ghim các ứng dụng thường dùng vào Start Menu để truy cập nhanh hơn.
+
+Trong quản trị hệ thống, Start Menu cũng là nơi thường dùng để mở các công cụ như Control Panel, Settings, Task Manager, Computer Management, Event Viewer hoặc Command Prompt.
+
+
+## 2.4. Search Box
+
+Search Box là hộp tìm kiếm trên Windows, thường nằm trên thanh tác vụ hoặc được tích hợp trong Start Menu. Công cụ này giúp người dùng tìm nhanh ứng dụng, tệp tin, thư mục, cài đặt hệ thống và một số nội dung khác trên máy tính.
+
+![](./img/2.4_search_box.png)
+
+Thay vì phải mở từng thư mục hoặc từng menu, người dùng có thể nhập từ khóa trực tiếp vào Search Box. Ví dụ:
+
+- nhập `Control Panel` để mở Bảng điều khiển;
+- nhập `Task Manager` để mở trình quản lý tác vụ;
+- nhập `wallpaper` để tìm cài đặt hình nền;
+- nhập tên ứng dụng để mở nhanh chương trình.
+
+Search Box giúp tiết kiệm thời gian khi người dùng không nhớ chính xác vị trí của một công cụ trong hệ thống. Đây là cách rất hữu ích để truy cập nhanh các thiết lập Windows.
+
+Trong một số trường hợp, người dùng có thể ẩn hoặc thay đổi cách hiển thị Search Box trên thanh tác vụ. Có thể nhấp chuột phải vào Taskbar, chọn phần Search và thay đổi chế độ hiển thị, ví dụ như hiển thị biểu tượng tìm kiếm hoặc ẩn hoàn toàn hộp tìm kiếm.
+
+
+## 2.5. Task View
+
+Task View là tính năng cho phép người dùng xem nhanh các cửa sổ và ứng dụng đang mở trên hệ thống. Tính năng này giúp chuyển đổi giữa các cửa sổ dễ dàng hơn, đặc biệt khi người dùng đang làm việc với nhiều ứng dụng cùng lúc.
+
+![](./img/2.5_task_view_button.jpg)
+
+Thông qua Task View, người dùng có thể:
+
+- xem toàn bộ cửa sổ đang mở;
+- chuyển nhanh sang một ứng dụng khác;
+- quản lý nhiều không gian làm việc;
+- tạo desktop ảo để tách các nhóm công việc khác nhau.
+
+Ví dụ, người dùng có thể tạo một desktop ảo cho công việc học tập, một desktop khác cho trình duyệt, và một desktop khác cho công cụ quản trị hệ thống. Điều này giúp màn hình làm việc gọn gàng và dễ quản lý hơn.
+
+Nút Task View thường nằm trên Taskbar. Nếu không sử dụng, người dùng có thể ẩn nút này bằng cách nhấp chuột phải vào Taskbar và bỏ chọn tùy chọn hiển thị Task View button.
+
+
+## 2.6. Taskbar
+
+Taskbar, hay thanh tác vụ, là thanh nằm ở phía dưới màn hình Windows theo mặc định. Đây là nơi hiển thị các ứng dụng đang mở, các ứng dụng được ghim, Start Menu, Search Box, Task View và khu vực thông báo.
+
+![](./img/2.6_taskbar.png)
+
+Taskbar giúp người dùng quản lý các chương trình đang chạy. Khi mở một ứng dụng, biểu tượng của ứng dụng đó sẽ xuất hiện trên Taskbar. Người dùng có thể nhấp vào biểu tượng để chuyển sang cửa sổ tương ứng.
+
+Một số chức năng chính của Taskbar gồm:
+
+- mở Start Menu;
+- tìm kiếm ứng dụng và cài đặt;
+- hiển thị ứng dụng đang chạy;
+- chuyển đổi giữa các cửa sổ;
+- ghim ứng dụng thường dùng;
+- truy cập nhanh khu vực thông báo;
+- mở Task Manager bằng menu chuột phải.
+
+Khi di chuột qua biểu tượng ứng dụng đang mở, Windows có thể hiển thị hình thu nhỏ xem trước của cửa sổ đó. Điều này rất hữu ích khi có nhiều cửa sổ hoặc nhiều phiên bản của cùng một ứng dụng đang chạy.
+
+Người dùng có thể tùy chỉnh Taskbar theo nhu cầu, ví dụ như ẩn Search Box, ẩn Task View, thay đổi vị trí thanh tác vụ hoặc ghim ứng dụng thường dùng để mở nhanh.
+
+
+## 2.7. Toolbars
+
+Toolbars là các thanh công cụ có thể được hiển thị trên Taskbar để cung cấp quyền truy cập nhanh đến một số vị trí hoặc chức năng cụ thể.
+
+![](./img/2.7_toolbars.png)
+
+Trong Windows, người dùng có thể bật hoặc tắt Toolbars bằng cách nhấp chuột phải vào Taskbar và chọn mục Toolbars. Tùy theo phiên bản Windows, các tùy chọn có thể khác nhau.
+
+Toolbars có thể được dùng để truy cập nhanh vào:
+
+- thư mục cụ thể;
+- địa chỉ web;
+- liên kết thường dùng;
+- một số công cụ hệ thống.
+
+Tuy nhiên, trong thực tế, Toolbars không phải là thành phần được sử dụng thường xuyên bởi mọi người dùng. Nhiều người thường chọn ghim ứng dụng trực tiếp vào Taskbar hoặc sử dụng Start Menu và Search Box để truy cập nhanh hơn.
+
+Dù vậy, Toolbars vẫn là một phần của giao diện Windows và có thể hữu ích trong một số môi trường làm việc cần truy cập nhanh đến thư mục hoặc tài nguyên nhất định.
+
+
+## 2.8. Notification Area
+
+Notification Area là khu vực thông báo nằm ở góc dưới bên phải của màn hình Windows. Khu vực này thường hiển thị ngày giờ, trạng thái mạng, âm lượng, thông báo hệ thống và một số biểu tượng của ứng dụng chạy nền.
+
+Các biểu tượng thường gặp trong Notification Area gồm:
+
+- đồng hồ hệ thống;
+- biểu tượng mạng hoặc Wi-Fi;
+- biểu tượng âm lượng;
+- biểu tượng pin trên máy tính xách tay;
+- Windows Security;
+- Action Center;
+- biểu tượng của ứng dụng chạy nền.
+
+Notification Area giúp người dùng theo dõi nhanh trạng thái hệ thống. Ví dụ, người dùng có thể kiểm tra máy có kết nối mạng hay không, âm lượng đang bật hay tắt, hệ thống có cảnh báo bảo mật hay có thông báo mới nào không.
+
+Một số biểu tượng trong khu vực này có thể được ẩn hoặc hiển thị tùy theo cài đặt Taskbar. Người dùng có thể vào Taskbar settings để chọn biểu tượng nào được phép hiển thị trong Notification Area.
+
+![](./img/2.8_taskbar_settings.png)
+
+![](./img/2.8_notification_area.png)
+
+Đối với người làm an toàn thông tin, Notification Area cũng có ý nghĩa nhất định vì nó có thể hiển thị trạng thái của Windows Security, phần mềm chống virus, VPN hoặc các công cụ bảo vệ hệ thống khác.
+
+
+## 2.9. Cá nhân hóa giao diện Windows
+
+Windows cho phép người dùng cá nhân hóa giao diện để phù hợp với sở thích và nhu cầu sử dụng. Việc cá nhân hóa có thể bao gồm thay đổi hình nền, màu sắc, chủ đề, phông chữ, màn hình khóa và cách hiển thị các thành phần giao diện.
+
+Người dùng có thể mở phần cá nhân hóa bằng cách nhấp chuột phải vào Desktop và chọn Personalize. Từ đây, Windows sẽ mở giao diện cài đặt liên quan đến giao diện người dùng.
+
+![](./img/2.9_personalize.png)
+
+![](./img/2.9_personalize_interface.png)
+
+Một số tùy chọn cá nhân hóa phổ biến gồm:
+
+- thay đổi hình nền Desktop;
+- thay đổi màu chủ đạo của hệ thống;
+- chọn theme;
+- cấu hình Lock Screen;
+- thay đổi font;
+- điều chỉnh Start Menu;
+- điều chỉnh Taskbar.
+
+Cá nhân hóa giao diện giúp người dùng làm việc thoải mái hơn. Tuy nhiên, trong môi trường doanh nghiệp, một số tùy chọn cá nhân hóa có thể bị hạn chế bởi chính sách quản trị, đặc biệt khi máy tính tham gia domain hoặc chịu sự quản lý của Group Policy.
+
+Ví dụ, quản trị viên có thể áp dụng chính sách để cố định hình nền công ty, ẩn một số cài đặt hoặc hạn chế người dùng thay đổi giao diện hệ thống.
+
+
+## 2.10. Display Settings
+
+Display Settings là phần cài đặt liên quan đến màn hình hiển thị của Windows. Người dùng có thể mở Display Settings bằng cách nhấp chuột phải vào Desktop và chọn Display settings.
+
+![](./img/2.10_display_settings.png)
+
+![](./img/2.10_display_setting_interface.png)
+
+Trong Display Settings, người dùng có thể cấu hình các tùy chọn như:
+
+- độ phân giải màn hình;
+- tỷ lệ hiển thị;
+- hướng màn hình;
+- độ sáng;
+- nhiều màn hình;
+- cách sắp xếp màn hình phụ;
+- chế độ hiển thị khi dùng nhiều màn hình.
+
+Độ phân giải màn hình ảnh hưởng trực tiếp đến độ sắc nét và không gian hiển thị. Nếu độ phân giải quá thấp, nội dung có thể bị to và chiếm nhiều diện tích. Nếu độ phân giải phù hợp, giao diện sẽ rõ ràng và dễ làm việc hơn.
+
+Trong trường hợp sử dụng nhiều màn hình, Display Settings cho phép người dùng chọn cách hiển thị như:
+
+- chỉ hiển thị trên một màn hình;
+- nhân đôi màn hình;
+- mở rộng màn hình;
+- chọn màn hình chính.
+
+Lưu ý rằng khi sử dụng Remote Desktop, một số tùy chọn hiển thị có thể bị giới hạn hoặc không thể thay đổi trực tiếp trên máy từ xa.
 
