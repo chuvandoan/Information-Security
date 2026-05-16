@@ -12,6 +12,8 @@
 
 5. [Tài khoản người dùng, hồ sơ và quyền](#5-tài-khoản-người-dùng-hồ-sơ-và-quyền)
 
+6. [User Account Control — UAC](#6-user-account-control--uac)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -1148,4 +1150,193 @@ Tài khoản **Guest** được thiết kế cho truy cập khách. Trong nhiề
 Các tài khoản như **SYSTEM**, **Local Service** và **Network Service** thường được sử dụng bởi hệ điều hành và các dịch vụ nền. Người dùng thông thường không đăng nhập trực tiếp bằng các tài khoản này.
 
 Từ góc độ bảo mật, các tài khoản tích hợp sẵn cần được kiểm tra định kỳ. Đặc biệt, không nên bật tài khoản Guest nếu không cần thiết và cần hạn chế sử dụng tài khoản Administrator cho các tác vụ hằng ngày.
+
+
+# 6. User Account Control — UAC
+
+## 6.1. UAC là gì?
+
+**User Account Control**, viết tắt là **UAC**, là một cơ chế bảo mật trong Windows dùng để kiểm soát việc thực thi các tác vụ cần quyền cao trên hệ thống.
+
+UAC giúp ngăn người dùng hoặc chương trình tự ý thực hiện các thay đổi quan trọng mà không có sự xác nhận. Khi một hành động yêu cầu quyền quản trị, Windows sẽ hiển thị thông báo yêu cầu người dùng xác nhận hoặc nhập thông tin tài khoản Administrator.
+
+Ví dụ, UAC có thể xuất hiện khi người dùng:
+
+- cài đặt phần mềm mới;
+- thay đổi cài đặt hệ thống;
+- chỉnh sửa tệp trong thư mục hệ thống;
+- chạy chương trình với quyền Administrator;
+- thay đổi cấu hình bảo mật;
+- thêm hoặc xóa tài khoản người dùng.
+
+Mục đích chính của UAC là giảm nguy cơ phần mềm độc hại tự động chạy với quyền cao. Nhờ UAC, ngay cả khi người dùng đang đăng nhập bằng tài khoản có quyền quản trị, các chương trình vẫn không tự động có toàn quyền đối với hệ thống nếu chưa được xác nhận.
+
+
+## 6.2. Vì sao Windows cần UAC?
+
+Windows cần UAC vì nhiều người dùng thường đăng nhập bằng tài khoản có quyền quản trị. Nếu mọi chương trình đều tự động chạy với quyền quản trị, hệ thống sẽ rất dễ bị tấn công.
+
+Khi không có UAC, một chương trình độc hại có thể âm thầm thực hiện các hành động nguy hiểm như:
+
+- cài đặt mã độc;
+- thay đổi cấu hình hệ thống;
+- chỉnh sửa Registry;
+- vô hiệu hóa phần mềm bảo mật;
+- tạo tài khoản mới;
+- thay đổi quyền truy cập;
+- xóa hoặc sửa tệp hệ thống.
+
+UAC giúp giảm rủi ro này bằng cách yêu cầu người dùng xác nhận trước khi một tác vụ có quyền cao được thực hiện.
+
+Nói cách khác, UAC tạo thêm một lớp kiểm soát giữa người dùng, ứng dụng và hệ điều hành. Điều này giúp hạn chế việc mã độc lợi dụng quyền của người dùng đang đăng nhập.
+
+Trong an toàn thông tin, UAC là một cơ chế quan trọng vì nó hỗ trợ nguyên tắc **least privilege**, tức là chỉ sử dụng quyền cao khi thật sự cần thiết.
+
+
+## 6.3. Cách UAC hoạt động
+
+Khi một người dùng có quyền Administrator đăng nhập vào Windows, phiên làm việc thông thường không tự động chạy với quyền cao nhất. Thay vào đó, Windows sẽ chạy hầu hết tác vụ ở mức quyền tiêu chuẩn.
+
+Khi một chương trình hoặc tác vụ cần quyền quản trị, UAC sẽ can thiệp và hiển thị thông báo xác nhận. Người dùng phải đồng ý hoặc cung cấp thông tin đăng nhập của tài khoản quản trị thì tác vụ mới được tiếp tục.
+
+Quy trình cơ bản của UAC có thể hiểu như sau:
+
+1. Người dùng hoặc chương trình yêu cầu thực hiện một tác vụ cần quyền cao.
+2. Windows phát hiện tác vụ này cần quyền Administrator.
+3. UAC hiển thị hộp thoại xác nhận.
+4. Người dùng xác nhận hoặc nhập thông tin tài khoản quản trị.
+5. Nếu được chấp nhận, tác vụ chạy với quyền cao.
+6. Nếu bị từ chối, tác vụ không được thực hiện.
+
+Cơ chế này giúp người dùng nhận biết khi có chương trình đang cố gắng thay đổi hệ thống. Nếu UAC xuất hiện bất thường khi người dùng không chủ động thực hiện thao tác nào, đó có thể là dấu hiệu cần kiểm tra kỹ.
+
+Hãy xem xét chương trình trên tài khoản bạn hiện đang đăng nhập. Đối với tài khoản quản trị viên tích hợp sẵn, nhấp chuột phải để xem Properties (Thuộc tính).
+
+Trong tab Security (Bảo mật), bạn có thể thấy danh sách người dùng/nhóm và quyền của họ đối với tệp. Lưu ý rằng người dùng thông thường không được liệt kê ở đây.
+
+![](./img/6.3_how_uac_work.png)
+
+## 6.4. Elevated Privileges
+
+**Elevated Privileges** có nghĩa là quyền được nâng cao, thường là quyền Administrator trong Windows.
+
+Một chương trình chạy với Elevated Privileges có thể thực hiện nhiều thao tác quan trọng hơn so với chương trình chạy dưới quyền người dùng thông thường.
+
+Ví dụ, chương trình chạy với quyền cao có thể:
+
+- ghi vào thư mục hệ thống;
+- thay đổi Registry;
+- cài đặt driver;
+- thay đổi cấu hình bảo mật;
+- quản lý dịch vụ Windows;
+- thay đổi tài khoản người dùng;
+- chỉnh sửa quyền truy cập.
+
+Không phải tác vụ nào cũng cần Elevated Privileges. Các công việc thông thường như duyệt web, soạn thảo văn bản, xem tài liệu hoặc nghe nhạc không cần quyền quản trị.
+
+Việc chỉ sử dụng quyền cao khi cần thiết giúp giảm rủi ro bảo mật. Nếu một ứng dụng độc hại chỉ chạy với quyền người dùng thông thường, thiệt hại có thể bị giới hạn. Nhưng nếu ứng dụng đó chạy với quyền Administrator, nó có thể kiểm soát nhiều phần quan trọng của hệ thống.
+
+
+## 6.5. Biểu tượng lá chắn UAC
+
+Biểu tượng lá chắn UAC là biểu tượng hình chiếc khiên xuất hiện trên một số chương trình hoặc nút chức năng trong Windows.
+
+Biểu tượng này cho biết thao tác đó cần quyền quản trị để chạy. Khi người dùng nhấp vào chương trình hoặc chức năng có biểu tượng lá chắn, Windows thường sẽ hiển thị UAC Prompt để yêu cầu xác nhận.
+
+Ví dụ, biểu tượng lá chắn có thể xuất hiện khi:
+
+- chạy trình cài đặt phần mềm;
+- mở một công cụ quản trị;
+- thay đổi cài đặt hệ thống;
+- mở chương trình với quyền Administrator;
+- thực hiện thao tác ảnh hưởng đến toàn bộ máy tính.
+
+Biểu tượng lá chắn giúp người dùng nhận biết trước rằng hành động sắp thực hiện không phải là thao tác thông thường. Đây là dấu hiệu trực quan để cảnh báo rằng chương trình có thể thay đổi hệ thống.
+
+![](./img/6.5.png)
+
+Nếu một tệp lạ hoặc phần mềm không rõ nguồn gốc có biểu tượng lá chắn và yêu cầu quyền Administrator, người dùng cần kiểm tra cẩn thận trước khi cho phép chạy.
+
+
+
+### 6.6. UAC Prompt
+
+**UAC Prompt** là hộp thoại xác nhận xuất hiện khi một chương trình hoặc tác vụ cần quyền cao.
+
+Tùy theo loại tài khoản đang sử dụng, UAC Prompt có thể hoạt động khác nhau:
+
+- Nếu người dùng đang dùng tài khoản Administrator, Windows có thể chỉ yêu cầu xác nhận.
+- Nếu người dùng đang dùng tài khoản Standard User, Windows có thể yêu cầu nhập tên người dùng và mật khẩu của tài khoản Administrator.
+
+UAC Prompt thường hiển thị thông tin như:
+
+- tên chương trình muốn chạy;
+- nhà phát hành chương trình;
+- vị trí hoặc nguồn của chương trình;
+- yêu cầu cho phép chương trình thay đổi hệ thống.
+
+Người dùng chỉ nên chọn **Yes** nếu chắc chắn chương trình đáng tin cậy và hành động đó là cần thiết. Nếu không rõ chương trình là gì, hoặc UAC Prompt xuất hiện bất ngờ, nên chọn **No**.
+
+![](./img/6.6_uac_prompt.png)
+
+Trong thực tế, UAC Prompt là một điểm kiểm soát quan trọng giúp người dùng tránh vô tình cấp quyền cao cho mã độc hoặc chương trình không an toàn.
+
+
+## 6.7. Cài đặt UAC
+
+Windows cho phép người dùng thay đổi mức độ thông báo của UAC thông qua phần **User Account Control Settings**.
+
+Các mức cài đặt UAC thường cho phép điều chỉnh việc Windows sẽ thông báo khi nào. Ví dụ:
+
+- luôn thông báo khi ứng dụng cố gắng cài đặt phần mềm hoặc thay đổi hệ thống;
+- chỉ thông báo khi ứng dụng cố gắng thay đổi hệ thống;
+- không thông báo trong một số trường hợp nhất định;
+- tắt gần như hoàn toàn thông báo UAC.
+
+Mức khuyến nghị thường là giữ UAC ở chế độ mặc định hoặc mức bảo vệ cao hơn. Điều này giúp hệ thống vẫn có cảnh báo khi có chương trình yêu cầu quyền Administrator.
+
+Không nên giảm mức UAC hoặc tắt UAC nếu không có lý do rõ ràng, vì điều đó có thể làm giảm khả năng bảo vệ của Windows trước các chương trình độc hại.
+
+
+## 6.8. Thay đổi UAC Settings
+
+Có thể mở phần cài đặt UAC bằng nhiều cách khác nhau.
+
+Một cách phổ biến là tìm kiếm trong Start Menu:
+
+1. Mở **Start Menu**.
+2. Nhập `UAC`.
+3. Chọn **Change User Account Control settings**.
+4. Điều chỉnh thanh trượt theo mức mong muốn.
+5. Nhấn **OK** để lưu thay đổi.
+
+![](./img/6.8_uac_settings.png)
+
+Ngoài ra, có thể mở nhanh bằng lệnh:
+
+```text
+UserAccountControlSettings.exe
+````
+
+Trong cửa sổ UAC Settings, Windows hiển thị một thanh trượt cho phép thay đổi mức độ thông báo. Khi di chuyển thanh trượt, Windows sẽ mô tả ý nghĩa của từng mức.
+
+Về mặt bảo mật, nên giữ UAC ở mức mặc định hoặc mức cao hơn. Chỉ nên thay đổi cài đặt này nếu hiểu rõ ảnh hưởng của nó đến hệ thống.
+
+### 6.9. Rủi ro khi tắt UAC
+
+Tắt UAC có thể làm hệ thống dễ bị tấn công hơn. Khi UAC bị tắt hoặc cấu hình quá thấp, các chương trình có thể thực hiện thay đổi quan trọng mà không cần người dùng xác nhận rõ ràng.
+
+Một số rủi ro khi tắt UAC gồm:
+
+* mã độc dễ chạy với quyền cao hơn;
+* phần mềm lạ có thể thay đổi hệ thống mà không bị cảnh báo;
+* Registry có thể bị chỉnh sửa trái phép;
+* dịch vụ bảo mật có thể bị vô hiệu hóa;
+* tài khoản người dùng hoặc nhóm có thể bị thay đổi;
+* hệ thống khó phát hiện hành vi bất thường hơn.
+
+Trong môi trường doanh nghiệp, việc tắt UAC có thể làm tăng rủi ro bị tấn công, đặc biệt nếu người dùng thường xuyên mở email, tải tệp từ Internet hoặc chạy phần mềm từ nguồn không rõ ràng.
+
+Từ góc độ an toàn thông tin, UAC không phải là cơ chế bảo vệ tuyệt đối, nhưng nó là một lớp phòng thủ quan trọng. Vì vậy, không nên tắt UAC trừ khi có yêu cầu kỹ thuật đặc biệt và đã có biện pháp kiểm soát thay thế phù hợp.
+
 
