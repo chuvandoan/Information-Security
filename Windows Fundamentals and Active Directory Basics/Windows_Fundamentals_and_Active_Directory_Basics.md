@@ -54,6 +54,8 @@
 
 26. [Active Directory cơ bản](#26-active-directory-cơ-bản)
 
+27. [Nhóm bảo mật trong Active Directory](#27-nhóm-bảo-mật-trong-active-directory)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -6839,7 +6841,7 @@ ADUC thường được sử dụng trực tiếp trên Domain Controller hoặc
 
 Trong môi trường học lab, ADUC là công cụ rất quan trọng để quan sát cấu trúc Active Directory và thực hành quản lý đối tượng.
 
-### 26.12. Công cụ ADUC
+## 26.12. Công cụ ADUC
 
 Công cụ **ADUC** có thể được mở từ Start Menu trên Domain Controller bằng cách tìm:
 
@@ -6883,6 +6885,276 @@ Từ góc độ bảo mật, ADUC cần được sử dụng cẩn thận vì th
 * computer objects của máy chủ quan trọng.
 
 Tóm lại, ADUC là công cụ cơ bản nhưng rất quan trọng trong quản trị Active Directory. Người học Windows Domain cần nắm được cách dùng ADUC để hiểu cách AD tổ chức và quản lý người dùng, máy tính, nhóm và tài nguyên.
+
+
+# 27. Nhóm bảo mật trong Active Directory
+
+## 27.1. Security Group là gì?
+
+**Security Group** là nhóm bảo mật trong Active Directory dùng để gom nhiều đối tượng lại với nhau nhằm quản lý quyền truy cập dễ hơn.
+
+Các đối tượng có thể là thành viên của Security Group gồm:
+
+- người dùng;
+- máy tính;
+- nhóm khác;
+- tài khoản dịch vụ.
+
+Security Group được xem là một loại **security principal**, nghĩa là nó có thể được cấp quyền truy cập vào tài nguyên trong mạng.
+
+Ví dụ, thay vì cấp quyền truy cập thư mục cho từng người dùng, quản trị viên có thể tạo một nhóm tên là `Accounting`, sau đó cấp quyền cho nhóm này. Người dùng nào được thêm vào nhóm `Accounting` sẽ tự động có quyền tương ứng.
+
+Security Group giúp việc quản trị quyền trong doanh nghiệp trở nên đơn giản, rõ ràng và dễ kiểm soát hơn.
+
+
+## 27.2. Vai trò của nhóm trong cấp quyền
+
+Vai trò quan trọng nhất của nhóm bảo mật là **cấp quyền theo nhóm thay vì cấp quyền trực tiếp cho từng người dùng**.
+
+Ví dụ, doanh nghiệp có thư mục chia sẻ:
+
+```text
+\\FILE-SERVER\HR
+```
+
+Thay vì cấp quyền cho từng nhân viên phòng nhân sự, quản trị viên có thể:
+
+1. Tạo nhóm `HR`.
+2. Thêm nhân viên phòng nhân sự vào nhóm `HR`.
+3. Cấp quyền truy cập thư mục `\\FILE-SERVER\HR` cho nhóm `HR`.
+
+Cách này có nhiều lợi ích:
+
+* dễ thêm người dùng mới;
+* dễ xóa quyền khi nhân viên chuyển bộ phận;
+* giảm lỗi khi phân quyền thủ công;
+* quản lý quyền theo vai trò;
+* dễ kiểm tra ai có quyền truy cập tài nguyên;
+* phù hợp với nguyên tắc least privilege.
+
+Security Group thường được dùng để cấp quyền cho:
+
+* thư mục chia sẻ;
+* máy in mạng;
+* ứng dụng nội bộ;
+* cơ sở dữ liệu;
+* máy chủ;
+* quyền quản trị;
+* quyền sao lưu;
+* quyền hỗ trợ người dùng.
+
+Trong bảo mật Active Directory, cần đặc biệt chú ý đến các nhóm có quyền cao vì nếu tài khoản trong các nhóm này bị chiếm quyền, toàn bộ domain có thể bị ảnh hưởng.
+
+## 27.3. Domain Admins
+
+**Domain Admins** là một trong những nhóm quyền cao nhất trong Active Directory Domain.
+
+Người dùng thuộc nhóm này có quyền quản trị trên toàn bộ domain. Theo mặc định, thành viên của Domain Admins có thể quản trị hầu hết các máy tính trong domain, bao gồm cả Domain Controllers.
+
+Domain Admins có thể thực hiện các tác vụ như:
+
+* quản lý toàn bộ người dùng trong domain;
+* tạo, sửa hoặc xóa tài khoản;
+* thêm người dùng vào nhóm quyền cao;
+* quản lý Domain Controllers;
+* cấu hình Group Policy;
+* truy cập nhiều hệ thống trong domain;
+* thay đổi chính sách bảo mật;
+* quản lý tài nguyên quan trọng.
+
+Đây là nhóm rất nhạy cảm về mặt bảo mật. Chỉ những tài khoản thật sự cần quyền quản trị toàn domain mới nên thuộc nhóm này.
+
+Một số khuyến nghị bảo mật với Domain Admins:
+
+* giới hạn số lượng thành viên;
+* không dùng tài khoản Domain Admin cho công việc hằng ngày;
+* sử dụng tài khoản quản trị riêng;
+* bật MFA nếu môi trường hỗ trợ;
+* giám sát mọi thay đổi thành viên nhóm;
+* kiểm tra log đăng nhập của tài khoản Domain Admin;
+* không đăng nhập Domain Admin vào máy trạm thông thường.
+
+Nếu một tài khoản Domain Admin bị chiếm quyền, kẻ tấn công có thể kiểm soát toàn bộ domain.
+
+## 27.4. Server Operators
+
+**Server Operators** là nhóm cho phép thành viên thực hiện một số tác vụ quản trị trên Domain Controllers.
+
+Người dùng trong nhóm này có thể có quyền quản lý máy chủ ở mức nhất định, ví dụ như khởi động hoặc dừng dịch vụ, sao lưu hệ thống hoặc thực hiện một số tác vụ vận hành máy chủ.
+
+Tuy nhiên, Server Operators không có toàn quyền giống Domain Admins. Theo nội dung tài liệu, nhóm này không thể thay đổi tư cách thành viên của các nhóm quản trị.
+
+Server Operators có thể phù hợp trong trường hợp doanh nghiệp muốn giao một số nhiệm vụ vận hành máy chủ cho nhân viên IT mà không cấp toàn quyền quản trị domain.
+
+Tuy nhiên, đây vẫn là nhóm nhạy cảm vì nó liên quan đến Domain Controllers. Cần kiểm soát chặt chẽ thành viên của nhóm này.
+
+Khuyến nghị bảo mật:
+
+* chỉ thêm người dùng thật sự cần quyền;
+* không dùng cho tài khoản thông thường;
+* theo dõi thay đổi thành viên nhóm;
+* kiểm tra hoạt động quản trị trên Domain Controllers;
+* tránh cấp quyền này nếu không có nhu cầu rõ ràng.
+
+## 27.5. Backup Operators
+
+**Backup Operators** là nhóm dùng cho các tài khoản cần thực hiện nhiệm vụ sao lưu dữ liệu.
+
+Thành viên của nhóm này có thể truy cập tệp để phục vụ quá trình backup, kể cả trong một số trường hợp quyền thông thường không cho phép truy cập.
+
+Nhóm này thường được dùng cho:
+
+* nhân viên phụ trách sao lưu;
+* tài khoản dịch vụ backup;
+* phần mềm sao lưu;
+* hệ thống khôi phục dữ liệu.
+
+Backup Operators rất quan trọng trong vận hành hệ thống, nhưng cũng có rủi ro bảo mật cao. Lý do là tài khoản có quyền sao lưu có thể đọc nhiều dữ liệu nhạy cảm trong hệ thống.
+
+Nếu tài khoản thuộc Backup Operators bị chiếm quyền, kẻ tấn công có thể lợi dụng quyền này để truy cập hoặc sao chép dữ liệu quan trọng.
+
+Khuyến nghị bảo mật:
+
+* chỉ cấp quyền cho tài khoản backup cần thiết;
+* không dùng tài khoản cá nhân nếu không cần;
+* theo dõi hoạt động sao lưu;
+* kiểm soát nơi lưu bản backup;
+* bảo vệ mật khẩu của tài khoản backup;
+* kiểm tra định kỳ thành viên nhóm Backup Operators.
+
+Trong SOC, hoạt động truy cập dữ liệu lớn bất thường bởi tài khoản backup cần được giám sát.
+
+## 27.6. Account Operators
+
+**Account Operators** là nhóm cho phép thành viên tạo hoặc sửa đổi các tài khoản trong domain.
+
+Nhóm này thường được dùng để ủy quyền cho nhân viên IT hoặc bộ phận hỗ trợ người dùng thực hiện một số tác vụ liên quan đến tài khoản.
+
+Thành viên của Account Operators có thể thực hiện các tác vụ như:
+
+* tạo tài khoản người dùng;
+* chỉnh sửa thông tin tài khoản;
+* reset mật khẩu;
+* vô hiệu hóa tài khoản;
+* quản lý một số nhóm hoặc người dùng theo phạm vi được phép.
+
+Tuy nhiên, Account Operators là nhóm cần được kiểm soát cẩn thận. Nếu bị lạm dụng, tài khoản trong nhóm này có thể tạo tài khoản mới hoặc thay đổi tài khoản hiện có để phục vụ mục đích trái phép.
+
+Rủi ro có thể bao gồm:
+
+* tạo tài khoản ẩn;
+* reset mật khẩu trái phép;
+* kích hoạt tài khoản đã bị vô hiệu hóa;
+* thay đổi thông tin tài khoản;
+* hỗ trợ leo thang đặc quyền nếu kết hợp với cấu hình sai khác.
+
+Khuyến nghị bảo mật:
+
+* giới hạn thành viên nhóm;
+* sử dụng delegation theo OU nếu có thể;
+* không cấp quyền rộng hơn nhu cầu;
+* giám sát sự kiện tạo tài khoản mới;
+* giám sát reset mật khẩu;
+* rà soát tài khoản được tạo gần đây.
+
+Trong môi trường doanh nghiệp, không nên thêm quá nhiều người vào Account Operators nếu chỉ cần quyền hỗ trợ ở một OU cụ thể.
+
+## 27.7. Domain Users
+
+**Domain Users** là nhóm mặc định bao gồm các tài khoản người dùng trong domain.
+
+Khi một tài khoản người dùng domain được tạo, tài khoản đó thường thuộc nhóm Domain Users theo mặc định.
+
+Domain Users thường đại diện cho nhóm người dùng thông thường trong doanh nghiệp, ví dụ:
+
+* nhân viên;
+* sinh viên;
+* người dùng văn phòng;
+* tài khoản người dùng tiêu chuẩn.
+
+Nhóm này thường được dùng để cấp các quyền cơ bản cho toàn bộ người dùng domain, ví dụ:
+
+* đăng nhập vào máy trạm;
+* truy cập tài nguyên chung;
+* sử dụng máy in mạng;
+* truy cập một số thư mục chia sẻ chung;
+* nhận chính sách người dùng thông thường.
+
+Tuy nhiên, cần cẩn thận khi cấp quyền cho Domain Users. Vì nhóm này có phạm vi rất rộng, nếu cấp quyền quá cao cho Domain Users, gần như toàn bộ người dùng trong domain sẽ có quyền đó.
+
+Khuyến nghị bảo mật:
+
+* không cấp quyền quản trị cho Domain Users;
+* không cấp quyền ghi vào thư mục nhạy cảm;
+* không dùng Domain Users để cấp quyền cho dữ liệu quan trọng;
+* tạo nhóm riêng theo phòng ban hoặc vai trò;
+* áp dụng nguyên tắc least privilege.
+
+Ví dụ, thay vì cấp quyền truy cập thư mục kế toán cho Domain Users, nên tạo nhóm riêng như `Accounting Users` và chỉ thêm nhân viên kế toán vào nhóm đó.
+
+## 27.8. Domain Computers
+
+**Domain Computers** là nhóm mặc định bao gồm các máy tính hiện có trong domain.
+
+Khi một máy tính được join vào domain, tài khoản máy tính của nó thường thuộc nhóm Domain Computers.
+
+Domain Computers đại diện cho các thiết bị đã tham gia domain, ví dụ:
+
+* máy trạm;
+* laptop doanh nghiệp;
+* máy ảo;
+* một số máy chủ thành viên domain.
+
+Nhóm này có thể được dùng trong một số chính sách hoặc cấu hình liên quan đến máy tính. Ví dụ, quản trị viên có thể áp dụng chính sách cho các máy tính domain hoặc kiểm soát quyền truy cập dựa trên tài khoản máy.
+
+Từ góc độ bảo mật, Domain Computers giúp xác định thiết bị nào thuộc domain và có thể xác thực với Domain Controller.
+
+Một số lưu ý bảo mật:
+
+* kiểm tra các máy tính không còn sử dụng;
+* vô hiệu hóa hoặc xóa computer object cũ;
+* không để máy lạ join domain tùy tiện;
+* phân loại máy tính vào OU phù hợp;
+* áp dụng chính sách khác nhau cho máy trạm và máy chủ;
+* giám sát việc tạo computer account mới.
+
+Nếu domain có nhiều computer account cũ không được quản lý, kẻ tấn công có thể lợi dụng chúng trong một số tình huống nhất định.
+
+## 27.9. Domain Controllers
+
+**Domain Controllers** là nhóm bao gồm tất cả các Domain Controllers hiện có trong domain.
+
+Domain Controller là máy chủ chạy dịch vụ Active Directory Domain Services. Đây là thành phần trung tâm của Windows Domain, chịu trách nhiệm xác thực người dùng, quản lý AD DS và áp dụng nhiều chính sách quan trọng.
+
+Nhóm Domain Controllers thường liên quan đến các máy chủ có vai trò đặc biệt trong domain.
+
+Domain Controllers rất nhạy cảm vì chúng chứa hoặc xử lý nhiều dữ liệu quan trọng như:
+
+* thông tin người dùng;
+* thông tin máy tính;
+* nhóm bảo mật;
+* chính sách domain;
+* dữ liệu xác thực;
+* mật khẩu băm của tài khoản domain.
+
+Nếu một Domain Controller bị chiếm quyền, toàn bộ domain có thể bị kiểm soát.
+
+Một số khuyến nghị bảo mật đối với Domain Controllers:
+
+* không sử dụng Domain Controller như máy trạm thông thường;
+* hạn chế đăng nhập trực tiếp;
+* chỉ quản trị viên được phép truy cập;
+* cập nhật bảo mật thường xuyên;
+* giám sát log đăng nhập và thay đổi AD;
+* bảo vệ vật lý và mạng cho Domain Controllers;
+* không cài phần mềm không cần thiết;
+* sao lưu System State định kỳ;
+* kiểm tra thành viên nhóm Domain Admins thường xuyên.
+
+Trong SOC, Domain Controllers là nguồn log cực kỳ quan trọng. Các sự kiện đăng nhập, thay đổi tài khoản, thay đổi nhóm quyền cao và hoạt động xác thực đều cần được giám sát chặt chẽ.
+
+Tóm lại, nhóm bảo mật trong Active Directory giúp quản lý quyền truy cập theo cách tập trung và hiệu quả. Tuy nhiên, các nhóm có quyền cao như Domain Admins, Server Operators, Backup Operators và Account Operators cần được kiểm soát đặc biệt để tránh rủi ro leo thang đặc quyền và mất quyền kiểm soát domain.
+
 
 
 
