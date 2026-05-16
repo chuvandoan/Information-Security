@@ -24,6 +24,8 @@
 
 11. [Task Scheduler](#11-task-scheduler)
 
+12. [Event Viewer và Windows Logs](#12-event-viewer-và-windows-logs)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -2506,31 +2508,31 @@ Việc hiểu tác vụ tự động giúp người học quản trị Windows b
 
 1. Mở **Task Scheduler**.
 
-![](./img/13.3_open_task_scheduler.png)
+![](./img/11.3_open_task_scheduler.png)
 
 2. Chọn **Create Basic Task**.
 
-![](./img/13.3_open_create_a_basic_task.png)
+![](./img/11.3_open_create_a_basic_task.png)
 
 3. Nhập tên và mô tả cho tác vụ.
 
-![](./img/13.3_enter_name.png)
+![](./img/11.3_enter_name.png)
 
 4. Chọn **Trigger** để xác định khi nào tác vụ chạy.
 
-![](./img/13.3_select_trigger.png)
+![](./img/11.3_select_trigger.png)
 
 5. Chọn **Action** để xác định hành động cần thực hiện.
 
-![](./img/13.3_select_action.png)
+![](./img/11.3_select_action.png)
 
 6. Chọn chương trình cần chạy 
 
-![](./img/13.3_select_program.png)
+![](./img/11.3_select_program.png)
 
 7. Nhấn **Finish** để hoàn tất.
 
-![](./img/13.3_finish.png)
+![](./img/11.3_finish.png)
 
 ## 11.4. Trigger trong Task Scheduler
 
@@ -2655,6 +2657,305 @@ Một số dấu hiệu đáng nghi gồm:
 * tác vụ không có mô tả rõ ràng.
 
 Vì vậy, trong điều tra sự cố Windows, Task Scheduler là một trong những nơi cần kiểm tra sớm. Nó giúp phát hiện các cơ chế tự động chạy chương trình, cả hợp pháp lẫn độc hại.
+
+# 12. Event Viewer và Windows Logs
+
+## 12.1. Event Viewer là gì?
+
+**Event Viewer** là công cụ trong Windows dùng để xem và phân tích các sự kiện được hệ điều hành, ứng dụng và dịch vụ ghi lại trong quá trình hoạt động.
+
+Trong Windows, nhiều hành động quan trọng đều có thể được ghi thành log, ví dụ:
+
+- ứng dụng bị lỗi;
+- dịch vụ khởi động hoặc dừng;
+- hệ thống gặp lỗi phần cứng hoặc driver;
+- người dùng đăng nhập thành công;
+- người dùng đăng nhập thất bại;
+- thay đổi chính sách bảo mật;
+- thay đổi tài khoản hoặc quyền truy cập.
+
+Event Viewer giúp người dùng và quản trị viên xem lại những gì đã xảy ra trên hệ thống. Đây là công cụ rất quan trọng khi cần xử lý sự cố, kiểm tra lỗi hoặc điều tra các dấu hiệu bất thường.
+
+Có thể mở Event Viewer bằng lệnh:
+
+```text
+eventvwr.msc
+````
+
+Hoặc mở thông qua:
+
+```text
+Computer Management → System Tools → Event Viewer
+```
+![](./img/12.1_event_viewer.png)
+
+## 12.2. Vai trò của Event Viewer trong điều tra sự cố
+
+Event Viewer có vai trò quan trọng trong điều tra sự cố vì nó lưu lại nhiều thông tin về hoạt động của hệ thống Windows.
+
+Khi máy tính gặp lỗi, người dùng thường chỉ nhìn thấy biểu hiện bên ngoài như máy chậm, ứng dụng bị treo, dịch vụ không chạy hoặc không đăng nhập được. Tuy nhiên, Event Viewer có thể cung cấp thông tin chi tiết hơn về nguyên nhân.
+
+Ví dụ, Event Viewer có thể giúp xác định:
+
+* ứng dụng nào bị lỗi;
+* dịch vụ nào không khởi động được;
+* driver nào gây lỗi;
+* thời điểm xảy ra sự cố;
+* người dùng nào đã đăng nhập;
+* có bao nhiêu lần đăng nhập thất bại;
+* hệ thống có bị tắt bất thường hay không;
+* có thay đổi bảo mật nào xảy ra hay không.
+
+Trong quá trình điều tra, quản trị viên thường dùng Event Viewer để đối chiếu thời gian xảy ra sự cố với các sự kiện được ghi lại trong log.
+
+Ví dụ, nếu người dùng báo rằng máy bị lỗi lúc 09:30, quản trị viên có thể mở Event Viewer và kiểm tra các sự kiện gần thời điểm đó để tìm nguyên nhân.
+
+## 12.3. Các loại sự kiện trong Windows
+
+Windows phân loại sự kiện theo mức độ và mục đích ghi log. Mỗi loại sự kiện cho biết tính chất của thông tin được ghi lại.
+
+Các loại sự kiện thường gặp gồm:
+
+* Error;
+* Warning;
+* Information;
+* Success Audit;
+* Failure Audit.
+
+### 12.3.1. Error
+
+**Error** là loại sự kiện cho biết đã xảy ra lỗi nghiêm trọng hoặc một thành phần nào đó không hoạt động đúng.
+
+![](./img/12.3_error.png)
+
+Ví dụ về Error:
+
+* ứng dụng bị crash;
+* dịch vụ không khởi động được;
+* driver bị lỗi;
+* hệ thống không đọc được một thành phần cần thiết;
+* lỗi liên quan đến ổ đĩa hoặc phần cứng.
+
+Sự kiện Error thường cần được kiểm tra kỹ, đặc biệt nếu nó xuất hiện lặp lại nhiều lần hoặc xảy ra gần thời điểm hệ thống gặp sự cố.
+
+Trong điều tra sự cố, Error là một trong những loại log được kiểm tra đầu tiên.
+
+### 12.3.2. Warning
+
+**Warning** là loại sự kiện cảnh báo rằng có vấn đề tiềm ẩn, nhưng chưa chắc đã gây lỗi nghiêm trọng ngay lập tức.
+
+![](./img/12.3_warning.png)
+
+Ví dụ về Warning:
+
+* dịch vụ phản hồi chậm;
+* ổ đĩa gần đầy;
+* kết nối mạng không ổn định;
+* cấu hình có khả năng gây lỗi;
+* một thành phần hệ thống hoạt động không như mong đợi.
+
+Warning không phải lúc nào cũng nguy hiểm, nhưng nếu xuất hiện thường xuyên, nó có thể là dấu hiệu cho thấy hệ thống đang có vấn đề.
+
+Trong quản trị hệ thống, Warning giúp phát hiện sớm sự cố trước khi nó trở thành lỗi nghiêm trọng.
+
+### 12.3.3. Information
+
+**Information** là loại sự kiện ghi lại các hoạt động bình thường của hệ thống, ứng dụng hoặc dịch vụ.
+
+![](./img/12.3_information.png)
+
+Ví dụ về Information:
+
+* dịch vụ đã khởi động thành công;
+* ứng dụng đã hoàn thành một tác vụ;
+* hệ thống đã cài đặt cập nhật;
+* một thành phần Windows hoạt động bình thường;
+* chương trình ghi nhận trạng thái hoạt động.
+
+Information thường không phải là dấu hiệu lỗi. Tuy nhiên, nó vẫn hữu ích khi cần dựng lại chuỗi sự kiện trong quá trình điều tra.
+
+Ví dụ, khi phân tích một sự cố, log Information có thể giúp xác định dịch vụ nào đã chạy trước khi lỗi xảy ra.
+
+### 12.3.4. Success Audit
+
+**Success Audit** là sự kiện ghi lại một hành động bảo mật đã thực hiện thành công.
+
+![](./img/12.3_succes_audit.png)
+
+Ví dụ về Success Audit:
+
+* đăng nhập thành công;
+* truy cập tài nguyên thành công;
+* thay đổi chính sách thành công;
+* thao tác quản trị được thực hiện thành công;
+* kiểm toán một hành động bảo mật thành công.
+
+Loại sự kiện này thường xuất hiện trong **Security Log**.
+
+Trong SOC, Success Audit rất quan trọng vì nó giúp xác định tài khoản nào đã đăng nhập, đăng nhập vào thời điểm nào và thực hiện hành động gì trên hệ thống.
+
+### 12.3.5. Failure Audit
+
+**Failure Audit** là sự kiện ghi lại một hành động bảo mật không thành công.
+
+![](./img/12.3_failure_audit.png)
+
+Ví dụ về Failure Audit:
+
+* đăng nhập thất bại;
+* nhập sai mật khẩu;
+* truy cập tài nguyên bị từ chối;
+* thao tác quản trị không được phép;
+* cố gắng sử dụng quyền không hợp lệ.
+
+Failure Audit rất quan trọng trong phát hiện tấn công. Nhiều lần đăng nhập thất bại trong thời gian ngắn có thể là dấu hiệu của brute-force attack hoặc credential guessing.
+
+Trong điều tra bảo mật, Failure Audit giúp xác định các hành vi truy cập trái phép hoặc cố gắng vượt qua cơ chế xác thực.
+
+## 12.4. Windows Logs
+
+**Windows Logs** là nhóm log chính trong Event Viewer, nơi Windows lưu lại các sự kiện quan trọng của hệ thống, ứng dụng và bảo mật.
+
+![](./img/12.4_windows_logs.png)
+
+Các log thường gặp gồm:
+
+* Application;
+* Security;
+* System;
+* Setup;
+* Forwarded Events;
+* Custom Logs nếu có cấu hình riêng.
+
+Trong đó, Application, Security và System là ba nhóm log thường được sử dụng nhiều nhất khi xử lý sự cố và điều tra bảo mật.
+
+### 12.4.1. Application Log
+
+**Application Log** ghi lại các sự kiện liên quan đến ứng dụng chạy trên Windows.
+
+![](./img/12.4_application_logs.png)
+
+Các sự kiện trong Application Log có thể bao gồm:
+
+* ứng dụng bị lỗi;
+* ứng dụng crash;
+* ứng dụng không khởi động được;
+* phần mềm ghi nhận trạng thái hoạt động;
+* lỗi liên quan đến dịch vụ ứng dụng.
+
+Ví dụ, nếu một phần mềm văn phòng hoặc phần mềm nghiệp vụ bị lỗi, thông tin lỗi có thể được ghi trong Application Log.
+
+Application Log hữu ích khi cần xác định nguyên nhân lỗi ở tầng ứng dụng.
+
+### 12.4.2. Security Log
+
+**Security Log** ghi lại các sự kiện liên quan đến bảo mật và kiểm toán trong Windows.
+
+![](./img/12.4_security_logs.png)
+
+Đây là một trong những log quan trọng nhất đối với SOC và điều tra sự cố bảo mật.
+
+Security Log có thể chứa các sự kiện như:
+
+* đăng nhập thành công;
+* đăng nhập thất bại;
+* đăng xuất;
+* thay đổi tài khoản người dùng;
+* thay đổi nhóm;
+* thay đổi chính sách bảo mật;
+* truy cập tài nguyên;
+* sử dụng quyền đặc biệt.
+
+Ví dụ, nếu có nhiều lần đăng nhập thất bại vào một tài khoản trong thời gian ngắn, Security Log có thể giúp phát hiện dấu hiệu tấn công mật khẩu.
+
+Security Log thường được thu thập bởi SIEM hoặc EDR để phân tích tập trung trong môi trường doanh nghiệp.
+
+### 12.4.3. System Log
+
+**System Log** ghi lại các sự kiện liên quan đến hệ điều hành Windows và các thành phần hệ thống.
+
+![](./img/12.4_system_logs.png)
+
+System Log có thể bao gồm:
+
+* lỗi driver;
+* lỗi dịch vụ hệ thống;
+* sự kiện khởi động hoặc tắt máy;
+* lỗi phần cứng;
+* lỗi ổ đĩa;
+* lỗi mạng;
+* trạng thái của các dịch vụ Windows.
+
+Ví dụ, nếu một dịch vụ Windows không khởi động được, sự kiện liên quan có thể xuất hiện trong System Log.
+
+System Log rất quan trọng khi xử lý các lỗi liên quan đến hệ điều hành, phần cứng hoặc dịch vụ nền.
+
+### 12.4.4. Custom Logs
+
+**Custom Logs** là các log tùy chỉnh hoặc log riêng do ứng dụng, dịch vụ hoặc cấu hình quản trị tạo ra.
+
+Không giống các log mặc định như Application, Security và System, Custom Logs phụ thuộc vào phần mềm hoặc chính sách được cài đặt trên hệ thống.
+
+Ví dụ, một số ứng dụng doanh nghiệp, phần mềm bảo mật hoặc công cụ giám sát có thể tạo log riêng trong Event Viewer.
+
+Custom Logs có thể hữu ích khi cần phân tích một ứng dụng cụ thể hoặc theo dõi một nhóm sự kiện chuyên biệt.
+
+Trong môi trường doanh nghiệp, Custom Logs có thể được dùng để phục vụ giám sát, kiểm toán hoặc tích hợp với hệ thống SIEM.
+
+## 12.5. Ý nghĩa của Event Logs trong SOC
+
+Trong SOC, **Event Logs** là một trong những nguồn dữ liệu quan trọng nhất để phát hiện, phân tích và điều tra sự cố bảo mật.
+
+Event Logs giúp SOC Analyst trả lời các câu hỏi quan trọng như:
+
+* ai đã đăng nhập vào hệ thống;
+* đăng nhập xảy ra khi nào;
+* đăng nhập thành công hay thất bại;
+* tài khoản nào có hành vi bất thường;
+* dịch vụ nào được tạo hoặc thay đổi;
+* có tiến trình hoặc ứng dụng nào gặp lỗi bất thường;
+* có thay đổi chính sách hoặc quyền truy cập hay không;
+* sự kiện xảy ra theo trình tự như thế nào.
+
+Trong môi trường doanh nghiệp, log từ nhiều máy Windows thường được gửi về SIEM để phân tích tập trung. Nhờ đó, SOC có thể phát hiện các mẫu hành vi bất thường trên nhiều máy cùng lúc.
+
+Ví dụ, nếu cùng một tài khoản đăng nhập thất bại trên nhiều máy trong thời gian ngắn, SIEM có thể cảnh báo về khả năng brute-force hoặc password spraying.
+
+Event Logs không chỉ giúp phát hiện tấn công mà còn hỗ trợ điều tra sau sự cố, dựng lại timeline và xác định phạm vi ảnh hưởng.
+
+### 12.6. Event Viewer trong phát hiện và điều tra tấn công
+
+Event Viewer có thể hỗ trợ phát hiện và điều tra nhiều loại tấn công trên Windows, đặc biệt khi kiểm tra Security Log, System Log và Application Log.
+
+Một số dấu hiệu đáng chú ý trong Event Viewer gồm:
+
+* nhiều lần đăng nhập thất bại;
+* đăng nhập thành công vào thời điểm bất thường;
+* tài khoản mới được tạo;
+* người dùng được thêm vào nhóm Administrators;
+* dịch vụ mới được cài đặt;
+* scheduled task bất thường;
+* lỗi liên tục từ một ứng dụng hoặc dịch vụ;
+* hệ thống bị tắt hoặc khởi động lại bất thường;
+* thay đổi chính sách bảo mật;
+* truy cập trái phép vào tài nguyên.
+
+Khi điều tra tấn công, cần chú ý đến các yếu tố sau:
+
+* thời điểm xảy ra sự kiện;
+* tài khoản liên quan;
+* máy nguồn và máy đích;
+* loại log;
+* Event ID;
+* mô tả sự kiện;
+* hành động thành công hay thất bại;
+* sự kiện trước và sau thời điểm nghi ngờ.
+
+Ví dụ, nếu phát hiện nhiều Failure Audit liên quan đến đăng nhập thất bại, sau đó có một Success Audit từ cùng một nguồn, có thể nghi ngờ rằng kẻ tấn công đã đoán đúng mật khẩu.
+
+Event Viewer là công cụ rất hữu ích cho phân tích ban đầu. Tuy nhiên, trong điều tra chuyên sâu, cần kết hợp thêm các nguồn dữ liệu khác như Sysmon logs, PowerShell logs, firewall logs, EDR alerts và SIEM correlation rules.
+
+
 
 
 
