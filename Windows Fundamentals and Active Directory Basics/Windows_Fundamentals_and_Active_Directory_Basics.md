@@ -44,6 +44,8 @@
 
 21. [App & Browser Control](#21-app--browser-control)
 
+22. [Device Security](#22-device-security)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -5632,6 +5634,130 @@ Từ góc độ SOC, cần chú ý các dấu hiệu như:
 * trình duyệt truy cập nhiều website bị cảnh báo.
 
 Tóm lại, App & Browser Control là một lớp bảo vệ quan trọng của Windows. Nó giúp giảm nguy cơ từ website độc hại, phần mềm không an toàn và các kỹ thuật khai thác lỗ hổng.
+
+
+# 22. Device Security
+
+## 22.1. Device Security là gì?
+
+**Device Security** là khu vực trong Windows Security dùng để kiểm tra và quản lý các tính năng bảo mật liên quan đến phần cứng, firmware và các cơ chế bảo vệ lõi của hệ điều hành.
+
+Khác với Virus & Threat Protection tập trung vào chống malware, Device Security tập trung nhiều hơn vào việc bảo vệ hệ thống ở mức thấp hơn, gần với phần cứng và quá trình khởi động.
+
+Device Security có thể bao gồm các thành phần như:
+
+- Core Isolation;
+- Memory Integrity;
+- Security Processor;
+- TPM;
+- Secure Boot;
+- các tính năng bảo mật dựa trên ảo hóa.
+
+Các tính năng này giúp bảo vệ Windows khỏi những kỹ thuật tấn công nâng cao, ví dụ như can thiệp vào bộ nhớ, tấn công vào quá trình khởi động hoặc cố gắng đánh cắp khóa mã hóa.
+
+Tùy vào phần cứng của máy tính, Device Security có thể hiển thị đầy đủ hoặc chỉ hiển thị một số mục nhất định. Nếu thiết bị không hỗ trợ TPM, Secure Boot hoặc tính năng ảo hóa, một số tùy chọn có thể không xuất hiện.
+
+
+## 22.2. Core Isolation
+
+**Core Isolation** là tính năng bảo mật dùng để cô lập các tiến trình và thành phần quan trọng của Windows khỏi phần còn lại của hệ thống.
+
+![](./img/22.2_core_isolation.png)
+
+Cơ chế này sử dụng công nghệ bảo mật dựa trên ảo hóa để tạo ra một vùng bảo vệ riêng cho các thành phần nhạy cảm. Nhờ đó, nếu một tiến trình độc hại chạy trên hệ thống, nó sẽ khó can thiệp trực tiếp vào các phần quan trọng của Windows hơn.
+
+Core Isolation giúp:
+
+- bảo vệ các tiến trình hệ thống quan trọng;
+- giảm nguy cơ mã độc can thiệp vào kernel;
+- tăng khả năng chống khai thác lỗ hổng;
+- hỗ trợ bảo vệ thông tin xác thực và dữ liệu nhạy cảm;
+- tăng cường bảo mật cho hệ điều hành.
+
+Trong môi trường doanh nghiệp, Core Isolation là một tính năng quan trọng vì nó giúp bảo vệ endpoint trước các kỹ thuật tấn công nâng cao.
+
+Tuy nhiên, tính năng này phụ thuộc vào phần cứng và driver. Nếu driver cũ hoặc không tương thích, Windows có thể không cho bật một số tính năng trong Core Isolation.
+
+
+## 22.3. Memory Integrity
+
+**Memory Integrity** là một tính năng nằm trong Core Isolation. Tính năng này giúp ngăn mã độc chèn hoặc thay đổi mã trong các tiến trình bảo mật cao của Windows.
+
+![](./img/22.3_memory_intefrity.png)
+
+Memory Integrity còn có thể được hiểu là một cơ chế bảo vệ tính toàn vẹn của bộ nhớ. Nó giúp đảm bảo rằng các thành phần quan trọng trong bộ nhớ không bị can thiệp trái phép.
+
+Memory Integrity có vai trò:
+
+- ngăn mã độc can thiệp vào vùng nhớ quan trọng;
+- giảm nguy cơ tấn công vào kernel;
+- bảo vệ hệ thống khỏi driver độc hại;
+- tăng mức độ an toàn cho Windows;
+- hỗ trợ chống lại một số kỹ thuật khai thác nâng cao.
+
+Nếu Memory Integrity bị tắt, hệ thống có thể mất đi một lớp bảo vệ quan trọng. Tuy nhiên, trong một số trường hợp, tính năng này có thể không bật được do driver không tương thích.
+
+Khi cấu hình Memory Integrity, cần chú ý:
+
+- nên bật nếu thiết bị hỗ trợ;
+- kiểm tra driver không tương thích nếu bật không thành công;
+- cập nhật driver từ nguồn chính thức;
+- không cài driver không rõ nguồn gốc;
+- không tắt tính năng này nếu không có lý do kỹ thuật rõ ràng.
+
+Từ góc độ bảo mật, Memory Integrity rất quan trọng vì nhiều tấn công nâng cao cố gắng can thiệp vào bộ nhớ hoặc kernel để tránh bị phát hiện.
+
+
+## 22.4. Security Processor
+
+**Security Processor** là phần trong Device Security liên quan đến bộ xử lý bảo mật của thiết bị, thường là TPM.
+
+Security Processor giúp Windows thực hiện các chức năng bảo mật phần cứng, đặc biệt là các chức năng liên quan đến lưu trữ khóa, mã hóa và xác minh tính toàn vẹn của hệ thống.
+
+Trong mục Security Processor, người dùng có thể xem các thông tin như:
+
+- thiết bị có TPM hay không;
+- phiên bản TPM;
+- trạng thái hoạt động của TPM;
+- thông tin nhà sản xuất;
+- trạng thái sẵn sàng của Security Processor;
+- tùy chọn xử lý sự cố liên quan đến TPM.
+
+Security Processor thường được sử dụng bởi các tính năng như:
+
+- BitLocker;
+- Windows Hello;
+- Secure Boot;
+- Credential Guard;
+- các cơ chế bảo vệ khóa mã hóa.
+
+Nếu Security Processor gặp lỗi, một số tính năng bảo mật của Windows có thể không hoạt động đúng. Ví dụ, BitLocker có thể yêu cầu khóa khôi phục hoặc Windows Hello có thể gặp vấn đề khi xác thực.
+
+
+## 22.5. TPM là gì?
+
+**TPM** là viết tắt của **Trusted Platform Module**. Đây là một thành phần bảo mật phần cứng dùng để lưu trữ và bảo vệ các khóa mã hóa, thông tin xác thực và dữ liệu nhạy cảm khác.
+
+TPM có thể tồn tại dưới dạng:
+
+- chip phần cứng riêng trên bo mạch chủ;
+- firmware TPM được tích hợp trong CPU hoặc nền tảng phần cứng.
+
+TPM không phải là nơi lưu trữ toàn bộ dữ liệu người dùng. Thay vào đó, nó chủ yếu được dùng để bảo vệ khóa và hỗ trợ các cơ chế xác thực an toàn.
+
+Một số chức năng phổ biến của TPM gồm:
+
+- lưu trữ khóa mã hóa;
+- hỗ trợ BitLocker;
+- hỗ trợ Secure Boot;
+- bảo vệ thông tin xác thực;
+- kiểm tra tính toàn vẹn của quá trình khởi động;
+- hỗ trợ Windows Hello;
+- giảm nguy cơ khóa mã hóa bị đánh cắp.
+
+Ví dụ, khi dùng BitLocker để mã hóa ổ đĩa, TPM có thể lưu trữ khóa bảo vệ và chỉ giải phóng khóa khi hệ thống khởi động trong trạng thái tin cậy.
+
+Trong các phiên bản Windows hiện đại, TPM là một thành phần rất quan trọng đối với bảo mật thiết bị.
 
 
 
