@@ -48,6 +48,8 @@
 
 23. [BitLocker](#23-bitlocker)
 
+24. [Volume Shadow Copy Service — VSS](#24-volume-shadow-copy-service--vss)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -6009,6 +6011,304 @@ Tuy nhiên, mã hóa ổ đĩa không thay thế các biện pháp bảo mật k
 - giám sát bảo mật.
 
 Tóm lại, BitLocker là công cụ quan trọng giúp bảo vệ dữ liệu ở cấp ổ đĩa. Đối với Windows trong môi trường doanh nghiệp, mã hóa ổ đĩa là một lớp phòng thủ cần thiết để giảm rủi ro rò rỉ dữ liệu khi thiết bị bị mất hoặc bị đánh cắp.
+
+
+# 24. Volume Shadow Copy Service — VSS
+
+## 24.1. VSS là gì?
+
+**VSS** là viết tắt của **Volume Shadow Copy Service**. Đây là một dịch vụ trong Windows dùng để tạo các bản sao tại một thời điểm cụ thể của dữ liệu trên ổ đĩa.
+
+![](./img/24.1_vss.png)
+
+Các bản sao này thường được gọi là:
+
+- Shadow Copy;
+- Volume Shadow Copy;
+- Snapshot;
+- bản sao bóng của ổ đĩa.
+
+VSS cho phép Windows hoặc phần mềm sao lưu tạo bản sao dữ liệu ngay cả khi một số tệp đang được sử dụng. Điều này rất quan trọng vì trong thực tế, nhiều tệp hệ thống, cơ sở dữ liệu hoặc tài liệu có thể đang mở trong lúc quá trình sao lưu diễn ra.
+
+Mục đích chính của VSS là hỗ trợ:
+
+- sao lưu dữ liệu;
+- tạo điểm khôi phục hệ thống;
+- khôi phục phiên bản cũ của tệp;
+- hỗ trợ phần mềm backup;
+- phục hồi hệ thống sau lỗi cấu hình hoặc lỗi phần mềm.
+
+Nói đơn giản, VSS giúp Windows tạo một “ảnh chụp” trạng thái dữ liệu tại một thời điểm nhất định để có thể dùng cho khôi phục hoặc sao lưu.
+
+
+## 24.2. Shadow Copy là gì?
+
+**Shadow Copy** là bản sao bóng của dữ liệu được tạo bởi Volume Shadow Copy Service.
+
+Shadow Copy không nhất thiết là một bản sao đầy đủ theo cách người dùng sao chép thủ công toàn bộ thư mục. Thay vào đó, nó lưu trạng thái của dữ liệu tại một thời điểm cụ thể để hỗ trợ khôi phục khi cần.
+
+Shadow Copy có thể được dùng để:
+
+- khôi phục tệp về phiên bản trước đó;
+- hỗ trợ System Restore;
+- hỗ trợ phần mềm backup;
+- giảm rủi ro mất dữ liệu khi có lỗi hệ thống;
+- phục hồi một số thay đổi không mong muốn.
+
+Ví dụ, nếu một tệp bị sửa nhầm hoặc bị xóa, trong một số trường hợp người dùng có thể khôi phục phiên bản trước của tệp nếu Shadow Copy còn tồn tại.
+
+Tuy nhiên, Shadow Copy không nên được xem là phương án backup duy nhất. Nếu ổ đĩa bị hỏng, máy bị ransomware hoặc Shadow Copies bị xóa, người dùng vẫn có thể mất dữ liệu.
+
+
+## 24.3. System Restore Point
+
+**System Restore Point** là điểm khôi phục hệ thống. Nó lưu lại trạng thái quan trọng của Windows tại một thời điểm nhất định.
+
+Restore Point thường bao gồm các thông tin như:
+
+- một số tệp hệ thống;
+- Registry;
+- driver;
+- cấu hình hệ thống;
+- một số thiết lập quan trọng của Windows.
+
+System Restore Point thường được tạo trước hoặc sau các thay đổi lớn, ví dụ:
+
+- cài đặt driver mới;
+- cài đặt phần mềm quan trọng;
+- cập nhật hệ thống;
+- thay đổi cấu hình Windows;
+- thao tác thử nghiệm có thể ảnh hưởng đến hệ thống.
+
+Khi hệ thống gặp lỗi sau một thay đổi, người dùng có thể sử dụng Restore Point để đưa Windows về trạng thái trước đó.
+
+Cần lưu ý rằng System Restore không phải là công cụ sao lưu dữ liệu cá nhân đầy đủ. Nó chủ yếu phục vụ việc khôi phục cấu hình hệ thống, không thay thế backup tài liệu cá nhân.
+
+
+## 24.4. System Volume Information
+
+**System Volume Information** là thư mục hệ thống đặc biệt trên mỗi ổ đĩa Windows.
+
+Thư mục này có thể chứa các dữ liệu liên quan đến:
+
+- Volume Shadow Copies;
+- System Restore Points;
+- thông tin chỉ mục hệ thống;
+- dữ liệu phục vụ khôi phục và bảo vệ hệ thống.
+
+Thông thường, người dùng không thể truy cập trực tiếp thư mục này bằng quyền thông thường. Windows bảo vệ thư mục này vì nó chứa dữ liệu hệ thống nhạy cảm.
+
+Đường dẫn thường gặp có dạng:
+
+```text
+C:\System Volume Information
+```
+
+Trên mỗi ổ đĩa có bật System Protection, Windows có thể tạo và lưu dữ liệu khôi phục trong thư mục System Volume Information.
+
+Không nên tự ý xóa hoặc chỉnh sửa thư mục này. Nếu cần xóa Restore Points hoặc quản lý dung lượng, nên thực hiện thông qua giao diện System Protection của Windows.
+
+## 24.5. Tạo điểm khôi phục
+
+Người dùng có thể tạo **Restore Point** thủ công trước khi thực hiện các thay đổi quan trọng trên hệ thống.
+
+Nên tạo điểm khôi phục trước khi:
+
+* cài driver mới;
+* cài phần mềm lạ;
+* thay đổi Registry;
+* chỉnh cấu hình hệ thống quan trọng;
+* thử nghiệm trong môi trường lab;
+* cập nhật phần mềm có rủi ro gây lỗi.
+
+Các bước tạo Restore Point:
+
+1. Mở **Start Menu**.
+2. Tìm kiếm:
+
+```text
+Create a restore point
+```
+
+3. Mở cửa sổ **System Properties**.
+4. Chọn tab **System Protection**.
+5. Chọn ổ đĩa hệ thống, thường là ổ `C:`.
+6. Nhấn **Create**.
+7. Đặt tên cho điểm khôi phục.
+8. Nhấn **Create** để bắt đầu.
+
+Ví dụ tên Restore Point có thể là:
+
+```text
+Before installing new driver
+```
+
+Đặt tên rõ ràng giúp người dùng dễ nhận biết lý do tạo điểm khôi phục khi cần phục hồi hệ thống sau này.
+
+## 24.6. Khôi phục hệ thống
+
+**System Restore** cho phép đưa hệ thống về trạng thái đã được lưu trong Restore Point trước đó.
+
+Tính năng này hữu ích khi Windows gặp lỗi sau khi:
+
+* cài đặt driver;
+* cài phần mềm;
+* cập nhật hệ thống;
+* thay đổi Registry;
+* chỉnh sai cấu hình;
+* hệ thống hoạt động không ổn định.
+
+Các bước khôi phục hệ thống:
+
+1. Mở **Start Menu**.
+2. Tìm kiếm:
+
+```text
+Create a restore point
+```
+
+3. Mở tab **System Protection**.
+4. Chọn **System Restore**.
+5. Chọn Restore Point phù hợp.
+6. Xác nhận quá trình khôi phục.
+7. Khởi động lại máy nếu Windows yêu cầu.
+
+Sau khi khôi phục, Windows sẽ quay lại trạng thái hệ thống tại thời điểm Restore Point được tạo.
+
+Cần lưu ý:
+
+* System Restore có thể gỡ bỏ một số phần mềm hoặc driver được cài sau thời điểm tạo Restore Point;
+* System Restore không phải là công cụ khôi phục toàn bộ dữ liệu cá nhân;
+* nên sao lưu dữ liệu quan trọng trước khi thực hiện khôi phục;
+* không nên tắt máy đột ngột trong quá trình System Restore.
+
+## 24.7. Cấu hình System Protection
+
+**System Protection** là tính năng quản lý Restore Points và Shadow Copies cho từng ổ đĩa.
+
+Trong System Protection, người dùng có thể:
+
+* bật hoặc tắt bảo vệ hệ thống cho ổ đĩa;
+* tạo Restore Point;
+* thực hiện System Restore;
+* cấu hình dung lượng dùng cho Restore Points;
+* xóa các Restore Points cũ.
+
+Các bước mở System Protection:
+
+1. Mở **Start Menu**.
+2. Tìm kiếm:
+
+```text
+Create a restore point
+```
+
+3. Chọn tab **System Protection**.
+
+Nếu System Protection chưa được bật, người dùng có thể chọn ổ đĩa và nhấn **Configure** để bật.
+
+Một số tùy chọn thường gặp:
+
+| Tùy chọn                  | Ý nghĩa                                     |
+| ------------------------- | ------------------------------------------- |
+| Turn on system protection | Bật bảo vệ hệ thống                         |
+| Disable system protection | Tắt bảo vệ hệ thống                         |
+| Max Usage                 | Giới hạn dung lượng dùng cho restore points |
+| Delete                    | Xóa các restore points hiện có              |
+
+Nếu dung lượng dành cho System Protection quá thấp, Windows có thể chỉ lưu được ít Restore Points. Nếu dung lượng quá cao, nó có thể chiếm nhiều không gian ổ đĩa.
+
+## 24.8. VSS trong sao lưu dữ liệu
+
+VSS có vai trò quan trọng trong quá trình sao lưu dữ liệu trên Windows.
+
+Khi phần mềm backup cần sao lưu dữ liệu, VSS có thể tạo snapshot để đảm bảo dữ liệu được sao lưu ở trạng thái nhất quán. Điều này đặc biệt quan trọng với các tệp đang được mở hoặc đang được hệ thống sử dụng.
+
+VSS thường được sử dụng bởi:
+
+* Windows Backup;
+* phần mềm backup của bên thứ ba;
+* phần mềm sao lưu máy chủ;
+* phần mềm sao lưu cơ sở dữ liệu;
+* hệ thống backup trong doanh nghiệp.
+
+Lợi ích của VSS trong backup:
+
+* sao lưu được tệp đang sử dụng;
+* tạo bản sao dữ liệu nhất quán;
+* giảm rủi ro backup bị lỗi;
+* hỗ trợ khôi phục phiên bản trước;
+* giúp quá trình sao lưu ít ảnh hưởng đến người dùng hơn.
+
+Ví dụ, nếu một file đang mở trong lúc backup, VSS có thể giúp phần mềm backup lấy bản snapshot ổn định thay vì cố sao chép trực tiếp file đang thay đổi.
+
+Tuy nhiên, VSS chỉ là một thành phần hỗ trợ backup. Nó không thay thế hoàn toàn chiến lược backup đầy đủ.
+
+## 24.9. VSS và rủi ro ransomware
+
+VSS có ý nghĩa bảo mật quan trọng, đặc biệt trong bối cảnh ransomware.
+
+Ransomware là loại malware mã hóa dữ liệu của nạn nhân và yêu cầu tiền chuộc. Vì Shadow Copies có thể được dùng để khôi phục dữ liệu, nhiều ransomware cố gắng xóa Shadow Copies trước hoặc sau khi mã hóa tệp.
+
+Nếu ransomware xóa được Shadow Copies, người dùng sẽ khó khôi phục dữ liệu bằng các công cụ có sẵn của Windows.
+
+Một số hành vi đáng nghi liên quan đến ransomware gồm:
+
+* xóa Shadow Copies;
+* tắt System Protection;
+* thay đổi cấu hình VSS;
+* chạy lệnh xóa restore points;
+* xóa dữ liệu trong System Volume Information;
+* vô hiệu hóa dịch vụ backup;
+* mã hóa nhiều tệp trong thời gian ngắn.
+
+Trong điều tra bảo mật, việc kiểm tra VSS có thể giúp xác định:
+
+* Shadow Copies có còn tồn tại không;
+* Restore Points có bị xóa bất thường không;
+* thời điểm Shadow Copies bị xóa;
+* tiến trình nào đã thực hiện thao tác đáng nghi;
+* có dấu hiệu ransomware hay không.
+
+Một số lệnh thường được ransomware lạm dụng trong thực tế có thể liên quan đến việc xóa shadow copies. Vì vậy, SOC cần chú ý các sự kiện hoặc cảnh báo liên quan đến thao tác này.
+
+VSS có thể hỗ trợ khôi phục, nhưng không nên phụ thuộc hoàn toàn vào VSS để chống ransomware.
+
+## 24.10. Ý nghĩa của backup ngoại tuyến
+
+**Backup ngoại tuyến** là bản sao lưu được lưu tách biệt khỏi hệ thống chính và không luôn kết nối trực tiếp với máy tính hoặc mạng nội bộ.
+
+Backup ngoại tuyến rất quan trọng vì ransomware có thể mã hóa hoặc xóa cả dữ liệu gốc lẫn các bản sao lưu đang kết nối với hệ thống.
+
+Ví dụ backup ngoại tuyến gồm:
+
+* ổ cứng ngoài chỉ cắm khi sao lưu;
+* bản sao lưu lưu ở vị trí vật lý khác;
+* backup trên hệ thống không truy cập trực tiếp từ máy người dùng;
+* bản sao lưu immutable;
+* bản sao lưu được cô lập khỏi mạng chính.
+
+Backup ngoại tuyến giúp bảo vệ dữ liệu trong các tình huống:
+
+* ransomware xóa Shadow Copies;
+* máy tính bị mã hóa toàn bộ;
+* tài khoản bị chiếm quyền;
+* ổ đĩa chính bị hỏng;
+* hệ thống backup online bị tấn công;
+* dữ liệu bị xóa nhầm hoặc phá hoại.
+
+Một nguyên tắc backup thường được nhắc đến là quy tắc **3-2-1**:
+
+| Thành phần                     | Ý nghĩa                                                  |
+| ------------------------------ | -------------------------------------------------------- |
+| 3 bản sao dữ liệu              | Có ít nhất 3 bản dữ liệu                                 |
+| 2 loại phương tiện lưu trữ     | Lưu trên ít nhất 2 loại thiết bị hoặc nền tảng khác nhau |
+| 1 bản sao ngoài hệ thống chính | Có ít nhất 1 bản sao ngoại tuyến hoặc ngoài vị trí chính |
+
+Từ góc độ bảo mật, backup ngoại tuyến là lớp phòng thủ cuối cùng khi các biện pháp bảo vệ khác thất bại.
+
+Tóm lại, VSS và Shadow Copies rất hữu ích trong khôi phục hệ thống và hỗ trợ backup. Tuy nhiên, trong bối cảnh ransomware, người dùng và doanh nghiệp không nên chỉ dựa vào VSS. Cần có chiến lược backup ngoại tuyến, kiểm tra khả năng khôi phục định kỳ và bảo vệ hệ thống backup khỏi truy cập trái phép.
+
 
 
 
