@@ -50,6 +50,8 @@
 
 24. [Volume Shadow Copy Service — VSS](#24-volume-shadow-copy-service--vss)
 
+25. [Tổng quan về Windows Domains](#25-tổng-quan-về-windows-domains)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -6308,6 +6310,227 @@ Một nguyên tắc backup thường được nhắc đến là quy tắc **3-2-
 Từ góc độ bảo mật, backup ngoại tuyến là lớp phòng thủ cuối cùng khi các biện pháp bảo vệ khác thất bại.
 
 Tóm lại, VSS và Shadow Copies rất hữu ích trong khôi phục hệ thống và hỗ trợ backup. Tuy nhiên, trong bối cảnh ransomware, người dùng và doanh nghiệp không nên chỉ dựa vào VSS. Cần có chiến lược backup ngoại tuyến, kiểm tra khả năng khôi phục định kỳ và bảo vệ hệ thống backup khỏi truy cập trái phép.
+
+
+# 25. Tổng quan về Windows Domains
+
+## 25.1. Windows Domain là gì?
+
+**Windows Domain** là một mô hình mạng trong đó người dùng, máy tính và tài nguyên được quản lý tập trung dưới sự kiểm soát của một tổ chức hoặc doanh nghiệp.
+
+Nói đơn giản, Windows Domain là một nhóm các máy tính và tài khoản người dùng được quản lý chung. Thay vì mỗi máy tính có danh sách tài khoản và cấu hình riêng, doanh nghiệp có thể quản lý tất cả thông qua một hệ thống trung tâm.
+
+Trong Windows Domain, các thành phần thường gặp gồm:
+
+- người dùng;
+- máy tính;
+- nhóm người dùng;
+- máy chủ;
+- máy in;
+- thư mục chia sẻ;
+- chính sách bảo mật;
+- tài nguyên mạng.
+
+Windows Domain giúp doanh nghiệp quản lý hệ thống Windows dễ dàng hơn, đặc biệt khi số lượng máy tính và người dùng tăng lên.
+
+Ví dụ, trong một công ty có 300 nhân viên và 150 máy tính, nếu không có domain, quản trị viên phải tạo tài khoản và cấu hình từng máy riêng lẻ. Điều này rất mất thời gian và khó kiểm soát. Khi sử dụng Windows Domain, các tài khoản và chính sách có thể được quản lý tập trung.
+
+
+## 25.2. Vì sao doanh nghiệp cần Windows Domain?
+
+Doanh nghiệp cần Windows Domain vì việc quản lý từng máy tính riêng lẻ không còn hiệu quả khi hệ thống phát triển lớn.
+
+Nếu doanh nghiệp chỉ có vài máy tính, quản trị viên có thể cấu hình thủ công từng máy. Tuy nhiên, khi có hàng trăm máy tính và người dùng ở nhiều phòng ban hoặc nhiều văn phòng khác nhau, cách quản lý thủ công sẽ gây nhiều vấn đề.
+
+Windows Domain giúp doanh nghiệp:
+
+- quản lý người dùng tập trung;
+- quản lý máy tính tập trung;
+- áp dụng chính sách bảo mật đồng nhất;
+- kiểm soát quyền truy cập tài nguyên;
+- đơn giản hóa quá trình đăng nhập;
+- giảm lỗi cấu hình thủ công;
+- dễ dàng thu hồi quyền khi nhân viên nghỉ việc;
+- hỗ trợ giám sát và điều tra bảo mật.
+
+Ví dụ, khi một nhân viên mới vào công ty, quản trị viên chỉ cần tạo tài khoản trong domain. Nhân viên đó có thể đăng nhập vào các máy tính được phép sử dụng và truy cập tài nguyên theo quyền được cấp.
+
+Ngược lại, khi nhân viên nghỉ việc, quản trị viên chỉ cần vô hiệu hóa tài khoản domain. Khi đó, người này sẽ không thể đăng nhập vào hệ thống hoặc truy cập tài nguyên doanh nghiệp nữa.
+
+
+## 25.3. Quản lý tập trung người dùng và máy tính
+
+Một lợi ích quan trọng của Windows Domain là khả năng quản lý tập trung người dùng và máy tính.
+
+Trong môi trường không có domain, tài khoản người dùng thường được tạo cục bộ trên từng máy. Điều này gây khó khăn khi cần thay đổi mật khẩu, cấp quyền hoặc thu hồi quyền truy cập.
+
+Trong môi trường domain, thông tin người dùng được lưu trữ tập trung trong Active Directory. Người dùng có thể dùng một tài khoản domain để đăng nhập vào nhiều máy tính khác nhau trong mạng doanh nghiệp.
+
+Quản lý tập trung giúp quản trị viên thực hiện các công việc như:
+
+- tạo tài khoản người dùng mới;
+- đặt lại mật khẩu;
+- vô hiệu hóa tài khoản;
+- phân quyền theo nhóm;
+- quản lý máy tính tham gia domain;
+- kiểm tra tài khoản nào thuộc nhóm nào;
+- quản lý tài nguyên theo phòng ban hoặc vai trò.
+
+Ví dụ, thay vì tạo tài khoản `nguyen.van.a` trên từng máy, quản trị viên chỉ cần tạo một tài khoản domain. Sau đó, tài khoản này có thể được sử dụng trong toàn bộ hệ thống domain theo quyền được cấp.
+
+Điều này giúp tiết kiệm thời gian, giảm sai sót và tăng khả năng kiểm soát hệ thống.
+
+
+## 25.4. Quản lý chính sách bảo mật tập trung
+
+Windows Domain cho phép doanh nghiệp quản lý chính sách bảo mật tập trung thông qua Active Directory và Group Policy.
+
+Thay vì cấu hình từng máy riêng lẻ, quản trị viên có thể tạo chính sách và áp dụng cho nhiều người dùng hoặc máy tính cùng lúc.
+
+Một số chính sách bảo mật thường được quản lý tập trung gồm:
+
+- độ dài tối thiểu của mật khẩu;
+- thời gian hết hạn mật khẩu;
+- khóa tài khoản sau nhiều lần đăng nhập sai;
+- hạn chế truy cập Control Panel;
+- cấu hình Windows Firewall;
+- cấu hình Windows Update;
+- chặn thiết bị USB;
+- cấu hình màn hình khóa;
+- triển khai script đăng nhập;
+- giới hạn quyền của người dùng.
+
+Ví dụ, doanh nghiệp có thể đặt chính sách yêu cầu mật khẩu tối thiểu 10 ký tự cho toàn bộ người dùng trong domain. Khi chính sách được áp dụng, tất cả tài khoản thuộc phạm vi đó phải tuân thủ quy định này.
+
+Từ góc độ bảo mật, quản lý chính sách tập trung giúp đảm bảo hệ thống có cấu hình đồng nhất và giảm rủi ro do người dùng hoặc quản trị viên cấu hình sai trên từng máy riêng lẻ.
+
+
+## 25.5. Active Directory trong Windows Domain
+
+**Active Directory** là thành phần trung tâm của Windows Domain. Đây là nơi lưu trữ và quản lý thông tin về các đối tượng trong mạng doanh nghiệp.
+
+Các đối tượng trong Active Directory có thể bao gồm:
+
+- người dùng;
+- máy tính;
+- nhóm;
+- máy in;
+- thư mục chia sẻ;
+- tài khoản dịch vụ;
+- đơn vị tổ chức;
+- chính sách.
+
+Active Directory giúp domain hoạt động như một hệ thống quản lý tập trung. Khi người dùng đăng nhập bằng tài khoản domain, hệ thống sẽ kiểm tra thông tin xác thực trong Active Directory.
+
+Active Directory cũng cho phép quản trị viên tổ chức tài nguyên theo cấu trúc rõ ràng. Ví dụ, có thể chia người dùng và máy tính theo phòng ban như:
+
+- IT;
+- HR;
+- Accounting;
+- Sales;
+- Security;
+- Students;
+- Servers;
+- Workstations.
+
+Trong môi trường doanh nghiệp, Active Directory không chỉ là nơi lưu tài khoản. Nó còn là nền tảng cho xác thực, phân quyền, chính sách bảo mật và quản lý tài nguyên.
+
+
+## 25.6. Domain Controller là gì?
+
+**Domain Controller**, viết tắt là **DC**, là máy chủ chịu trách nhiệm vận hành dịch vụ Active Directory trong Windows Domain.
+
+Domain Controller lưu trữ cơ sở dữ liệu Active Directory và xử lý các yêu cầu xác thực của người dùng, máy tính trong domain.
+
+Khi người dùng đăng nhập bằng tài khoản domain, máy tính sẽ gửi yêu cầu xác thực đến Domain Controller. Domain Controller kiểm tra thông tin đăng nhập và quyết định người dùng có được phép đăng nhập hay không.
+
+Domain Controller thường đảm nhiệm các nhiệm vụ như:
+
+- xác thực người dùng;
+- xác thực máy tính;
+- lưu trữ dữ liệu Active Directory;
+- xử lý đăng nhập domain;
+- áp dụng Group Policy;
+- quản lý quyền truy cập;
+- đồng bộ thông tin trong domain.
+
+Trong doanh nghiệp, Domain Controller là thành phần rất quan trọng. Nếu Domain Controller gặp lỗi, người dùng có thể gặp khó khăn khi đăng nhập hoặc truy cập tài nguyên domain.
+
+Vì vậy, doanh nghiệp thường triển khai nhiều Domain Controller để tăng tính sẵn sàng và giảm rủi ro gián đoạn hệ thống.
+
+
+## 25.7. Ví dụ thực tế về Windows Domain
+
+Một ví dụ dễ hiểu về Windows Domain là hệ thống máy tính trong trường học, đại học hoặc công ty.
+
+Ví dụ, trong một trường đại học, sinh viên được cấp một tài khoản như:
+
+```text
+student01
+```
+
+Sinh viên có thể dùng tài khoản này để đăng nhập vào nhiều máy tính khác nhau trong phòng lab. Thông tin tài khoản không cần được tạo riêng trên từng máy, vì quá trình xác thực được thực hiện thông qua Active Directory.
+
+Khi sinh viên nhập username và password, máy tính sẽ gửi thông tin này đến Domain Controller để kiểm tra. Nếu thông tin hợp lệ, sinh viên được đăng nhập vào máy.
+
+Ngoài đăng nhập, domain còn có thể áp dụng các chính sách như:
+
+* không cho sinh viên truy cập Control Panel;
+* không cho cài phần mềm;
+* giới hạn quyền Administrator;
+* tự động kết nối máy in;
+* ánh xạ thư mục mạng;
+* áp dụng cấu hình bảo mật chung.
+
+Trong công ty, Windows Domain cũng hoạt động tương tự. Nhân viên có thể dùng tài khoản domain để đăng nhập vào máy tính công ty và truy cập tài nguyên như file server, printer, email hoặc ứng dụng nội bộ.
+
+### 25.8. Đăng nhập miền bằng tài khoản domain
+
+Khi máy tính đã tham gia Windows Domain, người dùng có thể đăng nhập bằng tài khoản domain thay vì tài khoản cục bộ.
+
+Tài khoản domain thường có dạng:
+
+```text
+DOMAIN\username
+```
+
+Ví dụ:
+
+```text
+COMPANY\nguyen.van.a
+```
+
+Hoặc có thể dùng dạng giống địa chỉ email:
+
+```text
+username@domain.local
+```
+
+Ví dụ:
+
+```text
+nguyen.van.a@company.local
+```
+
+Khi người dùng đăng nhập bằng tài khoản domain, quá trình cơ bản diễn ra như sau:
+
+1. Người dùng nhập username và password.
+2. Máy tính gửi yêu cầu xác thực đến Domain Controller.
+3. Domain Controller kiểm tra thông tin trong Active Directory.
+4. Nếu thông tin đúng, người dùng được đăng nhập.
+5. Chính sách bảo mật và quyền truy cập được áp dụng theo tài khoản đó.
+
+Đăng nhập bằng tài khoản domain có nhiều lợi ích:
+
+* dùng một tài khoản cho nhiều máy trong doanh nghiệp;
+* dễ quản lý mật khẩu;
+* dễ thu hồi quyền;
+* áp dụng chính sách bảo mật tập trung;
+* kiểm soát quyền truy cập tài nguyên;
+* hỗ trợ ghi log và điều tra bảo mật.
+
+
+
 
 
 
