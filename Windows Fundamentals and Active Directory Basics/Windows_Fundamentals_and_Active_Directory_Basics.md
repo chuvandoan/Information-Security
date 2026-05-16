@@ -14,6 +14,9 @@
 
 6. [User Account Control — UAC](#6-user-account-control--uac)
 
+7. [Settings và Control Panel](#7-settings-và-control-panel)
+
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -1257,9 +1260,7 @@ Biểu tượng lá chắn giúp người dùng nhận biết trước rằng h�
 
 Nếu một tệp lạ hoặc phần mềm không rõ nguồn gốc có biểu tượng lá chắn và yêu cầu quyền Administrator, người dùng cần kiểm tra cẩn thận trước khi cho phép chạy.
 
-
-
-### 6.6. UAC Prompt
+## 6.6. UAC Prompt
 
 **UAC Prompt** là hộp thoại xác nhận xuất hiện khi một chương trình hoặc tác vụ cần quyền cao.
 
@@ -1316,13 +1317,13 @@ Ngoài ra, có thể mở nhanh bằng lệnh:
 
 ```text
 UserAccountControlSettings.exe
-````
+```
 
 Trong cửa sổ UAC Settings, Windows hiển thị một thanh trượt cho phép thay đổi mức độ thông báo. Khi di chuyển thanh trượt, Windows sẽ mô tả ý nghĩa của từng mức.
 
 Về mặt bảo mật, nên giữ UAC ở mức mặc định hoặc mức cao hơn. Chỉ nên thay đổi cài đặt này nếu hiểu rõ ảnh hưởng của nó đến hệ thống.
 
-### 6.9. Rủi ro khi tắt UAC
+## 6.9. Rủi ro khi tắt UAC
 
 Tắt UAC có thể làm hệ thống dễ bị tấn công hơn. Khi UAC bị tắt hoặc cấu hình quá thấp, các chương trình có thể thực hiện thay đổi quan trọng mà không cần người dùng xác nhận rõ ràng.
 
@@ -1338,5 +1339,291 @@ Một số rủi ro khi tắt UAC gồm:
 Trong môi trường doanh nghiệp, việc tắt UAC có thể làm tăng rủi ro bị tấn công, đặc biệt nếu người dùng thường xuyên mở email, tải tệp từ Internet hoặc chạy phần mềm từ nguồn không rõ ràng.
 
 Từ góc độ an toàn thông tin, UAC không phải là cơ chế bảo vệ tuyệt đối, nhưng nó là một lớp phòng thủ quan trọng. Vì vậy, không nên tắt UAC trừ khi có yêu cầu kỹ thuật đặc biệt và đã có biện pháp kiểm soát thay thế phù hợp.
+
+# 7. Settings và Control Panel
+
+## 7.1. Windows Settings
+
+**Windows Settings** là ứng dụng cài đặt hiện đại của Windows, được Microsoft thiết kế để người dùng dễ dàng thay đổi các thiết lập cơ bản của hệ điều hành.
+
+![](./img/7.1_windows_settings.png)
+
+Thông qua Windows Settings, người dùng có thể cấu hình nhiều thành phần như:
+
+- hệ thống hiển thị;
+- âm thanh;
+- thiết bị;
+- mạng và Internet;
+- tài khoản người dùng;
+- cá nhân hóa giao diện;
+- cập nhật Windows;
+- quyền riêng tư;
+- bảo mật hệ thống.
+
+Windows Settings có giao diện đơn giản, trực quan và phù hợp với người dùng phổ thông. Trong các phiên bản Windows mới như Windows 10 và Windows 11, Microsoft dần chuyển nhiều chức năng từ Control Panel sang Settings.
+
+Một số mục thường gặp trong Windows Settings gồm:
+
+| Nhóm thiết lập | Chức năng chính |
+|---|---|
+| System | Cài đặt màn hình, âm thanh, thông báo, nguồn điện |
+| Devices | Quản lý Bluetooth, máy in, chuột, bàn phím |
+| Network & Internet | Cấu hình Wi-Fi, Ethernet, VPN, proxy |
+| Personalization | Thay đổi hình nền, màu sắc, theme, Taskbar |
+| Apps | Quản lý ứng dụng đã cài đặt |
+| Accounts | Quản lý tài khoản người dùng |
+| Time & Language | Cấu hình ngày giờ, ngôn ngữ, bàn phím |
+| Update & Security | Windows Update, Recovery, Windows Security |
+
+Windows Settings thường được sử dụng cho các thao tác cấu hình cơ bản và nhanh chóng.
+
+
+## 7.2. Control Panel
+
+**Control Panel** là công cụ cấu hình truyền thống của Windows. Đây là nơi tập trung nhiều thiết lập hệ thống quan trọng, đặc biệt là các thiết lập nâng cao và các công cụ quản trị cũ.
+
+![](./img/7.2_control_panel.png)
+
+Control Panel đã tồn tại trong Windows từ lâu và vẫn được giữ lại trong các phiên bản Windows hiện đại vì nhiều tính năng chưa được chuyển hoàn toàn sang Windows Settings.
+
+Thông qua Control Panel, người dùng có thể cấu hình:
+
+- hệ thống và bảo mật;
+- mạng và Internet;
+- phần cứng và âm thanh;
+- chương trình;
+- tài khoản người dùng;
+- giao diện;
+- đồng hồ và khu vực;
+- công cụ trợ năng.
+
+Control Panel thường được sử dụng khi cần truy cập các thiết lập chi tiết hơn, ví dụ như cấu hình adapter mạng, mở Windows Defender Firewall, quản lý thiết bị, gỡ chương trình hoặc thay đổi một số thiết lập hệ thống nâng cao.
+
+Trong quản trị Windows, Control Panel vẫn là công cụ quan trọng vì nhiều hướng dẫn kỹ thuật và công cụ hệ thống vẫn liên quan đến giao diện này.
+
+
+## 7.3. Sự khác nhau giữa Settings và Control Panel
+
+Windows Settings và Control Panel đều dùng để thay đổi cấu hình hệ thống, nhưng chúng khác nhau về giao diện, mục đích sử dụng và mức độ chi tiết.
+
+| Tiêu chí | Windows Settings | Control Panel |
+|---|---|---|
+| Giao diện | Hiện đại, đơn giản | Truyền thống, nhiều mục chi tiết |
+| Đối tượng phù hợp | Người dùng phổ thông | Người dùng nâng cao, quản trị viên |
+| Mức độ thiết lập | Các cài đặt phổ biến | Nhiều cài đặt nâng cao |
+| Xu hướng phát triển | Được Microsoft ưu tiên trong Windows mới | Dần được thay thế nhưng vẫn còn quan trọng |
+| Ví dụ sử dụng | Đổi hình nền, cấu hình Wi-Fi, Windows Update | Cấu hình adapter mạng, firewall nâng cao, chương trình cũ |
+
+Windows Settings phù hợp khi cần thay đổi nhanh các thiết lập thường dùng. Control Panel phù hợp hơn khi cần truy cập các cấu hình truyền thống hoặc các công cụ quản trị chi tiết.
+
+Trong thực tế, người dùng Windows nên biết sử dụng cả hai vì có những thiết lập chỉ dễ tìm trong Settings, nhưng cũng có những thiết lập vẫn cần mở Control Panel.
+
+
+### 7.4. Cách mở Settings
+
+Có nhiều cách để mở Windows Settings.
+
+Cách nhanh nhất là sử dụng tổ hợp phím:
+
+```text
+Win + I
+```
+
+Ngoài ra, có thể mở Settings bằng các cách sau:
+
+1. Nhấn nút **Start**.
+2. Chọn biểu tượng **Settings** hình bánh răng.
+
+Hoặc:
+
+1. Nhấn **Start**.
+2. Gõ từ khóa `Settings`.
+3. Chọn ứng dụng **Settings**.
+
+Cũng có thể mở Settings bằng cách nhấp chuột phải vào một số khu vực của giao diện Windows. Ví dụ:
+
+* nhấp chuột phải trên Desktop rồi chọn **Display settings**;
+* nhấp chuột phải trên Desktop rồi chọn **Personalize**;
+* nhấp chuột phải vào biểu tượng mạng rồi chọn **Network & Internet settings**.
+
+Windows Settings thường được dùng khi cần truy cập nhanh các thiết lập cơ bản của hệ thống.
+
+## 7.5. Cách mở Control Panel
+
+Có nhiều cách để mở Control Panel trong Windows.
+
+Cách phổ biến nhất là dùng Start Menu:
+
+1. Nhấn **Start**.
+2. Nhập từ khóa:
+
+```text
+Control Panel
+```
+
+3. Chọn **Control Panel** trong kết quả tìm kiếm.
+
+Cách khác là dùng hộp thoại Run:
+
+1. Nhấn tổ hợp phím:
+
+```text
+Win + R
+```
+
+2. Nhập lệnh:
+
+```text
+control
+```
+
+3. Nhấn **Enter**.
+
+Ngoài ra, có thể mở Control Panel từ Command Prompt hoặc PowerShell bằng lệnh:
+
+```text
+control
+```
+
+Khi Control Panel mở ra, người dùng có thể chọn chế độ hiển thị theo **Category**, **Large icons** hoặc **Small icons**. Chế độ **Small icons** thường hữu ích hơn cho người học quản trị hệ thống vì nó hiển thị nhiều công cụ trực tiếp hơn.
+
+## 7.6. Các nhóm thiết lập trong Control Panel
+
+Control Panel chia các thiết lập thành nhiều nhóm khác nhau. Mỗi nhóm chứa các công cụ liên quan đến một lĩnh vực cấu hình của Windows.
+
+Các nhóm thiết lập thường gặp gồm:
+
+| Nhóm thiết lập                 | Chức năng chính                                       |
+| ------------------------------ | ----------------------------------------------------- |
+| System and Security            | Bảo mật, Windows Defender Firewall, hệ thống, sao lưu |
+| Network and Internet           | Cấu hình mạng, chia sẻ, adapter mạng                  |
+| Hardware and Sound             | Thiết bị, máy in, âm thanh, nguồn điện                |
+| Programs                       | Gỡ cài đặt chương trình, bật/tắt tính năng Windows    |
+| User Accounts                  | Quản lý tài khoản người dùng                          |
+| Appearance and Personalization | Giao diện, File Explorer Options, font                |
+| Clock and Region               | Ngày giờ, khu vực, định dạng ngôn ngữ                 |
+| Ease of Access                 | Công cụ hỗ trợ truy cập                               |
+
+Trong chế độ **Small icons**, Control Panel có thể hiển thị trực tiếp nhiều công cụ như:
+
+* Administrative Tools;
+* BitLocker Drive Encryption;
+* Device Manager;
+* File Explorer Options;
+* Internet Options;
+* Network and Sharing Center;
+* Programs and Features;
+* System;
+* Windows Defender Firewall.
+
+Một điểm cần chú ý là **Windows Defender Firewall** thường nằm trong Control Panel và có thể được mở nhanh khi cần cấu hình tường lửa của Windows.
+
+## 7.7. Network & Internet Settings
+
+**Network & Internet Settings** là phần cài đặt mạng trong Windows Settings. Đây là nơi người dùng có thể xem và cấu hình trạng thái kết nối mạng của máy tính.
+
+Trong Network & Internet Settings, người dùng có thể kiểm tra:
+
+* trạng thái kết nối mạng;
+* kết nối Ethernet;
+* kết nối Wi-Fi;
+* VPN;
+* Proxy;
+* dữ liệu sử dụng;
+* thiết lập chia sẻ mạng;
+* các tùy chọn mạng nâng cao.
+
+Ví dụ, khi máy tính không truy cập được Internet, người dùng có thể mở Network & Internet Settings để kiểm tra máy đang kết nối qua Wi-Fi hay Ethernet, có nhận địa chỉ IP hay không, hoặc có đang dùng proxy/VPN không.
+
+Đối với người học an toàn thông tin, phần này rất quan trọng vì cấu hình mạng ảnh hưởng trực tiếp đến khả năng kết nối, giám sát, phân tích log và xử lý sự cố.
+
+Một số tình huống thường cần mở Network & Internet Settings gồm:
+
+* kiểm tra trạng thái mạng;
+* thay đổi mạng Wi-Fi;
+* cấu hình VPN;
+* kiểm tra proxy;
+* mở phần cấu hình adapter mạng;
+* xử lý lỗi mất kết nối Internet.
+
+## 7.8. Change Adapter Options
+
+**Change Adapter Options** là mục dùng để mở danh sách các card mạng trên Windows. Từ đây, người dùng có thể xem và cấu hình các adapter mạng như Ethernet, Wi-Fi, VPN hoặc adapter ảo.
+
+Để mở Change Adapter Options:
+
+1. Mở **Settings**.
+2. Chọn **Network & Internet**.
+3. Chọn **Change adapter options** hoặc **Advanced network settings** tùy phiên bản Windows.
+
+![](./img/7.8_change_adapter.png)
+
+Trong cửa sổ Network Connections, người dùng có thể:
+
+* bật hoặc tắt adapter mạng;
+* xem trạng thái kết nối;
+* đổi tên adapter;
+* mở Properties của adapter;
+* cấu hình IPv4 hoặc IPv6;
+* kiểm tra DNS;
+* cấu hình gateway;
+* kiểm tra thông tin kết nối mạng.
+
+Ví dụ, để cấu hình địa chỉ IP tĩnh, người dùng có thể:
+
+1. Nhấp chuột phải vào adapter mạng.
+2. Chọn **Properties**.
+3. Chọn **Internet Protocol Version 4 (TCP/IPv4)**.
+4. Nhấn **Properties**.
+5. Nhập địa chỉ IP, subnet mask, default gateway và DNS server.
+
+![](./img/7.8_example.png)
+
+Trong môi trường lab an toàn thông tin, Change Adapter Options rất hay được sử dụng để cấu hình địa chỉ IP cho máy ảo, card mạng Host-only, NAT hoặc mạng nội bộ.
+
+## 7.9. Khi nào nên dùng Settings?
+
+Nên dùng Windows Settings khi cần thực hiện các thao tác cấu hình cơ bản, nhanh và phổ biến.
+
+Một số trường hợp nên dùng Settings gồm:
+
+* thay đổi hình nền;
+* thay đổi độ phân giải màn hình;
+* cấu hình Wi-Fi;
+* kiểm tra trạng thái mạng;
+* thêm thiết bị Bluetooth;
+* quản lý ứng dụng;
+* kiểm tra Windows Update;
+* cấu hình tài khoản người dùng cơ bản;
+* thay đổi ngôn ngữ và thời gian;
+* mở Windows Security.
+
+Windows Settings phù hợp với người dùng phổ thông vì giao diện rõ ràng, dễ tìm kiếm và dễ thao tác. Trong Windows 10 và Windows 11, nhiều chức năng mới được Microsoft ưu tiên đưa vào Settings.
+
+Đối với người học cơ bản, nên bắt đầu từ Settings trước vì đây là giao diện đơn giản hơn. Sau đó, khi cần cấu hình sâu hơn, có thể chuyển sang Control Panel hoặc các công cụ quản trị khác.
+
+## 7.10. Khi nào nên dùng Control Panel?
+
+Nên dùng Control Panel khi cần truy cập các thiết lập truyền thống, thiết lập nâng cao hoặc các công cụ quản trị chưa được chuyển hoàn toàn sang Settings.
+
+Một số trường hợp nên dùng Control Panel gồm:
+
+* cấu hình Windows Defender Firewall;
+* mở Network and Sharing Center;
+* thay đổi thiết lập adapter mạng chi tiết;
+* gỡ chương trình bằng Programs and Features;
+* cấu hình Power Options nâng cao;
+* mở Device Manager;
+* cấu hình BitLocker;
+* truy cập Administrative Tools;
+* thay đổi File Explorer Options;
+* cấu hình một số thiết lập hệ thống cũ.
+
+Control Panel đặc biệt hữu ích với quản trị viên hệ thống, người học Windows nâng cao và người làm an toàn thông tin. Nhiều hướng dẫn kỹ thuật, bài lab và công cụ quản trị vẫn sử dụng Control Panel.
+
+Tóm lại, có thể hiểu đơn giản như sau:
+
+* dùng **Settings** cho các cài đặt cơ bản, nhanh và hiện đại;
+* dùng **Control Panel** cho các cài đặt chi tiết, truyền thống và nâng cao.
 
 
