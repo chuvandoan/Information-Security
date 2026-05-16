@@ -57,6 +57,9 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 
 ## [Section 2: Windows Fundamentals and Active Directory Basics](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md)
 
+>Phần này trình bày các kiến thức nền tảng về hệ điều hành Windows và Active Directory, bao gồm giao diện hệ thống, quản lý tệp, tài khoản người dùng, công cụ quản trị, cơ chế bảo mật, Windows Logs, Group Policy và các phương thức xác thực trong môi trường Windows Domain. Nội dung giúp người học xây dựng nền tảng cần thiết để quản trị, giám sát và phân tích bảo mật trên hệ thống Windows. 
+
+
 | STT | Nội dung chính | Mô tả |
 |---|---|---|
 | 1 | [Tổng quan về hệ điều hành Windows](/Windows_Fundamentals_and_Active_Directory_Basics/Windows_Fundamentals_and_Active_Directory_Basics.md#1-tổng-quan-về-hệ-điều-hành-windows) | Giới thiệu khái niệm Windows, vai trò của Windows trong máy tính cá nhân, doanh nghiệp và an toàn thông tin. |
