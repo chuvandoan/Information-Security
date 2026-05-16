@@ -18,6 +18,8 @@
 
 8. [Task Manager](#8-task-manager)
 
+9. [System Configuration — MSConfig](#9-system-configuration--msconfig)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -1694,7 +1696,7 @@ Khi mở Task Manager lần đầu, Windows có thể hiển thị ở dạng đ
 
 Nếu muốn xem thông tin chi tiết hơn, người dùng có thể nhấn **More details**.
 
-![](./img/8.3_task_manager_simple_view.png)
+![](./img/8.3_task_manager_more_details.png)
 
 Sau khi chuyển sang chế độ chi tiết, Task Manager sẽ hiển thị nhiều tab hơn, ví dụ:
 
@@ -1822,6 +1824,233 @@ Trong an toàn thông tin, Task Manager cũng có giá trị nhất định. Nó
 Tuy nhiên, Task Manager chỉ là công cụ kiểm tra cơ bản. Trong điều tra bảo mật chuyên sâu, cần kết hợp thêm các công cụ khác như Event Viewer, Resource Monitor, Sysinternals Process Explorer, Windows Defender, EDR hoặc SIEM.
 
 Tóm lại, Task Manager là công cụ đầu tiên nên kiểm tra khi Windows bị chậm, ứng dụng bị treo hoặc hệ thống có dấu hiệu hoạt động bất thường.
+
+
+# 9. System Configuration — MSConfig
+
+## 9.1. System Configuration là gì?
+
+**System Configuration**, thường được gọi là **MSConfig**, là một công cụ quản trị trong Windows dùng để kiểm tra và thay đổi một số thiết lập liên quan đến quá trình khởi động hệ thống, dịch vụ và công cụ chẩn đoán.
+
+MSConfig thường được sử dụng khi cần khắc phục sự cố Windows, đặc biệt trong các trường hợp máy tính khởi động chậm, dịch vụ gây lỗi hoặc phần mềm nào đó ảnh hưởng đến quá trình hoạt động của hệ thống.
+
+Công cụ này cho phép người dùng quản lý một số thành phần như:
+
+- chế độ khởi động của Windows;
+- các dịch vụ đang được bật hoặc tắt;
+- tùy chọn khởi động hệ điều hành;
+- danh sách công cụ quản trị hệ thống;
+- liên kết đến một số tiện ích chẩn đoán khác.
+
+MSConfig không phải là công cụ dùng cho công việc hằng ngày, mà thường được dùng khi cần kiểm tra, phân tích hoặc xử lý lỗi hệ thống.
+
+
+## 9.2. Cách mở MSConfig
+
+Có nhiều cách để mở công cụ System Configuration trong Windows.
+
+Cách phổ biến nhất là sử dụng hộp thoại Run:
+
+1. Nhấn tổ hợp phím:
+
+```text
+Win + R
+````
+
+2. Nhập lệnh:
+
+```text
+msconfig
+```
+
+3. Nhấn **Enter**.
+
+Ngoài ra, có thể mở MSConfig bằng Start Menu:
+
+1. Nhấn **Start**.
+2. Gõ từ khóa:
+
+```text
+System Configuration
+```
+
+3. Chọn ứng dụng **System Configuration**.
+
+Sau khi mở, cửa sổ System Configuration sẽ hiển thị các tab chính như:
+
+* General;
+* Boot;
+* Services;
+* Startup;
+* Tools.
+
+Mỗi tab có chức năng riêng và hỗ trợ người dùng kiểm tra các thành phần khác nhau của hệ thống.
+
+## 9.3. Tab General
+
+Tab **General** trong MSConfig cho phép người dùng chọn chế độ khởi động của Windows.
+
+![](./img/9.3_tab_general.png)
+
+Các chế độ thường gặp gồm:
+
+| Chế độ             | Ý nghĩa                                                                  |
+| ------------------ | ------------------------------------------------------------------------ |
+| Normal startup     | Khởi động Windows bình thường với đầy đủ driver, dịch vụ và chương trình |
+| Diagnostic startup | Chỉ tải các thiết bị và dịch vụ cơ bản                                   |
+| Selective startup  | Cho phép chọn một số thành phần sẽ được tải khi khởi động                |
+
+**Normal startup** là chế độ mặc định. Khi chọn chế độ này, Windows sẽ khởi động đầy đủ các dịch vụ, driver và chương trình như bình thường.
+
+**Diagnostic startup** thường được dùng để kiểm tra lỗi. Khi bật chế độ này, Windows chỉ tải các thành phần cơ bản nhất, giúp xác định xem lỗi có đến từ dịch vụ hoặc chương trình bên thứ ba hay không.
+
+**Selective startup** cho phép người dùng tùy chỉnh các thành phần được tải khi Windows khởi động. Đây là lựa chọn hữu ích khi cần cô lập nguyên nhân gây lỗi nhưng vẫn muốn giữ lại một số dịch vụ cần thiết.
+
+Tab General thường là nơi bắt đầu khi người dùng muốn kiểm tra sự cố liên quan đến quá trình khởi động.
+
+## 9.4. Tab Boot
+
+Tab **Boot** dùng để cấu hình các tùy chọn liên quan đến quá trình khởi động hệ điều hành Windows.
+
+![](./img/9.4_tab_boot.png)
+
+Trong tab này, người dùng có thể xem hệ điều hành đang được cấu hình để khởi động và thay đổi một số tùy chọn nâng cao.
+
+Một số tùy chọn thường gặp trong tab Boot gồm:
+
+| Tùy chọn            | Ý nghĩa                                   |
+| ------------------- | ----------------------------------------- |
+| Safe boot           | Khởi động Windows ở chế độ an toàn        |
+| Minimal             | Chế độ Safe Mode cơ bản                   |
+| Alternate shell     | Safe Mode với Command Prompt              |
+| Network             | Safe Mode có hỗ trợ mạng                  |
+| No GUI boot         | Không hiển thị giao diện khởi động đồ họa |
+| Boot log            | Ghi log quá trình khởi động               |
+| Base video          | Khởi động với driver đồ họa cơ bản        |
+| OS boot information | Hiển thị thông tin driver khi khởi động   |
+
+**Safe boot** là tùy chọn quan trọng khi cần khởi động Windows trong chế độ an toàn để sửa lỗi, gỡ phần mềm hoặc kiểm tra driver.
+
+Ví dụ, nếu Windows bị lỗi sau khi cài một driver mới, người dùng có thể dùng Safe Mode để vào hệ thống và gỡ driver đó.
+
+Tuy nhiên, cần cẩn thận khi thay đổi thiết lập trong tab Boot. Nếu cấu hình sai, Windows có thể khởi động không đúng như mong muốn.
+
+## 9.5. Tab Services
+
+Tab **Services** hiển thị danh sách các dịch vụ trên Windows. Dịch vụ là các chương trình chạy nền để cung cấp chức năng cho hệ điều hành hoặc ứng dụng.
+
+![](./img/9.5_tab_services.png)
+
+Trong tab Services, người dùng có thể:
+
+* xem danh sách dịch vụ;
+* kiểm tra dịch vụ đang bật hoặc bị tắt;
+* bật hoặc tắt dịch vụ khi khởi động;
+* ẩn các dịch vụ của Microsoft;
+* kiểm tra dịch vụ bên thứ ba.
+
+Một tùy chọn quan trọng trong tab này là:
+
+```text
+Hide all Microsoft services
+```
+
+Tùy chọn này giúp ẩn các dịch vụ hệ thống của Microsoft, chỉ hiển thị các dịch vụ của phần mềm bên thứ ba. Đây là cách hữu ích để kiểm tra xem phần mềm bên ngoài có gây lỗi cho Windows hay không.
+
+Ví dụ, nếu máy tính khởi động chậm hoặc thường xuyên bị lỗi, người dùng có thể tạm thời tắt các dịch vụ không thuộc Microsoft để kiểm tra nguyên nhân.
+
+Tuy nhiên, không nên tắt dịch vụ tùy tiện nếu không hiểu chức năng của chúng. Một số dịch vụ có thể liên quan đến phần mềm bảo mật, driver hoặc ứng dụng quan trọng.
+
+## 9.6. Tab Startup
+
+Tab **Startup** từng được dùng để quản lý các chương trình khởi động cùng Windows. Tuy nhiên, trong các phiên bản Windows hiện đại, chức năng quản lý Startup đã được chuyển sang **Task Manager**.
+
+![](./img/9.6_task_startup.png)
+
+Khi mở tab Startup trong MSConfig, Windows thường hiển thị liên kết để mở Task Manager.
+
+Để quản lý chương trình khởi động cùng Windows, người dùng có thể:
+
+1. Mở **Task Manager**.
+2. Chọn tab **Startup**.
+3. Xem danh sách ứng dụng khởi động cùng hệ thống.
+4. Chọn ứng dụng không cần thiết.
+5. Nhấn **Disable** để tắt khởi động cùng Windows.
+
+Việc quản lý Startup rất quan trọng vì nhiều chương trình tự động chạy khi Windows khởi động có thể làm máy tính chậm hơn.
+
+Từ góc độ bảo mật, danh sách Startup cũng cần được kiểm tra vì một số mã độc có thể cấu hình để tự chạy khi người dùng đăng nhập vào Windows.
+
+## 9.7. Tab Tools
+
+Tab **Tools** trong MSConfig cung cấp danh sách các công cụ quản trị và chẩn đoán của Windows.
+
+![](./img/9.7_tab_tools.png)
+
+Từ tab này, người dùng có thể chọn một công cụ và nhấn **Launch** để mở nhanh công cụ đó.
+
+Một số công cụ thường có trong tab Tools gồm:
+
+* About Windows;
+* Change UAC Settings;
+* Security and Maintenance;
+* Windows Troubleshooting;
+* Computer Management;
+* System Information;
+* Event Viewer;
+* Programs;
+* System Properties;
+* Internet Options;
+* Internet Protocol Configuration;
+* Performance Monitor;
+* Resource Monitor;
+* Task Manager;
+* Command Prompt;
+* Registry Editor.
+
+Tab Tools rất hữu ích vì nó tập hợp nhiều công cụ quan trọng ở một nơi. Thay vì phải nhớ từng lệnh riêng, người dùng có thể mở MSConfig và chọn công cụ cần dùng.
+
+Trong tab Tools, MSConfig cho phép mở nhanh nhiều công cụ quản trị quan trọng của Windows.
+
+Một số công cụ thường dùng gồm:
+
+| Công cụ             | Chức năng chính                                          |
+| ------------------- | -------------------------------------------------------- |
+| Change UAC Settings | Thay đổi cài đặt User Account Control                    |
+| Computer Management | Quản lý hệ thống, ổ đĩa, người dùng, dịch vụ             |
+| System Information  | Xem thông tin phần cứng, phần mềm và môi trường hệ thống |
+| Event Viewer        | Xem nhật ký sự kiện Windows                              |
+| System Properties   | Xem và thay đổi thuộc tính hệ thống                      |
+| Internet Options    | Cấu hình các tùy chọn Internet truyền thống              |
+| IP Configuration    | Xem thông tin cấu hình mạng                              |
+| Performance Monitor | Theo dõi hiệu suất hệ thống                              |
+| Resource Monitor    | Theo dõi CPU, RAM, Disk và Network chi tiết              |
+| Task Manager        | Quản lý tiến trình và ứng dụng đang chạy                 |
+| Command Prompt      | Mở giao diện dòng lệnh                                   |
+| Registry Editor     | Xem và chỉnh sửa Windows Registry                        |
+
+Các công cụ này thường phục vụ cho quản trị, kiểm tra trạng thái hệ thống, xử lý sự cố và phân tích bảo mật.
+
+## 9.8. Vai trò của MSConfig trong khắc phục sự cố
+
+MSConfig có vai trò quan trọng trong quá trình khắc phục sự cố Windows. Công cụ này giúp người dùng kiểm tra xem lỗi có liên quan đến dịch vụ, chương trình khởi động hoặc cấu hình khởi động hay không.
+
+MSConfig thường được sử dụng trong các tình huống như:
+
+* Windows khởi động chậm;
+* hệ thống bị lỗi sau khi cài phần mềm;
+* nghi ngờ dịch vụ bên thứ ba gây xung đột;
+* cần khởi động vào Safe Mode;
+* cần tắt tạm thời một số dịch vụ để kiểm tra lỗi;
+* cần mở nhanh các công cụ chẩn đoán hệ thống.
+
+Ví dụ, nếu Windows hoạt động bình thường sau khi tắt các dịch vụ bên thứ ba, có thể suy đoán rằng một dịch vụ hoặc phần mềm ngoài Microsoft đang gây ra sự cố.
+
+Trong an toàn thông tin, MSConfig cũng có thể hỗ trợ kiểm tra một số dấu hiệu bất thường, chẳng hạn như dịch vụ lạ, chương trình khởi động đáng nghi hoặc cấu hình hệ thống bị thay đổi.
+
+Tuy nhiên, MSConfig chỉ là công cụ hỗ trợ ban đầu. Khi cần điều tra sâu hơn, nên kết hợp với Task Manager, Event Viewer, Services, Autoruns, Registry Editor và các công cụ bảo mật khác.
+
+
 
 
 
