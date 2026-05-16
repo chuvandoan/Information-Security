@@ -28,6 +28,8 @@
 
 13. [System Information](#13-system-information)
 
+14. [Resource Monitor](#14-resource-monitor)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -3303,6 +3305,291 @@ Trong quản trị và xử lý sự cố, tìm kiếm trong System Information 
 * chương trình khởi động;
 * dịch vụ;
 * thiết bị có vấn đề.
+
+# 14. Resource Monitor
+
+## 14.1. Resource Monitor là gì?
+
+**Resource Monitor** là công cụ trong Windows dùng để theo dõi chi tiết việc sử dụng tài nguyên hệ thống theo thời gian thực.
+
+Công cụ này cho phép người dùng quan sát các thành phần chính của hệ thống như:
+
+- CPU;
+- Memory;
+- Disk;
+- Network.
+
+So với Task Manager, Resource Monitor cung cấp thông tin chi tiết hơn về từng tiến trình và mức độ sử dụng tài nguyên của chúng. Vì vậy, công cụ này rất hữu ích khi cần phân tích nguyên nhân máy tính bị chậm, ứng dụng bị treo, ổ đĩa hoạt động bất thường hoặc mạng có lưu lượng đáng nghi.
+
+Resource Monitor thường được sử dụng trong các tình huống như:
+
+- kiểm tra tiến trình sử dụng nhiều CPU;
+- xác định chương trình chiếm nhiều RAM;
+- theo dõi tiến trình đang đọc/ghi ổ đĩa;
+- kiểm tra kết nối mạng của từng tiến trình;
+- phát hiện hoạt động bất thường trên hệ thống;
+- hỗ trợ xử lý sự cố hiệu suất.
+
+
+## 14.2. Cách mở `resmon.exe`
+
+Có nhiều cách để mở Resource Monitor trong Windows.
+
+Cách phổ biến nhất là sử dụng hộp thoại Run:
+
+1. Nhấn tổ hợp phím:
+
+```text
+Win + R
+````
+
+2. Nhập lệnh:
+
+```text
+resmon.exe
+```
+
+3. Nhấn **Enter**.
+
+Ngoài ra, có thể mở bằng Start Menu:
+
+1. Nhấn **Start**.
+2. Gõ từ khóa:
+
+```text
+Resource Monitor
+```
+
+3. Chọn ứng dụng **Resource Monitor**.
+
+Cũng có thể mở Resource Monitor từ Task Manager:
+
+1. Mở **Task Manager**.
+2. Chọn tab **Performance**.
+3. Chọn **Open Resource Monitor**.
+
+Sau khi mở, Resource Monitor sẽ hiển thị các tab chính gồm:
+
+* Overview;
+* CPU;
+* Memory;
+* Disk;
+* Network.
+
+## 14.3. Overview
+
+Tab **Overview** cung cấp cái nhìn tổng quan về tình trạng sử dụng tài nguyên của hệ thống.
+
+![](./img/14.3_overview_resmon.png)
+
+Trong tab này, người dùng có thể xem nhanh hoạt động của:
+
+* CPU;
+* Disk;
+* Network;
+* Memory.
+
+Overview giúp người dùng nhanh chóng xác định tài nguyên nào đang có dấu hiệu bất thường. Ví dụ, nếu máy tính bị chậm, có thể mở Overview để xem CPU, RAM, Disk hay Network đang bị sử dụng nhiều nhất.
+
+Tab Overview thường hiển thị danh sách các tiến trình đang hoạt động cùng với mức độ sử dụng tài nguyên của chúng. Điều này giúp người dùng có cái nhìn ban đầu trước khi chuyển sang các tab chi tiết hơn.
+
+Ví dụ:
+
+* nếu CPU cao, chuyển sang tab **CPU**;
+* nếu RAM gần đầy, chuyển sang tab **Memory**;
+* nếu ổ đĩa hoạt động liên tục, chuyển sang tab **Disk**;
+* nếu có lưu lượng mạng bất thường, chuyển sang tab **Network**.
+
+Overview là nơi phù hợp để bắt đầu quá trình phân tích hiệu suất hệ thống.
+
+## 14.4. CPU Monitoring
+
+Tab **CPU** trong Resource Monitor cho phép theo dõi chi tiết hoạt động của bộ xử lý và các tiến trình đang sử dụng CPU.
+
+![](./img/14.4_cpu_monitoring.png)
+
+Trong tab này, người dùng có thể xem:
+
+* tiến trình nào đang sử dụng CPU;
+* mức sử dụng CPU của từng tiến trình;
+* số luồng đang chạy;
+* dịch vụ liên quan đến tiến trình;
+* module hoặc handle liên quan.
+
+Thông tin CPU rất hữu ích khi máy tính bị chậm, quạt chạy mạnh hoặc hệ thống phản hồi kém.
+
+Ví dụ, nếu một tiến trình sử dụng CPU ở mức cao trong thời gian dài, có thể tiến trình đó đang xử lý tác vụ nặng, bị lỗi hoặc có hành vi bất thường.
+
+Một số tình huống cần kiểm tra CPU gồm:
+
+* máy tính chạy chậm;
+* ứng dụng không phản hồi;
+* CPU luôn gần 100%;
+* tiến trình lạ sử dụng nhiều CPU;
+* dịch vụ nền gây quá tải hệ thống.
+
+Trong điều tra bảo mật, tiến trình sử dụng CPU bất thường cũng có thể là dấu hiệu của mã độc, script đào tiền ảo hoặc chương trình chạy nền không mong muốn.
+
+## 14.5. Memory Monitoring
+
+Tab **Memory** dùng để theo dõi việc sử dụng bộ nhớ RAM của hệ thống.
+
+![](./img/14.5_memory_monitoring.png)
+
+Trong tab này, người dùng có thể xem:
+
+* tiến trình nào đang sử dụng nhiều RAM;
+* tổng lượng RAM đang được sử dụng;
+* lượng RAM còn trống;
+* bộ nhớ đang ở trạng thái Standby;
+* bộ nhớ bị chiếm bởi tiến trình cụ thể;
+* tình trạng paging nếu hệ thống thiếu RAM.
+
+Memory Monitoring rất quan trọng vì khi RAM bị sử dụng quá nhiều, Windows có thể phải dùng bộ nhớ ảo trên ổ đĩa. Điều này làm hệ thống chậm hơn đáng kể.
+
+Một số dấu hiệu cần kiểm tra trong tab Memory gồm:
+
+* RAM gần đầy;
+* một tiến trình chiếm RAM bất thường;
+* ứng dụng tăng RAM liên tục theo thời gian;
+* hệ thống bị chậm khi mở nhiều chương trình;
+* máy thường xuyên bị treo hoặc phản hồi chậm.
+
+Trong xử lý sự cố, tab Memory giúp xác định ứng dụng nào đang gây thiếu bộ nhớ. Trong một số trường hợp, tiến trình sử dụng RAM tăng liên tục có thể là dấu hiệu của memory leak.
+
+Từ góc độ bảo mật, tiến trình lạ sử dụng nhiều RAM cũng cần được kiểm tra, đặc biệt nếu nó không có tên rõ ràng hoặc chạy từ đường dẫn bất thường.
+
+## 14.6. Disk Monitoring
+
+Tab **Disk** cho phép theo dõi hoạt động đọc và ghi dữ liệu trên ổ đĩa.
+
+![](./img/14.6_disk_monitoring.png)
+
+Trong tab này, người dùng có thể xem:
+
+* tiến trình nào đang đọc/ghi dữ liệu;
+* tệp nào đang được truy cập;
+* tốc độ đọc dữ liệu;
+* tốc độ ghi dữ liệu;
+* thời gian phản hồi của ổ đĩa;
+* mức độ hoạt động của từng ổ đĩa.
+
+Disk Monitoring rất hữu ích khi máy tính bị chậm do ổ đĩa hoạt động liên tục. Trong nhiều trường hợp, Disk sử dụng cao có thể làm toàn bộ hệ thống phản hồi chậm, dù CPU và RAM không quá tải.
+
+Một số tình huống cần kiểm tra Disk gồm:
+
+* ổ đĩa luôn hoạt động ở mức cao;
+* máy chậm khi mở ứng dụng;
+* hệ thống khởi động lâu;
+* phần mềm ghi dữ liệu liên tục;
+* nghi ngờ có tiến trình đang đọc nhiều tệp;
+* nghi ngờ mã độc đang mã hóa hoặc sao chép dữ liệu.
+
+Trong an toàn thông tin, Disk Monitoring có thể hỗ trợ phát hiện hành vi bất thường như:
+
+* tiến trình đọc nhiều tệp trong thời gian ngắn;
+* ghi dữ liệu vào thư mục lạ;
+* truy cập nhiều tệp người dùng;
+* hoạt động giống ransomware;
+* tạo hoặc sửa nhiều tệp bất thường.
+
+## 14.7. Network Monitoring
+
+Tab **Network** cho phép theo dõi hoạt động mạng của hệ thống theo từng tiến trình.
+
+![](./img/14.7_network_monitoring.png)
+
+Trong tab này, người dùng có thể xem:
+
+* tiến trình nào đang sử dụng mạng;
+* địa chỉ IP từ xa đang kết nối;
+* cổng mạng đang sử dụng;
+* lưu lượng gửi và nhận;
+* kết nối TCP đang mở;
+* cổng đang lắng nghe.
+
+Network Monitoring rất hữu ích khi cần kiểm tra ứng dụng nào đang truy cập Internet hoặc kết nối đến máy chủ bên ngoài.
+
+Một số tình huống cần kiểm tra Network gồm:
+
+* mạng chậm bất thường;
+* có lưu lượng mạng cao dù người dùng không làm gì;
+* tiến trình lạ kết nối ra ngoài;
+* ứng dụng kết nối đến IP không rõ;
+* nghi ngờ máy bị mã độc điều khiển từ xa;
+* cần kiểm tra chương trình nào đang mở cổng lắng nghe.
+
+Trong điều tra bảo mật, tab Network rất quan trọng vì nhiều mã độc cần kết nối ra ngoài để nhận lệnh, gửi dữ liệu hoặc tải thêm payload.
+
+Khi phát hiện một tiến trình lạ có kết nối mạng, cần kiểm tra thêm:
+
+* tên tiến trình;
+* đường dẫn file thực thi;
+* địa chỉ IP từ xa;
+* cổng kết nối;
+* thời điểm kết nối;
+* tài khoản đang chạy tiến trình.
+
+## 14.8. Phân tích tiến trình bằng Resource Monitor
+
+Resource Monitor cho phép phân tích tiến trình chi tiết hơn so với Task Manager.
+
+Khi kiểm tra một tiến trình, người dùng có thể xem tiến trình đó đang sử dụng tài nguyên nào, ví dụ:
+
+* dùng bao nhiêu CPU;
+* chiếm bao nhiêu RAM;
+* đang đọc hoặc ghi tệp nào;
+* đang kết nối đến địa chỉ IP nào;
+* đang sử dụng dịch vụ hoặc handle nào.
+
+Quy trình phân tích cơ bản có thể thực hiện như sau:
+
+1. Mở **Resource Monitor**.
+2. Vào tab **Overview** để xác định tài nguyên bị sử dụng nhiều.
+3. Chuyển sang tab tương ứng: **CPU**, **Memory**, **Disk** hoặc **Network**.
+4. Tìm tiến trình có mức sử dụng bất thường.
+5. Kiểm tra tên tiến trình, PID và tài nguyên đang sử dụng.
+6. Nếu cần, đối chiếu với Task Manager, Event Viewer hoặc công cụ bảo mật khác.
+
+Một số dấu hiệu tiến trình đáng nghi gồm:
+
+* tên tiến trình lạ;
+* chạy từ thư mục `Temp`, `AppData` hoặc `Downloads`;
+* sử dụng CPU cao bất thường;
+* đọc/ghi nhiều tệp trong thời gian ngắn;
+* kết nối đến IP lạ;
+* không có mô tả rõ ràng;
+* chạy dưới quyền người dùng không phù hợp.
+
+Resource Monitor không thay thế các công cụ điều tra chuyên sâu, nhưng nó rất hữu ích trong bước kiểm tra ban đầu.
+
+## 14.9. Ứng dụng Resource Monitor trong xử lý sự cố
+
+Resource Monitor là công cụ rất hữu ích trong xử lý sự cố Windows, đặc biệt là các sự cố liên quan đến hiệu suất và tài nguyên hệ thống.
+
+Một số ứng dụng phổ biến gồm:
+
+* xác định nguyên nhân máy tính chạy chậm;
+* kiểm tra tiến trình sử dụng CPU cao;
+* phát hiện ứng dụng chiếm nhiều RAM;
+* kiểm tra ổ đĩa bị quá tải;
+* xác định chương trình đang sử dụng mạng;
+* kiểm tra kết nối TCP đáng nghi;
+* hỗ trợ phân tích tiến trình bất thường;
+* hỗ trợ điều tra ban đầu khi nghi ngờ mã độc.
+
+Ví dụ, nếu người dùng báo rằng máy tính rất chậm, quản trị viên có thể mở Resource Monitor để kiểm tra:
+
+* CPU có bị sử dụng quá cao không;
+* RAM có gần đầy không;
+* Disk có hoạt động liên tục không;
+* Network có lưu lượng bất thường không.
+
+Nếu phát hiện một tiến trình chiếm nhiều tài nguyên, cần kiểm tra thêm tiến trình đó là gì, nằm ở đâu và có hợp pháp hay không.
+
+Trong SOC, Resource Monitor có thể hỗ trợ phân tích nhanh trên máy cục bộ. Tuy nhiên, để điều tra đầy đủ, cần kết hợp thêm các nguồn dữ liệu khác như Event Viewer, Sysmon, Windows Defender, EDR, firewall logs và SIEM.
+
+Tóm lại, Resource Monitor là công cụ quan trọng giúp người học Windows hiểu hệ thống đang sử dụng tài nguyên như thế nào và hỗ trợ phát hiện các dấu hiệu bất thường ban đầu.
 
 
 
