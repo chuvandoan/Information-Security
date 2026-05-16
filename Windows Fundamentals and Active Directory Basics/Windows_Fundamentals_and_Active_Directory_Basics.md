@@ -74,6 +74,8 @@
 
 36. [Trees, Forests và Trusts](#36-trees-forests-và-trusts)
 
+37. [ Công cụ quản trị Windows cần nhớ](#37-công-cụ-quản-trị-windows-cần-nhớ)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -10523,7 +10525,26 @@ Từ góc độ SOC, cần chú ý các dấu hiệu như:
 
 Tóm lại, Trees, Forests và Trusts giúp Active Directory mở rộng và tổ chức nhiều domain trong môi trường doanh nghiệp. Tree dùng cho các domain chung namespace, Forest dùng cho nhiều tree, còn Trust Relationship cho phép xác thực giữa các domain hoặc forest. Tuy nhiên, trust chỉ tạo điều kiện xác thực, còn quyền truy cập tài nguyên vẫn phải được cấp riêng và cần được kiểm soát chặt chẽ.
 
+# 37. Công cụ quản trị Windows cần nhớ
 
+| STT | Công cụ | Lệnh mở | Chức năng chính | Ý nghĩa trong quản trị và bảo mật |
+|---|---|---|---|---|
+| 1 | Control Panel | `control.exe` | Mở bảng điều khiển cấu hình truyền thống của Windows | Dùng để cấu hình hệ thống, mạng, tài khoản, chương trình và một số thiết lập bảo mật |
+| 2 | Task Manager | `taskmgr.exe` | Theo dõi tiến trình, ứng dụng và tài nguyên hệ thống | Kiểm tra tiến trình lạ, ứng dụng treo, CPU/RAM/Disk/Network bất thường |
+| 3 | System Configuration | `msconfig.exe` | Cấu hình chế độ khởi động, dịch vụ và công cụ hệ thống | Hữu ích khi xử lý lỗi khởi động, dịch vụ gây lỗi hoặc nghi ngờ chương trình chạy cùng hệ thống |
+| 4 | Computer Management | `compmgmt.msc` | Bảng quản trị tổng hợp nhiều công cụ Windows | Quản lý user cục bộ, shared folders, disk, services, event logs và thiết bị |
+| 5 | Event Viewer | `eventvwr.msc` | Xem nhật ký sự kiện của Windows | Rất quan trọng trong SOC để điều tra đăng nhập, lỗi hệ thống, thay đổi tài khoản và hành vi bất thường |
+| 6 | Performance Monitor | `perfmon.exe` | Theo dõi hiệu năng hệ thống bằng performance counters | Phân tích hiệu suất dài hạn, phát hiện quá tải CPU, RAM, Disk hoặc Network |
+| 7 | Device Manager | `devmgmt.msc` | Quản lý thiết bị phần cứng và driver | Kiểm tra driver lỗi, thiết bị lạ, card mạng, USB hoặc phần cứng không hoạt động |
+| 8 | Disk Management | `diskmgmt.msc` | Quản lý ổ đĩa, phân vùng và volume | Kiểm tra ổ đĩa, phân vùng lạ, USB, drive letter và trạng thái lưu trữ |
+| 9 | Services | `services.msc` | Quản lý các dịch vụ chạy nền trong Windows | Kiểm tra service lạ, service bị dừng, startup type và dịch vụ có đường dẫn bất thường |
+| 10 | System Information | `msinfo32.exe` | Xem thông tin chi tiết về hệ thống | Thu thập thông tin OS, phần cứng, BIOS, RAM, driver, biến môi trường và cấu hình máy |
+| 11 | Resource Monitor | `resmon.exe` | Theo dõi chi tiết CPU, Memory, Disk và Network | Phát hiện tiến trình dùng tài nguyên bất thường hoặc kết nối đến địa chỉ IP lạ |
+| 12 | Command Prompt | `cmd.exe` | Giao diện dòng lệnh truyền thống của Windows | Chạy lệnh kiểm tra hệ thống, mạng, user, group, kết nối và xử lý sự cố nhanh |
+| 13 | Registry Editor | `regedit.exe` | Xem và chỉnh sửa Windows Registry | Kiểm tra persistence, startup key, service cấu hình lạ và thay đổi chính sách hệ thống |
+| 14 | Windows Defender Firewall with Advanced Security | `WF.msc` | Cấu hình firewall nâng cao | Quản lý inbound/outbound rules, kiểm soát cổng, chương trình, địa chỉ IP và profile mạng |
+| 15 | Local Users and Groups | `lusrmgr.msc` | Quản lý user và group cục bộ | Kiểm tra tài khoản cục bộ, nhóm Administrators, Remote Desktop Users và tài khoản lạ |
+| 16 | Group Policy Management | `gpmc.msc` | Quản lý Group Policy trong domain | Tạo, chỉnh sửa, liên kết và kiểm tra GPO trong Active Directory |
 
 
 
