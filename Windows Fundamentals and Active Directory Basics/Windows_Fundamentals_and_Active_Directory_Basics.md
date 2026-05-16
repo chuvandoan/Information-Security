@@ -66,6 +66,8 @@
 
 32. [Triển khai chính sách bảo mật bằng GPO](#32-triển-khai-chính-sách-bảo-mật-bằng-gpo)
 
+33. [Phương thức xác thực trong Windows Domain](#32-triển-khai-chính-sách-bảo-mật-bằng-gpo)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -9318,6 +9320,284 @@ Một số rủi ro cần chú ý:
 
 Tóm lại, triển khai chính sách bảo mật bằng GPO giúp doanh nghiệp kiểm soát cấu hình Windows theo cách tập trung. Các chính sách như chặn Control Panel, khóa màn hình tự động và cấu hình bảo mật máy trạm/máy chủ cần được triển khai đúng OU, kiểm tra hiệu lực và giám sát thường xuyên.
 
+
+# 33. Phương thức xác thực trong Windows Domain
+
+## 33.1. Xác thực trong môi trường domain
+
+Trong môi trường **Windows Domain**, xác thực là quá trình kiểm tra danh tính của người dùng hoặc máy tính trước khi cho phép truy cập vào hệ thống và tài nguyên mạng.
+
+Khi người dùng đăng nhập bằng tài khoản domain, hệ thống cần xác minh rằng:
+
+- username có tồn tại trong domain hay không;
+- mật khẩu hoặc thông tin xác thực có đúng không;
+- tài khoản có bị khóa hoặc bị vô hiệu hóa không;
+- người dùng có được phép đăng nhập không;
+- tài khoản có quyền truy cập tài nguyên hay không.
+
+Ví dụ, khi người dùng đăng nhập bằng tài khoản:
+
+```text
+COMPANY\user01
+```
+
+máy tính sẽ không chỉ kiểm tra tài khoản cục bộ trên máy. Thay vào đó, nó sẽ liên hệ với **Domain Controller** để xác thực tài khoản trong Active Directory.
+
+Trong Windows Domain, hai cơ chế xác thực quan trọng thường gặp là:
+
+* Kerberos;
+* NetNTLM.
+
+Trong các hệ thống Windows hiện đại, **Kerberos** là giao thức xác thực mặc định khi máy tính tham gia domain. **NetNTLM** vẫn tồn tại chủ yếu để tương thích với hệ thống cũ hoặc trong các trường hợp Kerberos không thể sử dụng.
+
+## 33.2. Vai trò của Domain Controller trong xác thực
+
+**Domain Controller**, viết tắt là **DC**, là máy chủ chịu trách nhiệm xử lý xác thực trong Windows Domain.
+
+Domain Controller lưu trữ dữ liệu Active Directory và xử lý các yêu cầu liên quan đến:
+
+* đăng nhập domain;
+* xác thực người dùng;
+* xác thực máy tính;
+* cấp ticket trong Kerberos;
+* kiểm tra quyền truy cập;
+* áp dụng chính sách domain.
+
+Khi người dùng đăng nhập vào máy tính domain, quá trình cơ bản diễn ra như sau:
+
+1. Người dùng nhập username và password.
+2. Máy tính gửi yêu cầu xác thực đến Domain Controller.
+3. Domain Controller kiểm tra thông tin tài khoản trong Active Directory.
+4. Nếu thông tin hợp lệ, người dùng được xác thực.
+5. Người dùng có thể truy cập tài nguyên theo quyền được cấp.
+
+Trong Kerberos, Domain Controller còn đóng vai trò là **Key Distribution Center — KDC**. KDC chịu trách nhiệm cấp các loại vé xác thực cho người dùng và dịch vụ.
+
+Nếu Domain Controller không hoạt động hoặc máy client không liên hệ được với DC, người dùng có thể gặp khó khăn khi đăng nhập hoặc truy cập tài nguyên domain.
+
+## 33.3. Kerberos
+
+**Kerberos** là giao thức xác thực mặc định trong môi trường Windows Domain hiện đại.
+
+Kerberos hoạt động dựa trên cơ chế **ticket-based authentication**, tức là xác thực bằng vé. Thay vì gửi mật khẩu trực tiếp qua mạng, Kerberos sử dụng các ticket để chứng minh danh tính của người dùng hoặc máy tính.
+
+Các thành phần quan trọng trong Kerberos gồm:
+
+| Thành phần  | Ý nghĩa                                                     |
+| ----------- | ----------------------------------------------------------- |
+| KDC         | Key Distribution Center, thường chạy trên Domain Controller |
+| AS          | Authentication Service, cấp TGT ban đầu                     |
+| TGS         | Ticket Granting Service, cấp ticket truy cập dịch vụ        |
+| TGT         | Ticket Granting Ticket, vé dùng để xin ticket dịch vụ       |
+| TGS Ticket  | Vé dùng để truy cập một dịch vụ cụ thể                      |
+| SPN         | Service Principal Name, định danh dịch vụ trong domain      |
+| Session Key | Khóa phiên dùng trong quá trình giao tiếp an toàn           |
+
+Quy trình Kerberos đơn giản có thể hiểu như sau:
+
+1. Người dùng đăng nhập vào domain.
+2. Máy client yêu cầu KDC cấp **TGT**.
+3. Nếu thông tin hợp lệ, KDC cấp TGT cho người dùng.
+4. Khi người dùng muốn truy cập dịch vụ, client dùng TGT để xin **TGS Ticket**.
+5. Client gửi TGS Ticket đến dịch vụ cần truy cập.
+6. Dịch vụ kiểm tra ticket và cho phép truy cập nếu hợp lệ.
+
+Ưu điểm của Kerberos:
+
+* không gửi mật khẩu trực tiếp qua mạng;
+* sử dụng ticket thay cho xác thực lặp lại bằng mật khẩu;
+* hỗ trợ xác thực mạnh hơn NetNTLM;
+* phù hợp với môi trường domain hiện đại;
+* có hiệu suất tốt hơn trong nhiều trường hợp;
+* hỗ trợ xác thực giữa người dùng và dịch vụ.
+
+Kerberos là nền tảng quan trọng trong xác thực Active Directory.
+
+## 33.4. NetNTLM
+
+**NetNTLM** là cơ chế xác thực cũ hơn trong Windows, dựa trên mô hình **challenge-response**.
+
+Trong NetNTLM, máy chủ gửi một giá trị thử thách gọi là **challenge** cho client. Client dùng thông tin mật khẩu của người dùng để tính toán phản hồi gọi là **response**, sau đó gửi response về máy chủ để xác thực.
+
+Điểm quan trọng là mật khẩu thực không được gửi trực tiếp qua mạng. Tuy nhiên, NetNTLM vẫn có nhiều hạn chế bảo mật so với Kerberos.
+
+Quy trình NetNTLM đơn giản:
+
+1. Người dùng cố gắng truy cập tài nguyên.
+2. Máy chủ gửi challenge cho client.
+3. Client tạo response dựa trên challenge và thông tin xác thực.
+4. Máy chủ hoặc Domain Controller kiểm tra response.
+5. Nếu response hợp lệ, người dùng được xác thực.
+
+NetNTLM thường xuất hiện trong các tình huống:
+
+* hệ thống cũ không hỗ trợ Kerberos;
+* máy tính không thuộc domain;
+* truy cập tài nguyên bằng địa chỉ IP thay vì hostname;
+* cấu hình SPN không đúng;
+* không liên hệ được Domain Controller;
+* ứng dụng hoặc dịch vụ chỉ hỗ trợ NTLM.
+
+NetNTLM vẫn còn tồn tại để hỗ trợ tương thích ngược, nhưng không nên được ưu tiên trong môi trường doanh nghiệp hiện đại.
+
+## 33.5. So sánh Kerberos và NetNTLM
+
+Kerberos và NetNTLM đều được dùng cho xác thực trong Windows, nhưng cơ chế hoạt động và mức độ bảo mật khác nhau.
+
+| Tiêu chí                                 | Kerberos         | NetNTLM                      |
+| ---------------------------------------- | ---------------- | ---------------------------- |
+| Cơ chế xác thực                          | Ticket-based     | Challenge-response           |
+| Giao thức mặc định trong domain hiện đại | Có               | Không                        |
+| Cần Domain Controller                    | Có               | Có với tài khoản domain      |
+| Vai trò của DC                           | KDC cấp ticket   | Kiểm tra response            |
+| Gửi mật khẩu qua mạng                    | Không            | Không gửi mật khẩu trực tiếp |
+| Mức độ bảo mật                           | Cao hơn          | Thấp hơn                     |
+| Hỗ trợ môi trường hiện đại               | Tốt              | Chủ yếu để tương thích cũ    |
+| Phụ thuộc SPN/DNS                        | Có               | Ít phụ thuộc hơn             |
+| Rủi ro relay                             | Thấp hơn         | Cao hơn                      |
+| Rủi ro Pass-the-Hash                     | Ít trực tiếp hơn | Đáng chú ý hơn               |
+
+Nói ngắn gọn:
+
+* **Kerberos** phù hợp với môi trường domain hiện đại, an toàn hơn và được dùng mặc định.
+* **NetNTLM** là cơ chế cũ hơn, vẫn tồn tại để hỗ trợ các tình huống Kerberos không dùng được.
+
+Trong thiết kế bảo mật doanh nghiệp, nên ưu tiên Kerberos và giảm phụ thuộc vào NetNTLM nếu có thể.
+
+## 33.6. Vì sao Kerberos là giao thức mặc định?
+
+Kerberos là giao thức mặc định trong Windows Domain hiện đại vì nó an toàn và phù hợp hơn cho môi trường doanh nghiệp.
+
+Một số lý do chính:
+
+* không cần gửi mật khẩu trực tiếp qua mạng;
+* sử dụng ticket để xác thực;
+* hỗ trợ xác thực với dịch vụ trong domain;
+* có thể sử dụng cơ chế mã hóa mạnh;
+* hiệu quả hơn khi người dùng truy cập nhiều tài nguyên;
+* phù hợp với Active Directory;
+* giảm một số rủi ro phổ biến của NTLM.
+
+Kerberos cũng hỗ trợ mô hình xác thực tập trung. Người dùng sau khi đăng nhập có thể sử dụng ticket để truy cập nhiều dịch vụ khác nhau mà không cần nhập lại mật khẩu nhiều lần.
+
+Ví dụ, một nhân viên sau khi đăng nhập domain có thể truy cập:
+
+* file server;
+* printer server;
+* ứng dụng nội bộ;
+* database;
+* web application nội bộ.
+
+Kerberos giúp quá trình này diễn ra an toàn và thuận tiện hơn.
+
+Từ góc độ bảo mật, Kerberos được ưu tiên vì nó giảm sự phụ thuộc vào cơ chế challenge-response cũ của NTLM và hỗ trợ quản lý xác thực tốt hơn trong Active Directory.
+
+## 33.7. Khi nào Windows sử dụng NetNTLM?
+
+Windows có thể sử dụng NetNTLM khi Kerberos không thể hoạt động.
+
+Một số tình huống thường gặp gồm:
+
+#### Máy tính không thuộc domain
+
+Nếu máy tính không tham gia Active Directory domain, nó không thể sử dụng Kerberos với KDC của domain theo cách thông thường.
+
+Trong trường hợp đó, Windows có thể dùng NTLM cho xác thực.
+
+#### Dịch vụ hoặc ứng dụng cũ không hỗ trợ Kerberos
+
+Một số ứng dụng hoặc dịch vụ cũ chỉ hỗ trợ NTLM. Khi đó, Windows có thể phải dùng NetNTLM để duy trì khả năng tương thích.
+
+#### Truy cập bằng địa chỉ IP thay vì hostname
+
+Kerberos cần xác định dịch vụ thông qua **SPN — Service Principal Name**. Nếu người dùng truy cập máy chủ bằng địa chỉ IP, Kerberos có thể không xác định đúng SPN.
+
+Ví dụ:
+
+```text
+\\192.168.1.10\Share
+```
+
+Trong trường hợp này, Windows có thể fallback sang NTLM.
+
+Thay vào đó, nên truy cập bằng hostname hoặc FQDN:
+
+```text
+\\fileserver.company.local\Share
+```
+
+#### SPN bị thiếu hoặc cấu hình sai
+
+Nếu dịch vụ không có SPN đúng, Kerberos có thể thất bại. Khi đó, hệ thống có thể chuyển sang NTLM.
+
+#### Không liên hệ được Domain Controller
+
+Kerberos cần liên hệ với Domain Controller để lấy ticket. Nếu client không liên hệ được DC, ví dụ do lỗi mạng hoặc không kết nối VPN, Kerberos có thể không hoạt động.
+
+#### Môi trường legacy
+
+Trong môi trường còn nhiều hệ thống cũ, NTLM có thể vẫn được sử dụng để đảm bảo ứng dụng hoặc máy chủ cũ tiếp tục hoạt động.
+
+Tóm lại, NetNTLM thường được dùng như cơ chế dự phòng hoặc tương thích ngược, không phải lựa chọn ưu tiên trong domain hiện đại.
+
+## 33.8. Rủi ro bảo mật của NetNTLM
+
+NetNTLM có nhiều rủi ro bảo mật hơn Kerberos, vì vậy trong môi trường hiện đại cần hạn chế sử dụng nếu có thể.
+
+Một số rủi ro quan trọng gồm:
+
+#### Pass-the-Hash
+
+**Pass-the-Hash** là kỹ thuật trong đó kẻ tấn công sử dụng NTLM hash để xác thực mà không cần biết mật khẩu thật.
+
+Nếu kẻ tấn công đánh cắp được hash của tài khoản, họ có thể dùng hash đó để truy cập hệ thống trong một số điều kiện nhất định.
+
+Rủi ro này đặc biệt nghiêm trọng nếu hash thuộc về tài khoản có quyền cao như:
+
+* Domain Admin;
+* local Administrator;
+* service account có quyền rộng;
+* tài khoản quản trị máy chủ.
+
+#### NTLM Relay
+
+**NTLM Relay** là kỹ thuật trong đó kẻ tấn công chặn hoặc chuyển tiếp quá trình xác thực NTLM đến một dịch vụ khác.
+
+Nếu hệ thống không có biện pháp bảo vệ bổ sung như SMB Signing hoặc các cấu hình chống relay phù hợp, kẻ tấn công có thể lợi dụng xác thực NTLM để truy cập trái phép tài nguyên.
+
+#### Không mạnh bằng Kerberos
+
+NetNTLM là cơ chế cũ hơn, chủ yếu được giữ lại để tương thích. Nó không cung cấp mô hình ticket-based mạnh như Kerberos và khó kiểm soát hơn trong môi trường lớn.
+
+#### Dễ bị lạm dụng trong nội bộ
+
+Trong mạng nội bộ doanh nghiệp, nếu kẻ tấn công đã có vị trí trong mạng, họ có thể cố gắng ép máy nạn nhân thực hiện xác thực NTLM để thu thập hoặc relay thông tin xác thực.
+
+#### Khó loại bỏ hoàn toàn
+
+Một vấn đề thực tế là nhiều doanh nghiệp vẫn còn hệ thống cũ phụ thuộc vào NTLM. Nếu tắt NTLM ngay lập tức, một số ứng dụng hoặc dịch vụ có thể bị lỗi.
+
+Vì vậy, cách tiếp cận an toàn hơn là:
+
+* giám sát việc sử dụng NTLM;
+* xác định hệ thống nào còn phụ thuộc NTLM;
+* giảm dần NTLM theo kế hoạch;
+* sửa cấu hình SPN để ưu tiên Kerberos;
+* tránh truy cập dịch vụ bằng địa chỉ IP;
+* bật SMB Signing nếu phù hợp;
+* hạn chế tài khoản quyền cao đăng nhập vào máy trạm;
+* giám sát sự kiện xác thực bất thường.
+
+Từ góc độ SOC, cần chú ý các dấu hiệu như:
+
+* nhiều sự kiện xác thực NTLM bất thường;
+* tài khoản quyền cao dùng NTLM;
+* xác thực NTLM đến máy chủ lạ;
+* dấu hiệu NTLM Relay;
+* truy cập SMB bất thường;
+* nhiều thất bại xác thực trong thời gian ngắn.
+
+Tóm lại, Kerberos là giao thức xác thực chính và an toàn hơn trong Windows Domain hiện đại. NetNTLM vẫn tồn tại để tương thích, nhưng cần được giám sát và hạn chế vì có nhiều rủi ro như Pass-the-Hash và NTLM Relay.
 
 
 
