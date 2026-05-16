@@ -52,6 +52,8 @@
 
 25. [Tổng quan về Windows Domains](#25-tổng-quan-về-windows-domains)
 
+26. [Active Directory cơ bản](#26-active-directory-cơ-bản)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -6484,7 +6486,7 @@ Ngoài đăng nhập, domain còn có thể áp dụng các chính sách như:
 
 Trong công ty, Windows Domain cũng hoạt động tương tự. Nhân viên có thể dùng tài khoản domain để đăng nhập vào máy tính công ty và truy cập tài nguyên như file server, printer, email hoặc ứng dụng nội bộ.
 
-### 25.8. Đăng nhập miền bằng tài khoản domain
+## 25.8. Đăng nhập miền bằng tài khoản domain
 
 Khi máy tính đã tham gia Windows Domain, người dùng có thể đăng nhập bằng tài khoản domain thay vì tài khoản cục bộ.
 
@@ -6528,6 +6530,359 @@ Khi người dùng đăng nhập bằng tài khoản domain, quá trình cơ b�
 * áp dụng chính sách bảo mật tập trung;
 * kiểm soát quyền truy cập tài nguyên;
 * hỗ trợ ghi log và điều tra bảo mật.
+
+# 26. Active Directory cơ bản
+
+## 26.1. Active Directory là gì?
+
+**Active Directory**, thường viết tắt là **AD**, là dịch vụ thư mục của Microsoft dùng trong môi trường Windows Domain.
+
+Active Directory cho phép doanh nghiệp quản lý tập trung các đối tượng trong hệ thống mạng như:
+
+- người dùng;
+- máy tính;
+- nhóm;
+- máy in;
+- thư mục chia sẻ;
+- tài khoản dịch vụ;
+- chính sách bảo mật;
+- tài nguyên mạng.
+
+Nói đơn giản, Active Directory là nơi lưu trữ thông tin về các thành phần trong mạng doanh nghiệp. Khi người dùng đăng nhập, truy cập thư mục chia sẻ hoặc sử dụng tài nguyên mạng, Active Directory có thể tham gia vào quá trình xác thực và phân quyền.
+
+Trong môi trường doanh nghiệp, Active Directory là thành phần rất quan trọng vì nó giúp quản trị viên kiểm soát danh tính, thiết bị và quyền truy cập theo cách tập trung.
+
+
+## 26.2. Active Directory Domain Services — AD DS
+
+**Active Directory Domain Services**, viết tắt là **AD DS**, là dịch vụ cốt lõi của Active Directory trong Windows Domain.
+
+AD DS hoạt động như một danh mục trung tâm chứa thông tin về các đối tượng trong miền. Các đối tượng này có thể là người dùng, máy tính, nhóm, máy in, thư mục chia sẻ và nhiều tài nguyên khác.
+
+AD DS cung cấp các chức năng quan trọng như:
+
+- lưu trữ thông tin người dùng và máy tính;
+- xác thực đăng nhập domain;
+- phân quyền truy cập tài nguyên;
+- quản lý nhóm bảo mật;
+- áp dụng Group Policy;
+- tổ chức tài nguyên theo OU;
+- hỗ trợ quản trị tập trung trong doanh nghiệp.
+
+Khi một máy tính hoặc người dùng tham gia domain, thông tin của họ sẽ được quản lý trong AD DS. Vì vậy, AD DS có thể được xem là nền tảng chính của Windows Domain.
+
+Trong thực tế, máy chủ chạy AD DS thường được gọi là **Domain Controller**.
+
+
+## 26.3. Đối tượng trong Active Directory
+
+Trong Active Directory, mọi thành phần được quản lý thường được biểu diễn dưới dạng **object** — tức là đối tượng.
+
+Một số đối tượng phổ biến trong AD gồm:
+
+| Đối tượng | Ý nghĩa |
+|---|---|
+| User | Đại diện cho người dùng hoặc tài khoản dịch vụ |
+| Computer | Đại diện cho máy tính tham gia domain |
+| Group | Dùng để gom người dùng hoặc máy tính nhằm cấp quyền |
+| Printer | Đại diện cho máy in trong mạng |
+| Shared Folder | Đại diện cho tài nguyên chia sẻ |
+| Organizational Unit | Container dùng để tổ chức người dùng, máy tính và áp dụng chính sách |
+| Service Account | Tài khoản dùng để chạy dịch vụ hoặc ứng dụng |
+
+Mỗi đối tượng có các thuộc tính riêng. Ví dụ, một user object có thể có tên đăng nhập, họ tên, email, phòng ban và nhóm thành viên. Một computer object có thể có tên máy, hệ điều hành và vị trí trong domain.
+
+Việc quản lý các đối tượng này giúp doanh nghiệp kiểm soát hệ thống rõ ràng hơn.
+
+
+## 26.4. Security Principals
+
+**Security Principals** là các đối tượng có thể được xác thực và có thể được cấp quyền truy cập tài nguyên trong mạng.
+
+Nói cách khác, security principal là đối tượng có thể “hành động” trên tài nguyên. Ví dụ, một người dùng có thể đăng nhập và truy cập thư mục chia sẻ. Một máy tính cũng có thể xác thực với domain để nhận chính sách và giao tiếp với các dịch vụ khác.
+
+Các security principals phổ biến trong Active Directory gồm:
+
+- Users;
+- Computers;
+- Security Groups;
+- Service Accounts.
+
+Security principals rất quan trọng vì chúng liên quan trực tiếp đến xác thực và phân quyền.
+
+Ví dụ:
+
+- user `alice` có quyền đọc thư mục `Finance`;
+- nhóm `IT Support` có quyền reset mật khẩu người dùng;
+- máy tính `PC01$` có thể xác thực với domain;
+- service account `svc_sql` được dùng để chạy dịch vụ cơ sở dữ liệu.
+
+Từ góc độ bảo mật, quản lý security principals đúng cách là nền tảng của kiểm soát truy cập trong Active Directory.
+
+
+## 26.5. Users
+
+**Users** là một trong những loại đối tượng phổ biến nhất trong Active Directory.
+
+User object thường đại diện cho người dùng thật trong tổ chức, ví dụ:
+
+- nhân viên;
+- sinh viên;
+- quản trị viên;
+- nhân sự hỗ trợ kỹ thuật;
+- người dùng thuộc các phòng ban khác nhau.
+
+Một user trong AD thường có các thông tin như:
+
+- username;
+- họ tên;
+- mật khẩu;
+- email;
+- phòng ban;
+- trạng thái tài khoản;
+- nhóm mà người dùng thuộc về;
+- quyền truy cập tài nguyên.
+
+Người dùng domain có thể sử dụng tài khoản của mình để đăng nhập vào máy tính đã tham gia domain và truy cập tài nguyên được cấp quyền.
+
+Ví dụ tài khoản domain có thể có dạng:
+
+```text
+COMPANY\nguyen.van.a
+```
+
+Hoặc:
+
+```text
+nguyen.van.a@company.local
+```
+
+Trong quản trị bảo mật, cần kiểm soát chặt chẽ tài khoản người dùng, đặc biệt là tài khoản có quyền cao như Domain Admins hoặc Account Operators.
+
+## 26.6. Service Accounts
+
+**Service Accounts** là tài khoản được dùng để chạy dịch vụ hoặc ứng dụng trong môi trường Windows Domain.
+
+Khác với tài khoản người dùng thông thường, service account thường không đại diện cho một con người cụ thể. Nó được dùng cho các dịch vụ như:
+
+* IIS;
+* MSSQL;
+* ứng dụng nội bộ;
+* dịch vụ backup;
+* dịch vụ giám sát;
+* tác vụ tự động;
+* phần mềm quản lý hệ thống.
+
+Ví dụ, một dịch vụ cơ sở dữ liệu có thể chạy bằng tài khoản:
+
+```text
+COMPANY\svc_sql
+```
+
+Service account nên được cấp đúng quyền cần thiết để chạy dịch vụ, không nên cấp quyền quá rộng.
+
+Một số nguyên tắc bảo mật khi dùng service account:
+
+* không dùng tài khoản Domain Admin để chạy dịch vụ;
+* đặt tên rõ ràng, ví dụ `svc_backup`, `svc_sql`;
+* chỉ cấp quyền tối thiểu cần thiết;
+* theo dõi đăng nhập và hoạt động của service account;
+* thay đổi hoặc quản lý mật khẩu theo chính sách;
+* vô hiệu hóa service account không còn sử dụng.
+
+Service Accounts là mục tiêu hấp dẫn với kẻ tấn công vì nhiều tài khoản dịch vụ có quyền truy cập tài nguyên quan trọng.
+
+## 26.7. Computers
+
+**Computers** là các đối tượng đại diện cho máy tính đã tham gia vào domain Active Directory.
+
+Khi một máy tính được join vào domain, Active Directory sẽ tạo một computer object tương ứng.
+
+Computer object có thể đại diện cho:
+
+* máy trạm của nhân viên;
+* laptop doanh nghiệp;
+* máy chủ;
+* máy ảo;
+* Domain Controller;
+* thiết bị Windows tham gia domain.
+
+Việc quản lý computer objects giúp quản trị viên:
+
+* biết máy nào thuộc domain;
+* áp dụng chính sách cho từng nhóm máy;
+* phân loại máy trạm và máy chủ;
+* kiểm soát thiết bị được phép truy cập domain;
+* theo dõi thiết bị không còn sử dụng;
+* tổ chức máy theo OU.
+
+Ví dụ, doanh nghiệp có thể tạo các OU riêng như:
+
+```text
+Workstations
+Servers
+Domain Controllers
+```
+
+Sau đó đưa máy tính vào đúng OU để áp dụng chính sách phù hợp.
+
+## 26.8. Machine Accounts
+
+**Machine Account** là tài khoản máy tính trong Active Directory. Khi một máy tính tham gia domain, nó sẽ có một tài khoản riêng giống như người dùng, nhưng dành cho máy tính.
+
+Tên machine account thường có dạng:
+
+```text
+ComputerName$
+```
+
+Ví dụ, nếu máy tính tên là:
+
+```text
+DC01
+```
+
+Thì tài khoản máy tính sẽ là:
+
+```text
+DC01$
+```
+
+Machine account được dùng để máy tính xác thực với domain. Nhờ đó, máy tính có thể:
+
+* nhận Group Policy;
+* giao tiếp an toàn với Domain Controller;
+* truy cập một số dịch vụ domain;
+* chứng minh danh tính của nó trong mạng;
+* tham gia vào cơ chế xác thực domain.
+
+Mật khẩu của machine account thường được Windows tự động quản lý và thay đổi định kỳ. Người dùng thông thường không cần biết hoặc sử dụng mật khẩu này.
+
+Từ góc độ bảo mật, machine account cũng cần được quản lý cẩn thận. Máy tính không còn sử dụng nên được vô hiệu hóa hoặc xóa khỏi AD để tránh rủi ro.
+
+## 26.9. Security Groups
+
+**Security Groups** là nhóm bảo mật trong Active Directory. Chúng được dùng để gom nhiều người dùng, máy tính hoặc nhóm khác lại với nhau nhằm quản lý quyền truy cập dễ hơn.
+
+Thay vì cấp quyền cho từng người dùng riêng lẻ, quản trị viên có thể cấp quyền cho một nhóm. Sau đó, người dùng nào thuộc nhóm sẽ tự động có quyền tương ứng.
+
+Ví dụ:
+
+* nhóm `HR` có quyền truy cập thư mục nhân sự;
+* nhóm `IT Support` có quyền hỗ trợ người dùng;
+* nhóm `Domain Admins` có quyền quản trị toàn miền;
+* nhóm `Backup Operators` có quyền phục vụ sao lưu dữ liệu.
+
+Một số security groups mặc định quan trọng gồm:
+
+| Security Group     | Ý nghĩa                                                   |
+| ------------------ | --------------------------------------------------------- |
+| Domain Admins      | Có quyền quản trị toàn bộ domain                          |
+| Server Operators   | Có thể quản trị Domain Controllers ở một số mức nhất định |
+| Backup Operators   | Có quyền phục vụ sao lưu dữ liệu                          |
+| Account Operators  | Có thể tạo hoặc sửa đổi tài khoản trong domain            |
+| Domain Users       | Bao gồm các tài khoản người dùng trong domain             |
+| Domain Computers   | Bao gồm các máy tính trong domain                         |
+| Domain Controllers | Bao gồm các Domain Controllers trong domain               |
+
+Security Groups là công cụ quan trọng để thực hiện phân quyền theo vai trò. Trong bảo mật, cần thường xuyên kiểm tra thành viên của các nhóm có quyền cao.
+
+## 26.10. Shared Resources
+
+**Shared Resources** là các tài nguyên được chia sẻ trong mạng domain để người dùng hoặc máy tính có thể truy cập theo quyền được cấp.
+
+Các shared resources phổ biến gồm:
+
+* thư mục chia sẻ;
+* máy in mạng;
+* file server;
+* ứng dụng nội bộ;
+* cơ sở dữ liệu;
+* tài nguyên trên máy chủ.
+
+Active Directory giúp quản lý quyền truy cập tới các tài nguyên này thông qua người dùng và nhóm bảo mật.
+
+Ví dụ, doanh nghiệp có thư mục chia sẻ:
+
+```text
+\\FILE-SERVER\Accounting
+```
+
+Quản trị viên có thể cấp quyền truy cập thư mục này cho nhóm:
+
+```text
+Accounting
+```
+
+Khi một nhân viên mới vào phòng kế toán, chỉ cần thêm tài khoản của nhân viên đó vào nhóm `Accounting`, người đó sẽ có quyền truy cập tài nguyên tương ứng.
+
+Cách quản lý này giúp hệ thống dễ kiểm soát hơn và giảm sai sót so với việc cấp quyền thủ công cho từng người dùng.
+
+## 26.11. Active Directory Users and Computers
+
+**Active Directory Users and Computers**, thường viết tắt là **ADUC**, là công cụ quản trị dùng để quản lý người dùng, máy tính, nhóm và OU trong Active Directory.
+
+Thông qua ADUC, quản trị viên có thể thực hiện nhiều tác vụ như:
+
+* tạo người dùng mới;
+* xóa người dùng;
+* chỉnh sửa thông tin người dùng;
+* reset mật khẩu;
+* tạo nhóm bảo mật;
+* thêm người dùng vào nhóm;
+* tạo OU;
+* di chuyển người dùng hoặc máy tính vào OU;
+* quản lý computer objects;
+* xem cấu trúc domain.
+
+ADUC thường được sử dụng trực tiếp trên Domain Controller hoặc trên máy quản trị đã cài công cụ RSAT.
+
+Trong môi trường học lab, ADUC là công cụ rất quan trọng để quan sát cấu trúc Active Directory và thực hành quản lý đối tượng.
+
+### 26.12. Công cụ ADUC
+
+Công cụ **ADUC** có thể được mở từ Start Menu trên Domain Controller bằng cách tìm:
+
+```text
+Active Directory Users and Computers
+```
+
+Ngoài ra, trong nhiều hệ thống, có thể mở bằng lệnh:
+
+```text
+dsa.msc
+```
+
+Giao diện ADUC thường hiển thị cấu trúc cây của domain. Bên trong domain có thể có:
+
+* OU do quản trị viên tạo;
+* container mặc định;
+* users;
+* groups;
+* computers;
+* domain controllers.
+
+Một số container mặc định thường gặp gồm:
+
+| Container / OU           | Ý nghĩa                                            |
+| ------------------------ | -------------------------------------------------- |
+| Builtin                  | Chứa các nhóm mặc định có sẵn                      |
+| Computers                | Nơi máy tính mới join domain được đưa vào mặc định |
+| Domain Controllers       | OU mặc định chứa các Domain Controllers            |
+| Users                    | Chứa người dùng và nhóm mặc định của domain        |
+| Managed Service Accounts | Chứa tài khoản dịch vụ được quản lý                |
+
+Trong ADUC, quản trị viên có thể nhấp chuột phải vào OU hoặc đối tượng để thực hiện thao tác như tạo mới, đổi tên, xóa, di chuyển, reset mật khẩu hoặc chỉnh sửa thuộc tính.
+
+Từ góc độ bảo mật, ADUC cần được sử dụng cẩn thận vì thao tác sai có thể ảnh hưởng đến toàn bộ domain. Đặc biệt cần chú ý khi chỉnh sửa:
+
+* nhóm Domain Admins;
+* tài khoản service account;
+* OU chứa Domain Controllers;
+* tài khoản người dùng có quyền cao;
+* computer objects của máy chủ quan trọng.
+
+Tóm lại, ADUC là công cụ cơ bản nhưng rất quan trọng trong quản trị Active Directory. Người học Windows Domain cần nắm được cách dùng ADUC để hiểu cách AD tổ chức và quản lý người dùng, máy tính, nhóm và tài nguyên.
 
 
 
