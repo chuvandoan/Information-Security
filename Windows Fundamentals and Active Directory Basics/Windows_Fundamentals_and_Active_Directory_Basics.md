@@ -56,6 +56,10 @@
 
 27. [Nhóm bảo mật trong Active Directory](#27-nhóm-bảo-mật-trong-active-directory)
 
+28. [Organizational Units — OUs](#28-organizational-units--ous)
+
+29. [Quản lý người dùng trong Active Directory](#29-quản-lý-người-dùng-trong-active-directory)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -7513,7 +7517,463 @@ Tóm lại:
 
 Hiểu rõ sự khác nhau giữa OU và Security Group là nền tảng quan trọng khi học Active Directory và bảo mật Windows Domain.
 
+# 29. Quản lý người dùng trong Active Directory
 
+## 29.1. Tạo người dùng trong AD
+
+Trong Active Directory, người dùng được quản lý dưới dạng **User Object**. Mỗi tài khoản người dùng đại diện cho một cá nhân hoặc một tài khoản dùng để đăng nhập, truy cập tài nguyên và nhận chính sách trong domain.
+
+Có thể tạo người dùng bằng công cụ **Active Directory Users and Computers — ADUC**.
+
+Các bước tạo người dùng trong ADUC:
+
+1. Mở **Active Directory Users and Computers**.
+2. Chọn OU nơi muốn tạo người dùng.
+3. Nhấp chuột phải vào OU.
+4. Chọn **New → User**.
+5. Nhập thông tin người dùng.
+6. Đặt username đăng nhập.
+7. Thiết lập mật khẩu ban đầu.
+8. Chọn các tùy chọn mật khẩu phù hợp.
+9. Nhấn **Finish**.
+
+Ví dụ, nếu công ty có OU `Sales`, người dùng thuộc phòng kinh doanh nên được tạo trong OU này:
+
+```text
+company.local
+└── Sales
+    └── user01
+```
+
+Khi tạo người dùng, cần đặt thông tin rõ ràng như:
+
+- họ tên;
+- username;
+- phòng ban;
+- email;
+- chức vụ;
+- mô tả tài khoản nếu cần.
+
+Trong môi trường doanh nghiệp, không nên tạo tất cả người dùng trong container `Users` mặc định. Nên đưa người dùng vào đúng OU để dễ áp dụng chính sách và quản lý.
+
+
+## 29.2. Xóa người dùng trong AD
+
+Xóa người dùng trong Active Directory là thao tác loại bỏ tài khoản khỏi domain.
+
+Có thể xóa người dùng trong ADUC bằng cách:
+
+1. Mở **Active Directory Users and Computers**.
+2. Tìm đến OU chứa người dùng.
+3. Nhấp chuột phải vào tài khoản người dùng.
+4. Chọn **Delete**.
+5. Xác nhận thao tác xóa.
+
+Tuy nhiên, trong thực tế doanh nghiệp, không nên xóa tài khoản ngay lập tức nếu chưa chắc chắn. Thay vào đó, nên **Disable Account** trước.
+
+Lý do nên vô hiệu hóa trước khi xóa:
+
+- tránh xóa nhầm tài khoản;
+- giữ lại thông tin để điều tra nếu cần;
+- giữ lịch sử liên quan đến log;
+- có thể khôi phục nếu người dùng quay lại;
+- tránh ảnh hưởng đến quyền sở hữu tệp hoặc hệ thống liên quan.
+
+Quy trình an toàn hơn khi nhân viên nghỉ việc:
+
+1. Disable tài khoản.
+2. Đổi mật khẩu nếu cần.
+3. Thu hồi quyền nhóm.
+4. Kiểm tra quyền truy cập tài nguyên.
+5. Lưu lại thông tin theo chính sách nội bộ.
+6. Xóa tài khoản sau thời gian lưu trữ nếu được phép.
+
+
+## 29.3. Chỉnh sửa thông tin người dùng
+
+Trong ADUC, quản trị viên có thể chỉnh sửa thông tin của tài khoản người dùng thông qua phần **Properties**.
+
+Các bước chỉnh sửa:
+
+1. Mở **Active Directory Users and Computers**.
+2. Tìm tài khoản người dùng.
+3. Nhấp chuột phải vào tài khoản.
+4. Chọn **Properties**.
+5. Chỉnh sửa thông tin cần thiết.
+6. Nhấn **Apply** hoặc **OK**.
+
+Một số thông tin thường được chỉnh sửa gồm:
+
+| Thuộc tính | Ý nghĩa |
+|---|---|
+| First name | Tên |
+| Last name | Họ |
+| Display name | Tên hiển thị |
+| User logon name | Tên đăng nhập |
+| Email | Địa chỉ email |
+| Department | Phòng ban |
+| Title | Chức vụ |
+| Office | Văn phòng |
+| Telephone number | Số điện thoại |
+| Member Of | Nhóm mà người dùng thuộc về |
+
+Việc cập nhật thông tin người dùng giúp Active Directory phản ánh đúng cơ cấu tổ chức và hỗ trợ quản trị tốt hơn.
+
+Từ góc độ bảo mật, cần đặc biệt chú ý tab **Member Of**, vì đây là nơi cho biết người dùng đang thuộc những nhóm nào. Nếu người dùng bị thêm nhầm vào nhóm quyền cao, họ có thể có quyền vượt quá nhu cầu công việc.
+
+
+## 29.4. Đặt lại mật khẩu người dùng
+
+Đặt lại mật khẩu là một tác vụ quản trị phổ biến trong Active Directory, đặc biệt đối với bộ phận IT Support hoặc Helpdesk.
+
+Có thể đặt lại mật khẩu bằng ADUC:
+
+1. Mở **Active Directory Users and Computers**.
+2. Tìm tài khoản người dùng.
+3. Nhấp chuột phải vào tài khoản.
+4. Chọn **Reset Password**.
+5. Nhập mật khẩu mới.
+6. Xác nhận mật khẩu.
+7. Chọn tùy chọn phù hợp nếu cần.
+8. Nhấn **OK**.
+
+Tùy chọn thường dùng khi reset password là:
+
+```text
+User must change password at next logon
+```
+
+Tùy chọn này giúp đảm bảo người dùng không tiếp tục sử dụng mật khẩu tạm thời do quản trị viên đặt.
+
+Khi đặt lại mật khẩu, cần lưu ý:
+
+- không gửi mật khẩu qua kênh không an toàn;
+- không dùng mật khẩu quá đơn giản;
+- không dùng lại mật khẩu cũ;
+- xác minh danh tính người yêu cầu reset;
+- ghi nhận thao tác reset nếu tổ chức yêu cầu;
+- buộc người dùng đổi mật khẩu khi đăng nhập lần tiếp theo.
+
+
+## 29.5. Buộc người dùng đổi mật khẩu khi đăng nhập
+
+Tùy chọn **User must change password at next logon** dùng để buộc người dùng đổi mật khẩu khi đăng nhập lần tiếp theo.
+
+Tùy chọn này thường được sử dụng trong các trường hợp:
+
+- tài khoản mới được tạo;
+- mật khẩu được reset bởi IT Support;
+- nghi ngờ mật khẩu đã bị lộ;
+- người dùng quên mật khẩu;
+- tài khoản được khôi phục sau khi bị khóa.
+
+Cách bật tùy chọn này trong ADUC:
+
+1. Mở **Active Directory Users and Computers**.
+2. Tìm tài khoản người dùng.
+3. Nhấp chuột phải → **Properties**.
+4. Mở tab **Account**.
+5. Chọn:
+
+```text
+User must change password at next logon
+```
+
+6. Nhấn **Apply** hoặc **OK**.
+
+Ý nghĩa bảo mật của tùy chọn này là người dùng sẽ không tiếp tục dùng mật khẩu tạm thời do quản trị viên biết. Sau khi đăng nhập, người dùng phải tạo mật khẩu mới của riêng mình.
+
+Trong môi trường doanh nghiệp, đây là thực hành bảo mật nên áp dụng khi cấp mật khẩu ban đầu hoặc reset mật khẩu.
+
+
+## 29.6. Xóa OU dư thừa
+
+Trong Active Directory, đôi khi có các OU không còn cần thiết, ví dụ phòng ban đã giải thể hoặc cấu trúc tổ chức đã thay đổi.
+
+Có thể xóa OU trong ADUC bằng cách:
+
+1. Mở **Active Directory Users and Computers**.
+2. Tìm OU cần xóa.
+3. Nhấp chuột phải vào OU.
+4. Chọn **Delete**.
+5. Xác nhận thao tác.
+
+Tuy nhiên, trong nhiều trường hợp, Windows sẽ không cho xóa OU ngay vì OU được bảo vệ khỏi việc xóa nhầm.
+
+Khi xóa OU, cần rất cẩn thận vì:
+
+- người dùng bên trong OU có thể bị xóa;
+- nhóm bên trong OU có thể bị xóa;
+- OU con cũng có thể bị xóa;
+- chính sách liên quan có thể bị ảnh hưởng;
+- có thể làm sai cấu trúc quản trị AD.
+
+Trước khi xóa OU, nên kiểm tra:
+
+- OU có còn người dùng không;
+- OU có chứa máy tính không;
+- OU có OU con không;
+- OU có GPO đang liên kết không;
+- có tài khoản dịch vụ hoặc tài khoản quan trọng bên trong không.
+
+Trong thực tế, nên di chuyển hoặc backup thông tin trước khi xóa OU quan trọng.
+
+
+## 29.7. Advanced Features trong ADUC
+
+**Advanced Features** là tùy chọn trong ADUC giúp hiển thị thêm các thành phần và tab nâng cao.
+
+Để bật Advanced Features:
+
+1. Mở **Active Directory Users and Computers**.
+2. Trên thanh menu, chọn **View**.
+3. Chọn **Advanced Features**.
+
+Khi bật Advanced Features, ADUC sẽ hiển thị thêm một số thông tin và tùy chọn nâng cao, ví dụ:
+
+- tab **Object** trong Properties;
+- một số container hệ thống;
+- thông tin thuộc tính chi tiết hơn;
+- tùy chọn bảo vệ đối tượng khỏi xóa nhầm;
+- khả năng kiểm tra một số cấu hình nâng cao.
+
+Advanced Features thường cần dùng khi muốn xóa một OU đang được bảo vệ khỏi xóa nhầm.
+
+Ví dụ, để bỏ bảo vệ xóa nhầm cho OU:
+
+1. Bật **Advanced Features**.
+2. Nhấp chuột phải vào OU.
+3. Chọn **Properties**.
+4. Mở tab **Object**.
+5. Bỏ chọn:
+
+```text
+Protect object from accidental deletion
+```
+
+6. Nhấn **OK**.
+
+
+## 29.8. Bảo vệ OU khỏi xóa nhầm
+
+Active Directory có cơ chế bảo vệ OU khỏi việc xóa nhầm. Tùy chọn này thường có tên:
+
+```text
+Protect object from accidental deletion
+```
+
+Khi tùy chọn này được bật, quản trị viên không thể xóa OU một cách trực tiếp nếu chưa tắt bảo vệ.
+
+Mục đích của tính năng này là giảm rủi ro xóa nhầm các đối tượng quan trọng trong AD.
+
+Tính năng này đặc biệt hữu ích với các OU chứa:
+
+- người dùng quan trọng;
+- máy chủ;
+- máy trạm doanh nghiệp;
+- Domain Controllers;
+- tài khoản dịch vụ;
+- cấu trúc phòng ban lớn.
+
+Không nên tắt tính năng bảo vệ này nếu không có lý do rõ ràng.
+
+Nếu cần xóa OU thật sự, cần:
+
+1. Bật **Advanced Features**.
+2. Mở **Properties** của OU.
+3. Vào tab **Object**.
+4. Bỏ chọn **Protect object from accidental deletion**.
+5. Xác nhận thay đổi.
+6. Thực hiện xóa OU.
+
+Từ góc độ bảo mật và quản trị, bảo vệ OU khỏi xóa nhầm giúp giảm rủi ro lỗi thao tác của con người.
+
+
+## 29.9. Delegation là gì?
+
+**Delegation** trong Active Directory là quá trình ủy quyền một số quyền quản trị nhất định cho người dùng hoặc nhóm mà không cần cấp quyền Domain Admin.
+
+Nói đơn giản, Delegation cho phép một người dùng thực hiện một số tác vụ quản trị trong phạm vi nhất định.
+
+Ví dụ:
+
+- IT Support được reset mật khẩu cho người dùng phòng Sales;
+- trưởng bộ phận được chỉnh sửa thông tin người dùng trong OU của mình;
+- Helpdesk được unlock account;
+- nhóm quản trị máy trạm được quản lý OU Workstations.
+
+Delegation giúp phân chia công việc quản trị mà không cần cấp quyền quá cao.
+
+Lợi ích của Delegation:
+
+- giảm phụ thuộc vào Domain Admin;
+- áp dụng nguyên tắc least privilege;
+- giới hạn quyền theo OU;
+- phân quyền rõ ràng theo vai trò;
+- giảm rủi ro lạm dụng quyền;
+- hỗ trợ bộ phận Helpdesk làm việc hiệu quả hơn.
+
+Delegation rất quan trọng trong doanh nghiệp vì không phải tác vụ nào cũng cần quyền quản trị toàn domain.
+
+
+## 29.10. Delegate Control
+
+**Delegate Control** là chức năng trong ADUC dùng để ủy quyền quản trị cho một user hoặc group trên một OU cụ thể.
+
+Cách mở Delegate Control:
+
+1. Mở **Active Directory Users and Computers**.
+2. Tìm OU cần ủy quyền.
+3. Nhấp chuột phải vào OU.
+4. Chọn **Delegate Control**.
+5. Chọn user hoặc group được ủy quyền.
+6. Chọn tác vụ muốn ủy quyền.
+7. Hoàn tất wizard.
+
+Các quyền thường được ủy quyền gồm:
+
+- reset password;
+- force password change at next logon;
+- read user information;
+- create, delete, and manage user accounts;
+- modify membership of a group;
+- manage computer accounts.
+
+Ví dụ, có thể ủy quyền cho nhóm `Helpdesk` quyền reset mật khẩu trong OU `Sales`.
+
+Cấu trúc ví dụ:
+
+```text
+company.local
+└── Sales
+    ├── user01
+    ├── user02
+    └── user03
+```
+
+Nếu Delegate Control được áp dụng cho OU `Sales`, người được ủy quyền chỉ có quyền trong phạm vi OU này, không có quyền quản trị toàn domain.
+
+Đây là cách quản lý an toàn hơn so với việc thêm Helpdesk vào nhóm Domain Admins.
+
+
+## 29.11. Ủy quyền đặt lại mật khẩu
+
+Một trường hợp sử dụng phổ biến của Delegation là ủy quyền cho IT Support hoặc Helpdesk đặt lại mật khẩu người dùng.
+
+Ví dụ, công ty muốn tài khoản `phillip` có thể reset mật khẩu cho người dùng trong OU `Sales`.
+
+Các bước thực hiện trong ADUC:
+
+1. Mở **Active Directory Users and Computers**.
+2. Nhấp chuột phải vào OU `Sales`.
+3. Chọn **Delegate Control**.
+4. Nhấn **Next**.
+5. Thêm user hoặc group cần ủy quyền, ví dụ `phillip`.
+6. Chọn tác vụ:
+
+```text
+Reset user passwords and force password change at next logon
+```
+
+7. Nhấn **Next**.
+8. Nhấn **Finish**.
+
+Sau khi cấu hình, người được ủy quyền có thể reset mật khẩu cho người dùng trong OU đó.
+
+Điểm quan trọng là người được ủy quyền không nhất thiết có quyền Domain Admin. Họ chỉ có quyền thực hiện tác vụ đã được cấp trong phạm vi OU.
+
+Khuyến nghị bảo mật:
+
+- nên ủy quyền cho group thay vì user cá nhân;
+- đặt tên group rõ ràng, ví dụ `Helpdesk_ResetPassword_Sales`;
+- chỉ cấp đúng quyền cần thiết;
+- thường xuyên kiểm tra quyền đã delegate;
+- ghi log thao tác reset mật khẩu;
+- không ủy quyền quá rộng trên toàn domain nếu không cần.
+
+
+## 29.12. Quản lý người dùng AD bằng PowerShell
+
+Ngoài ADUC, quản trị viên có thể quản lý người dùng Active Directory bằng PowerShell.
+
+PowerShell rất hữu ích khi cần:
+
+- tạo nhiều người dùng;
+- reset mật khẩu nhanh;
+- chỉnh sửa thuộc tính hàng loạt;
+- xuất danh sách người dùng;
+- kiểm tra trạng thái tài khoản;
+- tự động hóa tác vụ quản trị.
+
+Để dùng các lệnh AD trong PowerShell, thường cần module Active Directory:
+
+```powershell
+Import-Module ActiveDirectory
+```
+
+Một số lệnh PowerShell thường dùng:
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `Get-ADUser` | Xem thông tin người dùng |
+| `New-ADUser` | Tạo người dùng mới |
+| `Set-ADUser` | Chỉnh sửa thuộc tính người dùng |
+| `Remove-ADUser` | Xóa người dùng |
+| `Disable-ADAccount` | Vô hiệu hóa tài khoản |
+| `Enable-ADAccount` | Kích hoạt tài khoản |
+| `Unlock-ADAccount` | Mở khóa tài khoản |
+| `Set-ADAccountPassword` | Đặt lại mật khẩu |
+
+Ví dụ xem thông tin người dùng:
+
+```powershell
+Get-ADUser -Identity sophie
+```
+
+Ví dụ đặt lại mật khẩu:
+
+```powershell
+Set-ADAccountPassword sophie -Reset -NewPassword (Read-Host -AsSecureString "New Password")
+```
+
+Ví dụ buộc người dùng đổi mật khẩu khi đăng nhập lần tiếp theo:
+
+```powershell
+Set-ADUser sophie -ChangePasswordAtLogon $true
+```
+
+Ví dụ vô hiệu hóa tài khoản:
+
+```powershell
+Disable-ADAccount -Identity sophie
+```
+
+Ví dụ tạo người dùng mới:
+
+```powershell
+New-ADUser `
+  -Name "Nguyen Van A" `
+  -GivenName "A" `
+  -Surname "Nguyen Van" `
+  -SamAccountName "nguyen.van.a" `
+  -UserPrincipalName "nguyen.van.a@company.local" `
+  -Path "OU=Sales,DC=company,DC=local" `
+  -AccountPassword (Read-Host -AsSecureString "Initial Password") `
+  -Enabled $true
+```
+
+Khi dùng PowerShell để quản lý AD, cần cẩn thận vì lệnh có thể thay đổi nhiều tài khoản rất nhanh. Trước khi chạy lệnh hàng loạt, nên kiểm tra kỹ phạm vi bằng các lệnh như `Get-ADUser`.
+
+Từ góc độ bảo mật, cần giám sát các thao tác PowerShell liên quan đến AD, đặc biệt là:
+
+- tạo tài khoản mới;
+- reset mật khẩu;
+- thêm user vào nhóm quyền cao;
+- thay đổi thuộc tính tài khoản;
+- vô hiệu hóa hoặc kích hoạt tài khoản;
+- xóa người dùng hoặc OU.
+
+Tóm lại, quản lý người dùng trong Active Directory là nhiệm vụ cơ bản nhưng rất quan trọng. Quản trị viên cần biết cách tạo, chỉnh sửa, reset mật khẩu, xóa tài khoản, ủy quyền quản trị và sử dụng PowerShell một cách an toàn.
 
 
 
