@@ -64,6 +64,8 @@
 
 31. [Group Policy](#31-group-policy)
 
+32. [Triển khai chính sách bảo mật bằng GPO](#32-triển-khai-chính-sách-bảo-mật-bằng-gpo)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -8442,7 +8444,7 @@ Sau đó cấu hình GPO này để chặn người dùng mở Control Panel.
 
 Một GPO chỉ có hiệu lực khi nó được liên kết với phạm vi phù hợp, ví dụ domain, site hoặc OU.
 
-### 31.3. Vai trò của GPO trong quản trị miền
+## 31.3. Vai trò của GPO trong quản trị miền
 
 GPO có vai trò quan trọng trong quản trị miền vì nó cho phép quản trị viên áp dụng cấu hình tập trung cho nhiều người dùng và máy tính.
 
@@ -8471,7 +8473,7 @@ Ví dụ:
 
 Từ góc độ bảo mật, GPO giúp giảm rủi ro do người dùng tự ý thay đổi cấu hình hoặc máy tính có thiết lập không đồng nhất.
 
-### 31.4. Group Policy Management
+## 31.4. Group Policy Management
 
 **Group Policy Management** là công cụ dùng để tạo, chỉnh sửa, liên kết và quản lý GPO trong Active Directory.
 
@@ -8905,6 +8907,416 @@ rsop.msc
 Từ góc độ quản trị và bảo mật, `gpupdate /force` là lệnh rất quan trọng khi triển khai hoặc kiểm tra chính sách trong Windows Domain.
 
 Tóm lại, Group Policy là cơ chế cốt lõi giúp quản trị viên áp dụng cấu hình và chính sách bảo mật tập trung trong Active Directory. Hiểu rõ GPO, scope, security filtering, computer/user configuration và kế thừa chính sách là nền tảng quan trọng để quản lý Windows Domain an toàn.
+
+
+# 32. Triển khai chính sách bảo mật bằng GPO
+
+## 32.1. Hạn chế truy cập Control Panel
+
+Một ví dụ phổ biến khi triển khai chính sách bảo mật bằng GPO là **hạn chế người dùng truy cập Control Panel**.
+
+Control Panel và PC Settings cho phép người dùng thay đổi nhiều thiết lập quan trọng của hệ thống, ví dụ:
+
+- cấu hình mạng;
+- thiết lập tài khoản;
+- thiết lập phần mềm;
+- Windows Firewall;
+- thiết bị phần cứng;
+- cấu hình hệ thống;
+- một số tùy chọn bảo mật.
+
+Trong môi trường doanh nghiệp, người dùng thông thường không nên tự do thay đổi các thiết lập này. Nếu người dùng thay đổi sai cấu hình, máy tính có thể gặp lỗi hoặc không tuân thủ chính sách bảo mật của tổ chức.
+
+Ví dụ, doanh nghiệp có thể muốn:
+
+- bộ phận IT được phép truy cập Control Panel;
+- người dùng phòng Sales, Marketing, Management không được truy cập;
+- người dùng thông thường không được tự ý thay đổi cài đặt hệ thống.
+
+Để thực hiện, có thể tạo một GPO riêng, ví dụ:
+
+```text
+Restrict Control Panel Access
+```
+
+Sau đó cấu hình chính sách chặn Control Panel và liên kết GPO này với các OU chứa người dùng cần bị hạn chế.
+
+### 32.2. Chính sách Prohibit Access to Control Panel and PC Settings
+
+Chính sách **Prohibit Access to Control Panel and PC Settings** dùng để chặn người dùng truy cập Control Panel và PC Settings.
+
+Chính sách này thường nằm trong phần **User Configuration** vì nó áp dụng cho người dùng.
+
+Đường dẫn cấu hình thường là:
+
+```text
+User Configuration
+└── Policies
+    └── Administrative Templates
+        └── Control Panel
+            └── Prohibit access to Control Panel and PC settings
+```
+
+Khi bật chính sách này ở trạng thái **Enabled**, người dùng bị áp dụng GPO sẽ không thể mở Control Panel hoặc PC Settings.
+
+Các bước cấu hình cơ bản:
+
+1. Mở **Group Policy Management**.
+2. Tạo GPO mới, ví dụ:
+
+```text
+Restrict Control Panel Access
+```
+
+3. Nhấp chuột phải vào GPO và chọn **Edit**.
+4. Đi đến đường dẫn:
+
+```text
+User Configuration → Policies → Administrative Templates → Control Panel
+```
+
+5. Mở chính sách:
+
+```text
+Prohibit access to Control Panel and PC settings
+```
+
+6. Chọn **Enabled**.
+7. Nhấn **Apply** và **OK**.
+
+Sau khi chính sách có hiệu lực, nếu người dùng thử mở Control Panel, Windows sẽ hiển thị thông báo rằng thao tác này bị quản trị viên hạn chế.
+
+## 32.3. Liên kết GPO với OU người dùng
+
+Sau khi tạo và cấu hình GPO, cần liên kết GPO với OU phù hợp để chính sách có hiệu lực.
+
+Vì chính sách hạn chế Control Panel áp dụng cho **người dùng**, nên GPO cần được liên kết với OU chứa tài khoản người dùng.
+
+Ví dụ, nếu muốn chặn người dùng trong các phòng ban sau:
+
+* Marketing;
+* Sales;
+* Management.
+
+Có thể liên kết GPO `Restrict Control Panel Access` với các OU tương ứng:
+
+```text
+company.local
+├── Marketing
+├── Sales
+└── Management
+```
+
+Các bước liên kết GPO với OU:
+
+1. Mở **Group Policy Management**.
+2. Tìm OU cần áp dụng chính sách.
+3. Nhấp chuột phải vào OU.
+4. Chọn **Link an Existing GPO**.
+5. Chọn GPO:
+
+```text
+Restrict Control Panel Access
+```
+
+6. Nhấn **OK**.
+
+Nếu bộ phận IT vẫn cần truy cập Control Panel, không nên liên kết GPO này với OU `IT`.
+
+Điều quan trọng là phải xác định đúng OU chứa người dùng cần áp dụng chính sách. Nếu liên kết nhầm, chính sách có thể ảnh hưởng đến người dùng không mong muốn.
+
+## 32.4. Chính sách khóa màn hình tự động
+
+Chính sách khóa màn hình tự động giúp bảo vệ phiên làm việc của người dùng khi họ rời khỏi máy tính nhưng quên khóa màn hình.
+
+Trong môi trường doanh nghiệp, đây là chính sách bảo mật quan trọng vì máy tính đang đăng nhập có thể chứa:
+
+* tài liệu nội bộ;
+* email công việc;
+* hệ thống quản trị;
+* dữ liệu khách hàng;
+* ứng dụng nội bộ;
+* quyền truy cập tài nguyên mạng.
+
+Nếu người dùng rời khỏi máy mà không khóa màn hình, người khác có thể lợi dụng phiên làm việc đang mở để truy cập dữ liệu hoặc thực hiện hành động trái phép.
+
+Ví dụ chính sách có thể yêu cầu:
+
+```text
+Tự động khóa màn hình sau 5 phút không hoạt động
+```
+
+Có thể tạo GPO riêng, ví dụ:
+
+```text
+Auto Lock Screen
+```
+
+Chính sách này thường áp dụng cho máy tính hoặc người dùng tùy cách cấu hình. Trong bài lab, mục tiêu là cấu hình cho máy trạm và máy chủ tự động khóa màn hình sau 5 phút không hoạt động.
+
+Lợi ích bảo mật:
+
+* giảm nguy cơ người khác sử dụng phiên đăng nhập đang mở;
+* bảo vệ dữ liệu khi người dùng rời khỏi máy;
+* phù hợp với chính sách bảo mật doanh nghiệp;
+* giảm rủi ro truy cập trái phép nội bộ.
+
+## 32.5. Áp dụng GPO cho Workstations và Servers
+
+GPO có thể được áp dụng trực tiếp cho các OU chứa máy tính, ví dụ:
+
+```text
+Workstations
+Servers
+Domain Controllers
+```
+
+Nếu chính sách khóa màn hình cần áp dụng cho máy trạm và máy chủ, có thể liên kết GPO `Auto Lock Screen` với các OU này.
+
+Ví dụ:
+
+```text
+company.local
+├── Workstations
+│   ├── PC01
+│   └── PC02
+├── Servers
+│   ├── FILE-SERVER01
+│   └── WEB-SERVER01
+└── Domain Controllers
+    └── DC01
+```
+
+Các bước thực hiện:
+
+1. Tạo GPO:
+
+```text
+Auto Lock Screen
+```
+
+2. Cấu hình chính sách khóa màn hình.
+3. Link GPO với OU `Workstations`.
+4. Link GPO với OU `Servers`.
+5. Nếu cần, link với OU `Domain Controllers`.
+
+Khi áp dụng chính sách cho máy chủ, cần cẩn thận hơn so với máy trạm. Một số chính sách có thể ảnh hưởng đến phiên quản trị hoặc dịch vụ đang chạy.
+
+Khuyến nghị:
+
+* kiểm tra chính sách trên nhóm nhỏ trước;
+* không áp dụng chính sách quá rộng nếu chưa thử nghiệm;
+* tách GPO cho Workstations và Servers nếu yêu cầu khác nhau;
+* tránh áp dụng chính sách máy trạm trực tiếp lên Domain Controllers nếu không chắc chắn.
+
+## 32.6. Áp dụng GPO ở cấp miền
+
+Ngoài việc liên kết GPO với từng OU, quản trị viên có thể áp dụng GPO ở cấp **domain**.
+
+Khi GPO được liên kết ở cấp miền, các OU bên dưới có thể kế thừa chính sách đó.
+
+Ví dụ:
+
+```text
+company.local
+├── Workstations
+├── Servers
+├── Domain Controllers
+├── Sales
+├── Marketing
+└── IT
+```
+
+Nếu GPO `Auto Lock Screen` được liên kết với `company.local`, các OU con có thể nhận chính sách này.
+
+Cách này phù hợp khi muốn áp dụng chính sách cho phạm vi rộng, ví dụ:
+
+* chính sách mật khẩu;
+* chính sách khóa tài khoản;
+* cấu hình bảo mật chung;
+* chính sách khóa màn hình toàn doanh nghiệp;
+* một số cấu hình cơ bản bắt buộc.
+
+Tuy nhiên, cần lưu ý rằng áp dụng GPO ở cấp miền có thể ảnh hưởng đến nhiều đối tượng. Nếu GPO chứa cấu hình không phù hợp, nó có thể gây lỗi trên diện rộng.
+
+Ví dụ, nếu GPO chứa cấu hình dành cho máy tính nhưng được kế thừa bởi OU chỉ chứa người dùng, phần cấu hình máy tính sẽ không áp dụng cho người dùng. Tuy nhiên, việc thiết kế GPO vẫn cần rõ ràng để tránh nhầm lẫn.
+
+Khuyến nghị:
+
+* chỉ áp dụng GPO ở cấp miền khi chính sách thật sự cần áp dụng rộng;
+* kiểm tra kỹ nội dung GPO;
+* đặt tên GPO rõ ràng;
+* không đưa quá nhiều cấu hình khác nhau vào một GPO;
+* thử nghiệm trước khi triển khai toàn domain.
+
+## 32.7. Kiểm tra hiệu lực của GPO
+
+Sau khi triển khai GPO, cần kiểm tra xem chính sách đã có hiệu lực hay chưa.
+
+Có thể kiểm tra bằng nhiều cách.
+
+Cách 1: kiểm tra trực tiếp trên máy người dùng.
+
+Ví dụ với chính sách chặn Control Panel:
+
+1. Đăng nhập bằng tài khoản người dùng thuộc OU bị áp dụng GPO.
+2. Thử mở **Control Panel**.
+3. Nếu GPO hoạt động, Windows sẽ chặn truy cập.
+
+Cách 2: kiểm tra chính sách khóa màn hình.
+
+1. Đăng nhập vào máy thuộc OU được áp dụng GPO.
+2. Không thao tác trên máy trong thời gian đã cấu hình.
+3. Kiểm tra xem màn hình có tự động khóa hay không.
+
+Cách 3: dùng lệnh kiểm tra GPO.
+
+Trên máy client, có thể chạy:
+
+```cmd
+gpresult /r
+```
+
+Lệnh này hiển thị các GPO đã áp dụng cho người dùng và máy tính hiện tại.
+
+Có thể dùng lệnh chi tiết hơn:
+
+```cmd
+gpresult /h report.html
+```
+
+Lệnh này tạo báo cáo HTML để xem GPO đã áp dụng.
+
+Ngoài ra, có thể dùng:
+
+```cmd
+rsop.msc
+```
+
+Công cụ này hiển thị Resultant Set of Policy, tức là tập chính sách thực tế đang áp dụng trên máy.
+
+Kiểm tra hiệu lực GPO là bước quan trọng để đảm bảo chính sách đã được triển khai đúng.
+
+## 32.8. Xử lý lỗi GPO không áp dụng
+
+Nếu GPO không áp dụng, cần kiểm tra theo từng bước.
+
+Một số nguyên nhân thường gặp:
+
+| Nguyên nhân            | Giải thích                                                           |
+| ---------------------- | -------------------------------------------------------------------- |
+| GPO chưa được link     | GPO đã tạo nhưng chưa liên kết với OU/domain                         |
+| Link sai OU            | GPO được link vào OU không chứa đúng user hoặc computer              |
+| Sai loại cấu hình      | Cấu hình user nhưng áp dụng vào OU chỉ chứa computer, hoặc ngược lại |
+| Security Filtering sai | Đối tượng không có quyền Apply Group Policy                          |
+| Máy chưa cập nhật GPO  | Client chưa đồng bộ chính sách mới                                   |
+| GPO bị disable         | Phần User Configuration hoặc Computer Configuration bị tắt           |
+| Kế thừa bị chặn        | OU có Block Inheritance                                              |
+| GPO bị ghi đè          | GPO khác có độ ưu tiên cao hơn                                       |
+| DNS/domain lỗi         | Máy client không liên lạc được Domain Controller                     |
+
+Các bước xử lý cơ bản:
+
+1. Kiểm tra GPO đã được link đúng OU chưa.
+2. Kiểm tra OU có chứa đúng user hoặc computer không.
+3. Kiểm tra GPO nằm trong User Configuration hay Computer Configuration.
+4. Kiểm tra Security Filtering.
+5. Chạy lệnh cập nhật GPO:
+
+```cmd
+gpupdate /force
+```
+
+6. Kiểm tra bằng:
+
+```cmd
+gpresult /r
+```
+
+7. Kiểm tra Event Viewer nếu vẫn lỗi.
+
+Ví dụ, nếu chính sách chặn Control Panel không hoạt động, cần kiểm tra tài khoản người dùng có nằm trong OU được link GPO hay không.
+
+Nếu chính sách khóa màn hình không hoạt động, cần kiểm tra máy tính có nằm trong OU được áp dụng GPO hay không.
+
+## 32.9. SYSVOL là gì?
+
+**SYSVOL** là thư mục chia sẻ trên Domain Controller dùng để lưu trữ và phân phối các tệp liên quan đến Group Policy trong domain.
+
+SYSVOL là thành phần rất quan trọng trong Active Directory vì máy tính và người dùng trong domain cần truy cập SYSVOL để nhận chính sách.
+
+Theo mặc định, SYSVOL thường nằm trên Domain Controller tại đường dẫn:
+
+```text
+C:\Windows\SYSVOL\sysvol\
+```
+
+Trong SYSVOL có thể chứa:
+
+* Group Policy Templates;
+* script đăng nhập;
+* script đăng xuất;
+* script khởi động;
+* script tắt máy;
+* một số tệp chính sách cần phân phối trong domain.
+
+SYSVOL được chia sẻ qua mạng để các máy trong domain có thể truy cập khi đồng bộ Group Policy.
+
+Ví dụ đường dẫn chia sẻ có thể có dạng:
+
+```text
+\\company.local\SYSVOL
+```
+
+Hoặc:
+
+```text
+\\DC01\SYSVOL
+```
+
+Nếu SYSVOL gặp lỗi, GPO có thể không được phân phối đúng, dẫn đến máy tính không nhận được chính sách mới.
+
+## 32.10. Phân phối GPO qua SYSVOL
+
+Khi quản trị viên tạo hoặc chỉnh sửa GPO, thông tin chính sách cần được phân phối đến các máy trong domain.
+
+GPO thường gồm hai phần:
+
+| Thành phần             | Ý nghĩa                         |
+| ---------------------- | ------------------------------- |
+| Group Policy Container | Phần lưu trong Active Directory |
+| Group Policy Template  | Phần lưu trong SYSVOL           |
+
+SYSVOL chứa các tệp chính sách mà máy client cần đọc khi cập nhật Group Policy.
+
+Quá trình phân phối GPO cơ bản:
+
+1. Quản trị viên tạo hoặc chỉnh sửa GPO.
+2. Dữ liệu GPO được lưu trong Active Directory và SYSVOL.
+3. Máy client trong domain định kỳ kiểm tra chính sách mới.
+4. Client truy cập Domain Controller và SYSVOL.
+5. Client tải thông tin GPO cần thiết.
+6. Chính sách được áp dụng cho user hoặc computer.
+
+Thông thường, việc cập nhật GPO có thể mất một khoảng thời gian. Nếu muốn cập nhật ngay trên một máy cụ thể, có thể chạy:
+
+```cmd
+gpupdate /force
+```
+
+Nếu domain có nhiều Domain Controller, SYSVOL cần được đồng bộ giữa các Domain Controller. Nếu quá trình đồng bộ lỗi, một số máy có thể nhận chính sách khác nhau tùy Domain Controller mà chúng kết nối.
+
+Từ góc độ bảo mật, SYSVOL rất quan trọng vì nó có thể chứa script hoặc tệp cấu hình được phân phối trong domain. Cần kiểm soát quyền truy cập và theo dõi thay đổi bất thường trong SYSVOL.
+
+Một số rủi ro cần chú ý:
+
+* script độc hại bị đưa vào SYSVOL;
+* GPO bị chỉnh sửa trái phép;
+* SYSVOL không đồng bộ giữa các Domain Controller;
+* quyền truy cập SYSVOL bị cấu hình sai;
+* thông tin nhạy cảm bị lưu trong script hoặc file cấu hình.
+
+Tóm lại, triển khai chính sách bảo mật bằng GPO giúp doanh nghiệp kiểm soát cấu hình Windows theo cách tập trung. Các chính sách như chặn Control Panel, khóa màn hình tự động và cấu hình bảo mật máy trạm/máy chủ cần được triển khai đúng OU, kiểm tra hiệu lực và giám sát thường xuyên.
 
 
 
