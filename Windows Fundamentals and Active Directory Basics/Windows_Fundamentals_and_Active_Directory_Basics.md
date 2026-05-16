@@ -26,6 +26,8 @@
 
 12. [Event Viewer và Windows Logs](#12-event-viewer-và-windows-logs)
 
+13. [System Information](#13-system-information)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -2923,7 +2925,7 @@ Ví dụ, nếu cùng một tài khoản đăng nhập thất bại trên nhiề
 
 Event Logs không chỉ giúp phát hiện tấn công mà còn hỗ trợ điều tra sau sự cố, dựng lại timeline và xác định phạm vi ảnh hưởng.
 
-### 12.6. Event Viewer trong phát hiện và điều tra tấn công
+## 12.6. Event Viewer trong phát hiện và điều tra tấn công
 
 Event Viewer có thể hỗ trợ phát hiện và điều tra nhiều loại tấn công trên Windows, đặc biệt khi kiểm tra Security Log, System Log và Application Log.
 
@@ -2954,6 +2956,353 @@ Khi điều tra tấn công, cần chú ý đến các yếu tố sau:
 Ví dụ, nếu phát hiện nhiều Failure Audit liên quan đến đăng nhập thất bại, sau đó có một Success Audit từ cùng một nguồn, có thể nghi ngờ rằng kẻ tấn công đã đoán đúng mật khẩu.
 
 Event Viewer là công cụ rất hữu ích cho phân tích ban đầu. Tuy nhiên, trong điều tra chuyên sâu, cần kết hợp thêm các nguồn dữ liệu khác như Sysmon logs, PowerShell logs, firewall logs, EDR alerts và SIEM correlation rules.
+
+# 13. System Information
+
+## 13.1. System Information là gì?
+
+**System Information** là công cụ trong Windows dùng để xem thông tin chi tiết về phần cứng, phần mềm, thành phần hệ thống và môi trường hoạt động của máy tính.
+
+Công cụ này giúp người dùng và quản trị viên nhanh chóng kiểm tra cấu hình hệ thống mà không cần cài thêm phần mềm bên ngoài.
+
+System Information có thể hiển thị các thông tin như:
+
+- phiên bản hệ điều hành;
+- tên máy tính;
+- nhà sản xuất hệ thống;
+- model máy;
+- loại CPU;
+- dung lượng RAM;
+- BIOS/UEFI;
+- thiết bị phần cứng;
+- driver;
+- dịch vụ;
+- chương trình khởi động;
+- biến môi trường.
+
+Trong quản trị hệ thống, System Information rất hữu ích khi cần kiểm tra cấu hình máy, xác định thông tin phần cứng, kiểm tra môi trường phần mềm hoặc hỗ trợ xử lý sự cố.
+
+Trong an toàn thông tin, công cụ này có thể giúp thu thập thông tin ban đầu về hệ thống trước khi phân tích sâu hơn.
+
+
+## 13.2. Cách mở `msinfo32.exe`
+
+Có nhiều cách để mở System Information trong Windows.
+
+Cách phổ biến nhất là sử dụng hộp thoại Run:
+
+1. Nhấn tổ hợp phím:
+
+```text
+Win + R
+````
+
+2. Nhập lệnh:
+
+```text
+msinfo32.exe
+```
+
+3. Nhấn **Enter**.
+
+Ngoài ra, có thể mở bằng Start Menu:
+
+1. Nhấn **Start**.
+2. Gõ từ khóa:
+
+```text
+System Information
+```
+
+3. Chọn ứng dụng **System Information**.
+
+Cũng có thể mở từ Command Prompt hoặc PowerShell bằng lệnh:
+
+```text
+msinfo32
+```
+
+Sau khi mở, cửa sổ System Information sẽ hiển thị nhiều nhóm thông tin khác nhau, trong đó các nhóm chính gồm:
+
+* **System Summary**;
+* **Hardware Resources**;
+* **Components**;
+* **Software Environment**.
+
+![](./img/13.2_open_system_info.png)
+
+## 13.3. System Summary
+
+**System Summary** là phần tóm tắt thông tin tổng quan của hệ thống. Đây là phần đầu tiên được hiển thị khi mở System Information.
+
+System Summary thường cung cấp các thông tin như:
+
+| Thông tin                 | Ý nghĩa                                |
+| ------------------------- | -------------------------------------- |
+| OS Name                   | Tên hệ điều hành Windows               |
+| Version                   | Phiên bản hệ điều hành                 |
+| System Name               | Tên máy tính                           |
+| System Manufacturer       | Nhà sản xuất thiết bị                  |
+| System Model              | Model máy                              |
+| System Type               | Kiến trúc hệ thống, ví dụ x64-based PC |
+| Processor                 | Thông tin CPU                          |
+| BIOS Version/Date         | Phiên bản và ngày phát hành BIOS       |
+| Installed Physical Memory | Dung lượng RAM được cài đặt            |
+| Total Physical Memory     | Tổng bộ nhớ vật lý khả dụng            |
+| Available Physical Memory | Bộ nhớ còn trống                       |
+| Time Zone                 | Múi giờ hệ thống                       |
+
+Phần System Summary rất hữu ích khi cần kiểm tra nhanh thông tin cơ bản của máy tính.
+
+Ví dụ, khi cài phần mềm hoặc driver, người dùng có thể cần biết máy đang dùng Windows phiên bản nào, kiến trúc 32-bit hay 64-bit, CPU gì và dung lượng RAM bao nhiêu.
+
+Trong môi trường doanh nghiệp, System Summary cũng giúp quản trị viên kiểm kê tài sản, kiểm tra cấu hình máy trạm và xác định thiết bị có đáp ứng yêu cầu kỹ thuật hay không.
+
+## 13.4. Hardware Resources
+
+**Hardware Resources** là nhóm thông tin liên quan đến tài nguyên phần cứng của hệ thống.
+
+![](./img/13.4_hardware_resources.png)
+
+Phần này thường bao gồm các mục như:
+
+* Conflicts/Sharing;
+* DMA;
+* Forced Hardware;
+* I/O;
+* IRQs;
+* Memory.
+
+Hardware Resources giúp người dùng xem cách Windows phân bổ tài nguyên phần cứng cho các thiết bị.
+
+Ví dụ, hệ thống có thể hiển thị thông tin về:
+
+* vùng bộ nhớ phần cứng;
+* ngắt IRQ;
+* địa chỉ I/O;
+* tài nguyên đang được chia sẻ giữa các thiết bị;
+* xung đột phần cứng nếu có.
+
+Đối với người dùng thông thường, phần này có thể khá khó hiểu. Tuy nhiên, với quản trị viên hệ thống hoặc kỹ thuật viên, Hardware Resources có thể hữu ích khi xử lý lỗi phần cứng, driver hoặc xung đột thiết bị.
+
+Trong thực tế hiện nay, Windows thường tự động quản lý phần lớn tài nguyên phần cứng, nên người dùng hiếm khi cần chỉnh sửa trực tiếp các thông tin này.
+
+## 13.5. Components
+
+**Components** là nhóm thông tin hiển thị các thành phần phần cứng và thiết bị được Windows nhận diện.
+
+![](./img/13.5_components.png)
+
+Phần này có thể chứa thông tin về:
+
+* Multimedia;
+* Display;
+* Infrared;
+* Input;
+* Modem;
+* Network;
+* Ports;
+* Storage;
+* Printing;
+* Problem Devices;
+* USB.
+
+Ví dụ, trong mục **Display**, người dùng có thể xem thông tin về card đồ họa, driver màn hình và độ phân giải. Trong mục **Network**, có thể xem thông tin về card mạng. Trong mục **Storage**, có thể xem thông tin liên quan đến ổ đĩa.
+
+Một mục rất hữu ích là **Problem Devices**. Mục này hiển thị các thiết bị đang gặp vấn đề hoặc chưa được hệ thống nhận diện đúng.
+
+Components thường được dùng khi cần:
+
+* kiểm tra thiết bị phần cứng;
+* xác định driver đang sử dụng;
+* xem thông tin card mạng;
+* kiểm tra thiết bị lưu trữ;
+* phát hiện thiết bị lỗi;
+* hỗ trợ xử lý sự cố phần cứng.
+
+Trong điều tra bảo mật, phần Components cũng có thể hỗ trợ kiểm tra các thiết bị bất thường, adapter mạng lạ hoặc thiết bị USB được hệ thống nhận diện.
+
+## 13.6. Software Environment
+
+**Software Environment** là nhóm thông tin liên quan đến môi trường phần mềm của Windows.
+
+![](./img/13.6_software_environment.png)
+
+Phần này có thể hiển thị thông tin về:
+
+* System Drivers;
+* Environment Variables;
+* Print Jobs;
+* Network Connections;
+* Running Tasks;
+* Loaded Modules;
+* Services;
+* Program Groups;
+* Startup Programs;
+* OLE Registration;
+* Windows Error Reporting.
+
+Software Environment giúp người dùng xem nhiều thông tin quan trọng về các thành phần phần mềm đang hoạt động trên hệ thống.
+
+Ví dụ:
+
+* **Running Tasks** cho biết các tác vụ đang chạy;
+* **Services** cho biết các dịch vụ trên hệ thống;
+* **Startup Programs** cho biết các chương trình khởi động cùng Windows;
+* **Environment Variables** cho biết các biến môi trường;
+* **System Drivers** cho biết driver hệ thống.
+
+Trong quản trị hệ thống, Software Environment rất hữu ích khi cần kiểm tra phần mềm, dịch vụ, driver hoặc chương trình tự khởi động.
+
+Trong an toàn thông tin, đây là nơi có thể hỗ trợ phát hiện dấu hiệu bất thường như chương trình khởi động lạ, dịch vụ đáng nghi hoặc driver không rõ nguồn gốc.
+
+## 13.7. Environment Variables
+
+**Environment Variables**, hay biến môi trường, là các giá trị được Windows và chương trình sử dụng để xác định đường dẫn, cấu hình hoặc thông tin môi trường hệ thống.
+
+![](./img/13.7_enviroment_variables.png)
+
+Biến môi trường giúp hệ điều hành và ứng dụng hoạt động linh hoạt hơn. Thay vì phải ghi cố định một đường dẫn, chương trình có thể dùng biến môi trường để tham chiếu đến vị trí tương ứng trên từng máy.
+
+Ví dụ:
+
+| Biến môi trường | Ý nghĩa                                                  |
+| --------------- | -------------------------------------------------------- |
+| `WINDIR`        | Chỉ đến thư mục cài đặt Windows                          |
+| `SystemRoot`    | Chỉ đến thư mục hệ thống Windows                         |
+| `TEMP`          | Chỉ đến thư mục tạm                                      |
+| `TMP`           | Chỉ đến thư mục tạm                                      |
+| `USERPROFILE`   | Chỉ đến thư mục hồ sơ người dùng hiện tại                |
+| `PATH`          | Danh sách thư mục dùng để tìm chương trình khi chạy lệnh |
+| `ComSpec`       | Chỉ đến chương trình Command Prompt                      |
+
+Biến môi trường rất quan trọng khi chạy lệnh, viết script hoặc xử lý lỗi đường dẫn.
+
+Ví dụ, thay vì viết trực tiếp:
+
+```text
+C:\Windows
+```
+
+có thể dùng:
+
+```text
+%WINDIR%
+```
+
+Điều này giúp lệnh hoặc script hoạt động linh hoạt hơn trên nhiều máy khác nhau.
+
+## 13.8. Biến môi trường `WINDIR`
+
+`WINDIR` là biến môi trường dùng để chỉ đường dẫn đến thư mục cài đặt Windows.
+
+Thông thường, giá trị của `WINDIR` là:
+
+```text
+C:\Windows
+```
+
+Ví dụ, khi cần tham chiếu đến thư mục System32, có thể dùng:
+
+```text
+%WINDIR%\System32
+```
+
+Thông thường, đường dẫn này tương đương với:
+
+```text
+C:\Windows\System32
+```
+
+Biến `WINDIR` hữu ích vì không phải hệ thống Windows nào cũng bắt buộc được cài trong `C:\Windows`. Nếu Windows được cài ở vị trí khác, biến môi trường vẫn giúp chương trình tìm đúng thư mục hệ thống.
+
+Trong quản trị Windows, `WINDIR` thường xuất hiện trong script, lệnh hệ thống, cấu hình phần mềm và một số tài liệu kỹ thuật.
+
+Ví dụ:
+
+```cmd
+echo %WINDIR%
+```
+
+![](./img/13.8_windir.png)
+
+Lệnh trên dùng để hiển thị giá trị hiện tại của biến `WINDIR` trong Command Prompt.
+
+## 13.9. Biến môi trường `ComSpec`
+
+`ComSpec` là biến môi trường dùng để chỉ đường dẫn đến chương trình Command Prompt của Windows.
+
+Thông thường, giá trị của `ComSpec` là:
+
+```text
+%SystemRoot%\system32\cmd.exe
+```
+
+Hoặc tương đương với:
+
+```text
+C:\Windows\System32\cmd.exe
+```
+
+Biến này cho biết Windows sẽ sử dụng chương trình nào làm trình thông dịch lệnh mặc định cho Command Prompt.
+
+Có thể kiểm tra giá trị của `ComSpec` bằng lệnh:
+
+```cmd
+echo %ComSpec%
+```
+
+Kết quả thường là:
+
+```text
+C:\Windows\system32\cmd.exe
+```
+
+![](./img/13.9_comspec.png)
+
+Trong thực tế, `ComSpec` có thể được sử dụng bởi script, chương trình cài đặt hoặc một số ứng dụng cần gọi Command Prompt để chạy lệnh.
+
+Từ góc độ bảo mật, nếu giá trị `ComSpec` bị thay đổi bất thường, đó có thể là dấu hiệu cần kiểm tra kỹ, vì nó liên quan đến chương trình thực thi lệnh của hệ thống.
+
+## 13.10. Tìm kiếm thông tin trong System Information
+
+System Information có chức năng tìm kiếm giúp người dùng nhanh chóng tìm thông tin cần thiết trong toàn bộ dữ liệu hệ thống.
+
+Ở phía dưới cửa sổ System Information thường có ô **Find what**. Người dùng có thể nhập từ khóa cần tìm, sau đó nhấn **Find** để tìm thông tin liên quan.
+
+Ví dụ, có thể tìm các từ khóa như:
+
+```text
+WINDIR
+```
+
+```text
+ComSpec
+```
+
+```text
+Processor
+```
+
+```text
+BIOS
+```
+
+```text
+Startup
+```
+
+Chức năng tìm kiếm rất hữu ích vì System Information chứa nhiều nhóm thông tin khác nhau. Nếu không dùng tìm kiếm, người dùng có thể mất thời gian để mở từng mục thủ công.
+
+Trong quản trị và xử lý sự cố, tìm kiếm trong System Information giúp nhanh chóng xác định:
+
+* biến môi trường;
+* thông tin CPU;
+* phiên bản BIOS;
+* driver;
+* chương trình khởi động;
+* dịch vụ;
+* thiết bị có vấn đề.
 
 
 
