@@ -10,6 +10,8 @@
 
 4. [Thư mục hệ thống Windows](#4-thư-mục-hệ-thống-windows)
 
+5. [Tài khoản người dùng, hồ sơ và quyền](#5-tài-khoản-người-dùng-hồ-sơ-và-quyền)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -859,4 +861,291 @@ Nhiều công cụ quan trọng của Windows được lưu trong thư mục `Sy
 | Network Statistics | `netstat.exe` | Xem kết nối mạng và thống kê TCP/IP |
 
 Các công cụ này rất hữu ích trong quản trị hệ thống, xử lý sự cố và phân tích bảo mật. Ví dụ, `eventvwr.msc` giúp kiểm tra log sự kiện, `taskmgr.exe` giúp xem tiến trình đang chạy, còn `ipconfig.exe` hỗ trợ kiểm tra cấu hình mạng.
+
+
+# 5. Tài khoản người dùng, hồ sơ và quyền
+
+## 5.1. Tài khoản người dùng trong Windows
+
+Tài khoản người dùng trong Windows là danh tính được sử dụng để đăng nhập và làm việc trên hệ thống. Mỗi tài khoản đại diện cho một người dùng hoặc một đối tượng có quyền truy cập vào máy tính.
+
+Thông qua tài khoản người dùng, Windows có thể xác định:
+
+- ai đang đăng nhập vào hệ thống;
+- người dùng đó được phép làm gì;
+- người dùng có thể truy cập tệp hoặc thư mục nào;
+- người dùng có quyền thay đổi cài đặt hệ thống hay không;
+- hồ sơ cá nhân của người dùng được lưu ở đâu.
+
+Trong Windows, tài khoản người dùng cục bộ thường được chia thành hai loại chính:
+
+- **Administrator Account**;
+- **Standard User Account**.
+
+Loại tài khoản quyết định mức quyền của người dùng trên hệ thống. Người dùng có quyền quản trị có thể thay đổi nhiều thiết lập quan trọng, trong khi người dùng tiêu chuẩn bị giới hạn hơn để giảm rủi ro gây lỗi hoặc làm mất an toàn hệ thống.
+
+Trong môi trường doanh nghiệp, tài khoản người dùng có thể được quản lý cục bộ trên từng máy hoặc được quản lý tập trung thông qua Active Directory.
+
+
+## 5.2. Administrator Account
+
+**Administrator Account** là tài khoản có quyền quản trị trên hệ thống Windows. Người dùng thuộc nhóm Administrator có thể thực hiện các thay đổi quan trọng ảnh hưởng đến toàn bộ máy tính.
+
+Một tài khoản Administrator thường có thể:
+
+- cài đặt và gỡ bỏ phần mềm;
+- tạo tài khoản người dùng mới;
+- xóa tài khoản người dùng;
+- thay đổi loại tài khoản;
+- thêm hoặc xóa người dùng khỏi nhóm;
+- thay đổi cài đặt hệ thống;
+- truy cập nhiều khu vực quản trị;
+- thay đổi quyền truy cập của tệp và thư mục;
+- chạy chương trình với quyền cao.
+
+Tài khoản Administrator rất quan trọng trong quản trị hệ thống, nhưng cũng tiềm ẩn nhiều rủi ro nếu bị lạm dụng hoặc bị kẻ tấn công chiếm quyền. Nếu mã độc chạy dưới quyền Administrator, nó có thể gây thiệt hại lớn hơn nhiều so với khi chạy dưới quyền người dùng thông thường.
+
+Vì vậy, trong thực tế, không nên sử dụng tài khoản Administrator cho các công việc hằng ngày như duyệt web, đọc email hoặc mở tệp không rõ nguồn gốc. Chỉ nên dùng quyền quản trị khi thật sự cần thiết.
+
+
+## 5.3. Standard User Account
+
+**Standard User Account** là tài khoản người dùng thông thường trong Windows. Tài khoản này được thiết kế để sử dụng cho các công việc hằng ngày nhưng không có toàn quyền thay đổi hệ thống.
+
+Người dùng Standard User có thể thực hiện các tác vụ cơ bản như:
+
+- đăng nhập vào Windows;
+- sử dụng ứng dụng đã được cài đặt;
+- tạo và chỉnh sửa tệp trong thư mục cá nhân;
+- thay đổi một số thiết lập cá nhân;
+- truy cập tài nguyên được cấp quyền.
+
+Tuy nhiên, Standard User thường không thể:
+
+- cài đặt phần mềm cho toàn hệ thống;
+- thay đổi cài đặt bảo mật quan trọng;
+- tạo hoặc xóa tài khoản người dùng khác;
+- thay đổi nhóm người dùng;
+- chỉnh sửa tệp hệ thống;
+- truy cập dữ liệu của người dùng khác nếu không được cấp quyền.
+
+Loại tài khoản này an toàn hơn cho việc sử dụng hằng ngày vì nó giới hạn quyền của người dùng. Nếu người dùng vô tình chạy một chương trình độc hại, chương trình đó cũng bị giới hạn bởi quyền của tài khoản hiện tại.
+
+Trong an toàn thông tin, việc sử dụng Standard User cho công việc thường ngày là một nguyên tắc quan trọng để giảm nguy cơ leo thang đặc quyền và hạn chế tác động của mã độc.
+
+
+## 5.4. Sự khác nhau giữa Administrator và Standard User
+
+Administrator và Standard User khác nhau chủ yếu ở mức quyền trên hệ thống.
+
+Administrator có quyền thay đổi các thiết lập cấp hệ thống, trong khi Standard User chỉ có quyền thao tác trong phạm vi cá nhân hoặc các tài nguyên đã được cấp quyền.
+
+| Tiêu chí | Administrator | Standard User |
+|---|---|---|
+| Quyền cài đặt phần mềm | Có thể cài đặt phần mềm hệ thống | Thường không thể cài đặt nếu cần quyền quản trị |
+| Quản lý người dùng | Có thể tạo, xóa, sửa tài khoản | Không thể quản lý tài khoản khác |
+| Thay đổi cài đặt hệ thống | Có thể thay đổi | Bị giới hạn |
+| Truy cập tệp hệ thống | Có nhiều quyền hơn | Bị hạn chế |
+| Mức độ rủi ro khi bị mã độc lợi dụng | Cao hơn | Thấp hơn |
+| Phù hợp cho | Quản trị hệ thống | Sử dụng hằng ngày |
+
+Ví dụ, nếu một người dùng Standard User muốn cài đặt phần mềm yêu cầu quyền cao, Windows có thể hiển thị yêu cầu **User Account Control** để yêu cầu xác nhận hoặc nhập thông tin tài khoản quản trị.
+
+Trong môi trường doanh nghiệp, người dùng thông thường nên sử dụng Standard User Account. Quyền Administrator chỉ nên cấp cho quản trị viên hoặc những người thật sự cần thực hiện nhiệm vụ quản trị.
+
+
+## 5.5. User Profile là gì?
+
+**User Profile** là hồ sơ cá nhân của người dùng trên Windows. Khi một tài khoản người dùng đăng nhập vào hệ thống lần đầu, Windows sẽ tạo một hồ sơ riêng cho tài khoản đó.
+
+User Profile chứa các dữ liệu và thiết lập cá nhân của người dùng, ví dụ:
+
+- Desktop;
+- Documents;
+- Downloads;
+- Pictures;
+- Music;
+- cấu hình ứng dụng;
+- thiết lập giao diện;
+- một số dữ liệu cá nhân khác.
+
+![](./img/5.5_user_profile.webp)
+
+Nhờ User Profile, mỗi người dùng có thể có môi trường làm việc riêng trên cùng một máy tính. Ví dụ, mỗi người có Desktop riêng, thư mục tài liệu riêng và một số thiết lập cá nhân riêng.
+
+Khi người dùng đăng nhập lần đầu, Windows sẽ chuẩn bị hồ sơ người dùng. Sau khi hồ sơ được tạo, hệ thống sẽ sử dụng hồ sơ đó cho các lần đăng nhập tiếp theo.
+
+Trong quản trị hệ thống, User Profile rất quan trọng vì nó liên quan đến dữ liệu cá nhân, cấu hình ứng dụng và trải nghiệm làm việc của người dùng.
+
+
+## 5.6. Thư mục `C:\Users`
+
+`C:\Users` là thư mục mặc định chứa hồ sơ của các người dùng trên Windows.
+
+Mỗi người dùng thường có một thư mục riêng bên trong `C:\Users`. Ví dụ, nếu tài khoản có tên là `Max`, thư mục hồ sơ của người dùng đó thường là:
+
+```text
+C:\Users\Max
+````
+
+Trong thư mục này, Windows lưu các thư mục và dữ liệu cá nhân của người dùng. Đây là nơi chứa Desktop, Documents, Downloads và nhiều dữ liệu cấu hình liên quan đến tài khoản.
+
+Ví dụ cấu trúc cơ bản có thể như sau:
+
+```text
+C:\Users
+├── Administrator
+├── Public
+├── Max
+└── User01
+```
+
+Thư mục `C:\Users` giúp Windows tách biệt dữ liệu giữa các tài khoản khác nhau. Người dùng này thường không thể truy cập dữ liệu riêng của người dùng khác nếu không có quyền phù hợp.
+
+Từ góc độ bảo mật, thư mục `C:\Users` là nơi quan trọng vì nó thường chứa dữ liệu cá nhân, tài liệu làm việc, tệp tải xuống và có thể cả dữ liệu nhạy cảm.
+
+## 5.7. Các thư mục mặc định trong hồ sơ người dùng
+
+Khi Windows tạo hồ sơ người dùng, hệ thống thường tạo sẵn một số thư mục mặc định để phục vụ việc lưu trữ dữ liệu cá nhân.
+
+Các thư mục thường gặp gồm:
+
+| Thư mục   | Chức năng                                                      |
+| --------- | -------------------------------------------------------------- |
+| Desktop   | Chứa các biểu tượng, shortcut và tệp nằm trên màn hình Desktop |
+| Documents | Lưu trữ tài liệu cá nhân hoặc tài liệu làm việc                |
+| Downloads | Lưu các tệp được tải xuống từ Internet                         |
+| Pictures  | Lưu trữ hình ảnh                                               |
+| Music     | Lưu trữ tệp âm thanh                                           |
+| Videos    | Lưu trữ video                                                  |
+| AppData   | Chứa dữ liệu cấu hình và dữ liệu ứng dụng của người dùng       |
+
+Ví dụ, nếu người dùng có tên `Max`, thư mục Downloads của người dùng đó thường là:
+
+```text
+C:\Users\Max\Downloads
+```
+
+Trong điều tra bảo mật, một số thư mục trong User Profile rất đáng chú ý. Ví dụ, thư mục `Downloads` có thể chứa tệp tải từ Internet, thư mục `Desktop` có thể chứa tài liệu người dùng thường mở, còn `AppData` có thể chứa dữ liệu ứng dụng hoặc tệp được phần mềm tạo ra.
+
+Vì vậy, hiểu cấu trúc User Profile giúp quản trị viên và chuyên viên SOC phân tích hoạt động người dùng tốt hơn.
+
+## 5.8. Local Users and Groups
+
+**Local Users and Groups** là công cụ quản lý người dùng và nhóm cục bộ trên một máy Windows. Công cụ này cho phép quản trị viên xem, tạo, sửa, xóa tài khoản người dùng và quản lý tư cách thành viên trong các nhóm cục bộ.
+
+Trong Local Users and Groups, có hai phần chính:
+
+* **Users**;
+* **Groups**.
+
+Phần Users chứa danh sách các tài khoản người dùng cục bộ trên máy. Phần Groups chứa các nhóm cục bộ, mỗi nhóm có một tập quyền hoặc vai trò nhất định.
+
+Thông qua công cụ này, quản trị viên có thể:
+
+* xem danh sách người dùng cục bộ;
+* tạo người dùng mới;
+* đổi mật khẩu;
+* vô hiệu hóa tài khoản;
+* thêm người dùng vào nhóm;
+* xóa người dùng khỏi nhóm;
+* kiểm tra mô tả và thuộc tính tài khoản.
+
+Local Users and Groups thường được sử dụng khi quản trị một máy Windows độc lập hoặc khi cần kiểm tra tài khoản cục bộ trên máy trong môi trường domain.
+
+## 5.9. Công cụ `lusrmgr.msc`
+
+`lusrmgr.msc` là lệnh dùng để mở công cụ **Local Users and Groups** trong Windows.
+
+Có thể mở công cụ này bằng cách:
+
+1. Nhấn `Win + R` để mở hộp thoại Run.
+2. Nhập lệnh:
+
+```text
+lusrmgr.msc
+```
+
+3. Nhấn Enter.
+
+![](./img/5.9_lusrmgr.png)
+
+Sau khi mở, cửa sổ Local Users and Groups sẽ hiển thị hai thư mục chính:
+
+* **Users**;
+* **Groups**.
+
+Trong **Users**, quản trị viên có thể xem các tài khoản người dùng cục bộ. Trong **Groups**, quản trị viên có thể xem các nhóm cục bộ và thành viên của từng nhóm.
+
+Công cụ `lusrmgr.msc` rất hữu ích khi cần kiểm tra nhanh tài khoản nào đang tồn tại trên máy, người dùng thuộc nhóm nào và có tài khoản lạ nào được tạo bất thường hay không.
+
+Lưu ý rằng công cụ này thường yêu cầu quyền quản trị để thực hiện các thay đổi quan trọng.
+
+## 5.10. Users và Groups
+
+Trong Windows, **Users** là các tài khoản người dùng, còn **Groups** là các nhóm dùng để quản lý quyền cho nhiều người dùng cùng lúc.
+
+Thay vì cấp quyền riêng lẻ cho từng người dùng, Windows cho phép đưa nhiều người dùng vào một nhóm. Sau đó, quyền được cấp cho nhóm sẽ áp dụng cho tất cả thành viên của nhóm đó.
+
+Ví dụ:
+
+* người dùng thuộc nhóm `Administrators` sẽ có quyền quản trị;
+* người dùng thuộc nhóm `Users` sẽ có quyền thông thường;
+* người dùng thuộc nhóm `Remote Desktop Users` có thể được phép đăng nhập từ xa qua Remote Desktop nếu cấu hình cho phép.
+
+Việc sử dụng nhóm giúp quản lý quyền dễ dàng hơn. Khi một người dùng mới cần quyền giống những người khác, quản trị viên chỉ cần thêm người đó vào nhóm phù hợp.
+
+Một người dùng có thể là thành viên của nhiều nhóm. Khi đó, quyền thực tế của người dùng sẽ phụ thuộc vào các nhóm mà họ thuộc về và các chính sách bảo mật đang áp dụng.
+
+Trong an toàn thông tin, cần kiểm tra kỹ thành viên của các nhóm có quyền cao, đặc biệt là nhóm `Administrators`, vì nếu tài khoản không phù hợp nằm trong nhóm này, hệ thống có thể bị rủi ro nghiêm trọng.
+
+## 5.11. Quyền kế thừa từ nhóm người dùng
+
+Quyền kế thừa từ nhóm người dùng là cơ chế trong đó một người dùng nhận quyền dựa trên nhóm mà họ thuộc về.
+
+Ví dụ, nếu tài khoản `user01` được thêm vào nhóm `Remote Desktop Users`, tài khoản này có thể được cấp quyền đăng nhập từ xa nếu hệ thống cho phép Remote Desktop. Nếu tài khoản được thêm vào nhóm `Administrators`, người dùng sẽ có quyền quản trị trên máy.
+
+Cơ chế này giúp đơn giản hóa việc quản lý quyền. Thay vì cấu hình quyền riêng cho từng người dùng, quản trị viên chỉ cần quản lý tư cách thành viên của các nhóm.
+
+Ví dụ:
+
+```text
+Người dùng A → thuộc nhóm Users → có quyền người dùng thông thường
+Người dùng B → thuộc nhóm Administrators → có quyền quản trị
+Người dùng C → thuộc nhóm Remote Desktop Users → có thể được phép truy cập từ xa
+```
+
+Tuy nhiên, quyền kế thừa từ nhóm cũng có thể gây rủi ro nếu quản lý không cẩn thận. Một người dùng bị thêm nhầm vào nhóm có quyền cao có thể thực hiện các thao tác vượt quá phạm vi cần thiết.
+
+Vì vậy, trong quản trị và bảo mật Windows, cần thường xuyên kiểm tra:
+
+* người dùng thuộc những nhóm nào;
+* nhóm nào có quyền cao;
+* có tài khoản lạ trong nhóm quản trị hay không;
+* quyền cấp cho nhóm có phù hợp với công việc thực tế hay không.
+
+Nguyên tắc nên áp dụng là **least privilege**, tức là chỉ cấp quyền tối thiểu cần thiết để người dùng thực hiện công việc.
+
+## 5.12. Các tài khoản tích hợp sẵn trong Windows
+
+Windows có một số tài khoản tích hợp sẵn được tạo mặc định để phục vụ cho hoạt động và quản trị hệ thống. Các tài khoản này có vai trò đặc biệt và cần được quản lý cẩn thận.
+
+Một số tài khoản tích hợp thường gặp gồm:
+
+| Tài khoản       | Ý nghĩa                                               |
+| --------------- | ----------------------------------------------------- |
+| Administrator   | Tài khoản quản trị tích hợp sẵn                       |
+| Guest           | Tài khoản dành cho truy cập khách                     |
+| DefaultAccount  | Tài khoản mặc định dùng cho một số chức năng hệ thống |
+| SYSTEM          | Tài khoản hệ thống có quyền rất cao                   |
+| Local Service   | Tài khoản dịch vụ cục bộ với quyền hạn chế            |
+| Network Service | Tài khoản dịch vụ dùng cho một số hoạt động mạng      |
+
+Tài khoản **Administrator** là tài khoản quản trị tích hợp sẵn. Tài khoản này có quyền cao và có thể thực hiện nhiều thay đổi quan trọng trên hệ thống. Vì vậy, cần bảo vệ bằng mật khẩu mạnh và chỉ sử dụng khi cần thiết.
+
+Tài khoản **Guest** được thiết kế cho truy cập khách. Trong nhiều hệ thống hiện đại, tài khoản này thường bị vô hiệu hóa để giảm rủi ro bảo mật.
+
+Các tài khoản như **SYSTEM**, **Local Service** và **Network Service** thường được sử dụng bởi hệ điều hành và các dịch vụ nền. Người dùng thông thường không đăng nhập trực tiếp bằng các tài khoản này.
+
+Từ góc độ bảo mật, các tài khoản tích hợp sẵn cần được kiểm tra định kỳ. Đặc biệt, không nên bật tài khoản Guest nếu không cần thiết và cần hạn chế sử dụng tài khoản Administrator cho các tác vụ hằng ngày.
 
