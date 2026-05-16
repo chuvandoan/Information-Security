@@ -30,6 +30,8 @@
 
 14. [Resource Monitor](#14-resource-monitor)
 
+15. [Command Prompt](#15-command-prompt)
+
 ## Nội dung
 
 # 1. Tổng quan về hệ điều hành Windows
@@ -3590,6 +3592,536 @@ Nếu phát hiện một tiến trình chiếm nhiều tài nguyên, cần kiể
 Trong SOC, Resource Monitor có thể hỗ trợ phân tích nhanh trên máy cục bộ. Tuy nhiên, để điều tra đầy đủ, cần kết hợp thêm các nguồn dữ liệu khác như Event Viewer, Sysmon, Windows Defender, EDR, firewall logs và SIEM.
 
 Tóm lại, Resource Monitor là công cụ quan trọng giúp người học Windows hiểu hệ thống đang sử dụng tài nguyên như thế nào và hỗ trợ phát hiện các dấu hiệu bất thường ban đầu.
+
+# 15. Command Prompt
+
+## 15.1. Command Prompt là gì?
+
+**Command Prompt**, thường gọi là **CMD**, là giao diện dòng lệnh truyền thống của Windows. Thay vì thao tác bằng giao diện đồ họa, người dùng có thể nhập lệnh để thực hiện các tác vụ quản trị, kiểm tra hệ thống, cấu hình mạng và xử lý sự cố.
+
+Command Prompt cho phép người dùng làm việc với Windows bằng các câu lệnh như:
+
+- xem tên máy tính;
+- kiểm tra tài khoản đang đăng nhập;
+- kiểm tra cấu hình mạng;
+- xem kết nối mạng;
+- quản lý người dùng cục bộ;
+- quản lý nhóm cục bộ;
+- mở công cụ hệ thống;
+- chạy script hoặc chương trình.
+
+## 15.2. Cách mở CMD
+
+Có nhiều cách để mở Command Prompt trong Windows.
+
+Cách phổ biến nhất là mở từ Start Menu:
+
+1. Nhấn **Start**.
+2. Gõ từ khóa:
+
+```text
+cmd
+````
+
+3. Chọn **Command Prompt**.
+
+Có thể mở CMD bằng hộp thoại Run:
+
+1. Nhấn tổ hợp phím:
+
+```text
+Win + R
+```
+
+2. Nhập:
+
+```text
+cmd
+```
+
+3. Nhấn **Enter**.
+
+![](./img/15.2_open_cmd.png)
+
+Nếu cần chạy CMD với quyền quản trị, có thể:
+
+1. Nhấn **Start**.
+2. Gõ `cmd`.
+3. Nhấp chuột phải vào **Command Prompt**.
+4. Chọn **Run as administrator**.
+
+Khi chạy CMD với quyền quản trị, người dùng có thể thực hiện nhiều lệnh yêu cầu quyền cao hơn, ví dụ như thay đổi cấu hình hệ thống hoặc quản lý tài khoản người dùng.
+
+## 15.3. Cú pháp lệnh trong CMD
+
+Một lệnh trong CMD thường có cấu trúc cơ bản như sau:
+
+```cmd
+command [option] [argument]
+```
+
+Trong đó:
+
+| Thành phần | Ý nghĩa                       |
+| ---------- | ----------------------------- |
+| `command`  | Tên lệnh cần chạy             |
+| `option`   | Tùy chọn hoặc tham số bổ sung |
+| `argument` | Đối tượng mà lệnh sẽ tác động |
+
+Ví dụ:
+
+```cmd
+ipconfig /all
+```
+
+Trong lệnh trên:
+
+* `ipconfig` là tên lệnh;
+* `/all` là tùy chọn để hiển thị thông tin chi tiết hơn.
+
+Một ví dụ khác:
+
+```cmd
+net user
+```
+
+Trong lệnh này:
+
+* `net` là lệnh chính;
+* `user` là tham số dùng để làm việc với tài khoản người dùng.
+
+CMD thường sử dụng dấu `/` cho các tùy chọn, ví dụ:
+
+```cmd
+ipconfig /all
+net user /?
+```
+
+Để dùng CMD hiệu quả, cần hiểu tên lệnh, tham số và cách xem trợ giúp của từng lệnh.
+
+## 15.4. Lệnh `hostname`
+
+Lệnh `hostname` dùng để hiển thị tên máy tính hiện tại.
+
+Cú pháp:
+
+```cmd
+hostname
+```
+
+![](./img/15.4_hostname.png)
+
+Tên máy tính rất quan trọng trong quản trị hệ thống và điều tra sự cố. Khi làm việc trong mạng doanh nghiệp, mỗi máy tính thường có một hostname riêng để phân biệt với các thiết bị khác.
+
+Lệnh này thường được dùng khi cần:
+
+* xác định đang làm việc trên máy nào;
+* ghi nhận thông tin máy trong báo cáo;
+* kiểm tra máy trong môi trường domain;
+* đối chiếu với log hoặc cảnh báo bảo mật.
+
+## 15.5. Lệnh `whoami`
+
+Lệnh `whoami` dùng để hiển thị tài khoản người dùng hiện tại đang đăng nhập trong phiên CMD.
+
+Cú pháp:
+
+```cmd
+whoami
+```
+
+![](./img/15.5_whoami.png)
+
+Nếu máy tính thuộc domain, kết quả có thể có dạng:
+
+```text
+company\user01
+```
+
+Lệnh này giúp xác định người dùng hiện tại đang chạy lệnh là ai. Đây là thông tin quan trọng khi kiểm tra quyền, phân tích log hoặc xử lý sự cố.
+
+Một số tình huống sử dụng `whoami`:
+
+* kiểm tra tài khoản đang đăng nhập;
+* xác định đang dùng tài khoản local hay domain;
+* kiểm tra ngữ cảnh người dùng khi chạy script;
+* hỗ trợ điều tra hoạt động đáng nghi.
+
+Trong an toàn thông tin, `whoami` thường được dùng trong giai đoạn thu thập thông tin ban đầu trên hệ thống Windows.
+
+## 15.6. Lệnh `ipconfig`
+
+Lệnh `ipconfig` dùng để hiển thị thông tin cấu hình mạng cơ bản của máy tính Windows.
+
+Cú pháp:
+
+```cmd
+ipconfig
+```
+
+Lệnh này thường hiển thị các thông tin như:
+
+* địa chỉ IPv4;
+* subnet mask;
+* default gateway;
+* adapter mạng đang sử dụng;
+* trạng thái kết nối mạng.
+
+![](./img/15.6_ipconfig.png)
+
+Lệnh `ipconfig` rất hữu ích khi cần kiểm tra nhanh máy tính có nhận địa chỉ IP hay không.
+
+Một số tình huống thường dùng:
+
+* máy không vào được mạng;
+* cần kiểm tra địa chỉ IP;
+* cần xác định default gateway;
+* kiểm tra adapter mạng;
+* kiểm tra cấu hình trong môi trường lab.
+
+## 15.7. Lệnh `ipconfig /all`
+
+Lệnh `ipconfig /all` hiển thị thông tin cấu hình mạng chi tiết hơn so với `ipconfig`.
+
+Cú pháp:
+
+```cmd
+ipconfig /all
+```
+
+Lệnh này có thể hiển thị thêm các thông tin như:
+
+* hostname;
+* DNS suffix;
+* địa chỉ MAC;
+* DHCP enabled;
+* DHCP server;
+* DNS server;
+* lease obtained;
+* lease expires;
+* thông tin chi tiết của từng adapter mạng.
+
+Ví dụ, để xem địa chỉ MAC của card mạng, có thể dùng:
+
+```cmd
+ipconfig /all
+```
+
+Sau đó tìm dòng:
+
+```text
+Physical Address
+```
+
+![](./img/15.7_ipconfig_all.png)
+
+Trong quản trị hệ thống, `ipconfig /all` thường được dùng khi cần kiểm tra chi tiết cấu hình mạng của một máy.
+
+Trong SOC hoặc điều tra sự cố, thông tin từ `ipconfig /all` có thể giúp xác định:
+
+* máy đang dùng DNS nào;
+* địa chỉ MAC của thiết bị;
+* máy có nhận IP từ DHCP hay không;
+* adapter mạng nào đang hoạt động;
+* có adapter ảo hoặc cấu hình mạng bất thường hay không.
+
+## 15.8. Lệnh `netstat`
+
+Lệnh `netstat` dùng để hiển thị thông tin về các kết nối mạng, cổng đang lắng nghe và thống kê mạng trên Windows.
+
+Cú pháp cơ bản:
+
+```cmd
+netstat
+```
+
+![](./img/15.8_netstat.png)
+
+Một số tùy chọn thường dùng:
+
+```cmd
+netstat -ano
+```
+
+![](./img/15.8_netstat_ano.png)
+
+Ý nghĩa thường gặp:
+
+| Tùy chọn | Ý nghĩa                                        |
+| -------- | ---------------------------------------------- |
+| `-a`     | Hiển thị tất cả kết nối và cổng đang lắng nghe |
+| `-n`     | Hiển thị địa chỉ và cổng dưới dạng số          |
+| `-o`     | Hiển thị PID của tiến trình liên quan          |
+
+
+
+Lệnh này giúp xem tiến trình nào đang mở kết nối mạng hoặc lắng nghe trên cổng nào.
+
+Thông tin thường có trong kết quả `netstat`:
+
+* protocol;
+* local address;
+* foreign address;
+* state;
+* PID.
+
+Một số trạng thái kết nối thường gặp:
+
+| Trạng thái  | Ý nghĩa                             |
+| ----------- | ----------------------------------- |
+| LISTENING   | Đang lắng nghe kết nối              |
+| ESTABLISHED | Kết nối đã được thiết lập           |
+| TIME_WAIT   | Kết nối đang chờ đóng               |
+| CLOSE_WAIT  | Kết nối đang chờ phía ứng dụng đóng |
+
+Trong an toàn thông tin, `netstat` rất hữu ích để kiểm tra kết nối đáng nghi, ví dụ một tiến trình lạ đang kết nối ra địa chỉ IP bên ngoài.
+
+## 15.9. Lệnh `net`
+
+Lệnh `net` là một nhóm lệnh dùng để quản lý nhiều thành phần trong Windows, đặc biệt là người dùng, nhóm, dịch vụ, chia sẻ mạng và phiên kết nối.
+
+Cú pháp chung:
+
+```cmd
+net [subcommand]
+```
+
+Một số lệnh `net` thường gặp:
+
+| Lệnh             | Chức năng                        |
+| ---------------- | -------------------------------- |
+| `net user`       | Quản lý tài khoản người dùng     |
+| `net localgroup` | Quản lý nhóm cục bộ              |
+| `net share`      | Xem hoặc quản lý thư mục chia sẻ |
+| `net use`        | Kết nối tài nguyên mạng          |
+| `net session`    | Xem phiên kết nối đến máy        |
+| `net start`      | Xem hoặc khởi động dịch vụ       |
+| `net stop`       | Dừng dịch vụ                     |
+
+Lệnh `net` rất quan trọng trong quản trị Windows vì có thể thực hiện nhiều thao tác nhanh trực tiếp từ CMD.
+
+### 15.9.1. Lệnh `net user`
+
+Lệnh `net user` dùng để xem và quản lý tài khoản người dùng trên Windows.
+
+Cú pháp xem danh sách người dùng:
+
+```cmd
+net user
+```
+
+![](./img/15.9_net_user.png)
+
+Cú pháp xem thông tin một người dùng cụ thể:
+
+```cmd
+net user username
+```
+![](./img/15.9_net_user_ad.png)
+
+Lệnh này có thể hiển thị các thông tin như:
+
+* tên tài khoản;
+* tài khoản đang bật hay bị khóa;
+* thời điểm đặt mật khẩu gần nhất;
+* thời điểm mật khẩu hết hạn;
+* nhóm mà người dùng thuộc về;
+* thời gian đăng nhập được phép.
+
+Với quyền quản trị, `net user` cũng có thể được dùng để tạo hoặc chỉnh sửa tài khoản.
+
+Ví dụ tạo người dùng mới:
+
+```cmd
+net user testuser Password123 /add
+```
+
+![](./img/15.9_net_create_user.png)
+
+Tuy nhiên, khi dùng trong môi trường học tập hoặc lab, cần cẩn thận và chỉ thực hiện trên hệ thống được phép.
+
+Trong điều tra bảo mật, `net user` giúp kiểm tra có tài khoản lạ nào được tạo trên máy hay không.
+
+### 15.9.2. Lệnh `net localgroup`
+
+Lệnh `net localgroup` dùng để xem và quản lý các nhóm cục bộ trên Windows.
+
+Cú pháp xem danh sách nhóm cục bộ:
+
+```cmd
+net localgroup
+```
+
+![](./img/15.9_net_localgroup.png)
+
+Cú pháp xem thành viên của một nhóm:
+
+```cmd
+net localgroup groupname
+```
+
+Ví dụ kiểm tra nhóm Administrators:
+
+```cmd
+net localgroup Administrators
+```
+
+![](./img/15.9_net_localgroup_ad.png)
+
+Lệnh này giúp xác định tài khoản nào đang thuộc nhóm có quyền cao.
+
+Với quyền quản trị, có thể thêm người dùng vào nhóm:
+
+```cmd
+net localgroup Administrators testuser /add
+```
+
+![](./img/15.9_net_add_user_to_group.png)
+
+Hoặc xóa người dùng khỏi nhóm:
+
+```cmd
+net localgroup Administrators testuser /delete
+```
+
+![](./img/15.9_net_delete_user_from_group.png)
+
+Trong an toàn thông tin, `net localgroup Administrators` là lệnh rất quan trọng vì nó giúp kiểm tra xem có tài khoản bất thường nào đang có quyền quản trị trên máy hay không.
+
+## 15.10. Xem trợ giúp lệnh với `/?`
+
+Trong CMD, có thể xem hướng dẫn sử dụng của nhiều lệnh bằng cách thêm tham số:
+
+```cmd
+/?
+```
+
+Ví dụ:
+
+```cmd
+ipconfig /?
+```
+
+![](./img/15.10.png)
+
+Lệnh này hiển thị các tùy chọn có thể sử dụng với `ipconfig`.
+
+Một ví dụ khác:
+
+```cmd
+net user /?
+```
+
+Kết quả sẽ hiển thị cú pháp và các tham số liên quan đến lệnh `net user`.
+
+Việc sử dụng `/?` rất hữu ích khi người dùng không nhớ chính xác cú pháp lệnh hoặc muốn tìm thêm tùy chọn nâng cao.
+
+Một số ví dụ:
+
+```cmd
+hostname /?
+whoami /?
+netstat /?
+net /?
+```
+
+Không phải mọi lệnh đều hỗ trợ cùng một kiểu trợ giúp, nhưng `/?` là cách phổ biến trong CMD.
+
+## 15.11. Xem trợ giúp lệnh `net help`
+
+Đối với nhóm lệnh `net`, Windows cung cấp cơ chế trợ giúp riêng là `net help`.
+
+Cú pháp:
+
+```cmd
+net help
+```
+
+![](./img/15.11_net_help.png)
+
+Lệnh này hiển thị danh sách các lệnh con có thể dùng với `net`.
+
+Để xem trợ giúp cho một lệnh cụ thể, có thể dùng:
+
+```cmd
+net help user
+```
+
+![](./img/15.11_net_help_user.png)
+
+Hoặc:
+
+```cmd
+net help localgroup
+```
+
+![](./img/15.11_net_help_localgroup.png)
+
+`net help` rất hữu ích vì nhóm lệnh `net` có nhiều chức năng khác nhau. Khi không nhớ cú pháp, người dùng nên kiểm tra trợ giúp trước khi chạy lệnh có thể thay đổi hệ thống.
+
+## 15.12. Xóa màn hình với `cls`
+
+Lệnh `cls` dùng để xóa nội dung đang hiển thị trên cửa sổ Command Prompt.
+
+Cú pháp:
+
+```cmd
+cls
+```
+
+Sau khi chạy lệnh này, màn hình CMD sẽ được làm sạch, nhưng các lệnh đã chạy trước đó không bị hủy. Đây chỉ là thao tác xóa phần hiển thị để cửa sổ dòng lệnh gọn hơn.
+
+Lệnh `cls` thường được dùng khi:
+
+* màn hình CMD có quá nhiều kết quả;
+* cần trình bày lại lệnh cho dễ nhìn;
+* muốn bắt đầu một phần làm việc mới;
+* chụp màn hình kết quả lệnh rõ ràng hơn.
+
+Ví dụ:
+
+```cmd
+ipconfig
+cls
+whoami
+```
+
+Trong ví dụ trên, sau khi chạy `cls`, nội dung hiển thị trước đó sẽ được xóa khỏi cửa sổ CMD.
+
+## 15.13. Vai trò của CMD trong quản trị và bảo mật
+
+Command Prompt có vai trò quan trọng trong quản trị hệ thống Windows và an toàn thông tin.
+
+Trong quản trị hệ thống, CMD giúp thực hiện nhanh nhiều thao tác như:
+
+* kiểm tra tên máy;
+* kiểm tra tài khoản hiện tại;
+* xem cấu hình mạng;
+* kiểm tra kết nối;
+* quản lý người dùng;
+* quản lý nhóm;
+* kiểm tra dịch vụ;
+* chạy script;
+* mở công cụ hệ thống.
+
+Trong bảo mật và SOC, CMD hỗ trợ thu thập thông tin ban đầu khi phân tích một máy Windows.
+
+Một số lệnh thường dùng trong kiểm tra bảo mật cơ bản gồm:
+
+| Lệnh                            | Mục đích                          |
+| ------------------------------- | --------------------------------- |
+| `hostname`                      | Xác định tên máy                  |
+| `whoami`                        | Xác định tài khoản hiện tại       |
+| `ipconfig /all`                 | Kiểm tra cấu hình mạng chi tiết   |
+| `netstat -ano`                  | Kiểm tra kết nối mạng và PID      |
+| `net user`                      | Xem tài khoản người dùng          |
+| `net localgroup Administrators` | Kiểm tra thành viên nhóm quản trị |
+| `cls`                           | Xóa màn hình CMD                  |
+
+Tuy nhiên, CMD cũng có thể bị kẻ tấn công lạm dụng. Nhiều kỹ thuật tấn công sử dụng các công cụ hợp pháp có sẵn trong Windows để thu thập thông tin, tạo tài khoản, thay đổi nhóm quyền hoặc kết nối mạng.
+
+Vì vậy, trong giám sát bảo mật, việc phát hiện các lệnh CMD bất thường cũng rất quan trọng. Đặc biệt cần chú ý khi CMD được chạy bởi tiến trình lạ, chạy với quyền Administrator hoặc thực hiện các lệnh liên quan đến tài khoản, nhóm, mạng và dịch vụ.
+
 
 
 
