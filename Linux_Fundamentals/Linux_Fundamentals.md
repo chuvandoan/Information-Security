@@ -214,11 +214,11 @@ id
 ```
 Trong ví dụ trên:
 
-```echo`` "Hello Linux" dùng để in dòng chữ ra màn hình;
+`echo` "Hello Linux" dùng để in dòng chữ ra màn hình;
 
-```whoami``` hiển thị tên người dùng hiện tại;
+`whoami` hiển thị tên người dùng hiện tại;
 
-```id``` hiển thị thông tin UID, GID và các nhóm mà người dùng thuộc về.
+`id` hiển thị thông tin UID, GID và các nhóm mà người dùng thuộc về.
 
 Để chạy một Bash Script, trước tiên cần cấp quyền thực thi cho tệp:
 
