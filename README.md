@@ -102,5 +102,5 @@ Lộ trình này được thiết kế thân thiện với người mới bắt 
 
 ---
 
-## [Section 3: Network Fundamentals](./5_Networking/)
+## [Section 3: Network Fundamentals](/Network_Fundamentals/Network_Fundamentals.md)
 >
