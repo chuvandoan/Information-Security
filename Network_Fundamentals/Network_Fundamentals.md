@@ -18,6 +18,8 @@
 
 8. [ Firewall và VPN](#8-firewall-và-vpn)
 
+9. [DNS – Domain Name System](#9-dns--domain-name-system)
+
 ## Nội dung
 
 # 1. Tổng quan về mạng máy tính
@@ -3858,4 +3860,978 @@ Ví dụ:
 - Có thể yêu cầu xác thực đa yếu tố.
 - Có thể giới hạn người dùng chỉ truy cập một số subnet hoặc dịch vụ nhất định.
 - Có thể ghi log truy cập để phục vụ giám sát bảo mật.
+
+# 9. DNS – Domain Name System
+
+## 9.1. DNS là gì?
+
+**DNS** là viết tắt của **Domain Name System**, nghĩa là **hệ thống tên miền**.
+
+DNS có nhiệm vụ chuyển đổi tên miền dễ nhớ thành địa chỉ IP mà máy tính có thể hiểu được.
+
+![](./img/9.1_dns.png)
+
+Ví dụ, thay vì phải nhớ địa chỉ IP như:
+
+```text
+104.26.10.229
+```
+
+người dùng chỉ cần nhớ tên miền như:
+
+```text
+tryhackme.com
+```
+
+Khi bạn nhập một tên miền vào trình duyệt, hệ thống DNS sẽ tìm địa chỉ IP tương ứng của tên miền đó. Sau đó, trình duyệt mới có thể kết nối đến máy chủ web.
+
+Ví dụ:
+
+```text
+example.com → 93.184.216.34
+google.com  → địa chỉ IP của máy chủ Google
+```
+
+Có thể hiểu DNS giống như **danh bạ điện thoại của Internet**:
+
+- Người dùng nhớ tên miền.
+- Máy tính cần địa chỉ IP.
+- DNS giúp ánh xạ tên miền sang địa chỉ IP.
+
+Nếu không có DNS, người dùng sẽ phải ghi nhớ rất nhiều địa chỉ IP phức tạp để truy cập website, điều này không thực tế.
+
+Tóm lại:
+
+```text
+DNS = hệ thống chuyển đổi tên miền thành địa chỉ IP.
+```
+
+## 9.2. Hệ thống phân cấp tên miền
+
+DNS hoạt động theo mô hình phân cấp. Tên miền được tổ chức thành nhiều cấp, từ cấp cao nhất đến cấp thấp hơn.
+
+![](./img/9.2_Domain_Hierarchy.png)
+
+Ví dụ tên miền:
+
+```text
+www.example.com
+```
+
+Có thể chia thành các phần:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `com` | Top-Level Domain |
+| `example` | Second-Level Domain |
+| `www` | Subdomain |
+
+Cấu trúc phân cấp có thể biểu diễn như sau:
+
+```text
+.
+└── com
+    └── example
+        └── www
+```
+
+Trong đó:
+
+- Dấu `.` ở đầu là root domain.
+- `.com` là tên miền cấp cao nhất.
+- `example` là tên miền cấp hai.
+- `www` là subdomain.
+
+Ví dụ khác:
+
+```text
+mail.google.com
+```
+
+Có thể hiểu là:
+
+```text
+.
+└── com
+    └── google
+        └── mail
+```
+
+Hệ thống phân cấp này giúp DNS dễ quản lý và dễ mở rộng. Mỗi cấp trong hệ thống có thể được quản lý bởi các máy chủ DNS khác nhau.
+
+### 9.2.1. Top-Level Domain
+
+**Top-Level Domain**, viết tắt là **TLD**, là phần nằm ở bên phải nhất của một tên miền.
+
+Xem các tên miền tại đây: https://data.iana.org/TLD/tlds-alpha-by-domain.txt
+
+Ví dụ:
+
+```text
+tryhackme.com
+```
+
+Trong tên miền trên, phần `.com` là **Top-Level Domain**.
+
+Một số TLD phổ biến:
+
+| TLD | Ý nghĩa |
+|---|---|
+| `.com` | Thường dùng cho thương mại, công ty, website phổ biến |
+| `.org` | Thường dùng cho tổ chức |
+| `.edu` | Thường dùng cho giáo dục |
+| `.gov` | Thường dùng cho chính phủ |
+| `.net` | Thường dùng cho mạng hoặc dịch vụ Internet |
+
+Có hai nhóm TLD chính:
+
+**gTLD**
+
+**gTLD** là viết tắt của **Generic Top-Level Domain**.
+
+Đây là các tên miền cấp cao dùng cho mục đích chung.
+
+Ví dụ:
+
+```text
+.com
+.org
+.net
+.info
+.online
+.website
+```
+
+**ccTLD**
+
+**ccTLD** là viết tắt của **Country Code Top-Level Domain**.
+
+Đây là tên miền cấp cao theo mã quốc gia.
+
+Ví dụ:
+
+| ccTLD | Quốc gia / khu vực |
+|---|---|
+| `.vn` | Việt Nam |
+| `.de` | Đức |
+| `.uk` | Vương quốc Anh |
+| `.ca` | Canada |
+| `.jp` | Nhật Bản |
+
+Ví dụ:
+
+```text
+example.vn
+example.de
+example.co.uk
+```
+
+Tóm lại:
+
+```text
+TLD = phần cuối cùng của tên miền, ví dụ .com, .org, .vn.
+```
+
+### 9.2.2. Second-Level Domain
+
+**Second-Level Domain** là phần đứng ngay bên trái của Top-Level Domain.
+
+Ví dụ:
+
+```text
+tryhackme.com
+```
+
+Trong tên miền này:
+
+- `.com` là Top-Level Domain.
+- `tryhackme` là Second-Level Domain.
+
+Ví dụ khác:
+
+```text
+google.com
+github.com
+wikipedia.org
+```
+
+| Tên miền | Second-Level Domain | TLD |
+|---|---|---|
+| `google.com` | `google` | `.com` |
+| `github.com` | `github` | `.com` |
+| `wikipedia.org` | `wikipedia` | `.org` |
+
+Second-Level Domain thường là phần chính đại diện cho thương hiệu, tổ chức, cá nhân hoặc dịch vụ.
+
+Khi đăng ký tên miền, người dùng thường chọn phần Second-Level Domain.
+
+Ví dụ:
+
+```text
+mycompany.com
+```
+
+Trong đó, `mycompany` là tên do người đăng ký lựa chọn.
+
+Một số quy tắc thường gặp:
+
+- Có thể dùng chữ cái `a-z`.
+- Có thể dùng số `0-9`.
+- Có thể dùng dấu gạch ngang `-`.
+- Không nên bắt đầu hoặc kết thúc bằng dấu gạch ngang.
+- Không được chứa khoảng trắng.
+
+Tóm lại:
+
+```text
+Second-Level Domain = phần tên chính của tên miền, đứng trước TLD.
+```
+
+### 9.2.3. Subdomain
+
+**Subdomain** là tên miền con, nằm bên trái của Second-Level Domain.
+
+Ví dụ:
+
+```text
+admin.tryhackme.com
+```
+
+Trong tên miền này:
+
+- `com` là TLD.
+- `tryhackme` là Second-Level Domain.
+- `admin` là Subdomain.
+
+Ví dụ khác:
+
+```text
+mail.google.com
+blog.example.com
+shop.website.com
+```
+
+| Tên miền | Subdomain |
+|---|---|
+| `mail.google.com` | `mail` |
+| `blog.example.com` | `blog` |
+| `shop.website.com` | `shop` |
+
+Một tên miền có thể có nhiều subdomain.
+
+Ví dụ:
+
+```text
+jupiter.servers.tryhackme.com
+```
+
+Trong ví dụ này:
+
+- `jupiter` là subdomain của `servers.tryhackme.com`.
+- `servers` cũng là một subdomain của `tryhackme.com`.
+
+Subdomain thường được dùng để phân chia dịch vụ.
+
+Ví dụ:
+
+| Subdomain | Mục đích |
+|---|---|
+| `www.example.com` | Website chính |
+| `mail.example.com` | Máy chủ email |
+| `blog.example.com` | Blog |
+| `shop.example.com` | Cửa hàng trực tuyến |
+| `api.example.com` | API server |
+| `admin.example.com` | Trang quản trị |
+
+Tóm lại:
+
+```text
+Subdomain = tên miền con dùng để chia nhỏ dịch vụ hoặc khu vực trong một domain.
+```
+
+## 9.3. DNS Record Types
+
+### 9.3.1. Bản ghi A
+
+**Bản ghi A** hay **A Record** là loại bản ghi DNS dùng để ánh xạ một tên miền đến địa chỉ **IPv4**.
+
+Ví dụ:
+
+```text
+example.com → 93.184.216.34
+```
+
+Trong đó:
+
+- `example.com` là tên miền.
+- `93.184.216.34` là địa chỉ IPv4.
+
+Khi người dùng truy cập một website, trình duyệt cần biết địa chỉ IP của máy chủ. Nếu website sử dụng IPv4, DNS sẽ trả về bản ghi A.
+
+Ví dụ tra cứu bằng `nslookup`:
+
+```bash
+nslookup --type=A example.com
+```
+
+Ví dụ kết quả:
+
+```text
+Name:    example.com
+Address: 93.184.216.34
+```
+
+Bản ghi A thường được dùng cho:
+
+- Website.
+- Web server.
+- API server.
+- Máy chủ dịch vụ dùng IPv4.
+
+Tóm lại:
+
+```text
+A Record = ánh xạ tên miền đến địa chỉ IPv4.
+```
+
+### 9.3.2. Bản ghi AAAA
+
+**Bản ghi AAAA** hay **AAAA Record** là loại bản ghi DNS dùng để ánh xạ một tên miền đến địa chỉ **IPv6**.
+
+Ví dụ:
+
+```text
+example.com → 2606:2800:220:1:248:1893:25c8:1946
+```
+
+AAAA Record tương tự như A Record, nhưng khác ở loại địa chỉ IP:
+
+| Loại bản ghi | Dùng cho |
+|---|---|
+| A | IPv4 |
+| AAAA | IPv6 |
+
+Ví dụ tra cứu bằng `nslookup`:
+
+```bash
+nslookup --type=AAAA example.com
+```
+
+Ví dụ kết quả:
+
+```text
+Name:    example.com
+Address: 2606:2800:220:1:248:1893:25c8:1946
+```
+
+AAAA Record ngày càng quan trọng vì IPv6 được thiết kế để giải quyết vấn đề thiếu hụt địa chỉ IPv4.
+
+Tóm lại:
+
+```text
+AAAA Record = ánh xạ tên miền đến địa chỉ IPv6.
+```
+
+### 9.3.3. Bản ghi CNAME
+
+**CNAME** là viết tắt của **Canonical Name**.
+
+**Bản ghi CNAME** dùng để ánh xạ một tên miền hoặc subdomain đến một tên miền khác.
+
+Ví dụ:
+
+```text
+shop.example.com → shops.myshopify.com
+```
+
+Điều này có nghĩa là khi người dùng truy cập:
+
+```text
+shop.example.com
+```
+
+DNS sẽ hiểu rằng tên miền này là bí danh của:
+
+```text
+shops.myshopify.com
+```
+
+Sau đó, DNS tiếp tục phân giải tên miền đích để lấy địa chỉ IP.
+
+CNAME thường được dùng khi:
+
+- Trỏ subdomain đến dịch vụ bên thứ ba.
+- Trỏ `www.example.com` về `example.com`.
+- Dùng với dịch vụ cloud, CDN, hosting hoặc e-commerce.
+- Muốn dễ quản lý khi địa chỉ IP của dịch vụ đích thay đổi.
+
+Ví dụ:
+
+```bash
+nslookup --type=CNAME shop.example.com
+```
+
+Ví dụ kết quả:
+
+```text
+shop.example.com canonical name = shops.myshopify.com
+```
+
+Ưu điểm của CNAME:
+
+- Dễ quản lý.
+- Không cần cập nhật IP trực tiếp ở nhiều nơi.
+- Phù hợp khi dùng dịch vụ bên ngoài.
+
+Tóm lại:
+
+```text
+CNAME Record = tạo bí danh, trỏ một tên miền đến tên miền khác.
+```
+
+### 9.3.4. Bản ghi MX
+
+**MX** là viết tắt của **Mail Exchanger**.
+
+**Bản ghi MX** dùng để xác định máy chủ email chịu trách nhiệm nhận email cho một tên miền.
+
+Ví dụ:
+
+```text
+example.com → mail server của example.com
+```
+
+Khi ai đó gửi email đến:
+
+```text
+user@example.com
+```
+
+máy chủ gửi email sẽ truy vấn bản ghi MX của `example.com` để biết email cần được chuyển đến máy chủ nào.
+
+Ví dụ tra cứu:
+
+```bash
+nslookup --type=MX example.com
+```
+
+Ví dụ kết quả:
+
+```text
+example.com mail exchanger = 10 mail.example.com
+```
+
+Trong đó:
+
+- `10` là giá trị ưu tiên.
+- `mail.example.com` là mail server.
+
+**Giá trị ưu tiên trong MX**
+
+Bản ghi MX thường có giá trị ưu tiên. Số càng thấp thì độ ưu tiên càng cao.
+
+Ví dụ:
+
+```text
+example.com mail exchanger = 10 mail1.example.com
+example.com mail exchanger = 20 mail2.example.com
+```
+
+Trong ví dụ này:
+
+- `mail1.example.com` được dùng trước.
+- Nếu `mail1` không hoạt động, hệ thống có thể thử `mail2`.
+
+Tóm lại:
+
+```text
+MX Record = xác định máy chủ email cho tên miền.
+```
+
+### 9.3.5. Bản ghi TXT
+
+**TXT Record** là bản ghi DNS dùng để lưu trữ dữ liệu dạng văn bản.
+
+Ban đầu, TXT được dùng để ghi chú hoặc lưu thông tin mô tả. Ngày nay, TXT Record thường được dùng trong các mục đích xác thực và bảo mật.
+
+Ví dụ:
+
+```text
+example.com TXT "v=spf1 include:_spf.google.com ~all"
+```
+
+Một số ứng dụng phổ biến của TXT Record:
+
+| Mục đích | Giải thích |
+|---|---|
+| SPF | Xác định máy chủ nào được phép gửi email thay mặt domain |
+| DKIM | Lưu khóa công khai để xác thực chữ ký email |
+| DMARC | Chính sách xử lý email giả mạo |
+| Xác minh domain | Dùng để chứng minh quyền sở hữu tên miền với Google, Microsoft, Cloudflare... |
+| Metadata | Lưu thông tin văn bản tùy chỉnh |
+
+Ví dụ tra cứu TXT:
+
+```bash
+nslookup --type=TXT example.com
+```
+
+Ví dụ kết quả:
+
+```text
+example.com text = "v=spf1 include:_spf.example.com ~all"
+```
+
+TXT Record rất quan trọng trong bảo mật email vì nó giúp giảm nguy cơ spam, spoofing và phishing email.
+
+Tóm lại:
+
+```text
+TXT Record = lưu dữ liệu văn bản trong DNS, thường dùng cho xác thực và bảo mật.
+```
+
+## 9.4. Quy trình DNS Request
+
+Khi người dùng nhập một tên miền vào trình duyệt, máy tính cần tìm địa chỉ IP tương ứng. Quá trình này gọi là **DNS Request** hoặc **DNS Query**.
+
+![](./img/9.4_dns_request.webp)
+
+Ví dụ:
+
+```text
+Người dùng nhập: www.example.com
+Máy tính cần tìm: địa chỉ IP của www.example.com
+```
+
+Quy trình DNS Request cơ bản:
+
+```text
+1. Máy tính kiểm tra DNS cache cục bộ
+2. Nếu chưa có kết quả, gửi truy vấn đến Recursive DNS Server
+3. Recursive DNS Server hỏi Root DNS Server
+4. Root DNS Server chỉ đến TLD DNS Server
+5. TLD DNS Server chỉ đến Authoritative DNS Server
+6. Authoritative DNS Server trả về bản ghi DNS
+7. Recursive DNS Server gửi kết quả về máy tính người dùng
+8. Máy tính dùng địa chỉ IP để kết nối đến máy chủ đích
+```
+
+Sơ đồ đơn giản:
+
+```text
+Client
+  |
+  v
+Recursive DNS Server
+  |
+  v
+Root DNS Server
+  |
+  v
+TLD DNS Server
+  |
+  v
+Authoritative DNS Server
+  |
+  v
+Trả về địa chỉ IP
+```
+
+Ví dụ:
+
+```text
+www.example.com → 93.184.216.34
+```
+
+Sau khi nhận địa chỉ IP, trình duyệt có thể thiết lập kết nối đến web server.
+
+DNS Request thường diễn ra rất nhanh vì nhiều kết quả được lưu trong cache.
+
+Tóm lại:
+
+```text
+DNS Request = quá trình hỏi DNS để tìm địa chỉ IP của một tên miền.
+```
+
+## 9.5. Recursive DNS Server
+
+**Recursive DNS Server** là máy chủ DNS nhận truy vấn từ client và thay mặt client đi tìm câu trả lời.
+
+![](./img/9.5_Recursive_DNS.png)
+
+Khi máy tính của bạn cần phân giải tên miền, nó thường gửi truy vấn đến Recursive DNS Server.
+
+Recursive DNS Server thường được cung cấp bởi:
+
+- Nhà cung cấp dịch vụ Internet.
+- Doanh nghiệp.
+- Trường học.
+- Dịch vụ DNS công cộng.
+- Router hoặc hệ thống DNS nội bộ.
+
+Ví dụ DNS resolver phổ biến:
+
+```text
+8.8.8.8
+1.1.1.1
+9.9.9.9
+```
+
+Recursive DNS Server có thể:
+
+- Kiểm tra cache của chính nó.
+- Nếu có kết quả trong cache, trả lời ngay cho client.
+- Nếu không có, truy vấn tiếp đến Root DNS Server, TLD DNS Server và Authoritative DNS Server.
+- Lưu kết quả tạm thời để phục vụ các truy vấn sau.
+
+Ví dụ:
+
+```text
+Client hỏi: IP của example.com là gì?
+Recursive DNS Server đi tìm câu trả lời
+Sau đó trả về IP cho client
+```
+
+Tóm lại:
+
+```text
+Recursive DNS Server = máy chủ DNS đi tìm câu trả lời thay cho client.
+```
+
+## 9.6. Root DNS Server
+
+**Root DNS Server** là máy chủ DNS ở cấp cao nhất trong hệ thống phân cấp DNS.
+
+Root DNS Server không lưu trực tiếp địa chỉ IP của mọi website. Thay vào đó, nó chỉ biết nên chuyển truy vấn đến TLD DNS Server nào.
+
+Ví dụ:
+
+Khi cần phân giải:
+
+```text
+www.example.com
+```
+
+Recursive DNS Server có thể hỏi Root DNS Server:
+
+```text
+Tôi cần tìm www.example.com, phải hỏi ai?
+```
+
+Root DNS Server sẽ nhìn vào phần TLD là `.com` và trả lời:
+
+```text
+Hãy hỏi TLD DNS Server phụ trách .com
+```
+
+Root DNS Server đóng vai trò giống như điểm khởi đầu của quá trình phân giải DNS khi resolver không có dữ liệu trong cache.
+
+Vai trò chính:
+
+- Là cấp cao nhất trong hệ thống DNS.
+- Hướng dẫn resolver đến đúng TLD DNS Server.
+- Không lưu toàn bộ bản ghi của mọi tên miền.
+- Giúp hệ thống DNS hoạt động theo mô hình phân cấp.
+
+Tóm lại:
+
+```text
+Root DNS Server = máy chủ DNS cấp cao nhất, chỉ đường đến TLD DNS Server phù hợp.
+```
+
+## 9.7. TLD DNS Server
+
+**TLD DNS Server** là máy chủ DNS quản lý thông tin cho một Top-Level Domain cụ thể.
+
+Ví dụ:
+
+- TLD Server cho `.com`.
+- TLD Server cho `.org`.
+- TLD Server cho `.net`.
+- TLD Server cho `.vn`.
+- TLD Server cho `.de`.
+
+TLD DNS Server không nhất thiết lưu địa chỉ IP cuối cùng của website. Nó thường lưu thông tin về **Authoritative DNS Server** của tên miền.
+
+Ví dụ:
+
+```text
+Recursive DNS Server hỏi TLD .com:
+Authoritative DNS Server của example.com là máy chủ nào?
+```
+
+TLD DNS Server trả lời:
+
+```text
+Hãy hỏi nameserver của example.com
+```
+
+Vai trò chính của TLD DNS Server:
+
+- Quản lý thông tin ở cấp TLD.
+- Chỉ đến Authoritative DNS Server của domain.
+- Giúp DNS resolver tiếp tục quá trình phân giải.
+
+Ví dụ với tên miền:
+
+```text
+www.tryhackme.com
+```
+
+Root DNS Server chỉ đến TLD `.com`. Sau đó TLD DNS Server `.com` chỉ đến Authoritative DNS Server của `tryhackme.com`.
+
+Tóm lại:
+
+```text
+TLD DNS Server = máy chủ DNS quản lý phần đuôi tên miền như .com, .org, .vn.
+```
+
+## 9.8. Authoritative DNS Server
+
+**Authoritative DNS Server** là máy chủ DNS có thẩm quyền lưu trữ bản ghi DNS chính thức của một tên miền.
+
+Đây là nơi lưu các bản ghi như:
+
+- A
+- AAAA
+- CNAME
+- MX
+- TXT
+- NS
+- SOA
+
+Ví dụ:
+
+```text
+example.com A 93.184.216.34
+```
+
+Khi Recursive DNS Server cần câu trả lời cuối cùng, nó sẽ hỏi Authoritative DNS Server.
+
+Ví dụ:
+
+```text
+Recursive DNS Server hỏi:
+IP của www.example.com là gì?
+
+Authoritative DNS Server trả lời:
+www.example.com có địa chỉ IP là 93.184.216.34
+```
+
+Authoritative DNS Server thường được quản lý bởi:
+
+- Nhà đăng ký tên miền.
+- Nhà cung cấp hosting.
+- Nhà cung cấp DNS như Cloudflare, AWS Route 53, Google Cloud DNS.
+- Hệ thống DNS nội bộ của tổ chức.
+
+Tóm lại:
+
+```text
+Authoritative DNS Server = máy chủ DNS lưu bản ghi chính thức của một tên miền.
+```
+
+## 9.9. TTL trong DNS
+
+**TTL** là viết tắt của **Time To Live**.
+
+![](./img/9.9_ttl_in_dns.webp)
+
+Trong DNS, TTL cho biết một bản ghi DNS được phép lưu trong cache trong bao lâu.
+
+Giá trị TTL thường được tính bằng giây.
+
+Ví dụ:
+
+```text
+example.com A 93.184.216.34 TTL 3600
+```
+
+Điều này có nghĩa là kết quả DNS có thể được lưu trong cache trong:
+
+```text
+3600 giây = 1 giờ
+```
+
+Trong thời gian TTL còn hiệu lực, DNS resolver có thể trả lời từ cache mà không cần hỏi lại Authoritative DNS Server.
+
+**Vì sao TTL quan trọng?**
+
+TTL giúp:
+
+- Giảm số lượng truy vấn DNS.
+- Tăng tốc độ truy cập website.
+- Giảm tải cho DNS server.
+- Kiểm soát thời gian cập nhật DNS có hiệu lực.
+
+**TTL cao**
+
+Ưu điểm:
+
+- Giảm tải DNS server.
+- Truy vấn nhanh hơn vì dùng cache nhiều hơn.
+
+Nhược điểm:
+
+- Khi đổi IP hoặc thay đổi bản ghi DNS, mất nhiều thời gian hơn để cập nhật trên toàn mạng.
+
+**TTL thấp**
+
+Ưu điểm:
+
+- Thay đổi DNS có hiệu lực nhanh hơn.
+- Phù hợp khi chuẩn bị chuyển server hoặc thay đổi hạ tầng.
+
+Nhược điểm:
+
+- Tăng số lượng truy vấn DNS.
+- DNS server phải xử lý nhiều yêu cầu hơn.
+
+Ví dụ:
+
+| TTL | Ý nghĩa |
+|---:|---|
+| 300 | Cache trong 5 phút |
+| 600 | Cache trong 10 phút |
+| 3600 | Cache trong 1 giờ |
+| 86400 | Cache trong 1 ngày |
+
+Tóm lại:
+
+```text
+TTL = thời gian bản ghi DNS được lưu trong cache.
+```
+
+## 9.10. Công cụ nslookup
+
+**nslookup** là công cụ dòng lệnh dùng để tra cứu thông tin DNS.
+
+Công cụ này giúp kiểm tra tên miền trỏ đến địa chỉ IP nào, hoặc kiểm tra các loại bản ghi DNS như A, AAAA, CNAME, MX và TXT.
+
+Cú pháp cơ bản:
+
+```bash
+nslookup <tên_miền>
+```
+
+Ví dụ:
+
+```bash
+nslookup example.com
+```
+
+![](./img/9.10_nslookup.png)
+
+**Tra bản ghi A**
+
+```bash
+nslookup -type=A example.com
+```
+
+**Tra bản ghi AAAA**
+
+```bash
+nslookup -type=AAAA example.com
+```
+
+**Tra bản ghi CNAME**
+
+```bash
+nslookup -type=CNAME www.example.com
+```
+
+**Tra bản ghi MX**
+
+```bash
+nslookup -type=MX example.com
+```
+
+**Tra bản ghi TXT**
+
+```bash
+nslookup -type=TXT example.com
+```
+
+Một số thông tin trong kết quả nslookup:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| `Server` | DNS server được dùng để tra cứu |
+| `Address` | Địa chỉ IP và cổng của DNS server |
+| `Non-authoritative answer` | Kết quả được trả về từ cache hoặc resolver không phải authoritative |
+| `Name` | Tên miền được tra cứu |
+| `Address` | Địa chỉ IP tương ứng |
+
+`nslookup` rất hữu ích khi:
+
+- Kiểm tra tên miền có phân giải đúng không.
+- Kiểm tra bản ghi DNS sau khi cấu hình.
+- Phân tích lỗi truy cập website.
+- Kiểm tra cấu hình email.
+- Hỗ trợ điều tra bảo mật và phân tích domain.
+
+Tóm lại:
+
+```text
+nslookup = công cụ tra cứu bản ghi DNS từ dòng lệnh.
+```
+
+## 9.11. WHOIS
+
+**WHOIS** là hệ thống dùng để tra cứu thông tin đăng ký của một tên miền.
+
+WHOIS không phải là viết tắt. Có thể hiểu đơn giản là câu hỏi:
+
+```text
+Who is?
+```
+
+nghĩa là:
+
+```text
+Ai là người hoặc tổ chức đứng sau tên miền này?
+```
+
+Thông tin WHOIS có thể bao gồm:
+
+- Tên miền.
+- Nhà đăng ký tên miền.
+- Ngày tạo tên miền.
+- Ngày cập nhật gần nhất.
+- Ngày hết hạn.
+- Nameserver.
+- Thông tin liên hệ của người đăng ký.
+- Thông tin liên hệ kỹ thuật hoặc quản trị.
+- Trạng thái tên miền.
+
+Ví dụ dùng lệnh:
+
+```bash
+whois example.com
+```
+
+Kết quả:
+
+![](./img/9.11_whois.png)
+
+WHOIS hữu ích trong an ninh mạng vì giúp:
+
+- Kiểm tra ai đăng ký tên miền.
+- Xác định thời điểm tên miền được tạo.
+- Phân tích domain đáng ngờ.
+- Điều tra phishing domain.
+- Kiểm tra nameserver.
+- Tìm thông tin nhà đăng ký.
+- Hỗ trợ threat intelligence.
+
+Tuy nhiên, hiện nay nhiều tên miền sử dụng dịch vụ ẩn thông tin WHOIS để bảo vệ quyền riêng tư. Khi đó, thông tin cá nhân của người đăng ký có thể bị ẩn hoặc thay bằng thông tin của dịch vụ bảo vệ quyền riêng tư.
+
+Ví dụ:
+
+```text
+Registrant Name: Registration Private
+Registrant Organization: Domains By Proxy
+```
+
+Điều này không có nghĩa tên miền chắc chắn độc hại. Nó chỉ cho thấy thông tin người đăng ký thật không được công khai trực tiếp.
 
