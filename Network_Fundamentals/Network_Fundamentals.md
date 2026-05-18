@@ -8,6 +8,8 @@
 
 3. [Các mô hình mạng cơ bản](#3-các-mô-hình-mạng-cơ-bản)
 
+4. [Encapsulation, Packets và Frames](#4-encapsulation-packets-và-frames)
+
 ## Nội dung
 
 # 1. Tổng quan về mạng máy tính
@@ -952,4 +954,414 @@ Tóm lại:
 - **OSI** phù hợp để học, phân tích và hiểu rõ từng bước truyền dữ liệu.
 - **TCP/IP** phù hợp để hiểu cách Internet và các giao thức mạng thực tế hoạt động.
 
+# 4. Encapsulation, Packets và Frames
+
+## 4.1. Encapsulation là gì?
+
+**Encapsulation** là quá trình **đóng gói dữ liệu** khi dữ liệu đi từ tầng cao xuống tầng thấp trong mô hình mạng.
+
+
+Khi một ứng dụng gửi dữ liệu qua mạng, dữ liệu ban đầu không được gửi trực tiếp ngay lập tức. Thay vào đó, khi dữ liệu đi qua từng tầng trong mô hình OSI hoặc TCP/IP, mỗi tầng sẽ thêm vào một phần thông tin điều khiển gọi là **header**. Một số tầng cũng có thể thêm **trailer**.
+
+Ví dụ đơn giản:
+
+```text
+Dữ liệu ứng dụng
+→ thêm TCP header
+→ thêm IP header
+→ thêm Ethernet header
+→ truyền qua cáp hoặc Wi-Fi
+```
+
+Quá trình này giống như việc gửi một lá thư:
+
+* Nội dung thư là dữ liệu gốc.
+* Phong bì chứa địa chỉ người gửi và người nhận.
+* Dịch vụ bưu điện dùng thông tin trên phong bì để chuyển thư đến đúng nơi.
+
+Trong mạng máy tính, dữ liệu cũng cần được “bọc” thêm thông tin để các thiết bị mạng biết:
+
+* Dữ liệu đến từ đâu.
+* Dữ liệu cần đi đến đâu.
+* Dữ liệu thuộc giao thức nào.
+* Dữ liệu cần được xử lý như thế nào.
+* Dữ liệu có bị lỗi trong quá trình truyền hay không.
+
+Ví dụ quá trình đóng gói theo mô hình OSI:
+
+| Tầng OSI                             | Dữ liệu được gọi là | Thông tin được thêm vào        |
+| ------------------------------------ | ------------------- | ------------------------------ |
+| Application / Presentation / Session | Data                | Dữ liệu ứng dụng               |
+| Transport                            | Segment / Datagram  | TCP hoặc UDP header            |
+| Network                              | Packet              | IP header                      |
+| Data Link                            | Frame               | MAC header và trailer          |
+| Physical                             | Bits                | Tín hiệu điện, quang hoặc sóng |
+
+Ví dụ khi truy cập một website:
+
+1. Trình duyệt tạo yêu cầu HTTP.
+2. Tầng Transport thêm TCP header.
+3. Tầng Network thêm IP header.
+4. Tầng Data Link thêm Ethernet header.
+5. Tầng Physical truyền dữ liệu dưới dạng bit qua mạng.
+
+Tóm lại, **encapsulation giúp dữ liệu có đủ thông tin cần thiết để được truyền qua mạng đến đúng thiết bị đích**.
+
+## 4.2. Decapsulation là gì?
+
+**Decapsulation** là quá trình **tháo gói dữ liệu** khi dữ liệu đi từ tầng thấp lên tầng cao ở phía thiết bị nhận.
+
+Nếu encapsulation xảy ra ở máy gửi, thì decapsulation xảy ra ở máy nhận.
+
+Khi thiết bị nhận nhận được dữ liệu từ mạng, dữ liệu sẽ đi từ tầng Physical lên các tầng cao hơn. Mỗi tầng sẽ đọc phần header tương ứng, xử lý thông tin cần thiết, sau đó loại bỏ header đó và chuyển phần còn lại lên tầng trên.
+
+Ví dụ:
+
+```text
+Bits
+→ Frame
+→ Packet
+→ Segment
+→ Data
+```
+
+Quá trình decapsulation có thể hiểu như sau:
+
+| Tầng        | Hành động                                 |
+| ----------- | ----------------------------------------- |
+| Physical    | Nhận tín hiệu và chuyển thành bit         |
+| Data Link   | Đọc Ethernet header, kiểm tra MAC address |
+| Network     | Đọc IP header, kiểm tra địa chỉ IP đích   |
+| Transport   | Đọc TCP/UDP header, kiểm tra port         |
+| Application | Nhận dữ liệu ứng dụng như HTTP, DNS, FTP  |
+
+Ví dụ khi máy tính nhận phản hồi từ website:
+
+1. Card mạng nhận tín hiệu từ dây mạng hoặc Wi-Fi.
+2. Tầng Data Link kiểm tra frame có đúng địa chỉ MAC không.
+3. Tầng Network kiểm tra packet có đúng địa chỉ IP không.
+4. Tầng Transport kiểm tra cổng TCP hoặc UDP.
+5. Tầng Application chuyển dữ liệu cho trình duyệt hiển thị.
+
+Tóm lại:
+
+* **Encapsulation** xảy ra khi gửi dữ liệu.
+* **Decapsulation** xảy ra khi nhận dữ liệu.
+* Hai quá trình này giúp dữ liệu được truyền đúng cách qua nhiều tầng mạng.
+
+![](./img/OSI-Model.gif)
+
+## 4.3. Packet là gì?
+
+**Packet** là một đơn vị dữ liệu được sử dụng ở **tầng Network** trong mô hình OSI.
+
+Packet thường chứa dữ liệu đã được đóng gói cùng với các thông tin địa chỉ IP. Nhờ có địa chỉ IP nguồn và địa chỉ IP đích, các router có thể định tuyến packet qua nhiều mạng khác nhau để đến đúng nơi cần đến.
+
+Một packet thường bao gồm:
+
+* IP header.
+* Dữ liệu bên trong, ví dụ TCP segment hoặc UDP datagram.
+* Các thông tin điều khiển phục vụ định tuyến và kiểm tra lỗi.
+
+Ví dụ cấu trúc đơn giản của packet:
+
+```text
+[IP Header][Data]
+```
+
+Trong đó, **IP Header** có thể chứa:
+
+* Source IP Address.
+* Destination IP Address.
+* TTL.
+* Protocol.
+* Checksum.
+
+Ví dụ:
+
+```text
+Source IP:      192.168.1.10
+Destination IP: 8.8.8.8
+Protocol:       UDP
+TTL:            64
+```
+
+Khi bạn truy cập một website, dữ liệu từ máy tính của bạn được chia thành nhiều packet nhỏ. Các packet này có thể đi qua nhiều router khác nhau trước khi đến máy chủ web.
+
+Lý do dữ liệu được chia thành packet:
+
+* Giúp truyền dữ liệu hiệu quả hơn.
+* Giảm nguy cơ nghẽn mạng.
+* Nếu một phần dữ liệu bị mất, chỉ cần gửi lại phần đó.
+* Cho phép nhiều kết nối cùng chia sẻ hạ tầng mạng.
+
+Ví dụ:
+
+Một hình ảnh trên website không được gửi dưới dạng một khối dữ liệu lớn duy nhất. Nó thường được chia thành nhiều packet nhỏ, truyền qua mạng, sau đó được ghép lại ở phía máy nhận.
+
+## 4.4. Frame là gì?
+
+**Frame** là một đơn vị dữ liệu được sử dụng ở **tầng Data Link** trong mô hình OSI.
+
+Frame được dùng để truyền dữ liệu giữa các thiết bị trong cùng một mạng cục bộ, ví dụ như cùng mạng LAN hoặc cùng mạng Wi-Fi.
+
+Khác với packet, frame sử dụng **địa chỉ MAC** thay vì địa chỉ IP để xác định thiết bị gửi và thiết bị nhận trong mạng cục bộ.
+
+Một frame thường bao gồm:
+
+```text
+[Frame Header][Packet/Data][Frame Trailer]
+```
+
+Trong đó:
+
+* **Frame Header** chứa địa chỉ MAC nguồn và địa chỉ MAC đích.
+* **Packet/Data** là dữ liệu được đóng gói bên trong frame.
+* **Frame Trailer** có thể chứa thông tin kiểm tra lỗi, ví dụ FCS.
+
+Ví dụ thông tin trong frame Ethernet:
+
+```text
+Source MAC:      74:78:27:0c:05:1c
+Destination MAC: 44:df:65:d8:fe:6c
+Type:            IPv4
+```
+
+Frame chỉ có ý nghĩa trong phạm vi mạng cục bộ. Khi dữ liệu đi qua router sang mạng khác, frame cũ thường bị loại bỏ và một frame mới được tạo ra cho đoạn mạng tiếp theo.
+
+Ví dụ:
+
+Máy tính A gửi dữ liệu đến router trong mạng LAN:
+
+```text
+Máy tính A → Switch → Router
+```
+
+Ở đoạn này, dữ liệu được truyền trong frame Ethernet. Frame sẽ chứa:
+
+* MAC nguồn: MAC của máy tính A.
+* MAC đích: MAC của router hoặc gateway.
+
+Sau khi router nhận được frame, nó sẽ lấy packet bên trong, kiểm tra địa chỉ IP đích và tiếp tục định tuyến sang mạng khác.
+
+## 4.5. Sự khác nhau giữa Packet và Frame
+
+Packet và frame đều là các đơn vị dữ liệu được dùng trong quá trình truyền thông mạng, nhưng chúng thuộc các tầng khác nhau và có vai trò khác nhau.
+
+| Tiêu chí             | Packet                                   | Frame                                      |
+| -------------------- | ---------------------------------------- | ------------------------------------------ |
+| Tầng OSI             | Tầng 3 – Network Layer                   | Tầng 2 – Data Link Layer                   |
+| Địa chỉ sử dụng      | Địa chỉ IP                               | Địa chỉ MAC                                |
+| Phạm vi hoạt động    | Giữa các mạng khác nhau                  | Trong cùng mạng cục bộ                     |
+| Thiết bị xử lý chính | Router                                   | Switch                                     |
+| Chứa thông tin       | Source IP, Destination IP, TTL, Checksum | Source MAC, Destination MAC, FCS           |
+| Mục đích             | Định tuyến dữ liệu đến đúng mạng đích    | Chuyển dữ liệu đến đúng thiết bị trong LAN |
+
+Ví dụ dễ hiểu:
+
+* **Packet** giống như bưu kiện có địa chỉ thành phố, quốc gia, đường phố.
+* **Frame** giống như thông tin giao hàng trong một khu vực cụ thể để chuyển bưu kiện đến đúng nhà trong đoạn cuối.
+
+Khi dữ liệu được truyền qua mạng, một packet có thể được đặt bên trong nhiều frame khác nhau trên từng đoạn đường.
+
+Ví dụ:
+
+```text
+Máy tính A → Router 1 → Router 2 → Máy chủ B
+```
+
+Packet IP có thể giữ nguyên địa chỉ IP nguồn và IP đích trong suốt quá trình truyền. Tuy nhiên, frame ở mỗi đoạn mạng có thể thay đổi địa chỉ MAC nguồn và MAC đích.
+
+Nói ngắn gọn:
+
+* **Packet dùng để đi qua nhiều mạng.**
+* **Frame dùng để di chuyển trong một mạng cục bộ.**
+
+### 4.6. Header trong gói tin
+
+**Header** là phần thông tin điều khiển được thêm vào dữ liệu trong quá trình encapsulation.
+
+Header không phải là nội dung chính mà người dùng muốn gửi. Nó là thông tin bổ sung giúp các tầng mạng xử lý và chuyển dữ liệu đúng cách.
+
+Ví dụ:
+
+Khi gửi một yêu cầu HTTP, nội dung chính có thể là:
+
+```text
+GET / HTTP/1.1
+```
+
+Nhưng để yêu cầu này đi qua mạng, nó cần thêm nhiều header ở các tầng khác nhau:
+
+```text
+[Ethernet Header][IP Header][TCP Header][HTTP Data]
+```
+
+Một số loại header thường gặp:
+
+| Header          | Tầng        | Vai trò                              |
+| --------------- | ----------- | ------------------------------------ |
+| Ethernet Header | Data Link   | Chứa địa chỉ MAC nguồn và đích       |
+| IP Header       | Network     | Chứa địa chỉ IP nguồn và đích        |
+| TCP Header      | Transport   | Chứa port, sequence number, ACK      |
+| UDP Header      | Transport   | Chứa port và độ dài dữ liệu          |
+| HTTP Header     | Application | Chứa thông tin request hoặc response |
+
+Ví dụ các trường trong IP header:
+
+| Trường              | Ý nghĩa                                                     |
+| ------------------- | ----------------------------------------------------------- |
+| Source Address      | Địa chỉ IP nguồn                                            |
+| Destination Address | Địa chỉ IP đích                                             |
+| TTL                 | Giới hạn thời gian tồn tại của packet                       |
+| Protocol            | Cho biết dữ liệu bên trong dùng TCP, UDP hay giao thức khác |
+| Header Checksum     | Kiểm tra lỗi phần header                                    |
+
+Ví dụ các trường trong TCP header:
+
+| Trường                | Ý nghĩa                        |
+| --------------------- | ------------------------------ |
+| Source Port           | Cổng nguồn                     |
+| Destination Port      | Cổng đích                      |
+| Sequence Number       | Số thứ tự dữ liệu              |
+| Acknowledgment Number | Số xác nhận                    |
+| Flags                 | Các cờ như SYN, ACK, FIN, RST  |
+| Checksum              | Kiểm tra tính toàn vẹn dữ liệu |
+
+Header rất quan trọng khi phân tích mạng bằng Wireshark hoặc tcpdump, vì nó cho biết gói tin đến từ đâu, đi đâu, dùng giao thức nào và trạng thái kết nối ra sao.
+
+## 4.7. TTL, Checksum, Source Address và Destination Address
+
+Trong packet, có nhiều trường quan trọng giúp dữ liệu được truyền đúng cách. Bốn trường thường gặp là **TTL**, **Checksum**, **Source Address** và **Destination Address**.
+
+#### TTL
+
+**TTL** (Time To Live) là trường dùng để giới hạn thời gian hoặc số bước mà một packet có thể tồn tại trong mạng.
+
+Mỗi khi packet đi qua một router, giá trị TTL thường bị giảm đi 1. Nếu TTL giảm về 0, packet sẽ bị loại bỏ.
+
+Mục đích của TTL:
+
+* Ngăn packet bị lặp vô hạn trong mạng.
+* Giảm nguy cơ gây nghẽn mạng.
+* Hỗ trợ công cụ như `traceroute` để xác định đường đi của packet.
+
+Ví dụ:
+
+```text
+TTL ban đầu: 64
+Sau router 1: 63
+Sau router 2: 62
+Sau router 3: 61
+```
+
+Nếu có lỗi định tuyến làm packet bị chạy vòng lặp, TTL sẽ giảm dần về 0 và packet sẽ bị hủy.
+
+---
+
+#### Checksum
+
+**Checksum** là giá trị dùng để kiểm tra tính toàn vẹn của dữ liệu hoặc header.
+
+Khi packet được gửi đi, thiết bị gửi tính toán checksum dựa trên nội dung của một phần gói tin. Khi thiết bị nhận nhận được packet, nó tính lại checksum và so sánh với giá trị trong header.
+
+Nếu hai giá trị không khớp, điều đó có thể cho thấy dữ liệu đã bị lỗi hoặc thay đổi trong quá trình truyền.
+
+Mục đích của checksum:
+
+* Phát hiện lỗi trong quá trình truyền.
+* Giúp thiết bị nhận biết packet có bị hỏng hay không.
+* Hỗ trợ giao thức quyết định có chấp nhận hoặc loại bỏ packet.
+
+Ví dụ đơn giản:
+
+```text
+Checksum gửi đi:  0x4a3f
+Checksum tính lại: 0x4a3f
+→ Packet hợp lệ
+```
+
+Nếu kết quả khác nhau:
+
+```text
+Checksum gửi đi:  0x4a3f
+Checksum tính lại: 0x91bc
+→ Packet có thể bị lỗi
+```
+
+---
+
+#### Source Address
+
+**Source Address** là địa chỉ nguồn, cho biết packet được gửi từ đâu.
+
+Trong IP packet, Source Address thường là **địa chỉ IP của thiết bị gửi**.
+
+Ví dụ:
+
+```text
+Source Address: 192.168.1.10
+```
+
+Vai trò của Source Address:
+
+* Cho biết thiết bị nào đã gửi packet.
+* Giúp thiết bị nhận biết nơi cần gửi phản hồi.
+* Hỗ trợ phân tích lưu lượng mạng.
+* Hỗ trợ firewall xác định nguồn truy cập.
+
+Ví dụ khi máy tính truy cập DNS Google:
+
+```text
+Source Address:      192.168.1.10
+Destination Address: 8.8.8.8
+```
+
+Ở đây, `192.168.1.10` là máy gửi yêu cầu.
+
+---
+
+#### Destination Address
+
+**Destination Address** là địa chỉ đích, cho biết packet cần được gửi đến đâu.
+
+Trong IP packet, Destination Address thường là **địa chỉ IP của thiết bị nhận**.
+
+Ví dụ:
+
+```text
+Destination Address: 8.8.8.8
+```
+
+Vai trò của Destination Address:
+
+* Xác định thiết bị hoặc máy chủ đích.
+* Giúp router định tuyến packet.
+* Giúp firewall kiểm tra lưu lượng đi đến đâu.
+* Giúp hệ thống mạng chuyển dữ liệu đúng hướng.
+
+Ví dụ:
+
+```text
+Source Address:      192.168.1.10
+Destination Address: 93.184.216.34
+```
+
+Trong ví dụ này:
+
+* `192.168.1.10` là máy tính người dùng.
+* `93.184.216.34` là máy chủ web cần truy cập.
+
+---
+
+#### Tóm tắt các trường quan trọng
+
+| Trường              | Ý nghĩa              | Vai trò                               |
+| ------------------- | -------------------- | ------------------------------------- |
+| TTL                 | Time To Live         | Ngăn packet tồn tại vô hạn trong mạng |
+| Checksum            | Giá trị kiểm tra lỗi | Phát hiện dữ liệu hoặc header bị lỗi  |
+| Source Address      | Địa chỉ nguồn        | Cho biết packet đến từ đâu            |
+| Destination Address | Địa chỉ đích         | Cho biết packet cần đi đến đâu        |
+
+Các trường này rất quan trọng trong việc học mạng và an ninh mạng. Khi phân tích packet bằng Wireshark hoặc tcpdump, việc hiểu TTL, Checksum, Source Address và Destination Address giúp xác định luồng dữ liệu, phát hiện lỗi mạng và phân tích hành vi bất thường.
 
