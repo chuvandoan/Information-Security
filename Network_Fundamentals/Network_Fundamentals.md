@@ -14,6 +14,8 @@
 
 6. [Mạng LAN và thiết bị mạng](#6-mạng-lan-và-thiết-bị-mạng)
 
+7. [Các giao thức và công nghệ mạng cơ bản](#7-các-giao-thức-và-công-nghệ-mạng-cơ-bản)
+
 ## Nội dung
 
 # 1. Tổng quan về mạng máy tính
@@ -2620,4 +2622,720 @@ VLAN = chia một mạng vật lý thành nhiều mạng logic riêng biệt.
 ```
 
 VLAN giúp mạng dễ quản lý hơn, giảm broadcast và tăng bảo mật trong môi trường doanh nghiệp.
+
+# 7. Các giao thức và công nghệ mạng cơ bản
+
+## 7.1. ARP là gì?
+
+**ARP** là viết tắt của **Address Resolution Protocol**, nghĩa là **giao thức phân giải địa chỉ**.
+
+ARP được dùng để tìm địa chỉ **MAC** tương ứng với một địa chỉ **IP** trong cùng mạng cục bộ.
+
+Trong mạng máy tính:
+
+- Địa chỉ IP được dùng ở tầng Network.
+- Địa chỉ MAC được dùng ở tầng Data Link.
+- Khi một thiết bị muốn gửi dữ liệu trong mạng LAN, nó cần biết địa chỉ MAC của thiết bị đích.
+
+Ví dụ:
+
+```text
+Máy A biết IP của Máy B: 192.168.1.20
+Nhưng Máy A chưa biết MAC của Máy B
+→ Máy A dùng ARP để hỏi địa chỉ MAC tương ứng
+```
+
+ARP thường hoạt động trong mạng LAN. Nó không dùng để tìm địa chỉ MAC của thiết bị ở xa qua Internet, vì địa chỉ MAC chỉ có ý nghĩa trong phạm vi mạng cục bộ.
+
+Ví dụ thực tế:
+
+```text
+Máy tính A: 192.168.1.10
+Máy tính B: 192.168.1.20
+```
+
+Nếu máy tính A muốn gửi dữ liệu đến máy tính B, máy tính A cần biết MAC address của máy tính B. Khi chưa biết, máy tính A sẽ gửi ARP Request để hỏi.
+
+Tóm lại:
+
+```text
+ARP = dùng địa chỉ IP để tìm địa chỉ MAC trong mạng LAN.
+```
+
+## 7.2. ARP Request và ARP Reply
+
+![](./img/7.2_working_of_arp.webp)
+
+ARP Message Format:
+
+![](./img/7.2_hardware_type.webp)
+
+Quá trình ARP gồm hai bước chính:
+
+- **ARP Request**
+- **ARP Reply**
+
+**ARP Request**
+
+**ARP Request** là gói tin được gửi đi để hỏi:
+
+```text
+Ai đang sử dụng địa chỉ IP này?
+Hãy cho tôi biết địa chỉ MAC của bạn.
+```
+
+ARP Request thường được gửi dưới dạng **broadcast**, nghĩa là gửi đến tất cả thiết bị trong cùng mạng LAN.
+
+Địa chỉ MAC đích của ARP Request thường là:
+
+```text
+ff:ff:ff:ff:ff:ff
+```
+
+Đây là địa chỉ broadcast ở tầng Data Link.
+
+Ví dụ:
+
+```text
+Máy A có IP: 192.168.1.10
+Máy A muốn tìm MAC của IP: 192.168.1.20
+
+Máy A gửi ARP Request:
+Who has 192.168.1.20? Tell 192.168.1.10
+```
+
+Tất cả thiết bị trong LAN đều nhận được gói tin này, nhưng chỉ thiết bị có IP `192.168.1.20` mới phản hồi.
+
+**ARP Reply**
+
+**ARP Reply** là gói tin phản hồi từ thiết bị có địa chỉ IP được hỏi.
+
+Ví dụ:
+
+```text
+Máy B có IP: 192.168.1.20
+Máy B trả lời:
+192.168.1.20 is at 44:df:65:d8:fe:6c
+```
+
+Sau khi nhận ARP Reply, máy A sẽ lưu thông tin này vào **ARP cache** để dùng lại trong thời gian ngắn.
+
+Ví dụ ARP cache:
+
+| IP Address | MAC Address |
+|---|---|
+| `192.168.1.20` | `44:df:65:d8:fe:6c` |
+
+**Quy trình ARP tổng quát**
+
+```text
+1. Máy A muốn gửi dữ liệu đến IP 192.168.1.20
+2. Máy A kiểm tra ARP cache
+3. Nếu chưa có MAC address, máy A gửi ARP Request
+4. Máy B nhận request và gửi ARP Reply
+5. Máy A lưu MAC address vào ARP cache
+6. Máy A gửi frame đến MAC address của máy B
+```
+
+**ARP và bảo mật**
+
+ARP là giao thức cơ bản nhưng có một điểm yếu: nó không có cơ chế xác thực mạnh.
+
+Một số tấn công liên quan đến ARP:
+
+- ARP spoofing.
+- ARP poisoning.
+- Man-in-the-Middle trong mạng LAN.
+
+Ví dụ, kẻ tấn công có thể giả mạo ARP Reply để khiến nạn nhân nghĩ rằng MAC address của attacker là MAC address của gateway.
+
+Vì vậy, trong an ninh mạng, ARP rất quan trọng khi học về sniffing, MITM, phân tích traffic và bảo mật mạng LAN.
+
+## 7.3. DHCP là gì?
+
+**DHCP** là viết tắt của **Dynamic Host Configuration Protocol**, nghĩa là **giao thức cấu hình host động**.
+
+![](./img/7.3_dhcp.webp)
+
+DHCP giúp thiết bị tự động nhận các thông tin cấu hình mạng khi kết nối vào mạng.
+
+Nếu không có DHCP, người dùng hoặc quản trị viên phải cấu hình thủ công các thông tin như:
+
+- Địa chỉ IP.
+- Subnet mask.
+- Default gateway.
+- DNS server.
+
+Ví dụ, khi bạn kết nối laptop vào Wi-Fi ở nhà, laptop thường tự động nhận địa chỉ IP như:
+
+```text
+IP address:      192.168.1.25
+Subnet mask:     255.255.255.0
+Default gateway: 192.168.1.1
+DNS server:      192.168.1.1
+```
+
+Bạn không cần nhập các thông tin này bằng tay vì DHCP server đã cấp phát tự động.
+
+Trong mạng gia đình, thiết bị đóng vai trò DHCP server thường là router Wi-Fi.
+
+Trong mạng doanh nghiệp, DHCP server có thể là:
+
+- Router.
+- Firewall.
+- Windows Server.
+- Linux server.
+- Thiết bị mạng chuyên dụng.
+
+**Vai trò của DHCP**
+
+DHCP giúp:
+
+- Tự động cấp địa chỉ IP cho thiết bị.
+- Giảm lỗi cấu hình thủ công.
+- Quản lý địa chỉ IP hiệu quả.
+- Tránh trùng địa chỉ IP.
+- Cung cấp thông tin gateway và DNS cho client.
+
+Ví dụ:
+
+```text
+Laptop mới kết nối vào mạng
+→ Gửi yêu cầu DHCP
+→ DHCP server cấp IP và thông tin mạng
+→ Laptop có thể truy cập mạng
+```
+
+Tóm lại:
+
+```text
+DHCP = tự động cấp cấu hình mạng cho thiết bị.
+```
+
+## 7.4. Quy trình DHCP DORA
+
+Quá trình cấp phát địa chỉ IP bằng DHCP thường được mô tả bằng mô hình **DORA**.
+
+DORA gồm 4 bước:
+
+```text
+D - Discover
+O - Offer
+R - Request
+A - Acknowledge
+```
+
+### 7.4.1. Bước 1: DHCP Discover
+
+Khi thiết bị mới kết nối vào mạng, nó chưa có địa chỉ IP hợp lệ. Vì vậy, nó gửi gói **DHCP Discover** để tìm DHCP server.
+
+![](./img/7.4_dhcp_discover.webp)
+
+Ví dụ:
+
+```text
+Client → Broadcast: Có DHCP server nào trong mạng không?
+```
+
+Gói này thường được gửi dạng broadcast vì client chưa biết DHCP server nằm ở đâu.
+
+### 7.4.2. Bước 2: DHCP Offer
+
+DHCP server nhận được Discover và phản hồi bằng gói **DHCP Offer**.
+
+![](./img/7.4_dhcp_offer.webp)
+
+Gói Offer thường chứa:
+
+- Địa chỉ IP đề xuất.
+- Subnet mask.
+- Default gateway.
+- DNS server.
+- Thời gian thuê địa chỉ IP.
+
+Ví dụ:
+
+```text
+DHCP Server → Client:
+Tôi có thể cấp cho bạn IP 192.168.1.25
+```
+
+### 7.4.3. Bước 3: DHCP Request
+
+Client nhận DHCP Offer và gửi lại **DHCP Request** để xác nhận rằng nó muốn sử dụng địa chỉ IP được đề xuất.
+
+![](./img/7.4_dhcp_request.webp)
+
+Ví dụ:
+
+```text
+Client → DHCP Server:
+Tôi muốn dùng IP 192.168.1.25
+```
+
+### 7.4.4. Bước 4: DHCP Acknowledge
+
+DHCP server gửi **DHCP Acknowledge** để xác nhận việc cấp phát địa chỉ IP.
+
+![](./img/7.4_dhcp_ack.webp)
+
+Ví dụ:
+
+```text
+DHCP Server → Client:
+Được, bạn có thể sử dụng IP 192.168.1.25
+```
+
+Sau bước này, client có thể sử dụng địa chỉ IP và bắt đầu giao tiếp trong mạng.
+
+Bảng tóm tắt DHCP DORA
+
+| Bước | Tên | Ý nghĩa |
+|---:|---|---|
+| 1 | Discover | Client tìm DHCP server |
+| 2 | Offer | DHCP server đề xuất cấu hình mạng |
+| 3 | Request | Client yêu cầu sử dụng cấu hình được đề xuất |
+| 4 | Acknowledge | DHCP server xác nhận cấp phát |
+
+Sơ đồ đơn giản:
+
+```text
+Client                  DHCP Server
+  | ---- Discover ----> |
+  | <----- Offer ------ |
+  | ---- Request -----> |
+  | <--- Acknowledge -- |
+```
+
+## 7.5. ICMP là gì?
+
+**ICMP** là viết tắt của **Internet Control Message Protocol**, nghĩa là **giao thức thông báo điều khiển Internet**.
+
+ICMP Packet Format:
+
+![](./img/7.5_icmp_format.webp)
+
+ICMP thường được dùng để:
+
+- Kiểm tra kết nối mạng.
+- Báo lỗi trong quá trình truyền packet.
+- Chẩn đoán sự cố mạng.
+- Hỗ trợ các công cụ như `ping` và `traceroute`.
+
+ICMP không dùng để truyền dữ liệu ứng dụng như HTTP hay FTP. Thay vào đó, nó chủ yếu dùng để gửi thông báo điều khiển và thông báo lỗi.
+
+Ví dụ các loại thông báo ICMP:
+
+| Thông báo ICMP | Ý nghĩa |
+|---|---|
+| Echo Request | Gói yêu cầu kiểm tra kết nối |
+| Echo Reply | Gói phản hồi cho Echo Request |
+| Destination Unreachable | Không thể đến được đích |
+| Time Exceeded | TTL hết hạn khi packet đang đi qua mạng |
+| Redirect | Gợi ý đường đi khác tốt hơn |
+
+Ví dụ:
+
+Khi bạn dùng lệnh `ping 8.8.8.8`, máy tính gửi ICMP Echo Request đến `8.8.8.8`. Nếu đích phản hồi, bạn sẽ nhận được ICMP Echo Reply.
+
+Tóm lại:
+
+```text
+ICMP = giao thức hỗ trợ kiểm tra, báo lỗi và chẩn đoán mạng.
+```
+
+## 7.6. Ping
+
+**Ping** là công cụ dùng để kiểm tra một thiết bị có thể kết nối được qua mạng hay không.
+
+![](./img/7.6_ping.jpg)
+
+Ping sử dụng giao thức **ICMP**, cụ thể là:
+
+- ICMP Echo Request.
+- ICMP Echo Reply.
+
+Cú pháp cơ bản:
+
+```bash
+ping <địa_chỉ_IP_hoặc_tên_miền>
+```
+
+Ví dụ:
+
+```bash
+ping 8.8.8.8
+```
+
+Hoặc:
+
+```bash
+ping google.com
+```
+
+Ví dụ kết quả:
+
+```text
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=118 time=12.3 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=118 time=11.9 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=118 time=12.5 ms
+```
+
+Một số thông tin quan trọng trong kết quả ping:
+
+| Thông tin | Ý nghĩa |
+|---|---|
+| `icmp_seq` | Số thứ tự gói ICMP |
+| `ttl` | Time To Live, số bước còn lại của packet |
+| `time` | Thời gian phản hồi |
+| `packet loss` | Tỷ lệ gói tin bị mất |
+
+Ví dụ giới hạn số lần ping trên Linux:
+
+```bash
+ping 8.8.8.8 -c 4
+```
+
+Lệnh này gửi 4 gói ICMP rồi dừng.
+
+**Ping dùng để làm gì?**
+
+Ping thường được dùng để:
+
+- Kiểm tra máy đích có hoạt động không.
+- Kiểm tra kết nối Internet.
+- Kiểm tra độ trễ mạng.
+- Phát hiện mất gói tin.
+- Hỗ trợ troubleshooting mạng.
+
+Ví dụ:
+
+```bash
+ping 192.168.1.1
+```
+
+Nếu ping đến gateway thành công nhưng ping Internet thất bại, có thể vấn đề nằm ở router, DNS hoặc kết nối ISP.
+
+## 7.7. Traceroute
+
+**Traceroute** là công cụ dùng để xác định đường đi của packet từ máy nguồn đến máy đích.
+
+Traceroute cho biết packet đi qua những router nào trước khi đến đích. Mỗi router trên đường đi thường được gọi là một **hop**.
+
+Trên Linux, lệnh thường dùng là:
+
+```bash
+traceroute <địa_chỉ_IP_hoặc_tên_miền>
+```
+
+Ví dụ:
+
+```bash
+traceroute google.com
+```
+
+![](./img/7.7_traceroute_gg.png)
+
+Trên Windows, lệnh tương ứng là:
+
+```cmd
+tracert google.com
+```
+
+**Traceroute hoạt động như thế nào?**
+
+![](./img/7.7_working_of_traceroute.png)
+
+Traceroute dựa trên trường **TTL** trong IP packet.
+
+TTL là giá trị giới hạn số lượng router mà packet có thể đi qua. Mỗi khi packet đi qua một router, TTL giảm đi 1. Khi TTL về 0, router sẽ loại bỏ packet và gửi lại thông báo ICMP Time Exceeded.
+
+Traceroute lợi dụng cơ chế này bằng cách gửi nhiều packet với TTL tăng dần:
+
+```text
+Gói 1: TTL = 1 → router đầu tiên trả lời
+Gói 2: TTL = 2 → router thứ hai trả lời
+Gói 3: TTL = 3 → router thứ ba trả lời
+...
+```
+
+Nhờ đó, traceroute xác định được các hop trên đường đi.
+
+**Ví dụ kết quả traceroute**
+
+```text
+1  192.168.1.1       1.2 ms
+2  10.10.0.1         5.4 ms
+3  203.0.113.1       12.8 ms
+4  8.8.8.8           20.1 ms
+```
+
+Ý nghĩa:
+
+| Hop | Ý nghĩa |
+|---:|---|
+| 1 | Router trong mạng local |
+| 2 | Router của ISP |
+| 3 | Router trung gian |
+| 4 | Máy đích |
+
+**Traceroute dùng để làm gì?**
+
+Traceroute giúp:
+
+- Xem đường đi của packet.
+- Xác định vị trí có độ trễ cao.
+- Phát hiện điểm nghẽn mạng.
+- Kiểm tra routing.
+- Hỗ trợ phân tích sự cố kết nối.
+
+Tóm lại:
+
+```text
+Traceroute = xem packet đi qua những router nào để đến đích.
+```
+
+## 7.8. Routing
+
+**Routing** là quá trình chọn đường đi cho dữ liệu từ mạng nguồn đến mạng đích.
+
+![](./img/7.8_ip_routing.webp)
+
+Khi một thiết bị muốn gửi packet đến một mạng khác, packet thường phải đi qua router. Router sẽ dựa vào bảng định tuyến để quyết định gửi packet đi đâu tiếp theo.
+
+Ví dụ:
+
+```text
+Laptop → Router gia đình → Router ISP → Internet → Web Server
+```
+
+Trong quá trình này, các router sẽ chuyển tiếp packet qua nhiều mạng khác nhau cho đến khi packet đến đúng đích.
+
+**Router làm gì trong quá trình routing?**
+
+Architecture of Router:
+
+![](./img/7.8_routing_processor.webp)
+
+Router thường thực hiện các nhiệm vụ:
+
+- Nhận packet từ một interface.
+- Kiểm tra địa chỉ IP đích.
+- Tra cứu bảng định tuyến.
+- Chọn đường đi phù hợp.
+- Chuyển packet ra interface thích hợp.
+
+Ví dụ bảng định tuyến đơn giản:
+
+| Destination Network | Next Hop | Interface |
+|---|---|---|
+| `192.168.1.0/24` | Directly connected | LAN |
+| `10.0.0.0/24` | `192.168.1.2` | LAN |
+| `0.0.0.0/0` | ISP Gateway | WAN |
+
+Trong đó:
+
+- `192.168.1.0/24` là mạng kết nối trực tiếp.
+- `10.0.0.0/24` cần gửi qua router khác.
+- `0.0.0.0/0` là default route, thường dùng để gửi lưu lượng ra Internet.
+
+**Static Routing và Dynamic Routing**
+
+Có hai cách định tuyến phổ biến:
+
+| Loại routing | Mô tả |
+|---|---|
+| Static Routing | Quản trị viên cấu hình đường đi thủ công |
+| Dynamic Routing | Router tự trao đổi thông tin định tuyến bằng giao thức routing |
+
+Ví dụ giao thức dynamic routing:
+
+- RIP.
+- OSPF.
+- EIGRP.
+- BGP.
+
+## 7.9. NAT
+
+**NAT** là viết tắt của **Network Address Translation**, nghĩa là **chuyển đổi địa chỉ mạng**.
+
+![](./img/7.9_nat.jpg)
+
+NAT cho phép nhiều thiết bị trong mạng nội bộ sử dụng địa chỉ IP private để truy cập Internet thông qua một địa chỉ IP public.
+
+Ví dụ mạng gia đình:
+
+```text
+Laptop:     192.168.1.10
+Điện thoại: 192.168.1.11
+PC:         192.168.1.12
+Router public IP: 82.62.51.70
+```
+
+Khi các thiết bị truy cập Internet, bên ngoài thường chỉ nhìn thấy địa chỉ IP public của router.
+
+**NAT hoạt động như thế nào?**
+
+![](./img/7.9_working_of_nat.webp)
+
+Khi laptop gửi yêu cầu ra Internet:
+
+```text
+Source IP ban đầu: 192.168.1.10
+Source port:       52344
+Destination IP:    93.184.216.34
+Destination port:  443
+```
+
+Router sẽ chuyển đổi địa chỉ nguồn:
+
+```text
+Source IP sau NAT: 82.62.51.70
+Source port sau NAT: 61001
+Destination IP:     93.184.216.34
+Destination port:   443
+```
+
+Router lưu thông tin ánh xạ này trong bảng NAT để khi phản hồi quay về, router biết cần chuyển dữ liệu cho thiết bị nội bộ nào.
+
+Ví dụ bảng NAT:
+
+| Private IP | Private Port | Public IP | Public Port |
+|---|---:|---|---:|
+| `192.168.1.10` | 52344 | `82.62.51.70` | 61001 |
+| `192.168.1.11` | 53022 | `82.62.51.70` | 61002 |
+
+NAT Inside & Outside Address:
+
+![](./img/7.9_NAT_inside_outside.webp)
+
+Types of NAT:
+
+![](./img/7.9_type_of_NAT.webp)
+
+**Lợi ích của NAT**
+
+NAT giúp:
+
+- Nhiều thiết bị dùng chung một IP public.
+- Tiết kiệm địa chỉ IPv4 public.
+- Che giấu địa chỉ IP private khỏi Internet.
+- Cho phép mạng nội bộ truy cập Internet dễ dàng.
+- Hỗ trợ mô hình mạng gia đình và doanh nghiệp nhỏ.
+
+**Hạn chế của NAT**
+
+NAT cũng có một số hạn chế:
+
+- Thiết bị bên ngoài khó truy cập trực tiếp vào thiết bị bên trong mạng.
+- Một số ứng dụng cần cấu hình thêm, ví dụ game server, camera IP hoặc web server nội bộ.
+- Có thể gây khó khăn cho một số giao thức cần kết nối end-to-end.
+- Cần dùng port forwarding nếu muốn public dịch vụ nội bộ.
+
+## 7.10. Port Forwarding
+
+**Port Forwarding** là kỹ thuật chuyển tiếp lưu lượng từ một cổng trên địa chỉ IP public của router đến một thiết bị hoặc dịch vụ trong mạng nội bộ.
+
+![](./img/7.10_port_forwarding.webp)
+
+Nó thường được dùng khi muốn cho người dùng từ Internet truy cập vào một dịch vụ đang chạy trong LAN.
+
+Ví dụ:
+
+```text
+Web Server nội bộ: 192.168.1.10:80
+Router public IP:  82.62.51.70
+```
+
+Nếu cấu hình port forwarding:
+
+```text
+82.62.51.70:80 → 192.168.1.10:80
+```
+
+Người dùng bên ngoài có thể truy cập website nội bộ thông qua địa chỉ IP public của router.
+
+**Port Forwarding hoạt động như thế nào?**
+
+![](./img/7.10_working_of_port_forwarding.webp)
+
+Ví dụ có một máy chủ web trong mạng LAN:
+
+```text
+Server nội bộ: 192.168.1.10
+Dịch vụ web:   TCP port 80
+Router public: 82.62.51.70
+```
+
+Khi người dùng từ Internet truy cập:
+
+```text
+http://82.62.51.70
+```
+
+Router nhận lưu lượng đến cổng `80`, sau đó chuyển tiếp vào server nội bộ:
+
+```text
+Internet Client → Router 82.62.51.70:80 → Server 192.168.1.10:80
+```
+
+**Ví dụ cấu hình port forwarding**
+
+| Public IP | Public Port | Private IP | Private Port | Dịch vụ |
+|---|---:|---|---:|---|
+| `82.62.51.70` | 80 | `192.168.1.10` | 80 | Web Server |
+| `82.62.51.70` | 2222 | `192.168.1.20` | 22 | SSH |
+| `82.62.51.70` | 3389 | `192.168.1.30` | 3389 | RDP |
+
+Ví dụ:
+
+```text
+82.62.51.70:2222 → 192.168.1.20:22
+```
+
+Khi người dùng kết nối SSH đến cổng `2222` của IP public, router sẽ chuyển tiếp vào cổng `22` của máy nội bộ.
+
+**Port Forwarding và Firewall**
+
+Port forwarding và firewall dễ bị nhầm với nhau.
+
+- **Port forwarding** mở đường chuyển tiếp lưu lượng từ ngoài vào trong.
+- **Firewall** quyết định lưu lượng đó có được phép đi qua hay không.
+
+Ví dụ:
+
+```text
+Port forwarding đã cấu hình: 82.62.51.70:80 → 192.168.1.10:80
+Firewall chặn port 80
+→ Người dùng bên ngoài vẫn không truy cập được
+```
+
+Vì vậy, để dịch vụ nội bộ truy cập được từ Internet, thường cần:
+
+1. Dịch vụ nội bộ đang chạy.
+2. Port forwarding đúng trên router.
+3. Firewall cho phép lưu lượng.
+4. Địa chỉ IP public hoặc tên miền trỏ đúng.
+
+**Rủi ro bảo mật của Port Forwarding**
+
+Port forwarding có thể làm tăng bề mặt tấn công vì dịch vụ nội bộ được mở ra Internet.
+
+Một số rủi ro:
+
+- Dịch vụ bị quét bởi attacker.
+- Lộ dịch vụ quản trị như SSH hoặc RDP.
+- Bị brute force mật khẩu.
+- Bị khai thác nếu dịch vụ có lỗ hổng.
+- Cấu hình sai có thể làm lộ hệ thống nội bộ.
+
+Khuyến nghị bảo mật:
+
+- Chỉ mở những port thật sự cần thiết.
+- Không public dịch vụ quản trị nếu không cần.
+- Dùng VPN thay vì mở trực tiếp SSH/RDP ra Internet.
+- Dùng mật khẩu mạnh hoặc SSH key.
+- Cập nhật dịch vụ thường xuyên.
+- Kết hợp firewall rule để giới hạn IP được phép truy cập.
+- Theo dõi log truy cập.
 
