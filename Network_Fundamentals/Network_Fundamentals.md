@@ -783,6 +783,8 @@ Mô hình TCP/IP mô tả cách dữ liệu được chia nhỏ, truyền qua m�
 
 ### 3.2.2. Các tầng trong mô hình TCP/IP
 
+![](./img/3.2_tcp_layers.webp)
+
 Mô hình TCP/IP thường gồm **4 tầng chính**:
 
 | Tầng | Tên tầng       | Chức năng chính                                   | Ví dụ giao thức                  |
@@ -793,6 +795,8 @@ Mô hình TCP/IP thường gồm **4 tầng chính**:
 | 1    | Network Access | Truyền dữ liệu trong mạng vật lý hoặc mạng cục bộ | Ethernet, Wi-Fi                  |
 
 ### 3.2.3. Tầng Application
+
+![](./img/3.2_application_layer_tcp.gif)
 
 Tầng **Application** là tầng gần với người dùng nhất.
 Nó cung cấp các dịch vụ mạng cho ứng dụng như trình duyệt web, email, truyền file hoặc truy cập từ xa.
@@ -813,6 +817,8 @@ Khi người dùng truy cập `google.com`, trình duyệt sử dụng các giao
 
 ### 3.2.4. Tầng Transport
 
+![](./img/3.2_transport_layer_protocols.webp)
+
 Tầng **Transport** chịu trách nhiệm truyền dữ liệu giữa hai thiết bị đầu cuối.
 
 Hai giao thức quan trọng nhất là:
@@ -828,6 +834,8 @@ Ví dụ:
 * **UDP** thường dùng cho video call, game online, streaming.
 
 ### 3.2.5. Tầng Internet
+
+![](./img/3.2_internet_layer.webp)
 
 Tầng **Internet** chịu trách nhiệm định tuyến dữ liệu từ nguồn đến đích thông qua địa chỉ IP.
 
@@ -847,6 +855,8 @@ Một số giao thức phổ biến:
 
 ### 3.2.6. Tầng Network Access
 
+![](./img/3.2_network_access_link_layer.webp)
+
 Tầng **Network Access** chịu trách nhiệm truyền dữ liệu trong môi trường mạng vật lý hoặc mạng cục bộ.
 
 Tầng này liên quan đến:
@@ -863,7 +873,7 @@ Trong mạng LAN, dữ liệu được truyền từ máy tính đến router th
 
 ### 3.2.7. Quá trình truyền dữ liệu trong mô hình TCP/IP
 
-![](./img/3.2_how_tcp_ip_work.avif)
+![](./img/3.2_working_of_tcp.webp)
 
 Khi một máy tính gửi dữ liệu qua mạng, dữ liệu sẽ đi từ tầng trên xuống tầng dưới:
 
@@ -911,6 +921,8 @@ Ví dụ khi truy cập website:
 | Dễ triển khai        | Các giao thức TCP/IP được tích hợp sẵn trong hầu hết hệ thống mạng |
 
 ## 3.3. So sánh mô hình OSI và TCP/IP
+
+![](./img/3.3_osi_to_tcp.webp)
 
 ![](./img/3.3_comparison_osi_tcp_ip.jpg)
 
