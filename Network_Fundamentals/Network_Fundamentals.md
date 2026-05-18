@@ -16,6 +16,8 @@
 
 7. [Các giao thức và công nghệ mạng cơ bản](#7-các-giao-thức-và-công-nghệ-mạng-cơ-bản)
 
+8. [ Firewall và VPN](#8-firewall-và-vpn)
+
 ## Nội dung
 
 # 1. Tổng quan về mạng máy tính
@@ -3338,4 +3340,522 @@ Khuyến nghị bảo mật:
 - Cập nhật dịch vụ thường xuyên.
 - Kết hợp firewall rule để giới hạn IP được phép truy cập.
 - Theo dõi log truy cập.
+
+# 8. Firewall và VPN
+
+## 8.1. Firewall là gì?
+
+**Firewall** hay **tường lửa** là một thiết bị hoặc phần mềm dùng để kiểm soát lưu lượng mạng ra vào hệ thống.
+
+![](./img/8.1_firewal.webp)
+
+Nói đơn giản, firewall hoạt động như một **lớp bảo vệ biên giới** giữa mạng bên trong và mạng bên ngoài. Nó quyết định lưu lượng nào được phép đi qua và lưu lượng nào bị chặn lại.
+
+Ví dụ:
+
+```text
+Internet → Firewall → Mạng nội bộ
+```
+
+Firewall có thể được triển khai dưới nhiều dạng khác nhau:
+
+- Thiết bị firewall chuyên dụng.
+- Firewall tích hợp trong router.
+- Firewall trên hệ điều hành.
+- Firewall trong cloud.
+- Web Application Firewall dùng để bảo vệ ứng dụng web.
+
+Firewall thường kiểm tra lưu lượng dựa trên các thông tin như:
+
+- Địa chỉ IP nguồn.
+- Địa chỉ IP đích.
+- Cổng nguồn.
+- Cổng đích.
+- Giao thức sử dụng, ví dụ TCP, UDP hoặc ICMP.
+- Trạng thái kết nối.
+- Quy tắc bảo mật do quản trị viên cấu hình.
+
+Ví dụ một rule firewall đơn giản:
+
+```text
+Cho phép TCP port 80 từ Internet đến Web Server
+Chặn tất cả lưu lượng còn lại
+```
+
+Trong ví dụ này:
+
+- Port `80` dùng cho HTTP.
+- Chỉ lưu lượng web được phép đi qua.
+- Các loại lưu lượng khác sẽ bị chặn.
+
+Firewall thường được sử dụng để:
+
+- Bảo vệ mạng nội bộ khỏi truy cập trái phép.
+- Kiểm soát dịch vụ nào được public ra Internet.
+- Chặn lưu lượng độc hại.
+- Giới hạn truy cập giữa các vùng mạng.
+- Hỗ trợ phân tách mạng trong doanh nghiệp.
+- Ghi log phục vụ giám sát và điều tra bảo mật.
+
+Ví dụ trong mạng doanh nghiệp:
+
+```text
+Internet
+   |
+Firewall
+   |
+Mạng nội bộ
+```
+
+Nếu không có firewall, các dịch vụ nội bộ có thể bị truy cập trực tiếp từ bên ngoài, làm tăng nguy cơ bị tấn công.
+
+Tóm lại:
+
+```text
+Firewall = hệ thống kiểm soát lưu lượng mạng, cho phép hoặc chặn dữ liệu dựa trên rule.
+```
+
+### 8.1.1. Packet Inspection
+
+**Packet Inspection** là quá trình firewall kiểm tra các gói tin mạng để quyết định có cho phép chúng đi qua hay không.
+
+Mỗi gói tin khi đi qua firewall có thể chứa nhiều thông tin quan trọng như:
+
+- Source IP Address.
+- Destination IP Address.
+- Source Port.
+- Destination Port.
+- Protocol.
+- TCP Flags.
+- Trạng thái kết nối.
+- Nội dung dữ liệu trong một số loại firewall nâng cao.
+
+Ví dụ một packet:
+
+```text
+Source IP:        192.168.1.10
+Destination IP:   93.184.216.34
+Protocol:         TCP
+Destination Port: 443
+```
+
+Firewall sẽ kiểm tra packet này và so sánh với các rule đã được cấu hình.
+
+Ví dụ rule:
+
+```text
+Allow TCP from 192.168.1.0/24 to any port 443
+```
+
+Nếu packet khớp với rule này, firewall sẽ cho phép đi qua.
+
+Nếu không khớp với rule nào cho phép, firewall có thể chặn packet.
+
+**Packet Inspection kiểm tra những gì?**
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| Source IP | Địa chỉ IP nguồn gửi packet |
+| Destination IP | Địa chỉ IP đích nhận packet |
+| Source Port | Cổng nguồn |
+| Destination Port | Cổng đích |
+| Protocol | Giao thức được sử dụng, ví dụ TCP, UDP, ICMP |
+| TCP Flags | Các cờ như SYN, ACK, FIN, RST |
+| Direction | Hướng lưu lượng: inbound hoặc outbound |
+
+Ví dụ rule firewall:
+
+| Hành động | Source | Destination | Port | Protocol |
+|---|---|---|---:|---|
+| Allow | `192.168.1.0/24` | Any | 443 | TCP |
+| Allow | Any | Web Server | 80 | TCP |
+| Deny | Any | Any | 23 | TCP |
+
+Trong bảng trên:
+
+- Rule đầu tiên cho phép mạng nội bộ truy cập HTTPS.
+- Rule thứ hai cho phép truy cập web server qua HTTP.
+- Rule thứ ba chặn Telnet vì Telnet không an toàn.
+
+**Vì sao Packet Inspection quan trọng?**
+
+Packet Inspection giúp firewall:
+
+- Xác định lưu lượng có hợp lệ không.
+- Chặn lưu lượng đến cổng nguy hiểm.
+- Giới hạn truy cập từ IP không đáng tin cậy.
+- Ngăn dịch vụ nội bộ bị truy cập trái phép.
+- Phát hiện một số hành vi bất thường trong mạng.
+
+Tóm lại:
+
+```text
+Packet Inspection = firewall kiểm tra thông tin trong packet để quyết định allow hoặc deny.
+```
+
+### 8.1.2. Stateful Firewall
+
+**Stateful Firewall** là loại firewall có khả năng theo dõi **trạng thái của kết nối mạng**.
+
+Thay vì chỉ kiểm tra từng packet riêng lẻ, stateful firewall ghi nhớ toàn bộ phiên kết nối. Nhờ đó, nó có thể hiểu packet đó thuộc về một kết nối hợp lệ hay không.
+
+Ví dụ:
+
+Khi máy tính trong mạng nội bộ truy cập website:
+
+```text
+Client → Server: SYN
+Server → Client: SYN/ACK
+Client → Server: ACK
+```
+
+Stateful firewall có thể ghi nhớ rằng client đã chủ động mở kết nối ra ngoài. Khi server phản hồi lại, firewall biết đây là phản hồi hợp lệ và cho phép packet đi vào.
+
+**Stateful Firewall hoạt động như thế nào?**
+
+![](./img/8.1_Stateful_Inspection_Firewall.png)
+
+Stateful firewall thường lưu thông tin kết nối trong một bảng trạng thái.
+
+Ví dụ bảng trạng thái:
+
+| Source IP | Source Port | Destination IP | Destination Port | State |
+|---|---:|---|---:|---|
+| `192.168.1.10` | 52344 | `93.184.216.34` | 443 | Established |
+
+Khi packet mới đi qua, firewall kiểm tra:
+
+- Packet này có thuộc kết nối đã biết không?
+- Kết nối có được thiết lập đúng cách không?
+- Packet có hợp lệ với trạng thái hiện tại không?
+- Có dấu hiệu bất thường trong phiên kết nối không?
+
+**Ưu điểm của Stateful Firewall**
+
+- Thông minh hơn stateless firewall.
+- Theo dõi được trạng thái kết nối.
+- Tự động cho phép phản hồi hợp lệ từ kết nối đã được mở.
+- Phù hợp với mạng doanh nghiệp và mạng hiện đại.
+- Có thể phát hiện một số hành vi bất thường trong kết nối.
+
+**Nhược điểm của Stateful Firewall**
+
+- Cần nhiều tài nguyên hơn.
+- Phải lưu bảng trạng thái kết nối.
+- Có thể bị ảnh hưởng nếu số lượng kết nối quá lớn.
+- Cấu hình và quản lý phức tạp hơn firewall đơn giản.
+
+Ví dụ:
+
+```text
+Máy nội bộ truy cập HTTPS ra Internet
+→ Stateful firewall ghi nhớ kết nối
+→ Phản hồi từ server được cho phép quay lại
+```
+
+Tóm lại:
+
+```text
+Stateful Firewall = firewall kiểm tra packet dựa trên trạng thái của toàn bộ kết nối.
+```
+
+### 8.1.3. Stateless Firewall
+
+**Stateless Firewall** là loại firewall kiểm tra từng packet một cách độc lập, không ghi nhớ trạng thái của kết nối trước đó.
+
+Nó chỉ dựa vào các rule tĩnh để quyết định packet được phép đi qua hay bị chặn.
+
+Ví dụ:
+
+```text
+Allow TCP port 80
+Deny TCP port 23
+Allow ICMP
+```
+
+Khi một packet đi qua, stateless firewall kiểm tra packet đó có khớp rule nào không. Nó không quan tâm packet này thuộc kết nối đã được thiết lập hay chưa.
+
+**Stateless Firewall kiểm tra gì?**
+
+![](./img/8.1_stateless_firewall.png)
+
+Stateless firewall thường kiểm tra các thông tin cơ bản như:
+
+- Source IP.
+- Destination IP.
+- Source Port.
+- Destination Port.
+- Protocol.
+- Direction.
+
+Ví dụ rule:
+
+| Action | Source | Destination | Port | Protocol |
+|---|---|---|---:|---|
+| Allow | Any | Web Server | 80 | TCP |
+| Deny | Any | Any | 23 | TCP |
+
+Nếu một packet đến Web Server qua TCP port `80`, firewall cho phép.
+
+Nếu một packet sử dụng TCP port `23`, firewall chặn.
+
+**Ưu điểm của Stateless Firewall**
+
+- Đơn giản.
+- Xử lý nhanh.
+- Ít tốn tài nguyên.
+- Phù hợp với các rule cơ bản.
+- Có thể hiệu quả khi xử lý lượng lớn packet đơn giản.
+
+**Nhược điểm của Stateless Firewall**
+
+- Không theo dõi trạng thái kết nối.
+- Kém thông minh hơn stateful firewall.
+- Dễ cấu hình thiếu chính xác.
+- Khó phân biệt packet hợp lệ và packet bất thường trong một phiên kết nối.
+- Có thể cần nhiều rule hơn để kiểm soát lưu lượng hiệu quả.
+
+**So sánh Stateful và Stateless Firewall**
+
+| Tiêu chí | Stateful Firewall | Stateless Firewall |
+|---|---|---|
+| Cách kiểm tra | Theo dõi toàn bộ kết nối | Kiểm tra từng packet riêng lẻ |
+| Có lưu trạng thái không? | Có | Không |
+| Độ thông minh | Cao hơn | Thấp hơn |
+| Tài nguyên sử dụng | Nhiều hơn | Ít hơn |
+| Tốc độ xử lý | Có thể chậm hơn | Nhanh hơn |
+| Phù hợp với | Mạng hiện đại, doanh nghiệp | Rule đơn giản, lọc cơ bản |
+| Ví dụ | Cho phép phản hồi từ kết nối đã mở | Chỉ cho phép packet nếu khớp rule |
+
+Tóm lại:
+
+```text
+Stateless Firewall = firewall kiểm tra từng packet riêng lẻ dựa trên rule tĩnh.
+```
+
+## 8.2. VPN là gì?
+
+**VPN** là viết tắt của **Virtual Private Network**, nghĩa là **mạng riêng ảo**.
+
+![](./img/8.2_VPN.png)
+
+VPN là công nghệ cho phép thiết bị kết nối an toàn đến một mạng khác thông qua Internet. VPN tạo ra một kết nối bảo mật giữa máy khách và máy chủ VPN, giúp người dùng truy cập tài nguyên từ xa như thể đang ở trong cùng một mạng nội bộ.
+
+Ví dụ:
+
+Một nhân viên làm việc tại nhà có thể dùng VPN để kết nối vào mạng công ty và truy cập:
+
+- File server nội bộ.
+- Ứng dụng nội bộ.
+- Database nội bộ.
+- Dashboard quản trị.
+- Hệ thống giám sát.
+
+Sơ đồ đơn giản:
+
+```text
+Laptop nhân viên → Internet → VPN Server → Mạng công ty
+```
+
+Khi kết nối VPN được thiết lập, laptop của nhân viên có thể truy cập một số tài nguyên nội bộ theo quyền được cấp.
+
+**VPN dùng để làm gì?**
+
+VPN thường được dùng để:
+
+- Kết nối nhân viên làm việc từ xa vào mạng công ty.
+- Kết nối hai văn phòng ở hai địa điểm khác nhau.
+- Bảo vệ dữ liệu khi dùng Wi-Fi công cộng.
+- Ẩn địa chỉ IP thật khỏi dịch vụ bên ngoài.
+- Tạo môi trường lab an toàn khi thực hành bảo mật.
+
+Ví dụ:
+
+```text
+Văn phòng A ← VPN Tunnel → Văn phòng B
+```
+
+Hai văn phòng có thể trao đổi dữ liệu qua Internet nhưng vẫn giống như đang kết nối qua một đường truyền riêng.
+
+**Một số công nghệ VPN phổ biến**
+
+| Công nghệ | Mô tả ngắn |
+|---|---|
+| IPSec VPN | VPN sử dụng bộ giao thức IPSec để bảo vệ dữ liệu IP |
+| SSL/TLS VPN | VPN sử dụng SSL/TLS, thường truy cập qua trình duyệt hoặc client |
+| OpenVPN | Công nghệ VPN mã nguồn mở phổ biến |
+| WireGuard | VPN hiện đại, nhẹ và hiệu năng cao |
+| PPTP | Công nghệ VPN cũ, dễ cấu hình nhưng bảo mật yếu hơn |
+
+Tóm lại:
+
+```text
+VPN = công nghệ tạo kết nối riêng và an toàn qua một mạng công cộng như Internet.
+```
+
+## 8.3. VPN Tunnel
+
+**VPN Tunnel** là “đường hầm” bảo mật được tạo ra giữa thiết bị người dùng và máy chủ VPN.
+
+![](./img/8.3_vpn_tunnel.avif)
+
+Khi dữ liệu đi qua VPN tunnel, dữ liệu thường được mã hóa để bên thứ ba không thể đọc được nội dung bên trong.
+
+Ví dụ:
+
+```text
+Client → VPN Tunnel → VPN Server → Mạng nội bộ / Internet
+```
+
+Có thể hiểu VPN tunnel giống như một đường hầm riêng đi xuyên qua Internet. Người bên ngoài có thể thấy có kết nối VPN đang tồn tại, nhưng không dễ đọc được nội dung dữ liệu bên trong nếu dữ liệu được mã hóa đúng cách.
+
+**VPN Tunnel hoạt động như thế nào?**
+
+Quy trình tổng quát:
+
+```text
+1. Client kết nối đến VPN Server
+2. Hai bên xác thực với nhau
+3. VPN thiết lập kênh mã hóa
+4. Dữ liệu được đóng gói và mã hóa
+5. Dữ liệu đi qua Internet trong VPN tunnel
+6. VPN Server giải mã và chuyển tiếp dữ liệu đến đích
+```
+
+Ví dụ khi nhân viên truy cập file server công ty:
+
+```text
+Laptop → VPN Tunnel → VPN Server → File Server nội bộ
+```
+
+Người dùng ở bên ngoài công ty vẫn có thể truy cập tài nguyên nội bộ, nhưng dữ liệu được truyền qua đường hầm bảo mật.
+
+**Encapsulation trong VPN**
+
+VPN thường đóng gói packet ban đầu vào trong một packet khác để truyền qua Internet.
+
+Ví dụ đơn giản:
+
+```text
+[Packet nội bộ] → được mã hóa và đóng gói → [Packet VPN] → Internet
+```
+
+Khi đến VPN Server:
+
+```text
+[Packet VPN] → giải mã → [Packet nội bộ] → chuyển đến tài nguyên đích
+```
+
+**Vì sao gọi là tunnel?**
+
+Gọi là tunnel vì dữ liệu được truyền qua một đường dẫn logic riêng, tách biệt với lưu lượng thông thường ở mức bảo mật.
+
+Ví dụ:
+
+```text
+Internet công cộng
+    |
+    |===== VPN Tunnel đã mã hóa =====|
+    |
+Mạng công ty
+```
+
+Tóm lại:
+
+```text
+VPN Tunnel = đường hầm bảo mật giúp truyền dữ liệu riêng tư qua Internet.
+```
+
+## 8.4. Lợi ích của VPN
+
+VPN mang lại nhiều lợi ích trong cả môi trường cá nhân, doanh nghiệp và phòng lab an ninh mạng.
+
+**1. Bảo mật dữ liệu khi truyền qua Internet**
+
+VPN mã hóa dữ liệu giữa client và VPN server. Điều này giúp giảm nguy cơ bị nghe lén, đặc biệt khi sử dụng mạng không đáng tin cậy như Wi-Fi công cộng.
+
+Ví dụ:
+
+```text
+Laptop → Wi-Fi công cộng → VPN Tunnel → VPN Server
+```
+
+Nếu không dùng VPN, attacker trong cùng mạng Wi-Fi có thể cố gắng sniff traffic. Khi dùng VPN, dữ liệu đã được mã hóa nên khó đọc được nội dung.
+
+**2. Truy cập tài nguyên nội bộ từ xa**
+
+VPN cho phép người dùng bên ngoài truy cập tài nguyên nội bộ một cách an toàn.
+
+Ví dụ:
+
+- Nhân viên làm việc từ xa truy cập file server công ty.
+- Quản trị viên truy cập hệ thống giám sát nội bộ.
+- Sinh viên kết nối vào lab thực hành.
+- Kỹ sư truy cập server quản trị từ bên ngoài.
+
+Sơ đồ:
+
+```text
+Remote User → VPN → Internal Network
+```
+
+**3. Kết nối nhiều văn phòng với nhau**
+
+VPN có thể kết nối các chi nhánh ở các địa điểm địa lý khác nhau.
+
+Ví dụ:
+
+```text
+Văn phòng Hà Nội ← VPN Tunnel → Văn phòng TP.HCM
+```
+
+Hoặc:
+
+```text
+Văn phòng A ← VPN Tunnel → Văn phòng B ← VPN Tunnel → Văn phòng C
+```
+
+Nhờ đó, các văn phòng có thể chia sẻ tài nguyên nội bộ mà không cần thuê đường truyền riêng đắt tiền.
+
+**4. Tăng quyền riêng tư khi truy cập Internet**
+
+Khi dùng VPN, dịch vụ bên ngoài thường nhìn thấy địa chỉ IP của VPN server thay vì địa chỉ IP thật của người dùng.
+
+Ví dụ:
+
+```text
+Người dùng thật: 192.168.1.10
+Public IP thật: 82.62.51.70
+Dịch vụ web nhìn thấy: IP của VPN Server
+```
+
+Điều này giúp tăng quyền riêng tư ở mức nhất định. Tuy nhiên, VPN không làm người dùng ẩn danh hoàn toàn. Nhà cung cấp VPN vẫn có thể nhìn thấy một số thông tin tùy theo chính sách và cách họ vận hành.
+
+**5. Hỗ trợ thực hành an toàn trong an ninh mạng**
+
+Trong các môi trường học tập như lab bảo mật, VPN giúp người học kết nối vào máy ảo hoặc hệ thống thực hành mà không cần public các máy đó trực tiếp lên Internet.
+
+Ví dụ:
+
+```text
+Máy người học → VPN → Lab network → Máy mục tiêu
+```
+
+Điều này giúp:
+
+- Cô lập môi trường thực hành.
+- Tránh public máy dễ bị tấn công ra Internet.
+- Giảm rủi ro ảnh hưởng đến hệ thống thật.
+- Cho phép người học tương tác với lab an toàn hơn.
+
+**6. Hỗ trợ kiểm soát truy cập**
+
+VPN có thể kết hợp với xác thực người dùng để kiểm soát ai được phép truy cập vào mạng nội bộ.
+
+Ví dụ:
+
+- Chỉ nhân viên có tài khoản hợp lệ mới được kết nối VPN.
+- Có thể yêu cầu xác thực đa yếu tố.
+- Có thể giới hạn người dùng chỉ truy cập một số subnet hoặc dịch vụ nhất định.
+- Có thể ghi log truy cập để phục vụ giám sát bảo mật.
 
