@@ -12,6 +12,8 @@
 
 5. [Giao thức truyền tải TCP và UDP](#5-giao-thức-truyền-tải-tcp-và-udp)
 
+6. [Mạng LAN và thiết bị mạng](#6-mạng-lan-và-thiết-bị-mạng)
+
 ## Nội dung
 
 # 1. Tổng quan về mạng máy tính
@@ -1811,4 +1813,811 @@ Một số nhóm cổng cần nhớ nhanh:
 
 Khi phân tích bảo mật, việc nhớ các cổng phổ biến giúp nhanh chóng nhận ra dịch vụ nào đang hoạt động trên hệ thống và đánh giá bề mặt tấn công của mục tiêu.
 
+# 6. Mạng LAN và thiết bị mạng
+
+## 6.1. LAN là gì?
+
+**LAN** là viết tắt của **Local Area Network**, nghĩa là **mạng cục bộ**.
+
+![](./img/6.1_LAN.png)
+
+LAN là một mạng máy tính được triển khai trong phạm vi nhỏ, ví dụ như:
+
+- Nhà riêng.
+- Phòng học.
+- Văn phòng.
+- Công ty.
+- Phòng lab.
+- Trường học.
+- Quán cà phê.
+
+Trong mạng LAN, các thiết bị có thể kết nối với nhau để chia sẻ tài nguyên và trao đổi dữ liệu.
+
+Ví dụ các thiết bị trong mạng LAN:
+
+- Máy tính.
+- Laptop.
+- Điện thoại.
+- Máy in.
+- Camera IP.
+- Server nội bộ.
+- Switch.
+- Router.
+- Access Point.
+
+Ví dụ thực tế:
+
+```text
+Laptop → Wi-Fi Router → Internet
+Điện thoại → Wi-Fi Router → Internet
+Máy in → Switch → Laptop
+```
+
+Trong mạng LAN, các thiết bị thường sử dụng địa chỉ IP private như:
+
+```text
+192.168.1.10
+192.168.1.20
+10.0.0.5
+```
+
+Một mạng LAN có thể hoạt động độc lập, hoặc có thể kết nối ra Internet thông qua router.
+
+Vai trò chính của mạng LAN:
+
+* Kết nối các thiết bị trong phạm vi gần.
+* Chia sẻ file, máy in, server nội bộ.
+* Cho phép các thiết bị truy cập Internet.
+* Hỗ trợ quản lý người dùng và tài nguyên trong tổ chức.
+* Là nền tảng cho nhiều hệ thống mạng doanh nghiệp.
+
+Trong an ninh mạng, LAN là môi trường rất quan trọng vì nhiều cuộc tấn công bắt đầu từ mạng nội bộ, ví dụ như ARP spoofing, scanning, lateral movement hoặc tấn công vào dịch vụ nội bộ.
+
+## 6.2. Network Topology là gì?
+
+**Network Topology** là cách các thiết bị trong mạng được sắp xếp và kết nối với nhau.
+
+Nói đơn giản, topology mô tả **hình dạng hoặc cấu trúc của mạng**.
+
+Network Topology trả lời các câu hỏi như:
+
+* Các thiết bị được kết nối với nhau như thế nào?
+* Dữ liệu đi qua đường nào?
+* Thiết bị nào đóng vai trò trung tâm?
+* Nếu một thiết bị hoặc dây mạng bị lỗi thì mạng có bị ảnh hưởng không?
+* Mạng có dễ mở rộng không?
+* Mạng có khả năng dự phòng khi xảy ra lỗi không?
+
+Có nhiều loại topology khác nhau, nhưng trong phần cơ bản, cần nhớ các loại phổ biến sau:
+
+* **Star Topology** – mô hình hình sao.
+* **Bus Topology** – mô hình tuyến.
+* **Ring Topology** – mô hình vòng.
+* **Tree Topology** – mô hình dạng cây.
+* **Mesh Topology** – mô hình lưới.
+* **Hybrid Topology** – mô hình kết hợp.
+
+Mỗi topology có ưu điểm và nhược điểm riêng. Việc chọn topology phụ thuộc vào chi phí, độ tin cậy, khả năng mở rộng, yêu cầu quản trị mạng và mức độ dự phòng cần thiết.
+
+Bảng tóm tắt:
+
+| Topology | Đặc điểm chính |
+|---|---|
+| **Star** | Các thiết bị kết nối về một thiết bị trung tâm, thường là switch hoặc hub. |
+| **Bus** | Các thiết bị dùng chung một đường cáp chính. |
+| **Ring** | Các thiết bị kết nối thành một vòng khép kín. |
+| **Tree** | Các thiết bị được tổ chức theo cấu trúc phân cấp dạng cây. |
+| **Mesh** | Các thiết bị có nhiều kết nối với nhau để tăng độ tin cậy và dự phòng. |
+| **Hybrid** | Kết hợp nhiều loại topology khác nhau trong cùng một hệ thống mạng. |
+
+Tóm lại, **Network Topology** giúp mô tả cách mạng được thiết kế, từ đó hỗ trợ việc triển khai, mở rộng, quản lý và xử lý sự cố mạng hiệu quả hơn.
+
+### 6.2.1. Star Topology
+
+**Star Topology** là mô hình mạng trong đó tất cả các thiết bị được kết nối đến một thiết bị trung tâm, thường là **switch** hoặc **hub**.
+
+![](./img/6.2_star_topology.webp)
+
+Sơ đồ đơn giản:
+
+```text
+        PC1
+         |
+PC2 --- Switch --- PC3
+         |
+        PC4
+```
+
+Trong mô hình này, mọi dữ liệu giữa các thiết bị đều đi qua thiết bị trung tâm.
+
+Ví dụ:
+
+Nếu PC1 muốn gửi dữ liệu cho PC3, dữ liệu sẽ đi theo hướng:
+
+```text
+PC1 → Switch → PC3
+```
+
+**Ưu điểm của Star Topology**
+
+* Dễ triển khai.
+* Dễ quản lý.
+* Dễ thêm thiết bị mới.
+* Nếu một dây mạng đến một máy bị hỏng, chỉ máy đó bị ảnh hưởng.
+* Phù hợp với mạng hiện đại trong gia đình, trường học và doanh nghiệp.
+* Hiệu quả hơn khi dùng switch thay vì hub.
+
+**Nhược điểm của Star Topology**
+
+* Cần nhiều dây mạng hơn.
+* Chi phí cao hơn Bus Topology.
+* Phụ thuộc vào thiết bị trung tâm.
+* Nếu switch hoặc hub trung tâm bị hỏng, toàn bộ mạng có thể bị gián đoạn.
+
+Ví dụ thực tế:
+
+Trong một văn phòng, nhiều máy tính được cắm dây Ethernet vào switch. Đây là một ví dụ phổ biến của Star Topology.
+
+```text
+Máy tính nhân viên → Switch công ty → Router / Server / Internet
+```
+
+Star Topology là mô hình rất phổ biến hiện nay vì dễ mở rộng, dễ quản lý và phù hợp với mạng LAN hiện đại.
+
+### 6.2.2. Bus Topology
+
+**Bus Topology** là mô hình mạng trong đó tất cả các thiết bị được kết nối vào một đường cáp chính duy nhất, thường gọi là **backbone**.
+
+![](./img/6.2_bus_topology.webp)
+
+Sơ đồ đơn giản:
+
+```text
+PC1 --- PC2 --- PC3 --- PC4
+```
+
+Trong mô hình này, dữ liệu được truyền dọc theo đường cáp chính. Các thiết bị trên mạng sẽ kiểm tra dữ liệu để xem nó có dành cho mình hay không.
+
+Ví dụ:
+
+Nếu PC1 gửi dữ liệu đến PC4, dữ liệu sẽ đi qua đường backbone cho đến khi đến thiết bị đích.
+
+**Ưu điểm của Bus Topology**
+
+* Chi phí thấp.
+* Cần ít dây cáp hơn.
+* Dễ triển khai trong mạng nhỏ.
+* Không cần thiết bị trung tâm như switch.
+
+**Nhược điểm của Bus Topology**
+
+* Khó mở rộng khi số lượng thiết bị tăng.
+* Hiệu suất giảm khi có nhiều thiết bị truyền dữ liệu.
+* Dễ xảy ra xung đột dữ liệu.
+* Nếu đường cáp chính bị lỗi, toàn bộ mạng có thể bị ảnh hưởng.
+* Khó xác định vị trí lỗi khi mạng gặp sự cố.
+
+Ví dụ:
+
+Bus Topology có thể phù hợp với các mạng rất nhỏ hoặc các mô hình cũ. Tuy nhiên, trong mạng hiện đại, mô hình này ít được sử dụng hơn vì khả năng mở rộng và độ tin cậy không cao.
+
+Tóm lại:
+
+```text
+Bus Topology = rẻ, đơn giản, nhưng kém linh hoạt và dễ gặp lỗi khi mạng lớn.
+```
+
+### 6.2.3. Ring Topology
+
+**Ring Topology** là mô hình mạng trong đó các thiết bị được kết nối với nhau thành một vòng tròn khép kín.
+
+![](./img/6.2_ring_topology.webp)
+
+Sơ đồ đơn giản:
+
+```text
+PC1 --- PC2
+ |       |
+PC4 --- PC3
+```
+
+Trong mô hình này, mỗi thiết bị thường được kết nối với hai thiết bị khác. Dữ liệu sẽ di chuyển từ thiết bị này sang thiết bị tiếp theo cho đến khi đến đúng thiết bị đích.
+
+Ví dụ:
+
+Nếu PC1 muốn gửi dữ liệu cho PC3, dữ liệu có thể đi theo vòng:
+
+```text
+PC1 → PC2 → PC3
+```
+
+**Ưu điểm của Ring Topology**
+
+* Dữ liệu di chuyển theo một hướng rõ ràng.
+* Có thể giảm xung đột dữ liệu so với Bus Topology.
+* Các thiết bị có vai trò tương đối ngang nhau.
+* Có thể phù hợp với một số hệ thống mạng chuyên dụng.
+
+**Nhược điểm của Ring Topology**
+
+* Nếu một thiết bị hoặc một đoạn cáp bị lỗi, toàn bộ mạng có thể bị ảnh hưởng.
+* Khó thêm hoặc loại bỏ thiết bị.
+* Việc xử lý sự cố có thể phức tạp.
+* Không phổ biến trong mạng LAN hiện đại thông thường.
+
+Ví dụ lỗi:
+
+Nếu một đoạn cáp trong vòng bị đứt:
+
+```text
+PC1 --- PC2
+ |       
+PC4 --- PC3
+```
+
+Dữ liệu có thể không còn di chuyển được quanh vòng, khiến các thiết bị không giao tiếp được với nhau.
+
+Tóm lại:
+
+```text
+Ring Topology = dữ liệu đi theo vòng, nhưng dễ bị ảnh hưởng nếu một điểm trong vòng bị lỗi.
+```
+
+### 6.2.4. Tree Topology
+
+**Tree Topology** là mô hình mạng có cấu trúc dạng cây, trong đó các thiết bị được tổ chức theo nhiều cấp bậc khác nhau.
+
+![](./img/6.2_tree_topology.webp)
+
+Mô hình này là sự kết hợp giữa **Star Topology** và cấu trúc phân cấp. Các thiết bị ở cấp thấp hơn sẽ kết nối đến thiết bị trung gian, sau đó thiết bị trung gian tiếp tục kết nối lên thiết bị cấp cao hơn.
+
+Sơ đồ đơn giản:
+
+```text
+              Core Switch
+             /           \
+      Switch A           Switch B
+      /      \           /      \
+    PC1      PC2       PC3      PC4
+```
+
+Trong mô hình này:
+
+* Thiết bị trung tâm cấp cao nhất thường là **core switch** hoặc **router**.
+* Các switch cấp dưới kết nối đến thiết bị trung tâm.
+* Các máy tính, máy in hoặc server kết nối vào switch ở tầng thấp hơn.
+
+**Ưu điểm của Tree Topology**
+
+* Dễ mở rộng khi số lượng thiết bị tăng.
+* Phù hợp với mạng doanh nghiệp, trường học hoặc tổ chức lớn.
+* Dễ chia mạng thành nhiều khu vực hoặc phòng ban.
+* Dễ quản lý theo mô hình phân cấp.
+* Có thể kết hợp với VLAN để tách biệt các nhóm thiết bị.
+
+**Nhược điểm của Tree Topology**
+
+* Cấu hình phức tạp hơn Star Topology đơn giản.
+* Cần nhiều thiết bị mạng hơn, ví dụ nhiều switch.
+* Nếu thiết bị ở cấp cao bị lỗi, nhiều nhánh bên dưới có thể bị ảnh hưởng.
+* Chi phí triển khai cao hơn so với Bus hoặc Star đơn giản.
+
+Ví dụ thực tế:
+
+Trong một công ty, mạng có thể được chia như sau:
+
+```text
+Core Switch
+├── Switch tầng 1
+│   ├── PC phòng Kế toán
+│   └── Máy in
+├── Switch tầng 2
+│   ├── PC phòng Kinh doanh
+│   └── Access Point
+└── Switch phòng Server
+    ├── Web Server
+    └── Database Server
+```
+
+Tree Topology rất phổ biến trong mạng doanh nghiệp vì nó giúp tổ chức hệ thống mạng theo từng tầng rõ ràng.
+
+Tóm lại:
+
+```text
+Tree Topology = mô hình mạng dạng cây, phù hợp với hệ thống lớn và cần mở rộng.
+```
+
+### 6.2.5. Mesh Topology
+
+**Mesh Topology** là mô hình mạng trong đó các thiết bị được kết nối với nhiều thiết bị khác trong mạng. Thay vì chỉ phụ thuộc vào một thiết bị trung tâm, dữ liệu có thể đi qua nhiều đường khác nhau để đến đích.
+
+![](./img/6.2_mesh_topology.webp)
+
+Sơ đồ đơn giản:
+
+```text
+     PC1 -------- PC2
+      | \        / |
+      |  \      /  |
+      |   \    /   |
+      |    \  /    |
+     PC3 -------- PC4
+```
+
+Trong mô hình Mesh, mỗi thiết bị có thể có nhiều kết nối đến các thiết bị khác. Nhờ vậy, nếu một đường truyền bị lỗi, dữ liệu vẫn có thể đi theo đường khác.
+
+Có hai loại Mesh Topology chính:
+
+| Loại | Mô tả |
+|---|---|
+| **Full Mesh** | Mỗi thiết bị kết nối trực tiếp với tất cả thiết bị còn lại. |
+| **Partial Mesh** | Chỉ một số thiết bị quan trọng được kết nối với nhiều thiết bị khác. |
+
+**Full Mesh**
+
+Trong **Full Mesh**, mọi thiết bị đều có kết nối trực tiếp với nhau.
+
+Ví dụ:
+
+```text
+PC1 kết nối với PC2, PC3, PC4
+PC2 kết nối với PC1, PC3, PC4
+PC3 kết nối với PC1, PC2, PC4
+PC4 kết nối với PC1, PC2, PC3
+```
+
+Ưu điểm của Full Mesh là độ tin cậy rất cao, nhưng chi phí triển khai lớn vì cần nhiều kết nối.
+
+**Partial Mesh**
+
+Trong **Partial Mesh**, không phải thiết bị nào cũng kết nối với tất cả thiết bị khác. Chỉ những thiết bị quan trọng mới có nhiều đường kết nối dự phòng.
+
+Ví dụ:
+
+```text
+Router chính kết nối với nhiều router khác
+Máy trạm thông thường chỉ kết nối đến switch gần nhất
+```
+
+Partial Mesh phổ biến hơn Full Mesh vì tiết kiệm chi phí và vẫn đảm bảo khả năng dự phòng.
+
+**Ưu điểm của Mesh Topology**
+
+- Có độ tin cậy cao.
+- Có nhiều đường truyền dự phòng.
+- Nếu một kết nối bị lỗi, dữ liệu có thể đi theo đường khác.
+- Phù hợp với hệ thống cần tính sẵn sàng cao.
+- Giảm nguy cơ toàn bộ mạng bị gián đoạn do một điểm lỗi.
+
+**Nhược điểm của Mesh Topology**
+
+- Chi phí triển khai cao.
+- Cần nhiều dây cáp hoặc kết nối mạng.
+- Cấu hình và quản lý phức tạp hơn.
+- Khó mở rộng nếu triển khai theo Full Mesh.
+- Cần thiết bị mạng mạnh hơn để xử lý nhiều đường kết nối.
+
+Ví dụ thực tế:
+
+Mesh Topology thường được sử dụng trong:
+
+- Mạng doanh nghiệp lớn.
+- Mạng giữa các router.
+- Hệ thống mạng có yêu cầu dự phòng cao.
+- Mạng Wi-Fi mesh trong gia đình hoặc văn phòng.
+- Hạ tầng mạng của nhà cung cấp dịch vụ Internet.
+
+Ví dụ mạng Wi-Fi Mesh:
+
+```text
+Internet → Router chính
+              |
+        Mesh Node 1
+         /       \
+ Mesh Node 2   Mesh Node 3
+```
+
+Trong hệ thống Wi-Fi Mesh, các node có thể kết nối với nhau để mở rộng vùng phủ sóng. Nếu một node bị yếu tín hiệu, thiết bị có thể chuyển sang node khác gần hơn.
+
+Tóm lại:
+
+```text
+Mesh Topology = mô hình mạng có nhiều kết nối dự phòng, độ tin cậy cao nhưng chi phí và độ phức tạp lớn hơn.
+```
+
+### 6.2.6. Hybrid Topology
+
+**Hybrid Topology** là mô hình mạng kết hợp từ hai hoặc nhiều loại topology khác nhau, ví dụ như Star, Bus, Ring, Tree hoặc Mesh.
+
+![](./img/6.2_Hybrid_Topology.webp)
+
+Trong thực tế, các hệ thống mạng lớn hiếm khi chỉ sử dụng một topology duy nhất. Thay vào đó, mạng thường được thiết kế theo mô hình kết hợp để tận dụng ưu điểm của nhiều kiểu topology khác nhau.
+
+Ví dụ đơn giản:
+
+```text
+              Core Switch
+             /           \
+      Switch tầng 1     Switch tầng 2
+       /   |   \          /   |   \
+     PC1  PC2  PC3      PC4  PC5  PC6
+```
+
+Trong ví dụ này:
+
+- Các máy tính trong từng tầng được kết nối theo **Star Topology**.
+- Các switch tầng được kết nối lên core switch theo dạng **Tree Topology**.
+- Nếu có thêm đường kết nối dự phòng giữa các switch, mạng có thể mang đặc điểm của **Mesh Topology**.
+
+**Ví dụ thực tế về Hybrid Topology**
+
+Trong một công ty, hệ thống mạng có thể được thiết kế như sau:
+
+```text
+Internet
+   |
+Router / Firewall
+   |
+Core Switch
+   |
+-------------------------
+|           |           |
+Switch A   Switch B   Switch C
+|           |           |
+Phòng IT   Kế toán     Nhân sự
+```
+
+Ở đây:
+
+- Mỗi phòng ban dùng mô hình **Star Topology**.
+- Các switch phòng ban kết nối lên core switch theo mô hình **Tree Topology**.
+- Firewall và router kết nối mạng nội bộ ra Internet.
+- Nếu có nhiều đường kết nối dự phòng giữa các thiết bị mạng, hệ thống có thể có thêm đặc điểm của **Mesh Topology**.
+
+**Ưu điểm của Hybrid Topology**
+
+- Linh hoạt trong thiết kế mạng.
+- Phù hợp với mạng doanh nghiệp vừa và lớn.
+- Dễ mở rộng theo từng khu vực hoặc phòng ban.
+- Có thể kết hợp nhiều topology để tăng hiệu suất và độ tin cậy.
+- Có thể thêm các kết nối dự phòng để giảm rủi ro gián đoạn mạng.
+- Dễ phân chia mạng theo chức năng, ví dụ mạng nhân viên, mạng server, mạng khách.
+
+**Nhược điểm của Hybrid Topology**
+
+- Thiết kế phức tạp hơn các topology đơn giản.
+- Chi phí triển khai có thể cao hơn.
+- Cần nhiều thiết bị mạng như switch, router, firewall.
+- Việc cấu hình và quản trị yêu cầu kiến thức tốt hơn.
+- Khi xảy ra lỗi, quá trình troubleshooting có thể khó hơn nếu sơ đồ mạng không rõ ràng.
+
+**Khi nào nên dùng Hybrid Topology?**
+
+Hybrid Topology thường được sử dụng khi mạng có nhiều khu vực, nhiều phòng ban hoặc nhiều yêu cầu khác nhau.
+
+Ví dụ:
+
+- Mạng doanh nghiệp.
+- Mạng trường học.
+- Mạng bệnh viện.
+- Mạng trung tâm dữ liệu.
+- Mạng trong các tổ chức lớn.
+- Hệ thống mạng có nhiều VLAN và nhiều tầng switch.
+
+Bảng tóm tắt:
+
+| Đặc điểm | Hybrid Topology |
+|---|---|
+| Cấu trúc | Kết hợp nhiều topology khác nhau |
+| Độ linh hoạt | Cao |
+| Khả năng mở rộng | Tốt |
+| Chi phí | Trung bình đến cao |
+| Độ phức tạp | Cao hơn topology đơn giản |
+| Phù hợp với | Doanh nghiệp, trường học, tổ chức lớn |
+
+Tóm lại:
+
+```text
+Hybrid Topology = mô hình mạng kết hợp nhiều topology để phù hợp với nhu cầu thực tế.
+```
+
+Hybrid Topology rất phổ biến trong thực tế vì nó cho phép thiết kế mạng linh hoạt, dễ mở rộng và có thể đáp ứng nhiều yêu cầu khác nhau về hiệu suất, quản lý và bảo mật.
+
+## 6.3. Switch là gì?
+
+**Switch** là thiết bị mạng dùng để kết nối nhiều thiết bị trong cùng một mạng LAN.
+
+![](./img/6.3_Network_Switch.webp)
+
+Switch thường được sử dụng để kết nối:
+
+* Máy tính.
+* Laptop.
+* Máy in.
+* Server.
+* Camera IP.
+* Access Point.
+* Router.
+
+Ví dụ:
+
+```text
+PC1
+ |
+PC2 --- Switch --- Server
+ |
+PC3
+```
+
+Switch hoạt động chủ yếu ở **Layer 2 – Data Link Layer** trong mô hình OSI. Nó sử dụng **địa chỉ MAC** để chuyển dữ liệu đến đúng thiết bị.
+
+Khi một thiết bị gửi dữ liệu vào switch, switch sẽ kiểm tra địa chỉ MAC đích và quyết định gửi dữ liệu ra cổng nào.
+
+Ví dụ:
+
+```text
+PC1 muốn gửi dữ liệu đến PC3
+→ PC1 gửi frame vào switch
+→ Switch kiểm tra MAC address của PC3
+→ Switch chuyển frame đến đúng cổng của PC3
+```
+
+**Switch khác Hub như thế nào?**
+
+Hub gửi dữ liệu đến tất cả các cổng, còn switch thông minh hơn vì nó chỉ gửi dữ liệu đến đúng cổng cần thiết.
+
+| Tiêu chí                 | Hub                     | Switch                 |
+| ------------------------ | ----------------------- | ---------------------- |
+| Cách gửi dữ liệu         | Gửi đến tất cả các cổng | Gửi đến đúng cổng đích |
+| Hiệu suất                | Thấp hơn                | Cao hơn                |
+| Bảo mật                  | Kém hơn                 | Tốt hơn                |
+| Khả năng học MAC         | Không                   | Có                     |
+| Mức độ phổ biến hiện nay | Ít dùng                 | Rất phổ biến           |
+
+**Vai trò của switch**
+
+* Kết nối nhiều thiết bị trong mạng LAN.
+* Chuyển frame dựa trên địa chỉ MAC.
+* Giảm lưu lượng không cần thiết.
+* Tăng hiệu suất mạng.
+* Hỗ trợ chia VLAN trong mạng doanh nghiệp.
+
+## 6.4. Router là gì?
+
+**Router** là thiết bị mạng dùng để kết nối các mạng khác nhau và định tuyến dữ liệu giữa chúng.
+
+![](./img/6.4_Network_router.jpg)
+
+Nếu switch chủ yếu kết nối các thiết bị trong cùng mạng LAN, thì router kết nối các mạng khác nhau với nhau.
+
+Ví dụ:
+
+```text
+Mạng LAN gia đình → Router → Internet
+```
+
+Hoặc:
+
+```text
+LAN phòng Kế toán → Router → LAN phòng Kỹ thuật
+```
+
+Router hoạt động chủ yếu ở **Layer 3 – Network Layer** trong mô hình OSI. Nó sử dụng **địa chỉ IP** để quyết định đường đi của packet.
+
+Vai trò chính của router:
+
+* Kết nối các mạng khác nhau.
+* Định tuyến packet dựa trên địa chỉ IP.
+* Chọn đường đi phù hợp cho dữ liệu.
+* Kết nối mạng LAN với Internet.
+* Có thể hỗ trợ NAT, firewall, port forwarding và DHCP.
+
+Ví dụ khi bạn truy cập Internet tại nhà:
+
+```text
+Laptop → Wi-Fi Router → ISP → Internet → Web Server
+```
+
+Trong đó, router đóng vai trò gateway giúp thiết bị trong mạng LAN truy cập ra ngoài Internet.
+
+**Router và Gateway**
+
+Trong mạng gia đình hoặc doanh nghiệp nhỏ, router thường đóng vai trò **default gateway**.
+
+Default gateway là thiết bị mà máy tính gửi dữ liệu đến khi muốn truy cập một mạng khác ngoài mạng nội bộ.
+
+Ví dụ:
+
+```text
+IP máy tính:       192.168.1.10
+Default gateway:  192.168.1.1
+```
+
+Nếu máy tính muốn truy cập `8.8.8.8`, nó sẽ gửi packet đến `192.168.1.1`, tức router.
+
+## 6.5. Switch Layer 2 và Switch Layer 3
+
+Switch có thể được chia thành hai loại chính:
+
+* **Switch Layer 2**
+* **Switch Layer 3**
+
+Hai loại này khác nhau ở tầng hoạt động và khả năng xử lý dữ liệu.
+
+### 6.5.1. Switch Layer 2
+
+**Switch Layer 2** hoạt động ở **Layer 2 – Data Link Layer**.
+
+![](./img/6.5_SWITCH_layer2.png)
+
+Nó chuyển dữ liệu dựa trên **địa chỉ MAC**.
+
+Switch Layer 2 xử lý đơn vị dữ liệu gọi là **frame**.
+
+Ví dụ:
+
+```text
+PC1 → Switch Layer 2 → PC2
+```
+
+Switch sẽ kiểm tra MAC address của PC2 và gửi frame đến đúng cổng.
+
+Đặc điểm của Switch Layer 2:
+
+* Dùng địa chỉ MAC để chuyển frame.
+* Hoạt động trong cùng một mạng LAN.
+* Không định tuyến giữa các mạng IP khác nhau.
+* Phổ biến trong mạng nội bộ.
+* Có thể hỗ trợ VLAN.
+
+Ví dụ:
+
+```text
+PC1: 192.168.1.10
+PC2: 192.168.1.20
+```
+
+Nếu PC1 và PC2 cùng mạng `192.168.1.0/24`, Switch Layer 2 có thể chuyển frame giữa chúng.
+
+### 6.5.2. Switch Layer 3
+
+**Switch Layer 3** có khả năng hoạt động ở cả **Layer 2** và **Layer 3**.
+
+![](./img/6.5_switch_layer3.png)
+
+![](./img/6.5_switch_port_layer3.png)
+
+Nó có thể:
+
+* Chuyển frame dựa trên địa chỉ MAC.
+* Định tuyến packet dựa trên địa chỉ IP.
+* Kết nối các VLAN hoặc subnet khác nhau.
+
+Switch Layer 3 xử lý được cả:
+
+* Frame ở Layer 2.
+* Packet ở Layer 3.
+
+Ví dụ:
+
+```text
+VLAN 10: 192.168.10.0/24
+VLAN 20: 192.168.20.0/24
+```
+
+Nếu PC trong VLAN 10 muốn giao tiếp với PC trong VLAN 20, cần thiết bị có khả năng định tuyến. Switch Layer 3 có thể thực hiện việc này.
+
+
+### 6.5.3. So sánh Switch Layer 2 và Switch Layer 3
+
+| Tiêu chí             | Switch Layer 2                  | Switch Layer 3                |
+| -------------------- | ------------------------------- | ----------------------------- |
+| Tầng hoạt động       | Layer 2                         | Layer 2 và Layer 3            |
+| Dựa trên             | Địa chỉ MAC                     | Địa chỉ MAC và địa chỉ IP     |
+| Đơn vị xử lý chính   | Frame                           | Frame và packet               |
+| Có định tuyến không? | Không                           | Có                            |
+| Dùng cho             | Kết nối thiết bị trong cùng LAN | Kết nối VLAN/subnet khác nhau |
+| Ví dụ chức năng      | Switching                       | Switching + Routing           |
+
+Tóm lại:
+
+```text
+Switch Layer 2 = chuyển frame trong cùng mạng LAN.
+Switch Layer 3 = chuyển frame và có thể định tuyến giữa các mạng.
+```
+
+## 6.6. VLAN là gì?
+
+**VLAN** là viết tắt của **Virtual Local Area Network**, nghĩa là **mạng LAN ảo**.
+
+![](./img/6.6_vlan.webp)
+
+VLAN cho phép chia một mạng vật lý thành nhiều mạng logic riêng biệt.
+
+Ví dụ, trong một công ty có cùng một switch vật lý, ta có thể chia thành nhiều VLAN:
+
+* VLAN 10: Phòng Kế toán.
+* VLAN 20: Phòng Kinh doanh.
+* VLAN 30: Phòng Kỹ thuật.
+* VLAN 40: Khách truy cập Wi-Fi.
+
+Sơ đồ đơn giản:
+
+```text
+              Switch
+        /       |       \
+   VLAN 10   VLAN 20   VLAN 30
+ Kế toán   Kinh doanh  Kỹ thuật
+```
+
+Mặc dù các thiết bị cùng cắm vào một switch, nhưng nếu thuộc VLAN khác nhau, chúng được xem như nằm trong các mạng logic khác nhau.
+
+**Vì sao cần VLAN?**
+
+VLAN giúp:
+
+* Chia nhỏ mạng để dễ quản lý.
+* Tách biệt các phòng ban.
+* Giảm broadcast không cần thiết.
+* Tăng hiệu suất mạng.
+* Tăng bảo mật nội bộ.
+* Hạn chế thiết bị ở nhóm này truy cập trực tiếp sang nhóm khác.
+
+Ví dụ:
+
+Phòng Kế toán và phòng Kinh doanh cùng dùng một switch, nhưng được chia thành hai VLAN khác nhau:
+
+```text
+VLAN 10 - Accounting
+VLAN 20 - Sales
+```
+
+Hai phòng này có thể cùng truy cập Internet, nhưng không thể giao tiếp trực tiếp với nhau nếu không có thiết bị định tuyến hoặc rule cho phép.
+
+**VLAN và bảo mật**
+
+VLAN rất quan trọng trong an ninh mạng vì nó giúp phân tách hệ thống.
+
+Ví dụ:
+
+* Máy nhân viên không nên nằm cùng VLAN với server quan trọng.
+* Khách truy cập Wi-Fi không nên nằm cùng VLAN với hệ thống nội bộ.
+* Camera IP nên được đặt trong VLAN riêng.
+* Hệ thống quản trị nên được đặt trong VLAN riêng.
+
+Ví dụ thiết kế mạng đơn giản:
+
+|    VLAN | Nhóm thiết bị | Mục đích                |
+| ------: | ------------- | ----------------------- |
+| VLAN 10 | Nhân viên     | Làm việc hằng ngày      |
+| VLAN 20 | Server        | Chạy dịch vụ nội bộ     |
+| VLAN 30 | Camera        | Giám sát an ninh        |
+| VLAN 40 | Guest Wi-Fi   | Khách truy cập Internet |
+| VLAN 99 | Management    | Quản trị thiết bị mạng  |
+
+**Inter-VLAN Routing**
+
+Các thiết bị ở VLAN khác nhau thường không thể giao tiếp trực tiếp với nhau. Nếu cần giao tiếp, phải có **Inter-VLAN Routing**.
+
+Inter-VLAN Routing có thể được thực hiện bằng:
+
+* Router.
+* Switch Layer 3.
+* Firewall.
+
+Ví dụ:
+
+```text
+VLAN 10 muốn truy cập Server ở VLAN 20
+→ Cần Router hoặc Layer 3 Switch định tuyến
+→ Có thể áp dụng firewall rule để kiểm soát truy cập
+```
+
+Tóm lại:
+
+```text
+VLAN = chia một mạng vật lý thành nhiều mạng logic riêng biệt.
+```
+
+VLAN giúp mạng dễ quản lý hơn, giảm broadcast và tăng bảo mật trong môi trường doanh nghiệp.
 
