@@ -10,6 +10,8 @@
 
 4. [Encapsulation, Packets và Frames](#4-encapsulation-packets-và-frames)
 
+5. [Giao thức truyền tải TCP và UDP](#5-giao-thức-truyền-tải-tcp-và-udp)
+
 ## Nội dung
 
 # 1. Tổng quan về mạng máy tính
@@ -1241,7 +1243,7 @@ Ví dụ các trường trong IP header:
 
 Ví dụ các trường trong TCP header:
 
-![](./img/4.6_tcp_header.webp)
+![](./img/4.6_TCPSegmentHeader.png)
 
 | Trường                | Ý nghĩa                        |
 | --------------------- | ------------------------------ |
@@ -1385,4 +1387,428 @@ Trong ví dụ này:
 | Destination Address | Địa chỉ đích         | Cho biết packet cần đi đến đâu        |
 
 Các trường này rất quan trọng trong việc học mạng và an ninh mạng. Khi phân tích packet bằng Wireshark hoặc tcpdump, việc hiểu TTL, Checksum, Source Address và Destination Address giúp xác định luồng dữ liệu, phát hiện lỗi mạng và phân tích hành vi bất thường.
+
+# 5. Giao thức truyền tải TCP và UDP
+
+## 5.1. TCP là gì?
+
+**TCP** (Transmission Control Protocol) là giao thức truyền tải dữ liệu hoạt động ở **tầng Transport** trong mô hình OSI và TCP/IP.
+
+TCP là giao thức **hướng kết nối**. Điều này có nghĩa là trước khi truyền dữ liệu, hai thiết bị phải thiết lập kết nối với nhau. Sau khi kết nối được thiết lập, dữ liệu mới bắt đầu được gửi.
+
+TCP được thiết kế để đảm bảo dữ liệu được truyền đi một cách **đầy đủ, đúng thứ tự và đáng tin cậy**.
+
+Một số đặc điểm chính của TCP:
+
+- Có thiết lập kết nối trước khi truyền dữ liệu.
+- Đảm bảo dữ liệu đến đúng thứ tự.
+- Có cơ chế xác nhận dữ liệu đã nhận.
+- Có thể gửi lại dữ liệu nếu bị mất.
+- Phù hợp với các dịch vụ cần độ chính xác cao.
+
+Ví dụ các dịch vụ thường dùng TCP:
+
+| Dịch vụ | Cổng phổ biến | Giao thức |
+|---|---:|---|
+| HTTP | 80 | TCP |
+| HTTPS | 443 | TCP |
+| FTP | 21 | TCP |
+| SSH | 22 | TCP |
+| SMTP | 25 | TCP |
+
+Ví dụ, khi bạn truy cập một website, trình duyệt thường sử dụng TCP để thiết lập kết nối với máy chủ web. Sau đó, dữ liệu HTML, CSS, JavaScript hoặc hình ảnh sẽ được truyền qua kết nối này.
+
+TCP phù hợp với các trường hợp như:
+
+- Truy cập website.
+- Gửi email.
+- Truyền file.
+- Đăng nhập từ xa qua SSH.
+- Tải dữ liệu quan trọng cần chính xác.
+
+## 5.2. UDP là gì?
+
+**UDP** (User Datagram Protocol) là giao thức truyền tải dữ liệu hoạt động ở **tầng Transport**, giống như TCP.
+
+Tuy nhiên, khác với TCP, UDP là giao thức **không hướng kết nối**. Điều này có nghĩa là UDP không cần thiết lập kết nối trước khi gửi dữ liệu. Thiết bị gửi chỉ cần gửi dữ liệu đi mà không cần kiểm tra thiết bị nhận đã sẵn sàng hay chưa.
+
+UDP nhanh hơn TCP vì nó ít bước xử lý hơn, nhưng đổi lại, UDP không đảm bảo dữ liệu sẽ đến đầy đủ hoặc đúng thứ tự.
+
+Một số đặc điểm chính của UDP:
+
+- Không cần thiết lập kết nối trước.
+- Không đảm bảo dữ liệu đến nơi.
+- Không đảm bảo đúng thứ tự.
+- Không tự động gửi lại dữ liệu bị mất.
+- Tốc độ nhanh và độ trễ thấp.
+
+Ví dụ các dịch vụ thường dùng UDP:
+
+| Dịch vụ | Cổng phổ biến | Giao thức |
+|---|---:|---|
+| DNS | 53 | UDP/TCP |
+| DHCP Server | 67 | UDP |
+| DHCP Client | 68 | UDP |
+| NTP | 123 | UDP |
+| VoIP | Tùy hệ thống | UDP |
+| Streaming / Gaming | Tùy hệ thống | UDP |
+
+UDP phù hợp với các trường hợp ưu tiên tốc độ hơn độ chính xác tuyệt đối, ví dụ:
+
+- Gọi video.
+- Chơi game online.
+- Truyền âm thanh thời gian thực.
+- Streaming video.
+- Truy vấn DNS thông thường.
+
+Ví dụ, khi gọi video, nếu mất một vài gói dữ liệu nhỏ, hệ thống thường bỏ qua thay vì yêu cầu gửi lại. Nếu gửi lại quá nhiều, cuộc gọi sẽ bị trễ và không còn mượt.
+
+## 5.3. So sánh TCP và UDP
+
+TCP và UDP đều là giao thức tầng Transport, nhưng chúng có cách hoạt động khác nhau.
+
+| Tiêu chí | TCP | UDP |
+|---|---|---|
+| Kiểu kết nối | Hướng kết nối | Không hướng kết nối |
+| Độ tin cậy | Cao | Thấp hơn |
+| Tốc độ | Chậm hơn UDP | Nhanh hơn TCP |
+| Thứ tự dữ liệu | Đảm bảo đúng thứ tự | Không đảm bảo đúng thứ tự |
+| Gửi lại dữ liệu bị mất | Có | Không |
+| Kiểm soát lỗi | Có | Ít hơn TCP |
+| Độ trễ | Cao hơn | Thấp hơn |
+| Ứng dụng phù hợp | Web, email, file transfer, SSH | DNS, VoIP, streaming, gaming |
+
+**Khi nào dùng TCP?**
+
+Dùng TCP khi cần dữ liệu chính xác và đầy đủ.
+
+Ví dụ:
+
+- Tải file.
+- Truy cập website.
+- Gửi email.
+- Đăng nhập SSH.
+- Giao dịch trực tuyến.
+
+Nếu tải một file mà thiếu một phần dữ liệu, file có thể bị lỗi. Vì vậy, TCP là lựa chọn phù hợp.
+
+**Khi nào dùng UDP?**
+
+Dùng UDP khi cần tốc độ nhanh và chấp nhận mất một phần nhỏ dữ liệu.
+
+Ví dụ:
+
+- Video call.
+- Livestream.
+- Game online.
+- DNS query.
+- Truyền âm thanh thời gian thực.
+
+Nếu trong cuộc gọi video bị mất một vài gói tin, người dùng có thể chỉ thấy hình ảnh hơi giật nhẹ. Nhưng nếu phải chờ gửi lại từng gói tin, cuộc gọi sẽ bị trễ nhiều hơn.
+
+Tóm lại:
+
+- **TCP = đáng tin cậy, chính xác, nhưng chậm hơn.**
+- **UDP = nhanh, đơn giản, nhưng không đảm bảo dữ liệu đầy đủ.**
+
+## 5.4. TCP Three-Way Handshake
+
+**TCP Three-Way Handshake** là quá trình bắt tay ba bước dùng để thiết lập kết nối TCP giữa client và server trước khi truyền dữ liệu.
+
+Quá trình này gồm 3 bước:
+
+![](./img/5.4_handshake.png)
+
+```text
+Client → Server: SYN
+Server → Client: SYN/ACK
+Client → Server: ACK
+```
+
+Mục đích của Three-Way Handshake:
+
+* Kiểm tra xem hai thiết bị có thể giao tiếp với nhau không.
+* Đồng bộ số thứ tự ban đầu.
+* Thiết lập kết nối đáng tin cậy trước khi truyền dữ liệu.
+* Chuẩn bị cho quá trình gửi và nhận dữ liệu.
+
+Ví dụ:
+
+Khi bạn truy cập một website bằng HTTPS, máy tính của bạn cần thiết lập kết nối TCP đến máy chủ web, thường qua cổng `443`. Trước khi dữ liệu HTTPS được truyền, quá trình TCP Three-Way Handshake sẽ diễn ra.
+
+Quy trình tổng quát:
+
+![](./img/5.4_TCP-connection.png)
+
+| Bước | Gói tin | Ý nghĩa                                 |
+| ---: | ------- | --------------------------------------- |
+|    1 | SYN     | Client yêu cầu thiết lập kết nối        |
+|    2 | SYN/ACK | Server đồng ý và phản hồi lại           |
+|    3 | ACK     | Client xác nhận, kết nối được thiết lập |
+
+Sau khi hoàn thành ba bước này, hai bên có thể bắt đầu truyền dữ liệu.
+
+## 5.5. SYN, SYN/ACK và ACK
+
+Trong quá trình TCP Three-Way Handshake, ba loại cờ quan trọng nhất là **SYN**, **SYN/ACK** và **ACK**.
+
+**SYN**
+
+**SYN** là viết tắt của **Synchronize**.
+
+Gói SYN được gửi từ client đến server để bắt đầu quá trình thiết lập kết nối TCP.
+
+Ví dụ:
+
+```text
+Client → Server: SYN
+```
+
+Ý nghĩa:
+
+* Client muốn mở kết nối.
+* Client gửi số thứ tự ban đầu của mình.
+* Client yêu cầu server đồng bộ thông tin kết nối.
+
+**SYN/ACK**
+
+**SYN/ACK** là gói phản hồi từ server.
+
+Gói này có hai ý nghĩa:
+
+* **SYN:** Server cũng gửi số thứ tự ban đầu của mình.
+* **ACK:** Server xác nhận đã nhận được SYN từ client.
+
+Ví dụ:
+
+```text
+Server → Client: SYN/ACK
+```
+
+Ý nghĩa:
+
+* Server đồng ý thiết lập kết nối.
+* Server xác nhận yêu cầu từ client.
+* Server gửi thông tin đồng bộ của mình về client.
+
+**ACK**
+
+**ACK** là viết tắt của **Acknowledgement**, nghĩa là xác nhận.
+
+Gói ACK được client gửi lại cho server để xác nhận rằng client đã nhận được SYN/ACK.
+
+Ví dụ:
+
+```text
+Client → Server: ACK
+```
+
+Sau bước này, kết nối TCP được thiết lập thành công.
+
+Trong Wireshark, quá trình này thường có thể thấy bằng các gói tin có cờ:
+
+```text
+SYN
+SYN, ACK
+ACK
+```
+
+## 5.6. Đóng kết nối TCP
+
+Sau khi truyền dữ liệu xong, kết nối TCP cần được đóng lại để giải phóng tài nguyên hệ thống.
+
+TCP có thể đóng kết nối bằng các gói tin như:
+
+* **FIN**
+* **ACK**
+* **RST**
+
+**Đóng kết nối bằng FIN**
+
+**FIN** là viết tắt của **Finish**. Gói FIN được dùng để yêu cầu đóng kết nối một cách bình thường.
+
+Quá trình đóng kết nối TCP thường diễn ra như sau:
+
+```text
+Thiết bị A → Thiết bị B: FIN
+Thiết bị B → Thiết bị A: ACK
+Thiết bị B → Thiết bị A: FIN
+Thiết bị A → Thiết bị B: ACK
+```
+
+Ý nghĩa:
+
+1. Một bên thông báo muốn đóng kết nối.
+2. Bên còn lại xác nhận.
+3. Bên còn lại cũng gửi yêu cầu đóng.
+4. Bên đầu tiên xác nhận lại.
+
+Sau đó, kết nối TCP được kết thúc.
+
+**Đóng kết nối bằng RST**
+
+**RST** là viết tắt của **Reset**. Gói RST dùng để đóng kết nối đột ngột.
+
+RST thường xuất hiện khi:
+
+* Dịch vụ không hoạt động.
+* Cổng bị đóng.
+* Kết nối không hợp lệ.
+* Có lỗi trong quá trình giao tiếp.
+* Hệ thống muốn hủy kết nối ngay lập tức.
+
+So sánh FIN và RST:
+
+| Cờ  | Ý nghĩa | Cách đóng                |
+| --- | ------- | ------------------------ |
+| FIN | Finish  | Đóng kết nối bình thường |
+| RST | Reset   | Đóng kết nối đột ngột    |
+
+Tóm lại:
+
+* **FIN** dùng khi muốn kết thúc kết nối một cách gọn gàng.
+* **RST** dùng khi cần hủy kết nối ngay lập tức hoặc có lỗi xảy ra.
+
+## 5.7. Cổng mạng là gì?
+
+**Cổng mạng** (Port) là số định danh dùng để xác định dịch vụ hoặc ứng dụng đang chạy trên một thiết bị.
+
+![](./img/5.7_networks_ports_.webp)
+
+Một địa chỉ IP giúp xác định thiết bị trong mạng, còn port giúp xác định **ứng dụng hoặc dịch vụ cụ thể** trên thiết bị đó.
+
+Ví dụ:
+
+```text
+192.168.1.10:80
+```
+
+Trong đó:
+
+* `192.168.1.10` là địa chỉ IP.
+* `80` là cổng mạng.
+* Cổng `80` thường dùng cho HTTP.
+
+Một thiết bị có thể chạy nhiều dịch vụ cùng lúc. Mỗi dịch vụ thường lắng nghe trên một cổng khác nhau.
+
+Ví dụ một server:
+
+| Dịch vụ | Cổng |
+| ------- | ---: |
+| SSH     |   22 |
+| HTTP    |   80 |
+| HTTPS   |  443 |
+| DNS     |   53 |
+
+Nhờ có port, máy chủ có thể biết dữ liệu gửi đến cần chuyển cho dịch vụ nào.
+
+**Phạm vi số cổng**
+
+Số cổng nằm trong khoảng:
+
+```text
+0 - 65535
+```
+
+Có thể chia thành ba nhóm chính:
+
+| Phạm vi       | Tên gọi                   | Ý nghĩa                                   |
+| ------------- | ------------------------- | ----------------------------------------- |
+| 0 – 1023      | Well-known ports          | Cổng phổ biến, dành cho các dịch vụ chuẩn |
+| 1024 – 49151  | Registered ports          | Cổng được đăng ký cho ứng dụng cụ thể     |
+| 49152 – 65535 | Dynamic / Ephemeral ports | Cổng tạm thời, thường dùng phía client    |
+
+Ví dụ:
+
+Khi bạn truy cập website HTTPS:
+
+```text
+Client: 192.168.1.10:52344
+Server: 93.184.216.34:443
+```
+
+Trong đó:
+
+* Client dùng cổng tạm thời `52344`.
+* Server lắng nghe dịch vụ HTTPS ở cổng `443`.
+
+## 5.8. Các cổng phổ biến cần nhớ
+
+Khi học mạng và an ninh mạng, cần ghi nhớ một số cổng phổ biến vì chúng thường xuất hiện trong cấu hình firewall, phân tích packet, quét Nmap và điều tra bảo mật.
+
+| Cổng | Giao thức | Dịch vụ         | Ý nghĩa                     |
+| ---: | --------- | --------------- | --------------------------- |
+|   20 | TCP       | FTP Data        | Truyền dữ liệu FTP          |
+|   21 | TCP       | FTP Control     | Điều khiển phiên FTP        |
+|   22 | TCP       | SSH             | Truy cập từ xa an toàn      |
+|   23 | TCP       | Telnet          | Truy cập từ xa không mã hóa |
+|   25 | TCP       | SMTP            | Gửi email                   |
+|   53 | TCP/UDP   | DNS             | Phân giải tên miền          |
+|   67 | UDP       | DHCP Server     | Máy chủ DHCP                |
+|   68 | UDP       | DHCP Client     | Máy khách DHCP              |
+|   80 | TCP       | HTTP            | Truy cập web không mã hóa   |
+|  110 | TCP       | POP3            | Nhận email                  |
+|  123 | UDP       | NTP             | Đồng bộ thời gian           |
+|  143 | TCP       | IMAP            | Đồng bộ email               |
+|  161 | UDP       | SNMP            | Quản lý thiết bị mạng       |
+|  389 | TCP/UDP   | LDAP            | Dịch vụ thư mục             |
+|  443 | TCP       | HTTPS           | Truy cập web bảo mật        |
+|  445 | TCP       | SMB             | Chia sẻ file Windows        |
+|  465 | TCP       | SMTPS           | Gửi email bảo mật           |
+|  587 | TCP       | SMTP Submission | Gửi email từ client         |
+|  993 | TCP       | IMAPS           | IMAP qua TLS                |
+|  995 | TCP       | POP3S           | POP3 qua TLS                |
+| 3306 | TCP       | MySQL           | Cơ sở dữ liệu MySQL         |
+| 3389 | TCP       | RDP             | Remote Desktop Windows      |
+| 5432 | TCP       | PostgreSQL      | Cơ sở dữ liệu PostgreSQL    |
+| 8080 | TCP       | HTTP Alternate  | Cổng web thay thế           |
+
+Một số nhóm cổng cần nhớ nhanh:
+
+**Web**
+
+| Dịch vụ        | Cổng |
+| -------------- | ---: |
+| HTTP           |   80 |
+| HTTPS          |  443 |
+| HTTP Alternate | 8080 |
+
+**Truy cập từ xa**
+
+| Dịch vụ | Cổng |
+| ------- | ---: |
+| SSH     |   22 |
+| Telnet  |   23 |
+| RDP     | 3389 |
+
+**Email**
+
+| Dịch vụ | Cổng |
+| ------- | ---: |
+| SMTP    |   25 |
+| POP3    |  110 |
+| IMAP    |  143 |
+| SMTPS   |  465 |
+| IMAPS   |  993 |
+| POP3S   |  995 |
+
+**Hệ thống mạng**
+
+| Dịch vụ     | Cổng |
+| ----------- | ---: |
+| DNS         |   53 |
+| DHCP Server |   67 |
+| DHCP Client |   68 |
+| NTP         |  123 |
+| SNMP        |  161 |
+
+**Database**
+
+| Dịch vụ    | Cổng |
+| ---------- | ---: |
+| MySQL      | 3306 |
+| PostgreSQL | 5432 |
+
+Khi phân tích bảo mật, việc nhớ các cổng phổ biến giúp nhanh chóng nhận ra dịch vụ nào đang hoạt động trên hệ thống và đánh giá bề mặt tấn công của mục tiêu.
+
 
