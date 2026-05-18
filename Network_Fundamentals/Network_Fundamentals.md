@@ -1158,6 +1158,14 @@ Sau khi router nhận được frame, nó sẽ lấy packet bên trong, kiểm t
 
 ## 4.5. Sự khác nhau giữa Packet và Frame
 
+Data encapsulation process across OSI layers (Segment -> Packet ->Frame):
+
+![](./img/4.5_DATA_FROM_APPLICATION_LAYER.webp)
+
+Structure of Segment, Packet, and Frame showing headers at each OSI layer:
+
+![](./img/4.5_segmentpacket.webp)
+
 Packet và frame đều là các đơn vị dữ liệu được dùng trong quá trình truyền thông mạng, nhưng chúng thuộc các tầng khác nhau và có vai trò khác nhau.
 
 | Tiêu chí             | Packet                                   | Frame                                      |
@@ -1189,7 +1197,7 @@ Nói ngắn gọn:
 * **Packet dùng để đi qua nhiều mạng.**
 * **Frame dùng để di chuyển trong một mạng cục bộ.**
 
-### 4.6. Header trong gói tin
+## 4.6. Header trong gói tin
 
 **Header** là phần thông tin điều khiển được thêm vào dữ liệu trong quá trình encapsulation.
 
@@ -1221,6 +1229,8 @@ Một số loại header thường gặp:
 
 Ví dụ các trường trong IP header:
 
+![](./img/4.6_ip_header.webp)
+
 | Trường              | Ý nghĩa                                                     |
 | ------------------- | ----------------------------------------------------------- |
 | Source Address      | Địa chỉ IP nguồn                                            |
@@ -1230,6 +1240,8 @@ Ví dụ các trường trong IP header:
 | Header Checksum     | Kiểm tra lỗi phần header                                    |
 
 Ví dụ các trường trong TCP header:
+
+![](./img/4.6_tcp_header.webp)
 
 | Trường                | Ý nghĩa                        |
 | --------------------- | ------------------------------ |
@@ -1246,9 +1258,10 @@ Header rất quan trọng khi phân tích mạng bằng Wireshark hoặc tcpdump
 
 Trong packet, có nhiều trường quan trọng giúp dữ liệu được truyền đúng cách. Bốn trường thường gặp là **TTL**, **Checksum**, **Source Address** và **Destination Address**.
 
-#### TTL
+### 4.7.1 TTL
 
 **TTL** (Time To Live) là trường dùng để giới hạn thời gian hoặc số bước mà một packet có thể tồn tại trong mạng.
+![](./img/4.7_working_of_ttl.webp)
 
 Mỗi khi packet đi qua một router, giá trị TTL thường bị giảm đi 1. Nếu TTL giảm về 0, packet sẽ bị loại bỏ.
 
@@ -1260,20 +1273,22 @@ Mục đích của TTL:
 
 Ví dụ:
 
+![](./img/4.7_example_ttl.webp)
+
 ```text
-TTL ban đầu: 64
-Sau router 1: 63
-Sau router 2: 62
-Sau router 3: 61
+TTL ban đầu: 255
+Sau router 1: 254
+Sau router 2: 253
+Sau router 3: 252
 ```
 
 Nếu có lỗi định tuyến làm packet bị chạy vòng lặp, TTL sẽ giảm dần về 0 và packet sẽ bị hủy.
 
----
-
-#### Checksum
+### 4.7.2 Checksum
 
 **Checksum** là giá trị dùng để kiểm tra tính toàn vẹn của dữ liệu hoặc header.
+
+![](./img/4.7_checksum.png)
 
 Khi packet được gửi đi, thiết bị gửi tính toán checksum dựa trên nội dung của một phần gói tin. Khi thiết bị nhận nhận được packet, nó tính lại checksum và so sánh với giá trị trong header.
 
@@ -1301,9 +1316,7 @@ Checksum tính lại: 0x91bc
 → Packet có thể bị lỗi
 ```
 
----
-
-#### Source Address
+### 4.7.4. Source Address
 
 **Source Address** là địa chỉ nguồn, cho biết packet được gửi từ đâu.
 
@@ -1331,9 +1344,7 @@ Destination Address: 8.8.8.8
 
 Ở đây, `192.168.1.10` là máy gửi yêu cầu.
 
----
-
-#### Destination Address
+### 4.7.5. Destination Address
 
 **Destination Address** là địa chỉ đích, cho biết packet cần được gửi đến đâu.
 
@@ -1364,9 +1375,7 @@ Trong ví dụ này:
 * `192.168.1.10` là máy tính người dùng.
 * `93.184.216.34` là máy chủ web cần truy cập.
 
----
-
-#### Tóm tắt các trường quan trọng
+### 4.4.6 Tóm tắt các trường quan trọng
 
 | Trường              | Ý nghĩa              | Vai trò                               |
 | ------------------- | -------------------- | ------------------------------------- |
