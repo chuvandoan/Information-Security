@@ -22,6 +22,8 @@
 
 10. [HTTP và HTTPS](#10-http-và-https)
 
+11. [Cách website hoạt động](#11-cách-website-hoạt-động)
+
 ## Nội dung
 
 # 1. Tổng quan về mạng máy tính
@@ -5118,7 +5120,7 @@ URL = scheme + domain + port + path + query string + fragment.
 
 **HTTP Request** là yêu cầu được client gửi đến server.
 
-![](./img/10_http_message_anatomy.svg)
+![](./img/10_http_message_anatomy.png)
 
 Client thường là:
 
@@ -5129,7 +5131,7 @@ Client thường là:
 - Scanner bảo mật.
 
 Server thường là:
-
+png
 - Web server.
 - API server.
 - Reverse proxy.
@@ -5179,7 +5181,7 @@ HTTP Request rất quan trọng trong an ninh web, vì nhiều tấn công như 
 
 **HTTP Response** là phản hồi được server gửi về cho client sau khi nhận và xử lý HTTP Request.
 
-![](./img/10_http_message_anatomy.svg)
+![](./img/10_http_message_anatomy.png)
 
 Ví dụ một HTTP Response:
 
@@ -6022,4 +6024,1088 @@ Tóm lại:
 ```text
 Cookies = dữ liệu nhỏ giúp website ghi nhớ người dùng giữa nhiều request.
 ```
+
+# 11. Cách website hoạt động
+
+## 11.1. Website hoạt động như thế nào?
+
+**Website** là một tập hợp các trang web, tài nguyên và chức năng được lưu trữ trên máy chủ web, sau đó được truy cập thông qua trình duyệt.
+
+![](./img/11.1_working_of_the_website.png)
+
+Khi người dùng truy cập một website, trình duyệt sẽ gửi yêu cầu đến máy chủ. Máy chủ xử lý yêu cầu đó và trả về dữ liệu để trình duyệt hiển thị thành giao diện mà người dùng nhìn thấy.
+
+Quy trình đơn giản:
+
+```text
+Người dùng nhập URL
+→ Trình duyệt gửi request
+→ Web server nhận và xử lý request
+→ Server trả về response
+→ Trình duyệt hiển thị trang web
+```
+
+Ví dụ khi truy cập:
+
+```text
+https://example.com
+```
+
+quá trình có thể diễn ra như sau:
+
+```text
+1. Trình duyệt kiểm tra URL
+2. DNS phân giải tên miền thành địa chỉ IP
+3. Trình duyệt thiết lập kết nối đến web server
+4. Trình duyệt gửi HTTP/HTTPS request
+5. Web server xử lý request
+6. Server trả về HTML, CSS, JavaScript, hình ảnh...
+7. Trình duyệt render nội dung thành trang web
+```
+
+Một website thường gồm hai phần chính:
+
+| Thành phần | Vai trò |
+|---|---|
+| **Frontend** | Phần người dùng nhìn thấy và tương tác trên trình duyệt |
+| **Backend** | Phần xử lý logic, dữ liệu và giao tiếp với database ở phía server |
+
+Ví dụ:
+
+```text
+Frontend: trang đăng nhập, nút bấm, form nhập dữ liệu
+Backend: kiểm tra tài khoản, xử lý mật khẩu, truy vấn database
+```
+
+Tóm lại:
+
+```text
+Website hoạt động dựa trên sự phối hợp giữa trình duyệt, web server, frontend, backend và các dịch vụ hỗ trợ như DNS, database, CDN, WAF.
+```
+
+## 11.2. Frontend
+
+**Frontend** là phần giao diện của website mà người dùng trực tiếp nhìn thấy và tương tác thông qua trình duyệt.
+
+Frontend còn được gọi là **client-side**, vì phần này chạy chủ yếu ở phía client, tức là trên trình duyệt của người dùng.
+
+Ví dụ các thành phần frontend:
+
+- Trang chủ.
+- Form đăng nhập.
+- Nút bấm.
+- Menu điều hướng.
+- Hình ảnh.
+- Bảng dữ liệu.
+- Biểu mẫu tìm kiếm.
+- Giao diện người dùng.
+
+Frontend thường được xây dựng bằng ba công nghệ chính:
+
+| Công nghệ | Vai trò |
+|---|---|
+| **HTML** | Xây dựng cấu trúc trang web |
+| **CSS** | Trang trí và định dạng giao diện |
+| **JavaScript** | Tạo tính tương tác và xử lý logic phía trình duyệt |
+
+Ví dụ:
+
+```text
+HTML tạo nút bấm
+CSS làm nút có màu đẹp hơn
+JavaScript xử lý sự kiện khi người dùng nhấn nút
+```
+
+Frontend có nhiệm vụ:
+
+- Hiển thị nội dung cho người dùng.
+- Nhận dữ liệu người dùng nhập vào.
+- Gửi request đến backend.
+- Hiển thị kết quả từ server.
+- Tạo trải nghiệm người dùng tốt hơn.
+
+Trong an ninh web, frontend cũng là nơi cần kiểm tra kỹ vì đôi khi developer để lộ thông tin nhạy cảm trong mã HTML, CSS hoặc JavaScript.
+
+Ví dụ lỗi thường gặp:
+
+```html
+<!-- TODO: remove test credentials admin:password123 -->
+```
+
+## 11.3. Backend
+
+**Backend** là phần xử lý phía sau của website, chạy trên máy chủ.
+
+Nếu frontend là phần người dùng nhìn thấy, thì backend là phần xử lý logic mà người dùng thường không thấy trực tiếp.
+
+Backend còn được gọi là **server-side**.
+
+Backend có thể thực hiện các nhiệm vụ như:
+
+- Xử lý đăng nhập.
+- Kiểm tra quyền truy cập.
+- Truy vấn cơ sở dữ liệu.
+- Xử lý thanh toán.
+- Lưu thông tin người dùng.
+- Gửi email.
+- Tạo nội dung động.
+- Xử lý API request.
+
+Ví dụ:
+
+Khi người dùng đăng nhập:
+
+```text
+1. Người dùng nhập username và password ở frontend
+2. Frontend gửi dữ liệu đến backend
+3. Backend kiểm tra thông tin trong database
+4. Nếu đúng, backend tạo session hoặc token
+5. Website cho phép người dùng truy cập tài khoản
+```
+
+Một số ngôn ngữ và framework backend phổ biến:
+
+| Ngôn ngữ | Ví dụ framework |
+|---|---|
+| Python | Django, Flask, FastAPI |
+| JavaScript | Node.js, Express.js |
+| PHP | Laravel |
+| Java | Spring |
+| Ruby | Ruby on Rails |
+| Go | Gin, Echo |
+
+Backend thường giao tiếp với:
+
+- Database.
+- File system.
+- API bên ngoài.
+- Authentication service.
+- Payment gateway.
+- Message queue.
+- Logging system.
+
+Trong an ninh mạng, backend rất quan trọng vì nhiều lỗi nghiêm trọng xuất hiện ở đây, ví dụ:
+
+- SQL Injection.
+- Broken Access Control.
+- Command Injection.
+- Authentication Bypass.
+- Insecure Deserialization.
+- Server-Side Request Forgery.
+
+## 11.4. HTML
+
+**HTML** là viết tắt của **HyperText Markup Language**.
+
+HTML là ngôn ngữ đánh dấu dùng để xây dựng cấu trúc của trang web. Nó cho trình duyệt biết nội dung nào là tiêu đề, đoạn văn, hình ảnh, liên kết, bảng, form hoặc nút bấm.
+
+Ví dụ một trang HTML đơn giản:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Trang web đầu tiên</title>
+  </head>
+  <body>
+    <h1>Xin chào!</h1>
+    <p>Đây là một đoạn văn bản.</p>
+  </body>
+</html>
+```
+
+Một số thẻ HTML phổ biến:
+
+| Thẻ | Ý nghĩa |
+|---|---|
+| `<html>` | Bao toàn bộ tài liệu HTML |
+| `<head>` | Chứa thông tin metadata của trang |
+| `<title>` | Tiêu đề hiển thị trên tab trình duyệt |
+| `<body>` | Nội dung chính hiển thị cho người dùng |
+| `<h1>` đến `<h6>` | Tiêu đề |
+| `<p>` | Đoạn văn |
+| `<a>` | Liên kết |
+| `<img>` | Hình ảnh |
+| `<form>` | Biểu mẫu |
+| `<input>` | Ô nhập dữ liệu |
+| `<button>` | Nút bấm |
+
+Ví dụ liên kết:
+
+```html
+<a href="https://example.com">Truy cập website</a>
+```
+
+Ví dụ form đăng nhập:
+
+```html
+<form action="/login" method="POST">
+  <input type="text" name="username">
+  <input type="password" name="password">
+  <button type="submit">Login</button>
+</form>
+```
+
+Trong bảo mật web, HTML cần được xử lý cẩn thận vì nếu website hiển thị trực tiếp dữ liệu người dùng nhập vào mà không lọc, attacker có thể chèn mã HTML hoặc JavaScript độc hại.
+
+
+## 11.5. CSS
+
+**CSS** là viết tắt của **Cascading Style Sheets**.
+
+CSS được dùng để định dạng và trang trí giao diện website. Nếu HTML tạo cấu trúc, thì CSS làm cho trang web đẹp hơn và dễ sử dụng hơn.
+
+CSS có thể điều chỉnh:
+
+- Màu sắc.
+- Font chữ.
+- Kích thước chữ.
+- Khoảng cách.
+- Bố cục.
+- Đường viền.
+- Hiệu ứng hover.
+- Responsive layout cho mobile.
+
+Ví dụ CSS đơn giản:
+
+```css
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+h1 {
+  color: blue;
+}
+
+button {
+  padding: 10px;
+  border-radius: 5px;
+}
+```
+
+HTML kết hợp với CSS:
+
+```html
+<h1 class="title">Xin chào!</h1>
+```
+
+```css
+.title {
+  color: red;
+  font-size: 32px;
+}
+```
+
+CSS có thể được thêm vào trang web theo ba cách:
+
+| Cách dùng CSS | Mô tả |
+|---|---|
+| Inline CSS | Viết trực tiếp trong thẻ HTML |
+| Internal CSS | Viết trong thẻ `<style>` |
+| External CSS | Viết trong file `.css` riêng |
+
+Ví dụ external CSS:
+
+```html
+<link rel="stylesheet" href="/style.css">
+```
+
+Trong thực tế, CSS thường được lưu trong file riêng để dễ quản lý.
+
+Tóm lại:
+
+```text
+CSS = ngôn ngữ dùng để định dạng và làm đẹp giao diện website.
+```
+
+## 11.6. JavaScript
+
+**JavaScript** là ngôn ngữ lập trình dùng để tạo tính tương tác cho website.
+
+Nếu HTML tạo cấu trúc và CSS tạo giao diện, thì JavaScript giúp website có hành vi động.
+
+JavaScript có thể dùng để:
+
+- Xử lý khi người dùng bấm nút.
+- Kiểm tra dữ liệu trong form.
+- Gửi request đến backend.
+- Cập nhật nội dung trang mà không cần tải lại.
+- Tạo hiệu ứng động.
+- Xử lý menu, popup, slider.
+- Tương tác với API.
+
+Ví dụ JavaScript đơn giản:
+
+```html
+<button onclick="sayHello()">Click me</button>
+
+<script>
+function sayHello() {
+  alert("Xin chào!");
+}
+</script>
+```
+
+Ví dụ thay đổi nội dung HTML bằng JavaScript:
+
+```html
+<p id="demo">Nội dung ban đầu</p>
+<button onclick="changeText()">Đổi nội dung</button>
+
+<script>
+function changeText() {
+  document.getElementById("demo").innerText = "Nội dung đã thay đổi";
+}
+</script>
+```
+
+JavaScript chạy chủ yếu ở phía trình duyệt, nhưng cũng có thể chạy ở phía server thông qua Node.js.
+
+Trong bảo mật web, JavaScript rất quan trọng vì nhiều lỗ hổng liên quan đến xử lý dữ liệu phía client.
+
+Ví dụ rủi ro:
+
+- XSS.
+- DOM-based XSS.
+- Lộ API key trong file JavaScript.
+- Logic bảo mật chỉ kiểm tra ở frontend.
+- Dữ liệu nhạy cảm bị hard-code trong mã nguồn.
+
+Lưu ý quan trọng:
+
+```text
+Không nên đặt logic bảo mật quan trọng chỉ ở JavaScript phía frontend.
+```
+
+Vì người dùng có thể xem, sửa hoặc bỏ qua mã JavaScript trên trình duyệt.
+
+Tóm lại:
+
+```text
+JavaScript = ngôn ngữ tạo tính tương tác và hành vi động cho website.
+```
+
+## 11.7. Sensitive Data Exposure
+
+**Sensitive Data Exposure** là lỗi lộ dữ liệu nhạy cảm.
+
+Lỗi này xảy ra khi website vô tình để lộ thông tin quan trọng cho người dùng hoặc attacker. Thông tin có thể nằm trong mã nguồn HTML, JavaScript, response, log, file public hoặc cấu hình sai.
+
+Ví dụ dữ liệu nhạy cảm có thể bị lộ:
+
+- Username và password test.
+- API key.
+- Token.
+- Link nội bộ.
+- Comment chứa thông tin quan trọng.
+- Đường dẫn admin.
+- Thông tin database.
+- Thông tin phiên bản phần mềm.
+- Dữ liệu cá nhân của người dùng.
+
+Ví dụ lộ thông tin trong HTML:
+
+```html
+<form>
+  <input type="text" name="username">
+  <input type="password" name="password">
+  <button>Login</button>
+
+  <!-- TODO: remove test credentials admin:password123 -->
+</form>
+```
+
+Trong ví dụ này, developer quên xóa thông tin đăng nhập test khỏi mã nguồn. Người dùng chỉ cần chọn “View Page Source” là có thể nhìn thấy.
+
+**Vì sao lỗi này nguy hiểm?**
+
+Sensitive Data Exposure có thể giúp attacker:
+
+- Đăng nhập trái phép.
+- Tìm được đường dẫn ẩn.
+- Lấy API key để gọi dịch vụ.
+- Hiểu cấu trúc hệ thống.
+- Tấn công sâu hơn vào backend.
+- Thu thập thông tin phục vụ phishing hoặc exploitation.
+
+**Cách kiểm tra cơ bản**
+
+Khi kiểm tra một website, có thể bắt đầu bằng các bước:
+
+```text
+1. Xem mã nguồn trang
+2. Kiểm tra file JavaScript
+3. Tìm comment đáng ngờ
+4. Tìm API key hoặc token
+5. Kiểm tra response từ server
+6. Kiểm tra file public như robots.txt, sitemap.xml
+```
+
+Một số từ khóa cần tìm:
+
+```text
+password
+admin
+token
+api_key
+secret
+debug
+test
+backup
+internal
+```
+
+**Cách phòng tránh**
+
+- Không để thông tin nhạy cảm trong frontend.
+- Không hard-code password, token hoặc API key.
+- Xóa comment test trước khi deploy.
+- Cấu hình quyền truy cập file đúng cách.
+- Không public file backup.
+- Mã hóa dữ liệu nhạy cảm khi cần.
+- Kiểm tra source code trước khi đưa lên production.
+
+## 11.8. HTML Injection
+
+**HTML Injection** là lỗ hổng xảy ra khi website hiển thị dữ liệu người dùng nhập vào dưới dạng HTML mà không kiểm tra hoặc lọc đúng cách.
+
+Nếu attacker có thể nhập mã HTML và website hiển thị mã đó như một phần của trang, attacker có thể thay đổi giao diện hoặc nội dung trang web.
+
+Ví dụ form đơn giản:
+
+```html
+<input type="text" name="name">
+```
+
+Người dùng nhập:
+
+```html
+<h1>Hello</h1>
+```
+
+Nếu website không lọc dữ liệu và hiển thị trực tiếp input, trình duyệt có thể render nội dung này thành tiêu đề lớn.
+
+Ví dụ nguy hiểm hơn:
+
+```html
+<a href="http://hacker.com">Click here</a>
+```
+
+Khi đó, attacker có thể chèn một liên kết giả mạo vào trang.
+
+**HTML Injection hoạt động như thế nào?**
+
+Quy trình đơn giản:
+
+```text
+1. Website nhận dữ liệu từ người dùng
+2. Website đưa dữ liệu đó vào HTML response
+3. Dữ liệu không được lọc hoặc escape
+4. Trình duyệt hiểu dữ liệu đó là mã HTML
+5. Giao diện trang bị thay đổi
+```
+
+Ví dụ code không an toàn:
+
+```javascript
+document.getElementById("result").innerHTML = userInput;
+```
+
+Nếu `userInput` chứa HTML, trình duyệt sẽ render nó.
+
+Cách an toàn hơn:
+
+```javascript
+document.getElementById("result").innerText = userInput;
+```
+
+`innerText` hiển thị dữ liệu như văn bản thường, không render HTML.
+
+**Rủi ro của HTML Injection**
+
+HTML Injection có thể dẫn đến:
+
+- Thay đổi giao diện website.
+- Chèn link phishing.
+- Chèn form đăng nhập giả.
+- Đánh lừa người dùng.
+- Là bước đầu dẫn đến XSS nếu JavaScript cũng được thực thi.
+
+Ví dụ attacker có thể chèn:
+
+```html
+<h2>Phiên đăng nhập đã hết hạn</h2>
+<a href="http://fake-login.com">Đăng nhập lại</a>
+```
+
+Người dùng có thể bị lừa nhấn vào link độc hại.
+
+**Cách phòng tránh**
+
+- Không tin tưởng dữ liệu người dùng nhập vào.
+- Validate input ở phía server.
+- Escape output trước khi hiển thị.
+- Không dùng `innerHTML` với dữ liệu không tin cậy.
+- Sử dụng `innerText` hoặc `textContent` khi chỉ cần hiển thị văn bản.
+- Dùng template engine có cơ chế auto-escaping.
+- Áp dụng Content Security Policy nếu phù hợp.
+
+## 11.9. Web Server là gì?
+
+**Web Server** là máy chủ hoặc phần mềm dùng để nhận request từ client và trả về nội dung web.
+
+![](./img/11.9_Working_of_Web_Server_Server.webp)
+
+Web server thường lắng nghe trên:
+
+| Giao thức | Cổng mặc định |
+|---|---:|
+| HTTP | 80 |
+| HTTPS | 443 |
+
+Ví dụ web server phổ biến:
+
+- Apache HTTP Server.
+- Nginx.
+- Microsoft IIS.
+- Caddy.
+- LiteSpeed.
+
+Khi trình duyệt gửi request:
+
+```http
+GET /index.html HTTP/1.1
+Host: example.com
+```
+
+web server sẽ xử lý request và trả về nội dung phù hợp.
+
+Ví dụ response:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: text/html
+
+<html>
+  <body>Hello!</body>
+</html>
+```
+
+Web server có thể phục vụ:
+
+- File HTML.
+- File CSS.
+- File JavaScript.
+- Hình ảnh.
+- Video.
+- File tải xuống.
+- Reverse proxy đến backend application.
+- Nội dung động từ ứng dụng web.
+
+Trong hệ thống hiện đại, web server thường không làm mọi thứ một mình. Nó có thể đứng trước backend application và chuyển tiếp request.
+
+Ví dụ:
+
+```text
+Client → Nginx → Backend App → Database
+```
+
+Vai trò của web server:
+
+- Nhận request từ client.
+- Trả về nội dung tĩnh.
+- Chuyển request đến backend.
+- Hỗ trợ HTTPS.
+- Ghi log truy cập.
+- Cấu hình virtual host.
+- Hỗ trợ reverse proxy.
+- Có thể giới hạn truy cập hoặc rate limit.
+
+## 11.10. Virtual Host
+
+**Virtual Host** là cơ chế cho phép một web server lưu trữ nhiều website trên cùng một máy chủ.
+
+Ví dụ một server có thể phục vụ nhiều domain:
+
+```text
+example.com
+blog.example.com
+shop.example.com
+company.net
+```
+
+Tất cả có thể cùng chạy trên một địa chỉ IP nhưng được phân biệt bằng **Host header** trong HTTP request.
+
+Ví dụ request:
+
+```http
+GET / HTTP/1.1
+Host: blog.example.com
+```
+
+Web server nhìn vào header `Host` để biết client đang muốn truy cập website nào.
+
+**Virtual Host giúp:**
+
+- Chạy nhiều website trên cùng một server.
+- Tiết kiệm tài nguyên.
+- Dễ quản lý nhiều domain.
+- Tách cấu hình từng website.
+- Hỗ trợ hosting nhiều khách hàng trên một máy chủ.
+
+Ví dụ cấu hình logic:
+
+```text
+example.com      → /var/www/example
+blog.example.com → /var/www/blog
+shop.example.com → /var/www/shop
+```
+
+Khi client truy cập `blog.example.com`, web server trả về nội dung trong thư mục `/var/www/blog`.
+
+**Các loại Virtual Host**
+
+| Loại | Mô tả |
+|---|---|
+| Name-based Virtual Host | Phân biệt website dựa trên domain/Host header |
+| IP-based Virtual Host | Mỗi website dùng một địa chỉ IP riêng |
+| Port-based Virtual Host | Mỗi website dùng một port khác nhau |
+
+Name-based virtual host là loại phổ biến nhất.
+
+## 11.11. Nội dung tĩnh
+
+**Nội dung tĩnh** là nội dung được lưu sẵn trên server và được trả về gần như nguyên vẹn cho client.
+
+![](./img/11.11_static.png)
+
+Nội dung tĩnh không thay đổi theo từng người dùng hoặc từng request, trừ khi file trên server được cập nhật.
+
+Ví dụ nội dung tĩnh:
+
+- File HTML.
+- File CSS.
+- File JavaScript.
+- Hình ảnh.
+- Video.
+- Font chữ.
+- File PDF.
+- File tải xuống.
+
+Ví dụ request nội dung tĩnh:
+
+```http
+GET /images/logo.png HTTP/1.1
+Host: example.com
+```
+
+Server trả về file `logo.png`.
+
+Đặc điểm của nội dung tĩnh:
+
+| Đặc điểm | Mô tả |
+|---|---|
+| Có sẵn trên server | Có |
+| Thay đổi theo người dùng | Thường không |
+| Xử lý backend phức tạp | Không cần |
+| Dễ cache | Có |
+| Phù hợp với CDN | Có |
+
+Ví dụ:
+
+```text
+/style.css
+/app.js
+/logo.png
+/index.html
+```
+
+Nội dung tĩnh thường được cache bởi:
+
+- Trình duyệt.
+- CDN.
+- Reverse proxy.
+- Web server.
+
+Điều này giúp tăng tốc website và giảm tải cho backend.
+
+Tóm lại:
+
+```text
+Nội dung tĩnh = file có sẵn, server trả về trực tiếp cho client.
+```
+
+## 11.12. Nội dung động
+
+**Nội dung động** là nội dung được tạo ra tại thời điểm có request, thường dựa trên dữ liệu, người dùng hoặc logic backend.
+
+![](./img/11.12_dynamic.png)
+
+Ví dụ:
+
+- Trang cá nhân của người dùng.
+- Giỏ hàng.
+- Kết quả tìm kiếm.
+- Dashboard.
+- Bảng điểm.
+- Tin nhắn.
+- Danh sách đơn hàng.
+- Nội dung lấy từ database.
+
+Ví dụ:
+
+```text
+/user/profile
+```
+
+Trang này có thể hiển thị thông tin khác nhau tùy người đang đăng nhập.
+
+Quy trình tạo nội dung động:
+
+```text
+1. Client gửi request
+2. Backend nhận request
+3. Backend kiểm tra người dùng
+4. Backend truy vấn database
+5. Backend tạo HTML hoặc JSON
+6. Server trả response về client
+```
+
+Ví dụ API trả dữ liệu động:
+
+```http
+GET /api/user/10 HTTP/1.1
+Host: example.com
+```
+
+Response:
+
+```json
+{
+  "id": 10,
+  "username": "alice",
+  "role": "user"
+}
+```
+
+So sánh nội dung tĩnh và nội dung động:
+
+| Tiêu chí | Nội dung tĩnh | Nội dung động |
+|---|---|---|
+| Cách tạo | Có sẵn trên server | Tạo khi có request |
+| Thay đổi theo người dùng | Ít hoặc không | Có |
+| Cần backend | Không nhất thiết | Có |
+| Cần database | Thường không | Thường có |
+| Cache | Dễ hơn | Phức tạp hơn |
+| Ví dụ | CSS, JS, ảnh | Profile, dashboard, search |
+
+Trong bảo mật web, nội dung động cần được kiểm tra kỹ vì nó thường xử lý input người dùng và truy vấn database.
+
+Tóm lại:
+
+```text
+Nội dung động = nội dung được tạo dựa trên request, người dùng hoặc dữ liệu backend.
+```
+
+## 11.13. Load Balancer
+
+**Load Balancer** là bộ cân bằng tải, dùng để phân phối lưu lượng truy cập đến nhiều server phía sau.
+
+![](./img/11.13_load_balancer.webp)
+
+Thay vì tất cả request đi vào một server duy nhất, load balancer chia request cho nhiều server để tăng hiệu suất và độ sẵn sàng.
+
+![](./img/11.13_without_load_balancing.webp)
+
+![](./img/11.13_with_load_balancing.webp)
+
+**Working:**
+
+![](./img/11.13_how_load_balancer_works_.webp)
+
+Sơ đồ đơn giản:
+
+```text
+Client
+  |
+  v
+Load Balancer
+  |
+  +--> Web Server 1
+  +--> Web Server 2
+  +--> Web Server 3
+```
+
+Nếu một website có nhiều người truy cập, một server có thể bị quá tải. Load balancer giúp chia tải để hệ thống hoạt động ổn định hơn.
+
+**Load balancer giúp:**
+
+- Phân phối lưu lượng đến nhiều server.
+- Tăng hiệu suất xử lý.
+- Tăng tính sẵn sàng.
+- Giảm nguy cơ downtime.
+- Hỗ trợ mở rộng hệ thống.
+- Loại bỏ server lỗi khỏi nhóm xử lý.
+
+**Health Check**
+
+Load balancer thường kiểm tra trạng thái của các server phía sau. Quá trình này gọi là **health check**.
+
+Ví dụ:
+
+```text
+Load Balancer kiểm tra Web Server 1
+Nếu server phản hồi bình thường → tiếp tục gửi traffic
+Nếu server lỗi → ngừng gửi traffic đến server đó
+```
+
+Ví dụ bảng trạng thái:
+
+| Server | Trạng thái | Có nhận traffic không? |
+|---|---|---|
+| Web Server 1 | Healthy | Có |
+| Web Server 2 | Healthy | Có |
+| Web Server 3 | Down | Không |
+
+**Thuật toán cân bằng tải phổ biến**
+
+| Thuật toán | Mô tả |
+|---|---|
+| Round Robin | Chia lần lượt request cho từng server |
+| Least Connections | Gửi request đến server có ít kết nối nhất |
+| IP Hash | Chọn server dựa trên IP của client |
+| Weighted Round Robin | Server mạnh hơn nhận nhiều request hơn |
+
+## 11.14. CDN
+
+**CDN** là viết tắt của **Content Delivery Network**, nghĩa là **mạng phân phối nội dung**.
+
+![](./img/11.14_origin_server.webp)
+
+
+
+CDN là hệ thống nhiều server được đặt ở nhiều vị trí địa lý khác nhau để lưu trữ và phân phối nội dung cho người dùng nhanh hơn.
+
+Without CDN:
+
+![](./img/11.14_without_cdn.webp)
+
+With CDN:
+
+![](./img/11.14_with_cdn.webp)
+
+CDN thường dùng để phục vụ nội dung tĩnh như:
+
+- Hình ảnh.
+- Video.
+- File CSS.
+- File JavaScript.
+- Font.
+- File tải xuống.
+
+Ví dụ:
+
+```text
+Website gốc ở Mỹ
+Người dùng ở Việt Nam
+→ CDN có server gần Việt Nam
+→ Người dùng tải ảnh/CSS/JS từ CDN gần hơn
+```
+
+Sơ đồ đơn giản:
+
+```text
+User ở châu Á → CDN Server ở Singapore → Nội dung tĩnh
+User ở châu Âu → CDN Server ở Đức → Nội dung tĩnh
+User ở Mỹ     → CDN Server ở Mỹ → Nội dung tĩnh
+```
+
+**CDN giúp:**
+
+- Tăng tốc độ tải trang.
+- Giảm độ trễ.
+- Giảm tải cho server gốc.
+- Tăng khả năng chịu tải.
+- Cải thiện trải nghiệm người dùng.
+- Hỗ trợ chống một số dạng tấn công DDoS tùy dịch vụ.
+
+**Quy trình đơn giản:**
+
+```text
+1. Người dùng yêu cầu file ảnh
+2. Request được gửi đến CDN server gần nhất
+3. Nếu CDN đã có file trong cache, trả về ngay
+4. Nếu chưa có, CDN lấy file từ server gốc
+5. CDN lưu file vào cache cho các request sau
+```
+
+Ví dụ:
+
+```text
+https://cdn.example.com/logo.png
+```
+
+CDN rất phổ biến trong các website lớn vì nó giúp tải tài nguyên nhanh hơn và giảm áp lực cho hạ tầng backend.
+
+Tóm lại:
+
+```text
+CDN = hệ thống server phân tán giúp phân phối nội dung nhanh hơn đến người dùng.
+```
+
+## 11.15. Database
+
+**Database** là hệ thống dùng để lưu trữ, quản lý và truy xuất dữ liệu cho website hoặc ứng dụng.
+
+Website thường cần database để lưu các thông tin như:
+
+- Tài khoản người dùng.
+- Mật khẩu đã hash.
+- Bài viết.
+- Bình luận.
+- Sản phẩm.
+- Đơn hàng.
+- Giỏ hàng.
+- Log hoạt động.
+- Cấu hình hệ thống.
+
+Ví dụ:
+
+Khi người dùng đăng nhập:
+
+```text
+1. User nhập username và password
+2. Backend nhận dữ liệu
+3. Backend truy vấn database
+4. Database trả về thông tin user
+5. Backend kiểm tra mật khẩu
+6. Nếu hợp lệ, user đăng nhập thành công
+```
+
+Một số hệ quản trị cơ sở dữ liệu phổ biến:
+
+| Database | Loại |
+|---|---|
+| MySQL | Quan hệ |
+| PostgreSQL | Quan hệ |
+| Microsoft SQL Server | Quan hệ |
+| SQLite | Quan hệ, nhẹ |
+| MongoDB | NoSQL |
+| Redis | Key-value, cache |
+| Elasticsearch | Search engine / analytics |
+
+Ví dụ truy vấn SQL:
+
+```sql
+SELECT * FROM users WHERE username = 'alice';
+```
+
+Database thường chứa dữ liệu rất quan trọng, vì vậy cần được bảo vệ cẩn thận.
+
+Một số rủi ro phổ biến:
+
+- SQL Injection.
+- Lộ thông tin đăng nhập database.
+- Phân quyền database sai.
+- Backup database bị public.
+- Mật khẩu lưu dưới dạng plaintext.
+- Database mở ra Internet không cần thiết.
+
+Ví dụ lỗi nghiêm trọng:
+
+```text
+backup.sql được đặt trong thư mục public của website
+```
+
+Attacker có thể tải file backup và lấy toàn bộ dữ liệu.
+
+Khuyến nghị:
+
+- Không public database ra Internet nếu không cần.
+- Dùng tài khoản database có quyền tối thiểu.
+- Hash mật khẩu người dùng.
+- Validate và parameterize input.
+- Sao lưu dữ liệu an toàn.
+- Giám sát truy cập bất thường.
+- Không lưu secret trong source code.
+
+Tóm lại:
+
+```text
+Database = nơi lưu trữ và quản lý dữ liệu của website.
+```
+
+## 11.16. WAF
+
+**WAF** là viết tắt của **Web Application Firewall**, nghĩa là **tường lửa ứng dụng web**.
+
+WAF nằm giữa người dùng và web server để kiểm tra các HTTP/HTTPS request trước khi chúng đến ứng dụng web.
+
+Sơ đồ đơn giản:
+
+```text
+Client → WAF → Web Server → Backend → Database
+```
+
+WAF có nhiệm vụ phát hiện và chặn các request đáng ngờ hoặc độc hại.
+
+Ví dụ WAF có thể phát hiện:
+
+- SQL Injection.
+- Cross-Site Scripting.
+- Path Traversal.
+- Command Injection.
+- File Inclusion.
+- Bot traffic.
+- Request bất thường.
+- Tấn công brute force hoặc request quá nhiều.
+
+Ví dụ request đáng ngờ:
+
+```text
+/search?q=' OR '1'='1
+```
+
+WAF có thể nhận ra chuỗi này giống kỹ thuật SQL Injection và chặn request.
+
+**WAF hoạt động như thế nào?**
+
+![](./img/11.16_working_of_WAF.png)
+
+WAF thường kiểm tra:
+
+- URL.
+- Query string.
+- HTTP headers.
+- Cookie.
+- Request body.
+- Method.
+- IP nguồn.
+- Tần suất request.
+- Pattern tấn công đã biết.
+
+Ví dụ:
+
+```text
+Nếu một IP gửi quá nhiều request trong thời gian ngắn
+→ WAF có thể rate limit hoặc block IP đó
+```
+
+**Rate Limiting**
+
+**Rate limiting** là kỹ thuật giới hạn số lượng request trong một khoảng thời gian.
+
+Ví dụ:
+
+```text
+Chỉ cho phép 100 request/phút từ một IP
+```
+
+Nếu vượt quá giới hạn, WAF có thể:
+
+- Chặn request.
+- Trả về mã 429 Too Many Requests.
+- Yêu cầu CAPTCHA.
+- Tạm thời block IP.
 
