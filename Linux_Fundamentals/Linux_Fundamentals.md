@@ -856,24 +856,7 @@ apropos copy
 
 Kết quả có thể hiển thị các lệnh liên quan như `cp`, `scp`, `rsync` hoặc các mục tài liệu khác có chứa từ khóa “copy”.
 
-Ví dụ khác:
-
-```bash
-apropos password
-```
-
-Lệnh này sẽ tìm các tài liệu liên quan đến mật khẩu, có thể bao gồm các lệnh như `passwd`, `chpasswd` hoặc các tệp cấu hình liên quan.
-
-So sánh ngắn gọn:
-
-| Công cụ | Khi nào dùng? |
-|---|---|
-| `man` | Khi đã biết tên lệnh và muốn đọc tài liệu chi tiết |
-| `--help` | Khi muốn xem nhanh cách dùng lệnh |
-| `apropos` | Khi chưa nhớ tên lệnh, chỉ biết chủ đề hoặc chức năng cần tìm |
-
-Tóm lại, `apropos` giúp người dùng tìm đúng lệnh cần dùng thông qua từ khóa. Đây là công cụ rất hữu ích khi người học Linux chưa nhớ nhiều lệnh.
-
+![](./img/5.4_apropos_copy.png)
 
 ## 5.5. Sử dụng explainshell
 
@@ -886,24 +869,7 @@ Ví dụ, với lệnh:
 ```bash
 ls -la /var/log
 ```
-
-explainshell có thể giúp giải thích:
-
-| Thành phần | Ý nghĩa |
-|---|---|
-| `ls` | Lệnh liệt kê tệp và thư mục |
-| `-l` | Hiển thị dạng danh sách chi tiết |
-| `-a` | Hiển thị cả tệp ẩn |
-| `/var/log` | Thư mục cần liệt kê nội dung |
-
-Công cụ này rất hữu ích khi phân tích các lệnh phức tạp như:
-
-```bash
-cat /var/log/syslog | grep "error" | sort | uniq -c
-```
-
-Lệnh trên có nhiều phần kết hợp với nhau bằng pipe `|`. explainshell giúp người dùng hiểu từng phần của lệnh, thay vì chỉ sao chép và chạy mà không biết ý nghĩa.
-
+![](./img/5.5_explainshell.png)
 
 # 6. Điều hướng trong hệ thống tệp
 
