@@ -24,6 +24,8 @@
 
 11. [Cách website hoạt động](#11-cách-website-hoạt-động)
 
+12. [Các giao thức mạng cốt lõi](#12-các-giao-thức-mạng-cốt-lõi)
+
 ## Nội dung
 
 # 1. Tổng quan về mạng máy tính
@@ -110,14 +112,7 @@ trình duyệt sẽ gửi yêu cầu đến máy chủ web. Máy chủ phản h�
 
 Cần phân biệt rõ:
 
-* **Internet** là hạ tầng mạng toàn cầu.
-* **World Wide Web** là một dịch vụ hoạt động trên Internet.
-* **Website** là tập hợp các trang web được truy cập thông qua trình duyệt.
-* **Trình duyệt web** là phần mềm dùng để truy cập website.
-
-Ví dụ:
-
-| Khái niệm          | Giải thích                                                    |
+| Khái niệm          | Chức năng                                                    |
 | ------------------ | ------------------------------------------------------------- |
 | **Internet**       | Hệ thống mạng toàn cầu kết nối nhiều mạng nhỏ lại với nhau.   |
 | **World Wide Web** | Dịch vụ cho phép truy cập các trang web qua Internet.         |
@@ -151,13 +146,11 @@ Trong mạng máy tính, địa chỉ IP giúp xác định:
 * Thiết bị đó thuộc mạng nào.
 * Dữ liệu cần được định tuyến đến đâu.
 
-Ví dụ, khi bạn truy cập một website, máy tính của bạn cần biết địa chỉ IP của máy chủ web để gửi yêu cầu đến đúng nơi.
-
 ## 2.2. Địa chỉ MAC
 
 **Địa chỉ MAC** (Media Access Control Address) là địa chỉ vật lý của card mạng trên thiết bị. Địa chỉ này được gắn với phần cứng mạng, ví dụ như card Ethernet hoặc card Wi-Fi.
 
-![](./img/2.2_mac_address.png)
+![](./img/2.2_mac.jpg)
 
 Địa chỉ MAC thường được biểu diễn dưới dạng hệ thập lục phân, gồm 6 nhóm ký tự, mỗi nhóm cách nhau bằng dấu hai chấm `:` hoặc dấu gạch ngang `-`.
 
@@ -7109,3 +7102,550 @@ Nếu vượt quá giới hạn, WAF có thể:
 - Yêu cầu CAPTCHA.
 - Tạm thời block IP.
 
+# 12. Các giao thức mạng cốt lõi
+
+## 12.1. FTP
+
+**FTP** là viết tắt của **File Transfer Protocol**, nghĩa là **giao thức truyền tệp**.
+
+![](./img/12.1_ftp.webp)
+
+FTP được dùng để truyền file giữa client và server qua mạng. Người dùng có thể dùng FTP để tải file lên server hoặc tải file từ server về máy local.
+
+FTP hoạt động ở **tầng Application** và thường sử dụng giao thức **TCP**.
+
+Working and Uses of FTP:
+
+![](./img/12.1_working_of_ftp.webp)
+
+Cổng mặc định của FTP:
+
+| Cổng | Vai trò |
+|---:|---|
+| 21 | Cổng điều khiển FTP |
+| 20 | Cổng truyền dữ liệu trong một số chế độ FTP |
+
+Ví dụ:
+
+```text
+Client → FTP Server
+```
+
+Người dùng có thể dùng FTP để:
+
+- Upload file lên server.
+- Download file từ server.
+- Liệt kê thư mục.
+- Tạo thư mục.
+- Xóa file.
+- Đổi tên file.
+
+Ví dụ kết nối FTP:
+
+```bash
+ftp example.com
+```
+
+Một số lệnh FTP cơ bản:
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `USER` | Gửi username |
+| `PASS` | Gửi password |
+| `LIST` | Liệt kê file và thư mục |
+| `RETR` | Tải file từ server về client |
+| `STOR` | Upload file từ client lên server |
+| `PWD` | Xem thư mục hiện tại |
+| `CWD` | Chuyển thư mục |
+| `QUIT` | Kết thúc phiên FTP |
+
+Ví dụ phiên FTP đơn giản:
+
+```text
+USER alice
+PASS password123
+LIST
+RETR report.txt
+QUIT
+```
+
+**FTP và bảo mật**
+
+FTP truyền dữ liệu, bao gồm username và password, dưới dạng **văn bản rõ** nếu không có mã hóa.
+
+Điều này có nghĩa là nếu attacker có thể bắt gói tin trên mạng, họ có thể đọc được thông tin đăng nhập FTP.
+
+Ví dụ rủi ro:
+
+```text
+Username: alice
+Password: password123
+```
+
+Vì vậy, trong thực tế nên ưu tiên dùng các giao thức an toàn hơn như:
+
+- **SFTP**
+- **FTPS**
+- **SCP**
+
+## 12.2. SMTP
+
+**SMTP** là viết tắt của **Simple Mail Transfer Protocol**, nghĩa là **giao thức truyền thư đơn giản**.
+
+![](./img/12.2_SMTP.gif)
+
+SMTP được dùng để **gửi email** từ client đến mail server hoặc giữa các mail server với nhau.
+
+Model of SMTP System :
+
+![](./img/12.2_model_smtp.webp)
+
+SMTP hoạt động ở **tầng Application** và thường sử dụng **TCP port 25**.
+
+How does SMTP Work:l
+
+![](./img/12.2_working_of_smtp.webp)
+
+Ví dụ:
+
+```text
+Email Client → SMTP Server → Mail Server người nhận
+```
+
+Khi bạn gửi email, ứng dụng email hoặc webmail sẽ dùng SMTP để chuyển email đến máy chủ thư.
+
+Ví dụ:
+
+```text
+user@example.com gửi email đến admin@company.com
+```
+
+SMTP sẽ chịu trách nhiệm gửi email từ phía người gửi đến hệ thống thư của người nhận.
+
+**Một số lệnh SMTP cơ bản**
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `HELO` / `EHLO` | Client giới thiệu với SMTP server |
+| `MAIL FROM` | Xác định địa chỉ người gửi |
+| `RCPT TO` | Xác định địa chỉ người nhận |
+| `DATA` | Bắt đầu gửi nội dung email |
+| `QUIT` | Kết thúc phiên SMTP |
+
+Ví dụ phiên SMTP đơn giản:
+
+```text
+HELO client.example.com
+MAIL FROM:<alice@example.com>
+RCPT TO:<bob@example.com>
+DATA
+Subject: Hello
+
+This is a test email.
+.
+QUIT
+```
+
+Trong SMTP, dấu chấm `.` trên một dòng riêng thường được dùng để báo rằng nội dung email đã kết thúc.
+
+SMTP được dùng cho:
+
+- Gửi email từ mail client.
+- Chuyển email giữa các mail server.
+- Gửi thông báo tự động từ ứng dụng.
+- Gửi email xác nhận tài khoản.
+- Gửi cảnh báo hệ thống.
+
+Ví dụ:
+
+```text
+Ứng dụng web → SMTP Server → Email người dùng
+```
+
+`
+SMTP gốc không được thiết kế với bảo mật mạnh. Nếu không dùng mã hóa, nội dung email và thông tin xác thực có thể bị lộ.
+
+Các phiên bản bảo mật hơn:
+
+| Giao thức | Mục đích |
+|---|---|
+| SMTPS | SMTP qua TLS |
+| SMTP Submission | Gửi email từ client qua cổng 587, thường dùng STARTTLS |
+
+## 12.3. POP3
+
+**POP3** là viết tắt của **Post Office Protocol version 3**, nghĩa là **giao thức bưu điện phiên bản 3**.
+
+![](./img/12.3_pop3.jpg)
+
+POP3 được dùng để **nhận email** từ mail server về thiết bị của người dùng.
+
+POP3 hoạt động ở **tầng Application** và thường sử dụng **TCP port 110**.
+
+Ví dụ:
+
+```text
+Mail Server → POP3 Client
+```
+
+Khi sử dụng POP3, email thường được tải từ server về máy người dùng. Trong một số cấu hình, email sau khi tải về có thể bị xóa khỏi server.
+
+**POP3 hoạt động như thế nào?**
+
+Quy trình đơn giản:
+
+```text
+1. Client kết nối đến POP3 server
+2. Client đăng nhập bằng username và password
+3. Client liệt kê email có trong mailbox
+4. Client tải email về máy local
+5. Client có thể xóa email khỏi server
+6. Client kết thúc phiên làm việc
+```
+
+**Một số lệnh POP3 cơ bản**
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `USER` | Gửi username |
+| `PASS` | Gửi password |
+| `STAT` | Xem số lượng email và tổng dung lượng |
+| `LIST` | Liệt kê email |
+| `RETR` | Tải nội dung email |
+| `DELE` | Đánh dấu email để xóa |
+| `QUIT` | Kết thúc phiên POP3 |
+
+Ví dụ phiên POP3 đơn giản:
+
+```text
+USER alice
+PASS password123
+STAT
+LIST
+RETR 1
+QUIT
+```
+
+**POP3 phù hợp khi:**
+
+- Người dùng chủ yếu đọc email trên một thiết bị.
+- Muốn tải email về máy local.
+- Không cần đồng bộ trạng thái email giữa nhiều thiết bị.
+- Muốn lưu email offline.
+
+**POP3 có một số hạn chế:**
+
+- Đồng bộ kém giữa nhiều thiết bị.
+- Nếu email bị xóa khỏi server, thiết bị khác có thể không xem được.
+- Không phù hợp khi dùng email trên nhiều máy.
+- Nếu không dùng TLS, thông tin đăng nhập có thể bị lộ.
+
+Tóm lại:
+
+```text
+POP3 = giao thức nhận email bằng cách tải email từ server về client.
+```
+
+## 12.4. IMAP
+
+**IMAP** là viết tắt của **Internet Message Access Protocol**, nghĩa là **giao thức truy cập thư Internet**.
+
+![](./img/12.4_imap.webp)
+
+IMAP cũng được dùng để **nhận email**, nhưng khác với POP3 ở chỗ IMAP tập trung vào việc **đồng bộ email giữa nhiều thiết bị**.
+
+IMAP hoạt động ở **tầng Application** và thường sử dụng **TCP port 143**.
+
+Ví dụ:
+
+```text
+Laptop  ↔
+Phone   ↔  IMAP Server
+Tablet  ↔
+```
+
+Khi dùng IMAP, email thường được giữ trên server. Các thiết bị chỉ đồng bộ trạng thái email từ server.
+
+Ví dụ:
+
+- Đọc email trên điện thoại.
+- Email đó cũng hiển thị là đã đọc trên laptop.
+- Xóa email trên laptop.
+- Email đó cũng bị xóa hoặc chuyển trạng thái trên điện thoại.
+
+**IMAP hoạt động như thế nào?**
+
+![](./img/12.4_working_of_imap.gif)
+
+Quy trình đơn giản:
+
+```text
+1. Client kết nối đến IMAP server
+2. Client đăng nhập
+3. Client chọn mailbox, ví dụ INBOX
+4. Client xem danh sách email
+5. Client đọc, tìm kiếm hoặc đánh dấu email
+6. Trạng thái được đồng bộ với server
+```
+
+**Một số lệnh IMAP cơ bản**
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `LOGIN` | Đăng nhập vào server |
+| `SELECT` | Chọn mailbox |
+| `FETCH` | Lấy nội dung email |
+| `STORE` | Thay đổi trạng thái email |
+| `SEARCH` | Tìm kiếm email |
+| `LOGOUT` | Kết thúc phiên IMAP |
+
+Ví dụ phiên IMAP đơn giản:
+
+```text
+A LOGIN alice password123
+B SELECT INBOX
+C FETCH 1 BODY[]
+D LOGOUT
+```
+
+**IMAP phù hợp khi:**
+
+- Người dùng dùng email trên nhiều thiết bị.
+- Cần đồng bộ trạng thái đã đọc/chưa đọc.
+- Cần giữ email trên server.
+- Cần quản lý nhiều thư mục email.
+- Cần tìm kiếm và truy cập email linh hoạt.
+
+**So sánh POP3 và IMAP**
+
+| Tiêu chí | POP3 | IMAP |
+|---|---|---|
+| Cách nhận email | Tải email về client | Đồng bộ với server |
+| Email lưu ở đâu? | Thường tải về máy local | Chủ yếu lưu trên server |
+| Hỗ trợ nhiều thiết bị | Kém hơn | Tốt hơn |
+| Đồng bộ trạng thái đọc/xóa | Hạn chế | Có |
+| Cổng mặc định | 110 | 143 |
+| Phiên bản bảo mật | POP3S - 995 | IMAPS - 993 |
+
+
+## 12.5. Telnet
+
+**Telnet** là giao thức dùng để truy cập dòng lệnh từ xa vào một thiết bị hoặc máy chủ.
+
+Telnet hoạt động ở **tầng Application** và thường sử dụng **TCP port 23**.
+
+Ví dụ:
+
+```bash
+telnet 192.168.1.10 23
+```
+
+Telnet cho phép người dùng kết nối đến hệ thống từ xa và nhập lệnh như đang thao tác trực tiếp trên máy đó.
+
+Ví dụ:
+
+```text
+Client → Telnet Server
+```
+
+Sau khi kết nối, người dùng có thể đăng nhập và thực hiện lệnh trên hệ thống từ xa.
+
+**Telnet dùng để làm gì?**
+
+Trước đây, Telnet được dùng để:
+
+- Quản trị server từ xa.
+- Quản trị thiết bị mạng.
+- Kiểm tra dịch vụ mạng.
+- Kết nối thử đến một port.
+- Học cách các giao thức dạng text hoạt động.
+
+Ví dụ kiểm tra web server bằng Telnet:
+
+```bash
+telnet example.com 80
+```
+
+Sau đó có thể nhập request HTTP thủ công:
+
+```http
+GET / HTTP/1.1
+Host: example.com
+```
+
+Telnet không an toàn vì dữ liệu được truyền dưới dạng **plaintext**.
+
+Điều này có nghĩa là attacker có thể đọc được:
+
+- Username.
+- Password.
+- Lệnh người dùng nhập.
+- Kết quả trả về từ server.
+
+Ví dụ rủi ro:
+
+```text
+Username: admin
+Password: admin123
+```
+
+Nếu attacker sniff traffic trong mạng, thông tin này có thể bị lộ.
+
+Vì vậy, Telnet không nên dùng để quản trị hệ thống thật qua mạng không tin cậy.
+
+Thay vào đó, nên dùng:
+
+```text
+SSH
+```
+
+Tóm lại:
+
+```text
+Telnet = giao thức truy cập từ xa qua dòng lệnh nhưng không an toàn vì không mã hóa.
+```
+
+### 12.6. SSH
+
+**SSH** là viết tắt của **Secure Shell**.
+
+SSH là giao thức dùng để truy cập và quản trị hệ thống từ xa một cách an toàn. SSH được tạo ra để thay thế Telnet vì Telnet truyền dữ liệu dưới dạng văn bản rõ.
+
+SSH hoạt động ở **tầng Application** và thường sử dụng **TCP port 22**.
+
+Ví dụ kết nối SSH:
+
+```bash
+ssh username@hostname
+```
+
+Ví dụ:
+
+```bash
+ssh alice@192.168.1.10
+```
+
+Nếu username trên máy local giống username trên máy remote, có thể dùng:
+
+```bash
+ssh 192.168.1.10
+```
+
+#### SSH dùng để làm gì?
+
+SSH thường được dùng để:
+
+- Quản trị server Linux từ xa.
+- Kết nối vào máy ảo trong lab.
+- Chạy lệnh trên server từ xa.
+- Truyền file an toàn qua SCP hoặc SFTP.
+- Tạo SSH tunnel.
+- Quản trị thiết bị mạng.
+- Truy cập hệ thống cloud.
+
+Ví dụ:
+
+```text
+Admin Laptop → SSH → Linux Server
+```
+
+#### SSH bảo mật hơn Telnet như thế nào?
+
+SSH mã hóa dữ liệu giữa client và server. Nhờ đó, attacker khó đọc được nội dung nếu bắt được traffic.
+
+So sánh Telnet và SSH:
+
+| Tiêu chí | Telnet | SSH |
+|---|---|---|
+| Cổng mặc định | 23 | 22 |
+| Mã hóa | Không | Có |
+| Bảo mật đăng nhập | Yếu | Tốt hơn |
+| Dữ liệu truyền qua mạng | Plaintext | Được mã hóa |
+| Dùng trong thực tế hiện nay | Không khuyến nghị | Rất phổ biến |
+| Phù hợp để quản trị server | Không | Có |
+
+#### Các kiểu xác thực trong SSH
+
+SSH thường hỗ trợ hai kiểu xác thực phổ biến:
+
+| Kiểu xác thực | Mô tả |
+|---|---|
+| Password Authentication | Đăng nhập bằng mật khẩu |
+| Public Key Authentication | Đăng nhập bằng cặp khóa public/private |
+
+Public key authentication thường an toàn hơn password nếu được cấu hình đúng.
+
+Ví dụ tạo SSH key:
+
+```bash
+ssh-keygen
+```
+
+Ví dụ đăng nhập bằng SSH key:
+
+```bash
+ssh -i id_rsa alice@192.168.1.10
+```
+
+#### OpenSSH
+
+**OpenSSH** là một triển khai mã nguồn mở phổ biến của giao thức SSH. Trên Linux, OpenSSH thường được dùng để cung cấp client và server SSH.
+
+Một số lệnh liên quan:
+
+| Lệnh | Ý nghĩa |
+|---|---|
+| `ssh` | Kết nối đến máy chủ SSH |
+| `scp` | Sao chép file qua SSH |
+| `sftp` | Truyền file an toàn qua SSH |
+| `ssh-keygen` | Tạo cặp khóa SSH |
+| `sshd` | Dịch vụ SSH server |
+
+#### SSH và bảo mật
+
+Một số khuyến nghị khi dùng SSH:
+
+- Không dùng mật khẩu yếu.
+- Ưu tiên SSH key thay vì password.
+- Tắt đăng nhập trực tiếp bằng tài khoản root nếu không cần.
+- Giới hạn IP được phép SSH bằng firewall.
+- Đổi port SSH nếu phù hợp với chính sách quản trị.
+- Bật xác thực đa yếu tố nếu cần.
+- Theo dõi log đăng nhập SSH.
+- Cập nhật OpenSSH thường xuyên.
+
+Ví dụ log SSH đáng chú ý:
+
+```text
+Failed password for root from 203.0.113.10 port 52144 ssh2
+Accepted publickey for alice from 192.168.1.20 port 51512 ssh2
+```
+
+Trong SOC, log SSH rất quan trọng để phát hiện:
+
+- Brute force.
+- Đăng nhập bất thường.
+- Đăng nhập từ IP lạ.
+- Lạm dụng tài khoản.
+- Lateral movement trong mạng nội bộ.
+
+Tóm lại:
+
+```text
+SSH = giao thức truy cập từ xa an toàn, thay thế Telnet và thường dùng TCP port 22.
+```
+
+---
+
+### Tóm tắt các giao thức mạng cốt lõi
+
+| Giao thức | Chức năng chính | Cổng mặc định | Giao thức truyền tải | Mức độ bảo mật mặc định |
+|---|---|---:|---|---|
+| FTP | Truyền file | 21 | TCP | Không an toàn nếu không mã hóa |
+| SMTP | Gửi email | 25 | TCP | Không an toàn nếu không mã hóa |
+| POP3 | Nhận email bằng cách tải về client | 110 | TCP | Không an toàn nếu không mã hóa |
+| IMAP | Nhận và đồng bộ email | 143 | TCP | Không an toàn nếu không mã hóa |
+| Telnet | Truy cập dòng lệnh từ xa | 23 | TCP | Không an toàn |
+| SSH | Truy cập dòng lệnh từ xa an toàn | 22 | TCP | An toàn hơn vì có mã hóa |
+
+Các giao thức như FTP, SMTP, POP3, IMAP và Telnet rất quan trọng để hiểu cách dịch vụ mạng hoạt động. Tuy nhiên, nhiều giao thức đời cũ truyền dữ liệu dạng plaintext, vì vậy trong thực tế cần ưu tiên các phiên bản bảo mật như SSH, SFTP, FTPS, SMTPS, POP3S và IMAPS.
