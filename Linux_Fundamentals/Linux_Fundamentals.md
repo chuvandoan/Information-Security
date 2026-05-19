@@ -579,12 +579,12 @@ Kết quả này có thể bao gồm:
 | Thông tin                      | Ý nghĩa                                                                                                    |
 | ------------------------------ | ---------------------------------------------------------------------------------------------------------- |
 | `Linux`                        | Tên nhân hệ điều hành đang chạy. Ở đây hệ thống sử dụng nhân **Linux**.                                    |
-| `chu-latitude-5510`            | Tên máy tính, còn gọi là **hostname**. Máy của bạn đang có tên là `chu-latitude-5510`.                     |
+| `chu-latitude-5510`            | Tên máy tính, còn gọi là **hostname**. Máy đang có tên là `chu-latitude-5510`.                     |
 | `6.8.0-111-generic`            | Phiên bản kernel Linux đang sử dụng. Đây là kernel phiên bản `6.8.0-111` của Ubuntu.                       |
 | `#111-Ubuntu`                  | Số hiệu bản build kernel do Ubuntu đóng gói. Nó cho biết đây là bản kernel được build bởi Ubuntu.          |
 | `SMP`                          | Viết tắt của **Symmetric Multi-Processing**. Nghĩa là kernel hỗ trợ nhiều CPU hoặc nhiều nhân CPU.         |
 | `PREEMPT_DYNAMIC`              | Cho biết kernel hỗ trợ cơ chế điều phối linh hoạt, giúp hệ thống phản hồi tốt hơn trong một số tình huống. |
-| `Sat Apr 11 23:16:02 UTC 2026` | Thời điểm kernel này được build, theo múi giờ UTC.                                                         |
+| `Apr 11 23:16:02 UTC 2026` | Thời điểm kernel này được build, theo múi giờ UTC.                                                         |
 | `x86_64` thứ nhất              | Kiến trúc phần cứng của máy. `x86_64` nghĩa là máy dùng CPU 64-bit.                                        |
 | `x86_64` thứ hai               | Kiến trúc của bộ xử lý đang chạy. Cũng là 64-bit.                                                          |
 | `x86_64` thứ ba                | Kiến trúc nền tảng hệ thống. Vẫn là 64-bit.                                                                |
@@ -778,11 +778,15 @@ ls --help
 
 Lệnh trên sẽ hiển thị danh sách các tùy chọn mà lệnh `ls` hỗ trợ.
 
+![](./img/5.2_ls_help.png)
+
 Ví dụ khác:
 
 ```bash
 cp --help
 ```
+
+![](./img/5.2_ls_help.png)
 
 Lệnh này giúp người dùng xem nhanh cách sử dụng lệnh `cp` để sao chép tệp hoặc thư mục.
 
@@ -795,29 +799,6 @@ Thông thường, kết quả của `--help` sẽ bao gồm:
 | Mô tả ngắn | Giải thích ngắn gọn từng tùy chọn |
 | Gợi ý tài liệu khác | Có thể chỉ tới `man` hoặc tài liệu chi tiết hơn |
 
-Ví dụ:
-
-```bash
-ls --help
-```
-
-Một phần kết quả có thể cho biết:
-
-```bash
--a, --all     do not ignore entries starting with .
--l            use a long listing format
--h, --human-readable
-```
-
-Điều này cho biết:
-
-- `-a` hoặc `--all` dùng để hiển thị cả tệp ẩn;
-- `-l` dùng để hiển thị danh sách chi tiết;
-- `-h` dùng để hiển thị kích thước ở dạng dễ đọc hơn.
-
-Tóm lại, `--help` phù hợp khi cần tra cứu nhanh cách dùng một lệnh mà không cần đọc toàn bộ trang hướng dẫn dài.
-
-
 ## 5.3. Sử dụng `-h`
 
 Tùy chọn `-h` trong nhiều lệnh có thể được dùng để hiển thị phần trợ giúp ngắn gọn. Tuy nhiên, cần chú ý rằng `-h` không phải lúc nào cũng có nghĩa là “help”. Ý nghĩa của `-h` phụ thuộc vào từng lệnh cụ thể.
@@ -828,6 +809,8 @@ Trong một số lệnh, `-h` có nghĩa là **help**:
 strace -h
 ```
 
+![](./img/5.3_trace_h.png)
+
 Lệnh trên hiển thị hướng dẫn ngắn về cách sử dụng `strace`.
 
 Nhưng trong một số lệnh khác, `-h` lại có nghĩa là **human-readable**, tức là hiển thị dữ liệu theo dạng dễ đọc hơn.
@@ -837,6 +820,8 @@ Ví dụ:
 ```bash
 ls -lh
 ```
+
+![](./img/5.3_ls_lh.png)
 
 Trong lệnh trên:
 
@@ -852,21 +837,6 @@ du -h
 ```
 
 Lệnh này hiển thị dung lượng theo dạng dễ đọc hơn.
-
-Vì vậy, khi dùng `-h`, người dùng cần kiểm tra ý nghĩa cụ thể của tùy chọn này đối với từng lệnh. Cách an toàn nhất là tra cứu bằng:
-
-```bash
-man <command>
-```
-
-hoặc:
-
-```bash
-<command> --help
-```
-
-Tóm lại, `-h` có thể là tùy chọn trợ giúp trong một số lệnh, nhưng cũng có thể mang nghĩa khác. Người dùng không nên mặc định rằng `-h` luôn luôn là “help”.
-
 
 ## 5.4. Sử dụng `apropos`
 
