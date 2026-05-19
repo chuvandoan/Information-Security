@@ -446,11 +446,7 @@ Ví dụ:
 echo "Hello Linux"
 ```
 
-Kết quả:
-
-```bash
-Hello Linux
-```
+![](./img/4.2_echo_hello.png)
 
 Lệnh `echo` thường được dùng để kiểm tra nhanh nội dung, in thông báo hoặc hiển thị giá trị của biến trong Bash.
 
@@ -460,12 +456,7 @@ Ví dụ in giá trị của một biến:
 name="Linux"
 echo $name
 ```
-
-Kết quả:
-
-```bash
-Linux
-```
+![](./img/4.2_echo_print_value.png)
 
 Trong Bash scripting, `echo` được sử dụng rất nhiều để hiển thị thông báo cho người dùng hoặc kiểm tra kết quả trong quá trình chạy script.
 
@@ -488,12 +479,7 @@ Cú pháp:
 ```bash
 whoami
 ```
-
-Ví dụ kết quả:
-
-```bash
-student
-```
+![](./img/4.3_whoami.png)
 
 Lệnh này rất hữu ích khi người dùng cần biết mình đang thao tác dưới tài khoản nào. Trong quản trị hệ thống và an toàn thông tin, điều này đặc biệt quan trọng vì quyền hạn của mỗi tài khoản là khác nhau.
 
@@ -521,11 +507,7 @@ Cú pháp:
 id
 ```
 
-Ví dụ kết quả:
-
-```bash
-uid=1000(chu) gid=1000(chu) groups=1000(chu),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),109(kvm),119(vboxusers),122(lpadmin),134(lxd),135(sambashare),139(wireshark),140(docker),143(ubridge),145(libvirt),147(debian-tor)
-```
+![](./img/4.4_id.png)
 
 Trong kết quả trên:
 
@@ -556,9 +538,7 @@ Trong kết quả trên:
 | `debian-tor` | Nhóm liên quan Tor                 | Được tạo khi cài Tor hoặc dịch vụ liên quan đến Tor.                      |
 
 
-
 Lệnh `id` rất quan trọng khi kiểm tra quyền truy cập của người dùng. Nếu người dùng thuộc nhóm `sudo`, họ có thể có khả năng chạy lệnh với quyền quản trị. Nếu thuộc nhóm `adm`, họ có thể có quyền đọc một số tệp log hệ thống.
-
 
 ## 4.5. Lệnh `hostname`
 
@@ -570,14 +550,9 @@ Cú pháp:
 hostname
 ```
 
-Ví dụ kết quả:
-
-```bash
-chu-latitude-5510
-```
+![](./img/4.5_hostname.png)
 
 Tên máy chủ giúp phân biệt các hệ thống khác nhau, đặc biệt khi người dùng làm việc với nhiều máy Linux hoặc kết nối đến máy từ xa qua SSH.
-
 
 ## 4.6. Lệnh `uname`
 
@@ -589,11 +564,7 @@ Cú pháp:
 uname
 ```
 
-Ví dụ kết quả:
-
-```bash
-Linux
-```
+![](./img/4.6_uname.png)
 
 Khi chạy không có tùy chọn, `uname` thường chỉ hiển thị tên kernel. Để xem đầy đủ thông tin hơn, có thể dùng tùy chọn `-a`:
 
@@ -601,11 +572,7 @@ Khi chạy không có tùy chọn, `uname` thường chỉ hiển thị tên ker
 uname -a
 ```
 
-Ví dụ kết quả:
-
-```bash
-Linux chu-latitude-5510 6.8.0-111-generic #111-Ubuntu SMP PREEMPT_DYNAMIC Sat Apr 11 23:16:02 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
-```
+![](./img/4.6_uname_a.png)
 
 Kết quả này có thể bao gồm:
 
@@ -623,19 +590,13 @@ Kết quả này có thể bao gồm:
 | `x86_64` thứ ba                | Kiến trúc nền tảng hệ thống. Vẫn là 64-bit.                                                                |
 | `GNU/Linux`                    | Tên hệ điều hành đầy đủ. Nghĩa là hệ thống dùng nhân Linux kết hợp với các công cụ GNU.                    |
 
-
-
 Một tùy chọn thường dùng khác là `-r`, dùng để hiển thị phiên bản kernel:
 
 ```bash
 uname -r
 ```
 
-Ví dụ:
-
-```bash
-5.15.0-91-generic
-```
+![](./img/4.6_uname_r.png)
 
 Trong an toàn thông tin, thông tin kernel rất quan trọng vì một số lỗ hổng bảo mật hoặc phương pháp khai thác phụ thuộc vào phiên bản kernel cụ thể.
 
@@ -649,11 +610,7 @@ Cú pháp:
 pwd
 ```
 
-Ví dụ kết quả:
-
-```bash
-/home/chu
-```
+![](./img/4.7_pwd.png)
 
 Điều này có nghĩa là người dùng hiện đang đứng trong thư mục `/home/chu`.
 
@@ -666,13 +623,8 @@ cd /var/log
 pwd
 ```
 
-Kết quả:
+![](./img/4.7_pwd_cat_log.png)
 
-```bash
-/var/log
-```
-
-Trong Linux, việc nắm rõ thư mục hiện tại rất quan trọng, vì nhiều lệnh sẽ tác động trực tiếp đến vị trí mà người dùng đang đứng. Nếu chạy sai lệnh trong sai thư mục, người dùng có thể chỉnh sửa, di chuyển hoặc xóa nhầm tệp.
 
 ## 4.8. Lệnh `clear`
 
