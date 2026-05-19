@@ -20,6 +20,8 @@
 
 9. [DNS – Domain Name System](#9-dns--domain-name-system)
 
+10. [HTTP và HTTPS](#10-http-và-https)
+
 ## Nội dung
 
 # 1. Tổng quan về mạng máy tính
@@ -2491,8 +2493,6 @@ Nếu PC1 và PC2 cùng mạng `192.168.1.0/24`, Switch Layer 2 có thể chuy�
 
 ![](./img/6.5_switch_layer3.png)
 
-![](./img/6.5_switch_port_layer3.png)
-
 Nó có thể:
 
 * Chuyển frame dựa trên địa chỉ MAC.
@@ -4834,4 +4834,1192 @@ Registrant Organization: Domains By Proxy
 ```
 
 Điều này không có nghĩa tên miền chắc chắn độc hại. Nó chỉ cho thấy thông tin người đăng ký thật không được công khai trực tiếp.
+
+# 10. HTTP và HTTPS
+
+## 10.1. HTTP là gì?
+
+**HTTP** là viết tắt của **HyperText Transfer Protocol**, nghĩa là **giao thức truyền tải siêu văn bản**.
+
+![](./img/10.1_HTTP.gif)
+
+HTTP là giao thức được sử dụng để trình duyệt web giao tiếp với máy chủ web. Khi bạn truy cập một website, trình duyệt sẽ gửi yêu cầu HTTP đến máy chủ. Sau đó, máy chủ phản hồi lại bằng nội dung như HTML, CSS, JavaScript, hình ảnh hoặc dữ liệu khác.
+
+Ví dụ:
+
+```text
+Trình duyệt → HTTP Request → Web Server
+Trình duyệt ← HTTP Response ← Web Server
+```
+
+HTTP hoạt động ở **tầng Application** trong mô hình OSI và TCP/IP. Giao thức này thường sử dụng **TCP port 80**.
+
+Ví dụ khi truy cập:
+
+```text
+http://example.com
+```
+
+trình duyệt sẽ gửi yêu cầu đến máy chủ web qua giao thức HTTP.
+
+HTTP được dùng để truyền nhiều loại dữ liệu khác nhau:
+
+- Trang HTML.
+- Hình ảnh.
+- Video.
+- File CSS.
+- File JavaScript.
+- Dữ liệu API.
+- File tải xuống.
+
+Một điểm quan trọng là HTTP là giao thức **stateless**. Điều này có nghĩa là mỗi request được xử lý độc lập, server không tự động ghi nhớ request trước đó của người dùng.
+
+Ví dụ:
+
+```text
+Request 1: Người dùng mở trang chủ
+Request 2: Người dùng mở trang đăng nhập
+Request 3: Người dùng mở trang cá nhân
+```
+
+Về mặc định, HTTP không tự nhớ rằng ba request này thuộc cùng một người dùng. Vì vậy, website thường dùng **cookies** hoặc **session** để duy trì trạng thái đăng nhập.
+
+Tóm lại:
+
+```text
+HTTP = giao thức cho phép trình duyệt và web server trao đổi dữ liệu web.
+```
+
+## 10.2. HTTPS là gì?
+
+**HTTPS** là viết tắt của **HyperText Transfer Protocol Secure**.
+
+![](./img/10.2_HTTPS.gif)
+
+HTTPS là phiên bản bảo mật của HTTP. Nó sử dụng **TLS** để mã hóa dữ liệu giữa trình duyệt và máy chủ web.
+
+HTTP thông thường gửi dữ liệu dưới dạng rõ ràng, còn HTTPS giúp bảo vệ dữ liệu trong quá trình truyền.
+
+Ví dụ:
+
+```text
+HTTP  → dữ liệu có thể bị đọc nếu bị chặn
+HTTPS → dữ liệu được mã hóa, khó đọc hơn nếu bị chặn
+```
+
+HTTPS thường sử dụng **TCP port 443**.
+
+Ví dụ:
+
+```text
+https://example.com
+```
+
+**HTTPS bảo vệ điều gì?**
+
+HTTPS giúp bảo vệ ba yếu tố quan trọng:
+
+| Yếu tố | Ý nghĩa |
+|---|---|
+| Confidentiality | Bảo mật nội dung, người khác khó đọc dữ liệu |
+| Integrity | Đảm bảo dữ liệu không bị thay đổi trên đường truyền |
+| Authentication | Xác minh người dùng đang kết nối đúng máy chủ |
+
+Ví dụ:
+
+Khi bạn đăng nhập vào một website bằng HTTPS, thông tin như tài khoản và mật khẩu sẽ được mã hóa trước khi gửi qua mạng.
+
+Nếu dùng HTTP, attacker trong cùng mạng có thể sniff traffic và đọc dữ liệu dễ hơn.
+
+**HTTP và HTTPS khác nhau thế nào**
+
+![](./img/10.2_http_vs_https.png)
+
+| Tiêu chí | HTTP | HTTPS |
+|---|---|---|
+| Mã hóa | Không | Có |
+| Cổng mặc định | 80 | 443 |
+| Bảo mật dữ liệu | Thấp | Cao hơn |
+| Chứng chỉ TLS | Không cần | Cần |
+| URL bắt đầu bằng | `http://` | `https://` |
+| Phù hợp với | Nội dung không nhạy cảm, lab | Website thực tế, đăng nhập, thanh toán |
+
+Tóm lại:
+
+```text
+HTTPS = HTTP + TLS, giúp truyền dữ liệu web an toàn hơn.
+```
+
+## 10.3. URL là gì?
+
+**URL** là viết tắt của **Uniform Resource Locator**, nghĩa là **định vị tài nguyên thống nhất**.
+
+URL là địa chỉ dùng để xác định vị trí của một tài nguyên trên Internet.
+
+Ví dụ:
+
+```text
+https://www.example.com/blog/article?id=10
+```
+
+URL có thể trỏ đến:
+
+- Một website.
+- Một trang HTML.
+- Một hình ảnh.
+- Một video.
+- Một file PDF.
+- Một API endpoint.
+- Một tài nguyên trên server.
+
+Ví dụ:
+
+```text
+https://example.com
+https://example.com/login
+https://example.com/images/logo.png
+https://api.example.com/users/1
+```
+
+Khi người dùng nhập URL vào trình duyệt, trình duyệt sẽ phân tích URL để biết:
+
+- Dùng giao thức nào.
+- Kết nối đến tên miền nào.
+- Truy cập đường dẫn nào.
+- Có tham số nào được gửi kèm không.
+
+Tóm lại:
+
+```text
+URL = địa chỉ đầy đủ dùng để truy cập một tài nguyên trên web.
+```
+
+**Cấu trúc của URL**
+
+Một URL thường gồm nhiều thành phần khác nhau.
+
+![](./img/10.3_url_parts.webp)
+
+Ví dụ:
+
+```text
+https://www.example.com:443/blog/article?id=10#comments
+```
+
+Có thể phân tích như sau:
+
+| Thành phần | Ví dụ | Ý nghĩa |
+|---|---|---|
+| Scheme | `https` | Giao thức được sử dụng |
+| Host / Domain | `www.example.com` | Tên miền của máy chủ |
+| Port | `443` | Cổng dịch vụ |
+| Path | `/blog/article` | Đường dẫn đến tài nguyên |
+| Query String | `?id=10` | Tham số gửi kèm request |
+| Fragment | `#comments` | Vị trí cụ thể trong trang |
+
+**Scheme**
+
+**Scheme** cho biết giao thức được dùng.
+
+Ví dụ:
+
+```text
+http://
+https://
+ftp://
+```
+
+Trong web, phổ biến nhất là `http` và `https`.
+
+**Domain**
+
+**Domain** là tên miền của website.
+
+Ví dụ:
+
+```text
+example.com
+tryhackme.com
+google.com
+```
+
+Trình duyệt cần dùng DNS để phân giải domain thành địa chỉ IP.
+
+**Port**
+
+**Port** xác định dịch vụ đang chạy trên server.
+
+Ví dụ:
+
+```text
+http://example.com:80
+https://example.com:443
+```
+
+Nếu không ghi port, trình duyệt sẽ dùng port mặc định:
+
+| Giao thức | Port mặc định |
+|---|---:|
+| HTTP | 80 |
+| HTTPS | 443 |
+
+**Path**
+
+**Path** xác định tài nguyên cụ thể trên server.
+
+Ví dụ:
+
+```text
+/login
+/blog/article
+/images/logo.png
+```
+
+**Query String**
+
+**Query String** dùng để gửi tham số đến server.
+
+Ví dụ:
+
+```text
+/search?q=network
+```
+
+Trong đó:
+
+- `q` là tên tham số.
+- `network` là giá trị.
+
+Ví dụ nhiều tham số:
+
+```text
+/search?q=network&page=2
+```
+
+**Fragment**
+
+**Fragment** thường dùng để chỉ đến một phần cụ thể trong trang web.
+
+Ví dụ:
+
+```text
+https://example.com/article#section-2
+```
+
+Trình duyệt sẽ mở trang và nhảy đến phần có id là `section-2`.
+
+Tóm lại:
+
+```text
+URL = scheme + domain + port + path + query string + fragment.
+```
+
+## 10.4. HTTP Request
+
+**HTTP Request** là yêu cầu được client gửi đến server.
+
+![](./img/10_http_message_anatomy.svg)
+
+Client thường là:
+
+- Trình duyệt web.
+- Ứng dụng mobile.
+- Công cụ dòng lệnh như `curl`.
+- API client.
+- Scanner bảo mật.
+
+Server thường là:
+
+- Web server.
+- API server.
+- Reverse proxy.
+- Application server.
+
+Ví dụ một HTTP Request:
+
+```http
+GET / HTTP/1.1
+Host: example.com
+User-Agent: Mozilla/5.0
+Accept: text/html
+```
+
+Request trên có nghĩa là client muốn lấy trang chủ `/` từ website `example.com`.
+
+Một HTTP Request thường gồm:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| Request Line | Dòng đầu tiên, chứa method, path và phiên bản HTTP |
+| Headers | Các thông tin bổ sung về request |
+| Blank Line | Dòng trống báo hiệu kết thúc headers |
+| Body | Dữ liệu gửi kèm, thường dùng với POST hoặc PUT |
+
+Ví dụ request có body:
+
+```http
+POST /login HTTP/1.1
+Host: example.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 29
+
+username=admin&password=123456
+```
+
+Trong ví dụ này:
+
+- Method là `POST`.
+- Path là `/login`.
+- Dữ liệu đăng nhập nằm trong body.
+- `Content-Type` cho biết kiểu dữ liệu gửi lên server.
+
+HTTP Request rất quan trọng trong an ninh web, vì nhiều tấn công như SQL Injection, XSS, brute force hoặc directory enumeration đều bắt đầu từ việc gửi request đến server.
+
+## 10.5. HTTP Response
+
+**HTTP Response** là phản hồi được server gửi về cho client sau khi nhận và xử lý HTTP Request.
+
+![](./img/10_http_message_anatomy.svg)
+
+Ví dụ một HTTP Response:
+
+```http
+HTTP/1.1 200 OK
+Server: nginx
+Content-Type: text/html
+Content-Length: 56
+
+<html>
+  <body>Hello, world!</body>
+</html>
+```
+
+Một HTTP Response thường gồm:
+
+| Thành phần | Ý nghĩa |
+|---|---|
+| Status Line | Chứa phiên bản HTTP, status code và thông báo |
+| Headers | Thông tin bổ sung về response |
+| Blank Line | Dòng trống báo hiệu kết thúc headers |
+| Body | Nội dung trả về cho client |
+
+Trong ví dụ trên:
+
+- `HTTP/1.1` là phiên bản HTTP.
+- `200 OK` nghĩa là request thành công.
+- `Server: nginx` cho biết phần mềm web server.
+- `Content-Type: text/html` cho biết nội dung trả về là HTML.
+- Phần body là nội dung trang web.
+
+Một response có thể trả về nhiều loại nội dung:
+
+| Content-Type | Ý nghĩa |
+|---|---|
+| `text/html` | Trang HTML |
+| `text/plain` | Văn bản thường |
+| `application/json` | Dữ liệu JSON |
+| `image/png` | Hình ảnh PNG |
+| `application/pdf` | File PDF |
+| `text/css` | File CSS |
+| `application/javascript` | File JavaScript |
+
+Ví dụ response JSON:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "role": "user"
+}
+```
+
+Trong kiểm thử bảo mật web, việc đọc HTTP Response giúp xác định:
+
+- Request có thành công không.
+- Server trả về lỗi gì.
+- Có thông tin nhạy cảm bị lộ không.
+- Có header bảo mật nào bị thiếu không.
+- Ứng dụng phản hồi khác nhau thế nào với từng input.
+
+## 10.6. HTTP Methods
+
+**HTTP Methods** là các phương thức cho biết client muốn thực hiện hành động gì với tài nguyên trên server.
+
+Một số HTTP methods phổ biến:
+
+| Method | Mục đích |
+|---|---|
+| GET | Lấy dữ liệu từ server |
+| POST | Gửi dữ liệu mới lên server |
+| PUT | Cập nhật hoặc ghi đè tài nguyên |
+| DELETE | Xóa tài nguyên |
+| PATCH | Cập nhật một phần tài nguyên |
+| HEAD | Lấy header giống GET nhưng không lấy body |
+| OPTIONS | Xem các method được server hỗ trợ |
+
+Ví dụ:
+
+```http
+GET /products HTTP/1.1
+```
+
+nghĩa là lấy danh sách sản phẩm.
+
+```http
+POST /login HTTP/1.1
+```
+
+nghĩa là gửi dữ liệu đăng nhập.
+
+```http
+DELETE /user/10 HTTP/1.1
+```
+
+nghĩa là yêu cầu xóa user có id là `10`.
+
+Trong an ninh web, cần chú ý các method được bật trên server. Nếu server cho phép các method nguy hiểm không cần thiết, attacker có thể lợi dụng để sửa hoặc xóa dữ liệu.
+
+Ví dụ rủi ro:
+
+```text
+PUT /shell.php
+DELETE /important-file
+```
+
+Tóm lại:
+
+```text
+HTTP Methods = hành động mà client muốn thực hiện với tài nguyên trên server.
+```
+
+### 10.6.1. GET
+
+**GET** là HTTP method dùng để lấy dữ liệu từ server.
+
+GET thường được dùng khi:
+
+- Mở một trang web.
+- Tải hình ảnh.
+- Lấy dữ liệu từ API.
+- Tìm kiếm thông tin.
+- Truy cập tài nguyên tĩnh.
+
+Ví dụ:
+
+```http
+GET / HTTP/1.1
+Host: example.com
+```
+
+Ví dụ GET với query string:
+
+```http
+GET /search?q=network HTTP/1.1
+Host: example.com
+```
+
+Trong ví dụ này:
+
+- Path là `/search`.
+- Tham số là `q=network`.
+
+Đặc điểm của GET:
+
+| Đặc điểm | Mô tả |
+|---|---|
+| Dùng để lấy dữ liệu | Có |
+| Có body không? | Thường không |
+| Dữ liệu có thể nằm trong URL | Có |
+| Có thể bookmark | Có |
+| Có thể bị lưu trong lịch sử trình duyệt | Có |
+
+Ví dụ URL chứa tham số:
+
+```text
+https://example.com/search?q=network
+```
+
+Lưu ý bảo mật:
+
+Không nên gửi thông tin nhạy cảm bằng GET, ví dụ:
+
+```text
+https://example.com/login?username=admin&password=123456
+```
+
+Lý do:
+
+- URL có thể bị lưu trong browser history.
+- URL có thể xuất hiện trong log server.
+- URL có thể bị lộ qua Referer header.
+- URL dễ bị nhìn thấy hơn so với request body.
+
+Tóm lại:
+
+```text
+GET = lấy dữ liệu từ server, không nên dùng để gửi thông tin nhạy cảm.
+```
+
+### 10.6.2. POST
+
+**POST** là HTTP method dùng để gửi dữ liệu lên server.
+
+POST thường được dùng khi:
+
+- Đăng nhập.
+- Đăng ký tài khoản.
+- Gửi form.
+- Upload file.
+- Gửi dữ liệu đến API.
+- Tạo tài nguyên mới.
+
+Ví dụ POST đăng nhập:
+
+```http
+POST /login HTTP/1.1
+Host: example.com
+Content-Type: application/x-www-form-urlencoded
+
+username=admin&password=123456
+```
+
+Ví dụ POST gửi JSON:
+
+```http
+POST /api/users HTTP/1.1
+Host: example.com
+Content-Type: application/json
+
+{
+  "username": "alice",
+  "email": "alice@example.com"
+}
+```
+
+Đặc điểm của POST:
+
+| Đặc điểm | Mô tả |
+|---|---|
+| Dùng để gửi dữ liệu | Có |
+| Dữ liệu nằm trong body | Thường có |
+| Phù hợp với form đăng nhập | Có |
+| Có thể tạo tài nguyên mới | Có |
+| Dữ liệu có hiện trực tiếp trên URL không? | Không |
+
+POST an toàn hơn GET trong việc gửi dữ liệu nhạy cảm vì dữ liệu không nằm trực tiếp trên URL. Tuy nhiên, nếu dùng HTTP thay vì HTTPS, dữ liệu POST vẫn có thể bị đọc khi bị chặn trên mạng.
+
+Lưu ý:
+
+```text
+POST không tự động bảo mật dữ liệu.
+Muốn bảo vệ dữ liệu khi truyền qua mạng, cần dùng HTTPS.
+```
+
+Tóm lại:
+
+```text
+POST = gửi dữ liệu lên server, thường dùng cho form, login và API.
+```
+
+### 10.6.3. PUT
+
+**PUT** là HTTP method thường dùng để tạo mới hoặc cập nhật toàn bộ một tài nguyên trên server.
+
+Ví dụ:
+
+```http
+PUT /api/users/10 HTTP/1.1
+Host: example.com
+Content-Type: application/json
+
+{
+  "username": "alice",
+  "email": "alice@example.com",
+  "role": "user"
+}
+```
+
+Request trên có thể được hiểu là cập nhật thông tin user có id là `10`.
+
+Đặc điểm của PUT:
+
+| Đặc điểm | Mô tả |
+|---|---|
+| Dùng để cập nhật | Có |
+| Có thể tạo tài nguyên mới | Có, tùy thiết kế API |
+| Thường gửi dữ liệu trong body | Có |
+| Thường thay thế toàn bộ tài nguyên | Có |
+
+So sánh đơn giản:
+
+```text
+POST = gửi dữ liệu để server xử lý hoặc tạo mới tài nguyên.
+PUT  = cập nhật hoặc thay thế tài nguyên tại một vị trí cụ thể.
+```
+
+Ví dụ:
+
+```http
+PUT /profile HTTP/1.1
+```
+
+có thể dùng để cập nhật toàn bộ thông tin hồ sơ người dùng.
+
+**Rủi ro bảo mật của PUT**
+
+Nếu server cấu hình sai và cho phép PUT tùy ý, attacker có thể upload file độc hại lên server.
+
+Ví dụ nguy hiểm:
+
+```http
+PUT /shell.php HTTP/1.1
+Host: vulnerable-site.com
+```
+
+Vì vậy, trong môi trường production, cần kiểm soát chặt chẽ method PUT.
+
+Tóm lại:
+
+```text
+PUT = tạo hoặc cập nhật toàn bộ tài nguyên trên server.
+```
+
+### 10.6.4. DELETE
+
+**DELETE** là HTTP method dùng để yêu cầu xóa tài nguyên trên server.
+
+Ví dụ:
+
+```http
+DELETE /api/users/10 HTTP/1.1
+Host: example.com
+```
+
+Request trên có thể được hiểu là yêu cầu xóa user có id là `10`.
+
+DELETE thường được dùng trong API, đặc biệt là REST API.
+
+Ví dụ:
+
+| Method | Endpoint | Ý nghĩa |
+|---|---|---|
+| GET | `/api/users/10` | Lấy thông tin user 10 |
+| POST | `/api/users` | Tạo user mới |
+| PUT | `/api/users/10` | Cập nhật user 10 |
+| DELETE | `/api/users/10` | Xóa user 10 |
+
+**Rủi ro bảo mật của DELETE**
+
+DELETE có thể rất nguy hiểm nếu không kiểm soát quyền truy cập đúng cách.
+
+Ví dụ:
+
+```http
+DELETE /api/users/1 HTTP/1.1
+```
+
+Nếu user thường có thể gửi request này và xóa tài khoản admin, đó là lỗi phân quyền nghiêm trọng.
+
+Các lỗi liên quan:
+
+- Broken Access Control.
+- IDOR.
+- Thiếu xác thực.
+- Thiếu kiểm tra quyền.
+- CSRF nếu không có bảo vệ phù hợp.
+
+Khuyến nghị:
+
+- Chỉ cho phép người có quyền mới được dùng DELETE.
+- Kiểm tra quyền ở phía server.
+- Ghi log các thao tác xóa.
+- Cẩn thận với API public.
+- Có cơ chế xác nhận với thao tác quan trọng.
+
+Tóm lại:
+
+```text
+DELETE = yêu cầu xóa tài nguyên trên server.
+```
+
+## 10.7. HTTP Status Codes
+
+**HTTP Status Codes** là các mã trạng thái được server trả về để cho client biết kết quả xử lý request.
+
+![](./img/10.7_http_status_code.webp)
+
+Ví dụ:
+
+```http
+HTTP/1.1 200 OK
+```
+
+Trong đó:
+
+- `200` là status code.
+- `OK` là mô tả ngắn.
+- Ý nghĩa: request đã thành công.
+
+Status code giúp client biết:
+
+- Request có thành công không.
+- Có cần chuyển hướng không.
+- Lỗi thuộc phía client hay server.
+- Người dùng có quyền truy cập tài nguyên không.
+- Tài nguyên có tồn tại không.
+
+Các nhóm status code chính:
+
+| Nhóm mã | Tên nhóm | Ý nghĩa |
+|---|---|---|
+| 1xx | Informational | Thông tin tạm thời |
+| 2xx | Success | Request thành công |
+| 3xx | Redirection | Chuyển hướng |
+| 4xx | Client Error | Lỗi từ phía client |
+| 5xx | Server Error | Lỗi từ phía server |
+
+Ví dụ phổ biến:
+
+| Mã | Tên | Ý nghĩa |
+|---:|---|---|
+| 200 | OK | Request thành công |
+| 201 | Created | Tài nguyên đã được tạo |
+| 301 | Moved Permanently | Chuyển hướng vĩnh viễn |
+| 302 | Found | Chuyển hướng tạm thời |
+| 400 | Bad Request | Request không hợp lệ |
+| 401 | Unauthorized | Chưa xác thực |
+| 403 | Forbidden | Không có quyền truy cập |
+| 404 | Not Found | Không tìm thấy tài nguyên |
+| 405 | Method Not Allowed | Method không được phép |
+| 500 | Internal Server Error | Lỗi bên trong server |
+| 502 | Bad Gateway | Gateway nhận phản hồi không hợp lệ |
+| 503 | Service Unavailable | Dịch vụ không khả dụng |
+
+Trong phân tích bảo mật web, status code giúp nhận biết phản ứng của ứng dụng với từng request.
+
+Ví dụ:
+
+```text
+200 → Trang tồn tại
+301/302 → Có chuyển hướng
+401/403 → Bị hạn chế quyền
+404 → Không tìm thấy
+500 → Server có lỗi xử lý
+```
+
+### 10.7.1. Nhóm mã 1xx
+
+**Nhóm mã 1xx** là nhóm mã thông tin tạm thời.
+
+Các mã này cho biết server đã nhận request và quá trình xử lý vẫn đang tiếp tục.
+
+Nhóm 1xx ít được người dùng nhìn thấy trực tiếp, nhưng vẫn quan trọng trong giao tiếp HTTP.
+
+Ví dụ:
+
+| Mã | Tên | Ý nghĩa |
+|---:|---|---|
+| 100 | Continue | Client có thể tiếp tục gửi phần còn lại của request |
+| 101 | Switching Protocols | Server đồng ý chuyển sang giao thức khác |
+| 102 | Processing | Server đang xử lý request |
+
+Ví dụ:
+
+```http
+HTTP/1.1 100 Continue
+```
+
+Mã `100 Continue` thường dùng khi client muốn gửi body lớn. Server có thể phản hồi rằng client được phép tiếp tục gửi dữ liệu.
+
+Tóm lại:
+
+```text
+1xx = thông tin tạm thời, request đang được xử lý.
+```
+
+### 10.7.2. Nhóm mã 2xx
+
+**Nhóm mã 2xx** cho biết request đã được xử lý thành công.
+
+Đây là nhóm status code thường mong muốn khi gửi request hợp lệ.
+
+Một số mã phổ biến:
+
+| Mã | Tên | Ý nghĩa |
+|---:|---|---|
+| 200 | OK | Request thành công |
+| 201 | Created | Tài nguyên mới đã được tạo |
+| 202 | Accepted | Request đã được nhận nhưng chưa xử lý xong |
+| 204 | No Content | Thành công nhưng không có nội dung trả về |
+
+Ví dụ:
+
+```http
+HTTP/1.1 200 OK
+```
+
+Mã `200 OK` thường gặp khi truy cập website thành công.
+
+Ví dụ khi tạo tài khoản mới qua API:
+
+```http
+HTTP/1.1 201 Created
+```
+
+Mã `201 Created` cho biết tài nguyên mới đã được tạo.
+
+Ví dụ khi xóa thành công nhưng không trả body:
+
+```http
+HTTP/1.1 204 No Content
+```
+
+Tóm lại:
+
+```text
+2xx = request thành công.
+```
+
+### 10.7.3. Nhóm mã 3xx
+
+**Nhóm mã 3xx** dùng cho chuyển hướng.
+
+Khi server trả về mã 3xx, client thường cần truy cập một URL khác để tiếp tục.
+
+Một số mã phổ biến:
+
+| Mã | Tên | Ý nghĩa |
+|---:|---|---|
+| 301 | Moved Permanently | Tài nguyên đã chuyển vĩnh viễn |
+| 302 | Found | Chuyển hướng tạm thời |
+| 304 | Not Modified | Tài nguyên chưa thay đổi, có thể dùng cache |
+| 307 | Temporary Redirect | Chuyển hướng tạm thời, giữ nguyên method |
+| 308 | Permanent Redirect | Chuyển hướng vĩnh viễn, giữ nguyên method |
+
+Ví dụ response chuyển hướng:
+
+```http
+HTTP/1.1 301 Moved Permanently
+Location: https://example.com/
+```
+
+Trong ví dụ này, server yêu cầu client chuyển sang URL mới trong header `Location`.
+
+Ví dụ thường gặp:
+
+```text
+http://example.com → https://example.com
+```
+
+Website có thể dùng 301 hoặc 302 để chuyển người dùng từ HTTP sang HTTPS.
+
+Trong kiểm thử bảo mật, chuyển hướng cần được kiểm tra cẩn thận vì có thể xuất hiện lỗi **Open Redirect**.
+
+Ví dụ nguy hiểm:
+
+```text
+https://example.com/redirect?url=https://evil.com
+```
+
+Tóm lại:
+
+```text
+3xx = chuyển hướng client đến vị trí khác.
+```
+
+### 10.7.4. Nhóm mã 4xx
+
+**Nhóm mã 4xx** cho biết lỗi đến từ phía client.
+
+Điều này có nghĩa là request do client gửi có vấn đề, ví dụ sai cú pháp, thiếu quyền hoặc tài nguyên không tồn tại.
+
+Một số mã phổ biến:
+
+| Mã | Tên | Ý nghĩa |
+|---:|---|---|
+| 400 | Bad Request | Request không hợp lệ |
+| 401 | Unauthorized | Chưa xác thực |
+| 403 | Forbidden | Không có quyền truy cập |
+| 404 | Not Found | Không tìm thấy tài nguyên |
+| 405 | Method Not Allowed | Method không được phép |
+| 429 | Too Many Requests | Gửi quá nhiều request |
+
+Ví dụ:
+
+```http
+HTTP/1.1 404 Not Found
+```
+
+Mã `404` nghĩa là server không tìm thấy tài nguyên được yêu cầu.
+
+So sánh `401` và `403`:
+
+| Mã | Ý nghĩa |
+|---:|---|
+| 401 | Bạn chưa đăng nhập hoặc chưa xác thực |
+| 403 | Bạn đã được nhận diện nhưng không có quyền truy cập |
+
+Ví dụ:
+
+```text
+401 → Cần đăng nhập
+403 → Đã đăng nhập nhưng không đủ quyền
+```
+
+Trong an ninh web, mã 4xx rất quan trọng khi kiểm tra quyền truy cập.
+
+Ví dụ:
+
+```text
+/admin → 403 Forbidden
+/secret-backup.zip → 404 Not Found
+/api/users/1 → 401 Unauthorized
+```
+
+Tóm lại:
+
+```text
+4xx = lỗi từ phía client hoặc request không được phép.
+```
+
+### 10.7.5. Nhóm mã 5xx
+
+**Nhóm mã 5xx** cho biết lỗi xảy ra ở phía server.
+
+Điều này có nghĩa là request có thể đã được gửi đến server, nhưng server không xử lý được do lỗi nội bộ hoặc lỗi hạ tầng.
+
+Một số mã phổ biến:
+
+| Mã | Tên | Ý nghĩa |
+|---:|---|---|
+| 500 | Internal Server Error | Lỗi nội bộ server |
+| 501 | Not Implemented | Server không hỗ trợ chức năng được yêu cầu |
+| 502 | Bad Gateway | Gateway/proxy nhận phản hồi không hợp lệ |
+| 503 | Service Unavailable | Dịch vụ tạm thời không khả dụng |
+| 504 | Gateway Timeout | Gateway/proxy chờ quá lâu mà không nhận phản hồi |
+
+Ví dụ:
+
+```http
+HTTP/1.1 500 Internal Server Error
+```
+
+Mã `500` thường cho thấy ứng dụng phía server gặp lỗi khi xử lý request.
+
+Ví dụ nguyên nhân:
+
+- Lỗi code backend.
+- Lỗi kết nối database.
+- Lỗi cấu hình server.
+- Server quá tải.
+- Dịch vụ phụ thuộc không hoạt động.
+
+Trong kiểm thử bảo mật, mã 5xx có thể là dấu hiệu ứng dụng xử lý input không tốt.
+
+Ví dụ:
+
+```text
+?id='
+→ 500 Internal Server Error
+```
+
+Nếu input đặc biệt gây lỗi server, có thể cần kiểm tra thêm các lỗ hổng như SQL Injection, command injection hoặc lỗi xử lý dữ liệu.
+
+Tóm lại:
+
+```text
+5xx = lỗi từ phía server hoặc hạ tầng backend.
+```
+
+## 10.8. HTTP Headers
+
+**HTTP Headers** là các dòng thông tin bổ sung trong HTTP Request hoặc HTTP Response.
+
+![](./img/10.8_http_header.jpeg)
+
+Headers giúp client và server trao đổi thêm thông tin về request, response, định dạng dữ liệu, xác thực, cookie, cache và bảo mật.
+
+Ví dụ request headers:
+
+```http
+GET / HTTP/1.1
+Host: example.com
+User-Agent: Mozilla/5.0
+Accept: text/html
+Cookie: sessionid=abc123
+```
+
+Ví dụ response headers:
+
+```http
+HTTP/1.1 200 OK
+Server: nginx
+Content-Type: text/html
+Set-Cookie: sessionid=abc123; HttpOnly
+```
+
+**Header trong HTTP Request**
+
+![](./img/10.8_http_request_header.jpeg)
+
+Một số request headers phổ biến:
+
+| Header | Ý nghĩa |
+|---|---|
+| Host | Tên miền mà client muốn truy cập |
+| User-Agent | Thông tin trình duyệt hoặc công cụ gửi request |
+| Accept | Loại dữ liệu client có thể nhận |
+| Authorization | Thông tin xác thực |
+| Cookie | Cookie client gửi lên server |
+| Referer | Trang trước đó dẫn đến request hiện tại |
+| Content-Type | Kiểu dữ liệu gửi trong body |
+| Content-Length | Độ dài dữ liệu gửi trong body |
+
+Ví dụ:
+
+```http
+User-Agent: Mozilla/5.0
+```
+
+Header này cho server biết client đang dùng trình duyệt hoặc công cụ nào.
+
+**Header trong HTTP Response**
+
+![](./img/10.8_http_response_header.jpeg)
+
+Một số response headers phổ biến:
+
+| Header | Ý nghĩa |
+|---|---|
+| Server | Thông tin web server |
+| Date | Thời gian server tạo response |
+| Content-Type | Kiểu nội dung trả về |
+| Content-Length | Độ dài nội dung trả về |
+| Set-Cookie | Yêu cầu trình duyệt lưu cookie |
+| Location | URL chuyển hướng |
+| Cache-Control | Chính sách cache |
+| Strict-Transport-Security | Bắt buộc dùng HTTPS |
+| X-Frame-Options | Giảm nguy cơ clickjacking |
+| Content-Security-Policy | Giảm rủi ro XSS và kiểm soát nguồn tài nguyên |
+
+Ví dụ header bảo mật:
+
+```http
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Frame-Options: DENY
+Content-Security-Policy: default-src 'self'
+```
+
+## 10.9. Cookies
+
+**Cookies** là các mẩu dữ liệu nhỏ mà website lưu trên trình duyệt của người dùng.
+
+Vì HTTP là giao thức stateless, cookies giúp website ghi nhớ thông tin giữa nhiều request khác nhau.
+
+Ví dụ:
+
+```text
+Request 1: Người dùng đăng nhập
+Server gửi cookie session
+Request 2: Người dùng mở trang cá nhân
+Trình duyệt gửi lại cookie
+Server biết người dùng là ai
+```
+
+**Cookie được tạo như thế nào?**
+
+Server có thể yêu cầu trình duyệt lưu cookie bằng header `Set-Cookie`.
+
+Ví dụ response:
+
+```http
+HTTP/1.1 200 OK
+Set-Cookie: sessionid=abc123; HttpOnly; Secure
+```
+
+Sau đó, trình duyệt sẽ gửi cookie này trong các request tiếp theo:
+
+```http
+GET /profile HTTP/1.1
+Host: example.com
+Cookie: sessionid=abc123
+```
+
+**Cookie dùng để làm gì?**
+
+Cookies thường được dùng cho:
+
+- Duy trì phiên đăng nhập.
+- Ghi nhớ tùy chọn người dùng.
+- Lưu giỏ hàng.
+- Theo dõi phiên làm việc.
+- Phân tích hành vi người dùng.
+- Chống CSRF trong một số cơ chế.
+
+Ví dụ:
+
+| Cookie | Mục đích |
+|---|---|
+| `sessionid` | Xác định phiên đăng nhập |
+| `theme=dark` | Lưu giao diện tối |
+| `cart_id=123` | Lưu giỏ hàng |
+| `csrf_token=xyz` | Hỗ trợ chống CSRF |
+
+**Các thuộc tính bảo mật của Cookie**
+
+| Thuộc tính | Ý nghĩa |
+|---|---|
+| HttpOnly | JavaScript không đọc được cookie |
+| Secure | Cookie chỉ gửi qua HTTPS |
+| SameSite | Giới hạn gửi cookie trong request cross-site |
+| Expires | Thời điểm cookie hết hạn |
+| Max-Age | Thời gian sống của cookie |
+| Path | Cookie chỉ áp dụng cho đường dẫn cụ thể |
+| Domain | Cookie áp dụng cho domain cụ thể |
+
+Ví dụ cookie an toàn hơn:
+
+```http
+Set-Cookie: sessionid=abc123; HttpOnly; Secure; SameSite=Strict
+```
+
+Ý nghĩa:
+
+- `HttpOnly`: giảm nguy cơ cookie bị đánh cắp qua XSS.
+- `Secure`: chỉ gửi cookie qua HTTPS.
+- `SameSite=Strict`: giảm nguy cơ CSRF.
+
+**Rủi ro bảo mật liên quan đến Cookie**
+
+Cookies rất quan trọng trong bảo mật web vì chúng thường liên quan đến phiên đăng nhập.
+
+Một số rủi ro:
+
+- Cookie không có `HttpOnly` có thể bị đọc bằng JavaScript nếu có XSS.
+- Cookie không có `Secure` có thể bị gửi qua HTTP.
+- Cookie session bị đánh cắp có thể dẫn đến chiếm phiên đăng nhập.
+- Cookie cấu hình sai có thể làm tăng nguy cơ CSRF.
+- Session ID yếu có thể bị đoán hoặc brute force.
+
+Ví dụ nguy hiểm:
+
+```http
+Set-Cookie: sessionid=abc123
+```
+
+Cookie này chưa có các thuộc tính bảo mật như `HttpOnly`, `Secure` hoặc `SameSite`.
+
+Ví dụ tốt hơn:
+
+```http
+Set-Cookie: sessionid=abc123; HttpOnly; Secure; SameSite=Lax
+```
+
+Tóm lại:
+
+```text
+Cookies = dữ liệu nhỏ giúp website ghi nhớ người dùng giữa nhiều request.
+```
 
