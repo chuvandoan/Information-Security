@@ -2050,37 +2050,11 @@ Ví dụ:
 which ls
 ```
 
-Kết quả có thể là:
-
-```bash
-/usr/bin/ls
-```
+![](./img/9.1_which_ls.png)
 
 Điều này cho biết lệnh `ls` nằm tại đường dẫn `/usr/bin/ls`.
 
-Ví dụ khác:
-
-```bash
-which python3
-```
-
-Kết quả có thể là:
-
-```bash
-/usr/bin/python3
-```
-
-Lệnh `which` rất hữu ích khi cần kiểm tra một chương trình đã được cài đặt hay chưa, hoặc muốn biết hệ thống đang chạy chương trình từ vị trí nào.
-
-Ví dụ:
-
-```bash
-which nmap
-```
-
-Nếu `nmap` đã được cài đặt, hệ thống sẽ trả về đường dẫn của chương trình. Nếu chưa được cài đặt, có thể không có kết quả nào được hiển thị.
-
-Tóm lại, `which` dùng để tìm vị trí của chương trình thực thi trong hệ thống.
+`which` dùng để tìm vị trí của chương trình thực thi trong hệ thống.
 
 ## 9.2. Tìm tệp và thư mục bằng `find`
 
@@ -2092,30 +2066,17 @@ Cú pháp cơ bản:
 find <đường_dẫn_bắt_đầu> <điều_kiện_tìm_kiếm>
 ```
 
-Ví dụ, tìm trong thư mục hiện tại:
-
-```bash
-find . -name "notes.txt"
-```
-
-Trong đó:
-
-| Thành phần | Ý nghĩa |
-|---|---|
-| `find` | Lệnh tìm kiếm |
-| `.` | Bắt đầu tìm từ thư mục hiện tại |
-| `-name "notes.txt"` | Tìm đối tượng có tên là `notes.txt` |
-
 Ví dụ tìm trong toàn bộ hệ thống:
 
 ```bash
 find / -name "notes.txt"
 ```
 
+![](./img/9.2_find_full.png)
+
 Lệnh này tìm tệp hoặc thư mục tên `notes.txt` bắt đầu từ thư mục gốc `/`.
 
 Tuy nhiên, khi tìm trong toàn bộ hệ thống, người dùng thường gặp lỗi `Permission denied` vì không có quyền truy cập một số thư mục. Khi đó có thể dùng `2>/dev/null` để ẩn lỗi.
-
 
 ### 9.2.1. Tìm theo tên tệp `-name`
 
@@ -2133,6 +2094,8 @@ Ví dụ, tìm tệp `passwords.txt` trong thư mục hiện tại:
 find . -name "passwords.txt"
 ```
 
+![](./img/9.2_find_name.png)
+
 Nếu tệp nằm trong thư mục con, `find` vẫn có thể tìm được vì nó tìm kiếm đệ quy bên trong các thư mục.
 
 Có thể dùng ký tự đại diện `*` để tìm nhiều tệp theo mẫu tên.
@@ -2143,11 +2106,7 @@ Ví dụ, tìm tất cả tệp có đuôi `.txt`:
 find . -name "*.txt"
 ```
 
-Tìm tất cả tệp cấu hình có đuôi `.conf` trong thư mục `/etc`:
-
-```bash
-find /etc -name "*.conf"
-```
+![](./img/9.2_find_theo_duoi.png)
 
 Lưu ý nên đặt mẫu tìm kiếm trong dấu ngoặc kép `" "`, ví dụ `"*.txt"` hoặc `"*.conf"`, để tránh shell tự mở rộng ký tự `*` trước khi lệnh `find` chạy.
 
