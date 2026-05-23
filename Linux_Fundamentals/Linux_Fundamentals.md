@@ -1690,26 +1690,12 @@ cat <tên_tệp>
 Ví dụ:
 
 ```bash
-cat notes.txt
+cat cat 0101-dvwa_rules.xml
 ```
 
-Kết quả có thể là:
-
-```bash
-Hello Linux
-This is my first text file.
-```
+![](./img/8.1_cat_file.png)
 
 Lệnh `cat` phù hợp để xem nhanh các tệp ngắn. Ví dụ, có thể dùng `cat` để đọc tệp cấu hình nhỏ, tệp ghi chú hoặc nội dung script đơn giản.
-
-Ví dụ xem nội dung tệp `/etc/passwd`:
-
-```bash
-cat /etc/passwd
-```
-
-Tuy nhiên, nếu tệp quá dài, `cat` sẽ in toàn bộ nội dung ra terminal, khiến người dùng khó theo dõi. Trong trường hợp đó, nên dùng `less`, `more`, `head` hoặc `tail`.
-
 
 ## 8.2. Xem đầu tệp với `head`
 
@@ -1721,14 +1707,6 @@ Cú pháp:
 head <tên_tệp>
 ```
 
-Ví dụ:
-
-```bash
-head /etc/passwd
-```
-
-Lệnh trên hiển thị 10 dòng đầu tiên của tệp `/etc/passwd`.
-
 Muốn chỉ định số dòng cần xem, dùng tùy chọn `-n`:
 
 ```bash
@@ -1738,10 +1716,12 @@ head -n <số_dòng> <tên_tệp>
 Ví dụ:
 
 ```bash
-head -n 5 /etc/passwd
+head -n 10 ossec.log
 ```
 
-Lệnh này hiển thị 5 dòng đầu tiên của tệp.
+Lệnh này hiển thị 10 dòng đầu tiên của tệp.
+
+![](./img/8.2_head.png)
 
 `head` rất hữu ích khi cần kiểm tra phần mở đầu của tệp, ví dụ như xem cấu trúc dữ liệu, tiêu đề file CSV, hoặc kiểm tra nhanh log ở phần đầu.
 
@@ -1755,14 +1735,6 @@ Cú pháp:
 tail <tên_tệp>
 ```
 
-Ví dụ:
-
-```bash
-tail /var/log/syslog
-```
-
-Lệnh trên hiển thị 10 dòng cuối của tệp log hệ thống.
-
 Muốn chỉ định số dòng cần xem, dùng tùy chọn `-n`:
 
 ```bash
@@ -1772,13 +1744,14 @@ tail -n <số_dòng> <tên_tệp>
 Ví dụ:
 
 ```bash
-tail -n 20 /var/log/syslog
+tail -n 10 ossec.log
 ```
 
-Lệnh này hiển thị 20 dòng cuối của tệp `/var/log/syslog`.
+Lệnh này hiển thị 10 dòng cuối của tệp `ossec.log`.
+
+![](./img/8.3_tail.png)
 
 `tail` đặc biệt hữu ích khi làm việc với log, vì các sự kiện mới nhất thường được ghi ở cuối tệp.
-
 
 ## 8.4. Theo dõi log theo thời gian thực với `tail -f`
 
@@ -1800,19 +1773,6 @@ Lệnh này sẽ hiển thị các dòng cuối của tệp `/var/log/syslog`, �
 
 Đây là lệnh rất quan trọng khi giám sát log hệ thống, log dịch vụ hoặc log ứng dụng.
 
-Ví dụ theo dõi log xác thực:
-
-```bash
-tail -f /var/log/auth.log
-```
-
-Lệnh này thường được dùng để quan sát các sự kiện đăng nhập, xác thực SSH hoặc hoạt động liên quan đến quyền người dùng.
-
-Để dừng theo dõi, nhấn:
-
-```bash
-Ctrl + C
-```
 
 Có thể kết hợp `tail -f` với `grep` để lọc thông tin cần quan tâm:
 
@@ -1830,12 +1790,6 @@ Cú pháp:
 more <tên_tệp>
 ```
 
-Ví dụ:
-
-```bash
-more /etc/passwd
-```
-
 Khi đang xem bằng `more`, có thể dùng một số phím sau:
 
 | Phím | Chức năng |
@@ -1847,10 +1801,10 @@ Khi đang xem bằng `more`, có thể dùng một số phím sau:
 Ví dụ:
 
 ```bash
-cat /etc/passwd | more
+cat ossec.conf | more
 ```
 
-Lệnh trên đưa kết quả của `cat /etc/passwd` vào `more` để xem theo từng trang.
+![](./img/8.5_more.png)
 
 `more` phù hợp khi cần đọc nhanh một tệp dài mà không muốn nội dung trôi toàn bộ trên terminal.
 
@@ -1862,12 +1816,6 @@ Cú pháp:
 
 ```bash
 less <tên_tệp>
-```
-
-Ví dụ:
-
-```bash
-less /var/log/syslog
 ```
 
 Một số phím thường dùng trong `less`:
@@ -1893,8 +1841,9 @@ Sau đó nhập:
 /error
 ```
 
-`less` rất phù hợp để đọc log lớn, tệp cấu hình dài hoặc tài liệu văn bản trong terminal.
+![](./img/8.6_less.png)
 
+`less` rất phù hợp để đọc log lớn, tệp cấu hình dài hoặc tài liệu văn bản trong terminal.
 
 ## 8.7. Chỉnh sửa tệp với Nano
 
@@ -1914,11 +1863,15 @@ nano notes.txt
 
 Sau khi chạy lệnh, giao diện Nano sẽ mở ra. Người dùng có thể nhập nội dung trực tiếp, di chuyển bằng các phím mũi tên và chỉnh sửa văn bản giống như một trình soạn thảo cơ bản.
 
+![](./img/8.7_nano_file.png)
+
 Ví dụ chỉnh sửa tệp cấu hình cần quyền quản trị:
 
 ```bash
 sudo nano /etc/hosts
 ```
+
+![](./img/8.7_nano_hosts.png)
 
 Trong Nano, các phím tắt thường được hiển thị ở cuối màn hình. Ký hiệu `^` trong Nano nghĩa là phím `Ctrl`.
 
