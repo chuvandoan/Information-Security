@@ -1,0 +1,2 @@
+TMO/Machine[[:space:]]Learning[[:space:]]Train.csv filter=lfs diff=lfs merge=lfs -text
+ITMO/Машинное[[:space:]]обучение/zachot/MNIST_train.csv filter=lfs diff=lfs merge=lfs -text
