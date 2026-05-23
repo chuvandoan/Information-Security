@@ -11,6 +11,9 @@ Hê hee heeeeeeeeeeeeee3333
 ---
 [CÁC MÔN HỌC TẠI ITMO](/ITMO/)
 
+1. [Информатика](./ITMO/Информатика/)
+
+
 ---
 
 - Mạng máy tính và mã hóa  
