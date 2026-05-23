@@ -9,8 +9,9 @@ Hê hee heeeeeeeeeeeeee3333
 </h2>
 
 ---
+[CÁC MÔN HỌC TẠI ITMO](/ITMO/)
 
-Lộ trình này được thiết kế thân thiện với người mới bắt đầu, nhằm cung cấp một nền tảng vững chắc về các lĩnh vực khác nhau trong An ninh Máy tính. Nội dung bao gồm các khái niệm cơ bản và ứng dụng trong các chủ đề sau:
+---
 
 - Mạng máy tính và mã hóa  
 - Kiến thức cơ bản về MS Windows, Active Directory và Linux  
