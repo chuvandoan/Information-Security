@@ -153,9 +153,7 @@ Một terminal trong Linux cung cấp giao diện nhập/xuất dựa trên văn
 
 ![terminal](./img/3.1_terminal.png)
 
-
 ## 3.2. Shell là gì?
-
 
 Shell là chương trình trung gian cho phép người dùng giao tiếp với hệ điều hành Linux thông qua các câu lệnh. Khi người dùng nhập lệnh trong terminal, shell sẽ tiếp nhận lệnh đó, phân tích cú pháp, gửi yêu cầu đến hệ điều hành để thực hiện, sau đó trả kết quả lại cho người dùng.
 
@@ -352,7 +350,6 @@ sudo apt update
 
 Lệnh trên cho phép user thường chạy một lệnh cụ thể với quyền quản trị, thay vì phải chuyển hoàn toàn sang tài khoản root.
 
-
 ## 3.7. Các phím tắt cơ bản trong terminal
 
 Khi làm việc với terminal trong Linux, ngoài việc nhập lệnh trực tiếp, người dùng còn có thể sử dụng nhiều phím tắt để thao tác nhanh hơn. Các phím tắt này giúp tiết kiệm thời gian, chỉnh sửa dòng lệnh dễ dàng hơn, tìm lại lệnh cũ và quản lý tiến trình đang chạy trong terminal.
@@ -382,7 +379,6 @@ Sau khi đã hiểu terminal, shell và Bash prompt, bước tiếp theo là là
 Các lệnh cơ bản giúp người dùng thực hiện những thao tác đơn giản như in văn bản ra màn hình, kiểm tra tên người dùng hiện tại, xem thông tin hệ thống, xác định thư mục đang làm việc, xóa màn hình terminal và tìm lại các lệnh đã chạy trước đó.
 
 Việc sử dụng thành thạo các lệnh này là nền tảng quan trọng trước khi học các nội dung nâng cao hơn như quản lý tệp, phân quyền, tiến trình, dịch vụ, log và Bash scripting.
-
 
 ## 4.1. Cách chạy lệnh trong terminal
 
@@ -624,7 +620,6 @@ pwd
 ```
 
 ![](./img/4.7_pwd_cat_log.png)
-
 
 ## 4.8. Lệnh `clear`
 
@@ -893,7 +888,6 @@ pwd
 
 Lệnh `pwd` rất hữu ích khi người dùng đã di chuyển qua nhiều thư mục và không nhớ chính xác vị trí hiện tại. Trong Linux, nhiều lệnh sẽ tác động đến thư mục hiện tại, vì vậy việc biết rõ mình đang ở đâu giúp tránh thao tác nhầm.
 
-
 ## 6.2. Liệt kê nội dung thư mục với `ls`
 
 Lệnh `ls`, viết tắt của **list**, dùng để liệt kê nội dung của thư mục. Khi chạy `ls` không kèm tham số, hệ thống sẽ hiển thị các tệp và thư mục trong thư mục hiện tại.
@@ -971,7 +965,6 @@ Ký tự đầu tiên trong dòng kết quả cho biết loại đối tượng:
 | `d` | Thư mục |
 | `-` | Tệp thông thường |
 | `l` | Liên kết tượng trưng |
-
 
 ## 6.5. Kết hợp tùy chọn `ls -la`
 
@@ -1067,7 +1060,6 @@ Một số ví dụ thường dùng:
 | `cd ~` | Chuyển về thư mục home |
 | `cd` | Chuyển về thư mục home |
 | `cd /` | Chuyển về thư mục gốc |
-
 
 ## 6.7. Đường dẫn tuyệt đối và đường dẫn tương đối
 
@@ -1353,28 +1345,7 @@ Ví dụ, tạo một tệp tên là `note.txt`:
 touch note.txt
 ```
 
-Sau đó có thể dùng lệnh `ls` để kiểm tra:
-
-```bash
-ls
-```
-
-Kết quả:
-
-```bash
-note.txt
-```
-
-Lưu ý rằng `touch` chỉ tạo tệp rỗng, chưa có nội dung bên trong. Để thêm nội dung vào tệp, người dùng có thể dùng lệnh `echo`, chuyển hướng dữ liệu hoặc trình soạn thảo văn bản như `nano` và `vim`.
-
-Ví dụ:
-
-```bash
-echo "Hello Linux" > note.txt
-```
-
-Lệnh trên sẽ ghi dòng chữ `Hello Linux` vào tệp `note.txt`.
-
+![](./img/7.1_tocuh.png)
 
 ## 7.2. Tạo thư mục với `mkdir`
 
@@ -1392,51 +1363,11 @@ Ví dụ, tạo thư mục tên là `Documents`:
 mkdir Documents
 ```
 
-Kiểm tra lại bằng lệnh:
-
-```bash
-ls
-```
-
-Kết quả:
-
-```bash
-Documents
-```
-
-Người dùng cũng có thể tạo thư mục tại một đường dẫn cụ thể.
-
-Ví dụ:
-
-```bash
-mkdir /home/chu/projects
-```
-
-Lệnh trên tạo thư mục `projects` trong `/home/chu`, nếu người dùng có quyền ghi tại vị trí đó.
-
-Nếu thư mục đã tồn tại, lệnh `mkdir` thông thường sẽ báo lỗi:
-
-```bash
-mkdir: cannot create directory 'Documents': File exists
-```
+![](./img/7.2_mkdir.png)
 
 ## 7.3. Tạo thư mục lồng nhau với `mkdir -p`
 
 Trong nhiều trường hợp, người dùng cần tạo nhiều thư mục lồng nhau. Nếu dùng `mkdir` thông thường, thư mục cha phải tồn tại trước thì mới tạo được thư mục con.
-
-Ví dụ, nếu muốn tạo cấu trúc:
-
-```bash
-project/src/logs
-```
-
-mà thư mục `project` và `src` chưa tồn tại, lệnh sau có thể bị lỗi:
-
-```bash
-mkdir project/src/logs
-```
-
-Để tạo toàn bộ cấu trúc thư mục cùng lúc, dùng tùy chọn `-p`.
 
 Cú pháp:
 
@@ -1458,6 +1389,8 @@ project/src
 project/src/logs
 ```
 
+![](./img/7.3_mkdir_p.png)
+
 ## 7.4. Sao chép tệp và thư mục với `cp`
 
 Lệnh `cp`, viết tắt của **copy**, dùng để sao chép tệp hoặc thư mục từ vị trí này sang vị trí khác.
@@ -1474,11 +1407,7 @@ Ví dụ, sao chép tệp `note.txt` thành `note_backup.txt`:
 cp note.txt note_backup.txt
 ```
 
-Sau khi chạy lệnh, thư mục hiện tại sẽ có cả hai tệp:
-
-```bash
-note.txt  note_backup.txt
-```
+![](./img/7.4_cp.png)
 
 Có thể sao chép tệp vào một thư mục khác:
 
@@ -1493,10 +1422,12 @@ Lệnh trên sao chép tệp `note.txt` vào thư mục `Documents`.
 Ví dụ:
 
 ```bash
-cp -r Documents Documents_backup
+cp -r project project_backup
 ```
 
-Lệnh này sao chép thư mục `Documents` thành thư mục `Documents_backup`.
+Lệnh này sao chép thư mục `project` thành thư mục `project_backup`.
+
+![](./img/7.4_cp_folder.png)
 
 Một số tùy chọn thường dùng với `cp`:
 
@@ -1506,7 +1437,6 @@ Một số tùy chọn thường dùng với `cp`:
 | `-i` | Hỏi trước khi ghi đè tệp |
 | `-v` | Hiển thị chi tiết quá trình sao chép |
 | `-u` | Chỉ sao chép nếu tệp nguồn mới hơn tệp đích |
-
 
 ## 7.5. Di chuyển tệp và thư mục với `mv`
 
@@ -1518,25 +1448,15 @@ Cú pháp:
 mv <nguồn> <đích>
 ```
 
-Ví dụ, di chuyển tệp `note.txt` vào thư mục `Documents`:
+Ví dụ, di chuyển tệp `note.txt` vào thư mục `project`:
 
 ```bash
-mv note.txt Documents/
+mv note.txt project/
 ```
 
-Sau lệnh này, tệp `note.txt` sẽ không còn ở thư mục hiện tại nữa, mà được chuyển vào thư mục `Documents`.
+Sau lệnh này, tệp `note.txt` sẽ không còn ở thư mục hiện tại nữa, mà được chuyển vào thư mục `project`.
 
-Có thể kiểm tra bằng:
-
-```bash
-ls Documents
-```
-
-Kết quả:
-
-```bash
-note.txt
-```
+![](./img/7.5_mv_file.png)
 
 Di chuyển thư mục cũng sử dụng cú pháp tương tự.
 
@@ -1572,17 +1492,7 @@ Ví dụ, đổi tên tệp `note.txt` thành `notes.txt`:
 mv note.txt notes.txt
 ```
 
-Sau đó kiểm tra:
-
-```bash
-ls
-```
-
-Kết quả:
-
-```bash
-notes.txt
-```
+![](./img/7.6_rename_with_mv.png)
 
 Đổi tên thư mục cũng tương tự.
 
@@ -1599,7 +1509,6 @@ Cần chú ý: nếu tên đích đã tồn tại, lệnh `mv` có thể ghi đ�
 ```bash
 mv -i note.txt notes.txt
 ```
-
 
 ## 7.7. Xóa tệp với `rm`
 
@@ -1618,6 +1527,8 @@ rm note.txt
 ```
 
 Sau khi chạy lệnh này, tệp `note.txt` sẽ bị xóa.
+
+![](./img/7.7_rm.png)
 
 Có thể xóa nhiều tệp cùng lúc:
 
@@ -1641,9 +1552,7 @@ rm -i note.txt
 
 Hệ thống sẽ hỏi xác nhận trước khi xóa:
 
-```bash
-rm: remove regular file 'note.txt'?
-```
+![](./img/7.7_rm_i.png)
 
 Cần đặc biệt cẩn thận với lệnh `rm`, vì trên Linux, tệp bị xóa bằng `rm` thường không được đưa vào thùng rác như trong giao diện đồ họa.
 
@@ -1655,12 +1564,6 @@ Cú pháp:
 
 ```bash
 rm -r <tên_thư_mục>
-```
-
-Ví dụ, xóa thư mục `project`:
-
-```bash
-rm -r project
 ```
 
 Tùy chọn `-r` nghĩa là **recursive**, tức là xóa đệ quy toàn bộ nội dung bên trong thư mục, bao gồm các tệp và thư mục con.
@@ -1680,6 +1583,8 @@ rm -ri old_project
 ```
 
 Tùy chọn `-i` sẽ hỏi xác nhận trước khi xóa từng đối tượng.
+
+![](./img/7.8_rm_ri.png)
 
 Cần tránh dùng tùy tiện các lệnh nguy hiểm như:
 
@@ -1702,7 +1607,6 @@ Trong đó:
 
 Khi kết hợp `-r` và `-f`, lệnh sẽ rất nguy hiểm nếu nhập sai đường dẫn.
 
-
 ## 7.9. Kiểm tra loại tệp với `file`
 
 Lệnh `file` dùng để xác định loại thực sự của một tệp. Trong Linux, phần mở rộng của tệp không phải lúc nào cũng phản ánh chính xác loại tệp, vì vậy lệnh `file` rất hữu ích để kiểm tra nội dung thực tế của tệp.
@@ -1719,11 +1623,7 @@ Ví dụ:
 file note.txt
 ```
 
-Kết quả có thể là:
-
-```bash
-note.txt: ASCII text
-```
+![](./img/7.9_check_file_text.png)
 
 Điều này cho biết `note.txt` là một tệp văn bản.
 
@@ -1733,11 +1633,7 @@ Ví dụ khác:
 file image.png
 ```
 
-Kết quả có thể là:
-
-```bash
-image.png: PNG image data
-```
+![](./img/7.9_check_file_image.png)
 
 Hoặc kiểm tra một tệp thực thi:
 
@@ -1753,12 +1649,6 @@ program: ELF 64-bit LSB executable
 
 Lệnh `file` rất hữu ích trong an toàn thông tin, phân tích mã độc, kiểm tra tệp tải về hoặc xác định loại tệp khi phần mở rộng bị thay đổi.
 
-Ví dụ, một tệp có tên là `document.txt` chưa chắc là tệp văn bản thật. Có thể kiểm tra bằng:
-
-```bash
-file document.txt
-```
-
 ## 7.10. Hiển thị cấu trúc thư mục với `tree`
 
 Lệnh `tree` dùng để hiển thị cấu trúc thư mục theo dạng cây. Lệnh này giúp người dùng nhìn rõ mối quan hệ giữa thư mục cha, thư mục con và các tệp bên trong.
@@ -1769,24 +1659,7 @@ Cú pháp:
 tree
 ```
 
-Ví dụ:
-
-```bash
-tree
-```
-
-Kết quả có thể là:
-
-```bash
-.
-├── Documents
-│   ├── note.txt
-│   └── report.txt
-├── Downloads
-└── project
-    ├── src
-    └── logs
-```
+![](./img/7.10_tree.png)
 
 Kết quả trên cho thấy cấu trúc thư mục hiện tại gồm `Documents`, `Downloads`, `project` và các thư mục con bên trong.
 
@@ -1796,13 +1669,7 @@ Có thể chỉ định thư mục cần xem:
 tree project
 ```
 
-Kết quả:
-
-```bash
-project
-├── src
-└── logs
-```
+![](./img/7.10_tree_folder.png)
 
 # 8. Xem và chỉnh sửa nội dung tệp
 
