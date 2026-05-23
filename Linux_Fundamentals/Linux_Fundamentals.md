@@ -887,11 +887,7 @@ Cú pháp:
 pwd
 ```
 
-Kết quả có thể là:
-
-```bash
-/home/chu
-```
+![](./img/6.1_pwd.png)
 
 Điều này cho biết người dùng hiện đang đứng trong thư mục `/home/chu`.
 
@@ -908,24 +904,19 @@ Cú pháp:
 ls
 ```
 
-Kết quả có thể là:
-
-```bash
-Desktop  Documents  Downloads  Pictures  Music
-```
-
-Kết quả trên cho biết trong thư mục hiện tại có các thư mục như `Desktop`, `Documents`, `Downloads`, `Pictures` và `Music`.
+![](./img/6.2_ls.png)
 
 Người dùng cũng có thể dùng `ls` để xem nội dung của một thư mục khác mà không cần di chuyển vào thư mục đó.
 
 Ví dụ:
 
 ```bash
-ls Documents
+ls Desktop
 ```
 
-Lệnh trên sẽ hiển thị nội dung bên trong thư mục `Documents`.
+Lệnh trên sẽ hiển thị nội dung bên trong thư mục `Desktop`.
 
+![](./img/6.2_ls_desktop.png)
 
 ## 6.3. Hiển thị tệp ẩn với `ls -a`
 
@@ -937,13 +928,7 @@ Cú pháp:
 ls -a
 ```
 
-Kết quả có thể là:
-
-```bash
-.  ..  .bashrc  .profile  Documents  Downloads
-```
-
-Trong kết quả trên:
+![](./img/6.3_ls_la.png)
 
 | Thành phần | Ý nghĩa |
 |---|---|
@@ -965,23 +950,18 @@ Cú pháp:
 ls -l
 ```
 
-Kết quả có thể là:
-
-```bash
-drwxr-xr-x 2 student student 4096 May 15 10:00 Documents
--rw-r--r-- 1 student student  120 May 15 10:05 notes.txt
-```
+![](./img/6.4_ls_l.png)
 
 Có thể hiểu kết quả trên như sau:
 
 | Thành phần | Ý nghĩa |
 |---|---|
 | `drwxr-xr-x` | Loại tệp và quyền truy cập |
-| `2` | Số liên kết |
-| `student` | Chủ sở hữu |
-| `student` | Nhóm sở hữu |
+| `7` | Số liên kết |
+| `chu` | Chủ sở hữu |
+| `chu` | Nhóm sở hữu |
 | `4096` | Kích thước |
-| `May 15 10:00` | Thời gian chỉnh sửa gần nhất |
+| `апр  7  2025` | Thời gian chỉnh sửa gần nhất |
 | `Documents` | Tên tệp hoặc thư mục |
 
 Ký tự đầu tiên trong dòng kết quả cho biết loại đối tượng:
@@ -1010,15 +990,7 @@ Trong đó:
 | `-l` | Hiển thị chi tiết |
 | `-a` | Hiển thị cả tệp ẩn |
 
-Kết quả có thể là:
-
-```bash
-drwxr-xr-x 5 student student 4096 May 15 10:00 .
-drwxr-xr-x 3 root    root    4096 May 15 09:00 ..
--rw-r--r-- 1 student student  220 May 15 09:30 .bash_logout
--rw-r--r-- 1 student student 3771 May 15 09:30 .bashrc
-drwxr-xr-x 2 student student 4096 May 15 10:00 Documents
-```
+![](./img/6.5_ls_la.png)
 
 Lệnh này rất thường được sử dụng vì nó cho phép người dùng xem đầy đủ nội dung thư mục, bao gồm cả tệp ẩn và thông tin chi tiết của từng đối tượng.
 
@@ -1029,6 +1001,8 @@ ls -lah
 ```
 
 Trong đó `-h` là **human-readable**, giúp kích thước hiển thị dưới dạng KB, MB hoặc GB thay vì chỉ hiển thị số byte.
+
+![](./img/6.5_ls_lah.png)
 
 ## 6.6. Di chuyển thư mục với `cd`
 
@@ -1052,17 +1026,15 @@ chu
 pwd
 ```
 
-Kết quả có thể là:
-
-```bash
-/home/chu/Documents
-```
+![](./img/6.6_cd_document.png)
 
 Để di chuyển đến một thư mục bằng đường dẫn tuyệt đối:
 
 ```bash
 cd /var/log
 ```
+
+![](./img/6.6_cd_var_log.png)
 
 Để quay về thư mục home của người dùng hiện tại:
 
@@ -1076,11 +1048,15 @@ hoặc đơn giản hơn:
 cd
 ```
 
+![](./img/6.6_cd~.png)
+
 Để di chuyển về thư mục gốc của hệ thống:
 
 ```bash
 cd /
 ```
+
+![](./img/6.6_cd.png)
 
 Một số ví dụ thường dùng:
 
@@ -1118,17 +1094,19 @@ Ví dụ:
 Ví dụ:
 
 ```bash
-cd /home/student/Documents
+cd /home/chu/Documents
 ```
 
-Lệnh trên sẽ đưa người dùng đến đúng thư mục `/home/student/Documents` dù người dùng đang đứng ở bất kỳ vị trí nào trong hệ thống.
+Lệnh trên sẽ đưa người dùng đến đúng thư mục `/home/chu/Documents` dù người dùng đang đứng ở bất kỳ vị trí nào trong hệ thống.
+
+![](./img/6.7_cd_duong_dan_tuyet_doi.png)
 
 Ngược lại, **đường dẫn tương đối** là đường dẫn được tính từ thư mục hiện tại. Nó không bắt đầu bằng dấu `/`.
 
 Ví dụ, nếu người dùng đang ở thư mục:
 
 ```bash
-/home/student
+/home/chu 
 ```
 
 và muốn vào thư mục `Documents`, có thể dùng:
@@ -1139,27 +1117,12 @@ cd Documents
 
 Ở đây, `Documents` là đường dẫn tương đối, vì nó được tính từ vị trí hiện tại.
 
-So sánh ngắn gọn:
+![](./img/6.7_duong_dan_tuong_doi.png)
 
 | Loại đường dẫn | Ví dụ | Đặc điểm |
 |---|---|---|
-| Đường dẫn tuyệt đối | `/home/student/Documents` | Bắt đầu từ thư mục gốc `/` |
+| Đường dẫn tuyệt đối | `/home/chu/Documents` | Bắt đầu từ thư mục gốc `/` |
 | Đường dẫn tương đối | `Documents` | Bắt đầu từ thư mục hiện tại |
-
-Ví dụ khác:
-
-```bash
-cd /var/log
-```
-
-Đây là đường dẫn tuyệt đối.
-
-```bash
-cd logs
-```
-
-Đây là đường dẫn tương đối, nếu thư mục `logs` tồn tại trong thư mục hiện tại.
-
 
 ## 6.8. Ký hiệu `.` và `..`
 
@@ -1200,6 +1163,8 @@ thì hệ thống sẽ đưa người dùng về:
 /home/chu
 ```
 
+![](./img/6.8_cd...png)
+
 Có thể sử dụng nhiều dấu `..` để di chuyển lên nhiều cấp thư mục.
 
 Ví dụ:
@@ -1225,8 +1190,10 @@ cd ../..
 thì người dùng sẽ về:
 
 ```bash
-/home/chu
+/home
 ```
+
+![](./img/6.8_di_chuyen_2_cap.png)
 
 Ký hiệu `.` cũng thường được dùng khi chạy script hoặc chương trình trong thư mục hiện tại.
 
@@ -1243,7 +1210,6 @@ Trong đó:
 | `.` | Thư mục hiện tại |
 | `/` | Dấu phân tách đường dẫn |
 | `script.sh` | Tên tệp script cần chạy |
-
 
 ## 6.9. Quay lại thư mục trước đó với `cd -`
 
@@ -1291,18 +1257,9 @@ người dùng sẽ quay lại:
 /var/log
 ```
 
+![](./img/6.9_cd-.png)
+
 Lệnh này rất hữu ích khi cần làm việc qua lại giữa hai thư mục khác nhau, ví dụ một thư mục chứa file cấu hình và một thư mục chứa log.
-
-Ví dụ:
-
-```bash
-cd /etc
-cd /var/log
-cd -
-```
-
-Lệnh cuối cùng sẽ đưa người dùng quay lại thư mục `/etc`.
-
 
 ## 6.10. Tự động hoàn thành bằng phím `TAB`
 
