@@ -1,0 +1,181 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="26.1.0">
+  <diagram name="Trang-1" id="_z5CleSCnCxYcUTs0APp">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-2" value="Отсутствие воды в здании" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="487.5" y="10" width="165" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-3" target="5Z9duavWZc7FlEX2EwTb-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;exitPerimeter=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-3" target="5Z9duavWZc7FlEX2EwTb-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.225;exitY=0.495;exitDx=0;exitDy=0;exitPerimeter=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-3" target="5Z9duavWZc7FlEX2EwTb-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-3" value="" style="verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.logic_gates.logic_gate;operation=or;direction=north;" vertex="1" parent="1">
+          <mxGeometry x="547" y="40" width="37.5" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-4" value="Ошибка в системе управления и мониторинга." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="940" y="100" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-5" value="Ошибка в системе распределения воды" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440.75" y="140" width="250" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-6" value="Ошибка на стороне источника водоснабжения." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="140" width="290" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-11" target="5Z9duavWZc7FlEX2EwTb-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-11" target="5Z9duavWZc7FlEX2EwTb-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-11" value="" style="verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.logic_gates.logic_gate;operation=or;direction=north;" vertex="1" parent="1">
+          <mxGeometry x="225" y="170" width="40" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-12" value="Отсутствие воды с водозаборной станции" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="270" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-13" value="Слабое давление воды в сети" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="270" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;exitPerimeter=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-27" target="5Z9duavWZc7FlEX2EwTb-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-74" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-27" target="5Z9duavWZc7FlEX2EwTb-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-27" value="" style="verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.logic_gates.logic_gate;operation=or;direction=north;numInputs=2;noLabel=0;" vertex="1" parent="1">
+          <mxGeometry x="125" y="310" width="40" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-28" value="&lt;span data-end=&quot;914&quot; data-start=&quot;874&quot;&gt;Авария на магистральном трубопроводе&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="5" y="400" width="95" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-29" value="Остановка работы водозаборной станции" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="110" y="465" width="90" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-32" target="5Z9duavWZc7FlEX2EwTb-33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-32" value="" style="verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.logic_gates.logic_gate;operation=or;direction=north;" vertex="1" parent="1">
+          <mxGeometry x="330" y="310" width="35" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-33" value="Закрыт или засорен главный водяной клапан" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="400" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-34" value="Недостаточное давление в городской сети" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="340.75" y="395" width="109.25" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-37" target="5Z9duavWZc7FlEX2EwTb-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-37" target="5Z9duavWZc7FlEX2EwTb-45">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-37" target="5Z9duavWZc7FlEX2EwTb-54">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-37" value="" style="verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.logic_gates.logic_gate;operation=or;direction=north;" vertex="1" parent="1">
+          <mxGeometry x="547" y="170" width="37.5" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-38" value="Неисправность резервуара" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="427" y="260" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-75" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-40" target="5Z9duavWZc7FlEX2EwTb-41">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-40" value="" style="verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.logic_gates.logic_gate;operation=or;direction=north;" vertex="1" parent="1">
+          <mxGeometry x="467" y="320" width="40" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-41" value="Резервуар пуст из-за неработающего насоса" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="550" width="95" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-43" value="Протечка резервуара" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="410" y="530" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-45" value="Поломка водяного насоса" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="270" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-47" target="5Z9duavWZc7FlEX2EwTb-48">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startFill=0;exitX=0.21;exitY=0.502;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-47" target="5Z9duavWZc7FlEX2EwTb-52">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-47" value="" style="verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.logic_gates.logic_gate;operation=or;direction=north;" vertex="1" parent="1">
+          <mxGeometry x="630" y="330" width="47.5" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-48" value="Неисправность двигателя насоса" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="430" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-49" value="Засорение всасывающей трубы" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="510" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-52" value="Отключение питания насоса" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="525" y="600" width="105" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-54" value="Проблемы с трубопроводной системой в здании" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="730" y="339" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-62" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-56" target="5Z9duavWZc7FlEX2EwTb-61">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-73" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-56" target="5Z9duavWZc7FlEX2EwTb-54">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-56" value="" style="verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.logic_gates.logic_gate;operation=or;direction=north;" vertex="1" parent="1">
+          <mxGeometry x="765" y="400" width="50" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-57" value="Протечка трубопровода" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="690.75" y="630" width="150" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-59" value="Засорение трубопровода" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="790" y="510" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-61" value="Поломка запорного клапана" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="870" y="660" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-65" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-63" target="5Z9duavWZc7FlEX2EwTb-64">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-67" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-63" target="5Z9duavWZc7FlEX2EwTb-66">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-69" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-63" target="5Z9duavWZc7FlEX2EwTb-68">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-63" value="" style="verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.logic_gates.logic_gate;operation=or;direction=north;" vertex="1" parent="1">
+          <mxGeometry x="975" y="150" width="40" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-64" value="Неисправность датчика уровня воды в резервуаре" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="830" y="250" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-66" value="Поломка панели управления насосами" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="950" y="430" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-68" value="&lt;span data-end=&quot;3286&quot; data-start=&quot;3256&quot;&gt;Сбой в системе мониторинга&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="260" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-76" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.623;entryY=0.086;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-40" target="5Z9duavWZc7FlEX2EwTb-43">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-78" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.106;entryY=0.021;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-56" target="5Z9duavWZc7FlEX2EwTb-59">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-79" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.583;entryY=0.005;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-56" target="5Z9duavWZc7FlEX2EwTb-57">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-80" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.05;entryY=0.014;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-47" target="5Z9duavWZc7FlEX2EwTb-49">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Z9duavWZc7FlEX2EwTb-81" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.138;entryY=0.016;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;startFill=0;" edge="1" parent="1" source="5Z9duavWZc7FlEX2EwTb-32" target="5Z9duavWZc7FlEX2EwTb-34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
