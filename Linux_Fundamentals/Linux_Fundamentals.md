@@ -2453,7 +2453,6 @@ Trong Linux, khi một lệnh được thực thi, nó thường nhận dữ li�
 
 Đây là kiến thức rất quan trọng khi làm việc với Bash, xử lý log, viết script và tự động hóa tác vụ trong Linux.
 
-
 ## 10.1. File Descriptor là gì?
 
 **File Descriptor**, viết tắt là **FD**, là một số định danh do hệ điều hành sử dụng để quản lý các luồng vào/ra của một tiến trình. Trong Linux, mọi tiến trình khi chạy thường có ba file descriptor mặc định:
@@ -2521,6 +2520,8 @@ Trong ví dụ trên:
 Ctrl + D
 ```
 
+![](./img/10.2_cat_stdin.png)
+
 STDIN rất quan trọng khi dùng chuyển hướng đầu vào hoặc pipe. Ví dụ, thay vì nhập dữ liệu từ bàn phím, có thể cho một chương trình đọc dữ liệu từ tệp bằng ký hiệu `<`.
 
 Tóm lại, STDIN là luồng dữ liệu đầu vào chuẩn, thường đến từ bàn phím hoặc từ một tệp/lệnh khác.
@@ -2537,11 +2538,7 @@ Ví dụ:
 echo "Hello Linux"
 ```
 
-Kết quả:
-
-```bash
-Hello Linux
-```
+![](./img/10.3_echo_stdout.png)
 
 Dòng `Hello Linux` chính là dữ liệu được gửi ra STDOUT.
 
@@ -2550,6 +2547,8 @@ Ví dụ khác:
 ```bash
 ls
 ```
+
+![](./img/10.3_ls_stdout.png)
 
 Kết quả danh sách tệp và thư mục cũng được gửi ra STDOUT.
 
@@ -2563,8 +2562,9 @@ echo "Hello Linux" > output.txt
 
 Lệnh trên không hiển thị kết quả ra màn hình, mà ghi kết quả vào tệp `output.txt`.
 
-Tóm lại, STDOUT là nơi chương trình đưa ra kết quả bình thường. Theo mặc định, nó hiển thị trên terminal, nhưng có thể chuyển hướng vào tệp hoặc truyền sang lệnh khác.
+![](./img/10.3_echo_stdout_to_stdin.png)
 
+Tóm lại, STDOUT là nơi chương trình đưa ra kết quả bình thường. Theo mặc định, nó hiển thị trên terminal, nhưng có thể chuyển hướng vào tệp hoặc truyền sang lệnh khác.
 
 ## 10.4. STDERR — Standard Error
 
@@ -2580,9 +2580,7 @@ ls /not_exist
 
 Nếu thư mục `/not_exist` không tồn tại, kết quả có thể là:
 
-```bash
-ls: cannot access '/not_exist': No such file or directory
-```
+![](./img/10.4_ls_stderr.png)
 
 Thông báo này không phải STDOUT, mà là STDERR.
 
@@ -2600,6 +2598,8 @@ Trong đó:
 |---|---|
 | `1> output.txt` | Ghi STDOUT vào tệp `output.txt` |
 | `2> error.txt` | Ghi STDERR vào tệp `error.txt` |
+
+![](./img/10.4_find_stderr.png)
 
 Tóm lại, STDERR là luồng dành riêng cho thông báo lỗi. Nhờ có STDERR, người dùng có thể xử lý lỗi riêng biệt với kết quả bình thường.
 
@@ -2621,17 +2621,7 @@ echo "Hello Linux" > hello.txt
 
 Lệnh trên ghi dòng chữ `Hello Linux` vào tệp `hello.txt`.
 
-Kiểm tra nội dung tệp:
-
-```bash
-cat hello.txt
-```
-
-Kết quả:
-
-```bash
-Hello Linux
-```
+![](./img/10.5_chuyen_huong_echo.png)
 
 Ví dụ khác:
 
@@ -2640,6 +2630,8 @@ ls > files.txt
 ```
 
 Lệnh này ghi danh sách tệp và thư mục trong thư mục hiện tại vào tệp `files.txt`.
+
+![](./img/10.5_chuyen_huong_ls.png)
 
 Cần chú ý rằng `>` sẽ ghi đè nội dung cũ.
 
@@ -2653,14 +2645,11 @@ cat test.txt
 
 Kết quả:
 
-```bash
-Line 2
-```
+![](./img/10.5_chuyen_huong_ghi_de.png)
 
 Dòng `Line 1` đã bị ghi đè bởi `Line 2`.
 
 Tóm lại, `>` dùng để ghi kết quả đầu ra của lệnh vào tệp, nhưng cần cẩn thận vì nó sẽ thay thế nội dung cũ nếu tệp đã tồn tại.
-
 
 ## 10.6. Ghi thêm đầu ra với `>>`
 
@@ -2682,10 +2671,7 @@ cat test.txt
 
 Kết quả:
 
-```bash
-Line 1
-Line 2
-```
+![](./img/10.6_ghi_them_dau_vao.png)
 
 Trong ví dụ trên:
 
@@ -2700,6 +2686,8 @@ date >> log.txt
 
 Lệnh này ghi thêm thời gian hiện tại vào cuối tệp `log.txt`.
 
+![](./img/10.6_ghi_them_date.png)
+
 Có thể dùng `>>` để lưu kết quả nhiều lần vào cùng một tệp:
 
 ```bash
@@ -2710,8 +2698,7 @@ uname -a >> report.txt
 
 Tệp `report.txt` sẽ chứa kết quả của cả ba lệnh.
 
-Tóm lại, `>>` dùng để ghi thêm dữ liệu vào cuối tệp. Đây là lựa chọn an toàn hơn `>` khi không muốn mất nội dung cũ.
-
+![](./img/10.6_ghi_them_dau_vao_nhieu_lenh.png)
 
 ## 10.7. Chuyển hướng lỗi với `2>`
 
@@ -2737,11 +2724,7 @@ Kiểm tra nội dung tệp lỗi:
 cat error.log
 ```
 
-Kết quả có thể là:
-
-```bash
-ls: cannot access '/not_exist': No such file or directory
-```
+![](./img/10.7_chuyen_huong_loi_ls.png)
 
 Có thể tách STDOUT và STDERR vào hai tệp khác nhau:
 
@@ -2757,6 +2740,8 @@ Trong đó:
 | `2> error.txt` | Ghi lỗi vào `error.txt` |
 
 Trong thực tế, `2>` rất hữu ích khi chạy các lệnh có thể tạo nhiều lỗi, ví dụ `find` trên toàn bộ hệ thống.
+
+![](./img/10.7_chuyen_huong_stdout_stderr.png)
 
 Tóm lại, `2>` dùng để chuyển hướng thông báo lỗi vào tệp, giúp người dùng lưu lại lỗi hoặc làm sạch màn hình terminal.
 
@@ -2786,22 +2771,7 @@ Trong đó:
 | `>` | Chuyển hướng |
 | `/dev/null` | Nơi bỏ dữ liệu, không hiển thị ra màn hình |
 
-Ví dụ khác:
-
-```bash
-find / -type f -name "*.conf" 2>/dev/null
-```
-
-Lệnh này chỉ hiển thị các kết quả tìm kiếm hợp lệ, không hiển thị lỗi do thiếu quyền truy cập.
-
-Cần hiểu rằng `2>/dev/null` không sửa lỗi, mà chỉ ẩn lỗi khỏi màn hình. Vì vậy, khi cần phân tích nguyên nhân lỗi, không nên chuyển lỗi vào `/dev/null`, mà nên lưu vào tệp log:
-
-```bash
-command 2> error.log
-```
-
-Tóm lại, `2>/dev/null` dùng để bỏ qua thông báo lỗi, giúp đầu ra gọn hơn khi người dùng chỉ quan tâm đến kết quả chính.
-
+![](./img/10.8_chuyen_huong_loi_dev_null_find.png)
 
 ## 10.9. Chuyển hướng đầu vào với `<`
 
@@ -2821,6 +2791,8 @@ cat < hello.txt
 
 Lệnh trên đọc nội dung từ tệp `hello.txt` thông qua STDIN và hiển thị ra màn hình.
 
+![](./img/10.9_chuyen_huong_dau_vao_cat.png)
+
 Ví dụ khác:
 
 ```bash
@@ -2828,6 +2800,8 @@ wc -l < hello.txt
 ```
 
 Lệnh này đếm số dòng trong tệp `hello.txt`.
+
+![](./img/10.9_chuyen_huong_dau_vao_wc.png)
 
 So sánh hai cách sau:
 
@@ -2843,32 +2817,7 @@ wc -l < hello.txt
 
 Cả hai đều có thể đếm số dòng, nhưng có sự khác biệt nhỏ về đầu ra. Khi dùng tên tệp trực tiếp, `wc` thường hiển thị cả số dòng và tên tệp. Khi dùng `<`, `wc` chỉ nhận nội dung từ STDIN nên thường chỉ hiển thị số dòng.
 
-Ví dụ:
-
-```bash
-wc -l hello.txt
-```
-
-Kết quả:
-
-```bash
-3 hello.txt
-```
-
-Còn:
-
-```bash
-wc -l < hello.txt
-```
-
-Kết quả:
-
-```bash
-3
-```
-
-Tóm lại, `<` dùng để đưa nội dung của tệp vào lệnh dưới dạng đầu vào chuẩn.
-
+![](./img/10.9_so_sanh.png)
 
 ## 10.10. Here Document với `<< EOF`
 
@@ -2894,12 +2843,7 @@ This is a here document.
 EOF
 ```
 
-Kết quả:
-
-```bash
-Hello Linux
-This is a here document.
-```
+![](./img/10.10_HD_cat.png)
 
 Here Document thường được dùng để tạo tệp nhiều dòng.
 
@@ -2913,19 +2857,7 @@ Line 3
 EOF
 ```
 
-Kiểm tra nội dung tệp:
-
-```bash
-cat note.txt
-```
-
-Kết quả:
-
-```bash
-Line 1
-Line 2
-Line 3
-```
+![](./img/10.10_HD_tao_tep_nhieu_dong.png)
 
 Có thể dùng Here Document trong Bash script để tạo file cấu hình hoặc ghi nội dung nhiều dòng.
 
@@ -2939,6 +2871,8 @@ port=8080
 EOF
 ```
 
+![](./img/10.10_HD_bash_script.png)
+
 Lưu ý rằng `EOF` không bắt buộc phải là từ `EOF`. Người dùng có thể dùng một từ khác, miễn là từ mở đầu và kết thúc giống nhau.
 
 Ví dụ:
@@ -2949,7 +2883,7 @@ Hello
 END
 ```
 
-Tóm lại, Here Document giúp truyền nhiều dòng dữ liệu vào một lệnh một cách rõ ràng và tiện lợi, đặc biệt hữu ích khi viết script.
+![](./img/10.10_HD_END.png)
 
 ## 10.11. Pipes và cách kết hợp lệnh bằng `|`
 
@@ -2977,6 +2911,8 @@ Trong lệnh trên:
 
 Kết quả là số lượng dòng đầu ra của lệnh `ls`, tức có thể hiểu là số lượng mục được liệt kê.
 
+![](./img/10.11_pipe_ls.png)
+
 Ví dụ lọc kết quả bằng `grep`:
 
 ```bash
@@ -2984,6 +2920,8 @@ cat /etc/passwd | grep root
 ```
 
 Lệnh này đọc nội dung `/etc/passwd`, sau đó lọc các dòng có chứa từ `root`.
+
+![](./img/10.11_pipe_cat_passwd.png)
 
 Tuy nhiên, có thể viết gọn hơn:
 
@@ -3023,7 +2961,7 @@ Trong đó:
 | `2>/dev/null` | Ẩn lỗi thiếu quyền truy cập |
 | `| nl` | Đánh số dòng kết quả |
 
-Tóm lại, pipe `|` giúp kết hợp nhiều lệnh lại với nhau. Đây là nền tảng quan trọng trong triết lý Linux: mỗi công cụ làm một việc nhỏ, sau đó kết hợp chúng để giải quyết tác vụ lớn hơn.
+![](./img/10.11_pipe_find_bak.png)
 
 # 11. Lọc và xử lý nội dung văn bản
 
