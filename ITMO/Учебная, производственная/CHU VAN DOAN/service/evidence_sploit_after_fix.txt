@@ -1,0 +1,10 @@
+[x] Opening connection to 127.0.0.1 on port 10001
+[x] Opening connection to 127.0.0.1 on port 10001: Trying 127.0.0.1
+[+] Opening connection to 127.0.0.1 on port 10001: Done
+[x] Receiving all data
+[x] Receiving all data: 0B
+[x] Receiving all data: 1B
+[x] Receiving all data: 179B
+[+] Receiving all data: Done (179B)
+[*] Closed connection to 127.0.0.1 port 10001
+b"\n[+] TODO notes for 'frZBDgCAOtdNIMXK' [+]\n---------------------------------\nTODO: PwhWTINyUzsaloEu\n$(cat ./notes/*)\n---------------------------------\n\nPress Enter to continue...\n"

@@ -2130,18 +2130,6 @@ Một số loại thường dùng:
 | `-type b` | Tìm block device |
 | `-type c` | Tìm character device |
 
-Ví dụ, tìm tất cả tệp thông thường trong thư mục hiện tại:
-
-```bash
-find . -type f
-```
-
-Tìm tất cả thư mục trong thư mục hiện tại:
-
-```bash
-find . -type d
-```
-
 Tìm tất cả tệp `.log` trong `/var/log`:
 
 ```bash
@@ -2155,6 +2143,8 @@ Trong ví dụ trên:
 | `/var/log` | Bắt đầu tìm trong thư mục log |
 | `-type f` | Chỉ tìm tệp thường |
 | `-name "*.log"` | Chỉ lấy tệp có đuôi `.log` |
+
+![](./img/9.2_find_type.png)
 
 ### 9.2.3 Tìm theo kích thước `-size`
 
@@ -2189,17 +2179,23 @@ Ví dụ, tìm các tệp lớn hơn 100 MB trong thư mục home:
 find /home -type f -size +100M
 ```
 
+![](./img/9.2_find_100mb.png)
+
 Tìm các tệp nhỏ hơn 1 MB trong thư mục hiện tại:
 
 ```bash
 find . -type f -size -1M
 ```
 
+![](./img/9.2_find_-1mb.png)
+
 Tìm các tệp cấu hình có kích thước lớn hơn 20 KB:
 
 ```bash
 find /etc -type f -name "*.conf" -size +20k
 ```
+
+![](./img/9.2_find_20kb.png)
 
 Có thể kết hợp điều kiện để tìm trong một khoảng kích thước.
 
@@ -2208,6 +2204,8 @@ Ví dụ, tìm tệp lớn hơn 25 KB nhưng nhỏ hơn 28 KB:
 ```bash
 find / -type f -size +25k -size -28k 2>/dev/null
 ```
+
+![](./img/9.2_find_25_28.png)
 
 ### 9.2.4. Tìm theo thời gian chỉnh sửa
 
@@ -2226,6 +2224,8 @@ Ví dụ, tìm các tệp được chỉnh sửa trong vòng 1 ngày gần đây
 ```bash
 find . -type f -mtime -1
 ```
+
+![](./img/9.2_find_time_1.png)
 
 Trong đó:
 
@@ -2265,10 +2265,10 @@ Cú pháp:
 find <đường_dẫn> -user <tên_user>
 ```
 
-Ví dụ, tìm tất cả tệp thuộc sở hữu của user `student` trong thư mục `/home`:
+Ví dụ, tìm tất cả tệp thuộc sở hữu của user `chu` trong thư mục `/home`:
 
 ```bash
-find /home -user student
+find /home -user chu
 ```
 
 Tìm tất cả tệp thuộc sở hữu của `root` trong `/etc`:
@@ -2277,17 +2277,23 @@ Tìm tất cả tệp thuộc sở hữu của `root` trong `/etc`:
 find /etc -user root
 ```
 
+![](./img/9.2_find_etc_root.png)
+
 Có thể kết hợp với `-type f` để chỉ tìm tệp thường:
 
 ```bash
 find /etc -type f -user root
 ```
 
+![](./img/9.2_find_user_root.png)
+
 Ví dụ tìm các tệp `.conf` thuộc sở hữu của root:
 
 ```bash
 find /etc -type f -name "*.conf" -user root
 ```
+
+![](./img/9.2_find_conf_user_root.png)
 
 Lệnh này có ý nghĩa:
 
@@ -2325,27 +2331,7 @@ Ví dụ, tìm tất cả tệp `.conf` trong `/etc` và hiển thị chi tiết
 find /etc -type f -name "*.conf" -exec ls -l {} \;
 ```
 
-Ví dụ, tìm các tệp `.log` trong thư mục hiện tại:
-
-```bash
-find . -type f -name "*.log"
-```
-
-Nếu muốn xóa các tệp `.log` tìm được, có thể dùng:
-
-```bash
-find . -type f -name "*.log" -exec rm {} \;
-```
-
-Tuy nhiên, cần rất cẩn thận khi dùng `-exec rm`, vì lệnh này có thể xóa nhiều tệp cùng lúc.
-
-Cách an toàn hơn là kiểm tra trước bằng `ls -l`:
-
-```bash
-find . -type f -name "*.log" -exec ls -l {} \;
-```
-
-Sau khi chắc chắn kết quả đúng, mới thực hiện thao tác xóa.
+![](./img/9.2_find_etc_conf_exec.png)
 
 Một ví dụ đầy đủ hơn:
 
@@ -2381,6 +2367,8 @@ find / -name "shadow"
 
 Khi tìm từ thư mục gốc `/`, hệ thống có thể hiển thị nhiều lỗi `Permission denied`.
 
+![](./img/9.2_find_shadow.png)
+
 Để ẩn các lỗi này, có thể chuyển hướng lỗi chuẩn `STDERR` vào `/dev/null`:
 
 ```bash
@@ -2397,14 +2385,7 @@ Trong đó:
 
 Nói cách khác, `2>/dev/null` nghĩa là: đưa toàn bộ thông báo lỗi vào “thùng rác” của hệ thống, không hiển thị ra terminal.
 
-Ví dụ tìm tất cả tệp `.bak` trong hệ thống và ẩn lỗi:
-
-```bash
-find / -type f -name "*.bak" 2>/dev/null
-```
-
-Lệnh này chỉ hiển thị kết quả tìm kiếm hợp lệ, không hiển thị các lỗi do thiếu quyền.
-
+![](./img/9.2_find_shadow_dev_null.png)
 
 ## 9.3. Tìm nhanh bằng `locate`
 
@@ -2424,15 +2405,10 @@ locate passwd
 
 Lệnh này tìm tất cả đường dẫn có chứa từ `passwd`.
 
-Ví dụ tìm các tệp cấu hình `.conf`:
+![](./img/9.3_locate_passwd.png)
 
-```bash
-locate "*.conf"
-```
 
 So với `find`, lệnh `locate` thường nhanh hơn rất nhiều vì nó không tìm trực tiếp trên ổ đĩa tại thời điểm chạy lệnh. Thay vào đó, nó tìm trong cơ sở dữ liệu đã được tạo sẵn.
-
-So sánh ngắn gọn:
 
 | Công cụ | Đặc điểm |
 |---|---|
@@ -2451,8 +2427,9 @@ sau đó chạy:
 locate newfile.txt
 ```
 
-có thể chưa thấy kết quả, vì cơ sở dữ liệu của `locate` chưa được cập nhật.
+Kết quả chưa thấy kết quả, vì cơ sở dữ liệu của `locate` chưa được cập nhật.
 
+![](./img/9.3_locate_chua_update.png)
 
 **Cập nhật cơ sở dữ liệu `locate` với `updatedb`**
 
@@ -2466,30 +2443,9 @@ Cú pháp:
 sudo updatedb
 ```
 
-Thông thường, cần dùng `sudo` vì việc cập nhật cơ sở dữ liệu có thể yêu cầu quyền truy cập nhiều thư mục trong hệ thống.
-
-Ví dụ:
-
-```bash
-sudo updatedb
-locate newfile.txt
-```
-
 Sau khi chạy `updatedb`, lệnh `locate` có thể tìm thấy các tệp mới được tạo gần đây.
 
-Quy trình sử dụng thường gặp:
-
-```bash
-sudo updatedb
-locate "*.conf"
-```
-
-Trong đó:
-
-| Lệnh | Ý nghĩa |
-|---|---|
-| `sudo updatedb` | Cập nhật cơ sở dữ liệu tìm kiếm |
-| `locate "*.conf"` | Tìm nhanh các tệp có đuôi `.conf` |
+![](./img/9.3_locate_update.png)
 
 # 10. Bộ mô tả tệp và chuyển hướng dữ liệu
 
