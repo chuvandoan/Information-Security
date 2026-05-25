@@ -3453,11 +3453,7 @@ Ví dụ:
 wc file.txt
 ```
 
-Kết quả có thể là:
-
-```bash
-10  50  300 file.txt
-```
+![](./img/11.7_wc_file.png)
 
 Thông thường, ba số này lần lượt là:
 
@@ -3482,11 +3478,15 @@ Ví dụ đếm số dòng:
 wc -l file.txt
 ```
 
+![](./img/11.7_wc_l.png)
+
 Đếm số từ:
 
 ```bash
 wc -w file.txt
 ```
+
+![](./img/11.7_wc_w.png)
 
 Đếm số byte:
 
@@ -3494,13 +3494,17 @@ wc -w file.txt
 wc -c file.txt
 ```
 
+![](./img/11.7_wc_c.png)
+
 `wc` thường được kết hợp với pipe để đếm kết quả sau khi lọc.
 
 Ví dụ đếm số dòng có chứa từ `error`:
 
 ```bash
-grep "error" logfile.txt | wc -l
+grep -i "error" logfile.txt | wc -l
 ```
+
+![](./img/11.7_wc_ket_hop_grep.png)
 
 Ví dụ đếm số gói đã cài đặt:
 
@@ -3508,8 +3512,7 @@ Ví dụ đếm số gói đã cài đặt:
 apt list --installed | grep -c "installed"
 ```
 
-Tóm lại, `wc` giúp thống kê nhanh số lượng dòng, từ, ký tự hoặc kết quả sau khi lọc dữ liệu.
-
+![](./img/11.7_dem_so_goi_da_cai.png)
 
 ## 11.8. Đánh số dòng với `nl`
 
@@ -3527,21 +3530,7 @@ Ví dụ:
 nl notes.txt
 ```
 
-Nếu tệp có nội dung:
-
-```bash
-Linux
-Bash
-Terminal
-```
-
-Kết quả có thể là:
-
-```bash
-     1  Linux
-     2  Bash
-     3  Terminal
-```
+![](./img/11.8_nl.png)
 
 `nl` cũng có thể dùng sau pipe để đánh số kết quả của một lệnh khác.
 
@@ -3553,10 +3542,9 @@ find /var/log -type f -name "*.log" 2>/dev/null | nl
 
 Lệnh trên tìm các tệp `.log`, ẩn lỗi thiếu quyền, sau đó đánh số từng dòng kết quả.
 
+![](./img/11.8_nl_ket_hop.png)
+
 Có thể dùng `nl` khi muốn trình bày kết quả rõ ràng hơn trong báo cáo hoặc khi cần xác định thứ tự dòng trong một danh sách.
-
-Tóm lại, `nl` giúp đánh số dòng đầu ra, làm kết quả dễ đọc và dễ tham chiếu hơn.
-
 
 ## 11.9. So sánh tệp với `diff`
 
@@ -3576,11 +3564,15 @@ diff old.conf new.conf
 
 Nếu hai tệp khác nhau, `diff` sẽ hiển thị những dòng bị thay đổi, thêm hoặc xóa.
 
+![](./img/11.9_diff_old_new_file.png)
+
 Một tùy chọn thường dùng là `-u`, hiển thị kết quả theo định dạng unified, dễ đọc hơn và thường dùng trong lập trình:
 
 ```bash
 diff -u old.conf new.conf
 ```
+
+![](./img/11.9_diff_u.png)
 
 Có thể so sánh hai tệp theo dạng song song:
 
@@ -3588,17 +3580,7 @@ Có thể so sánh hai tệp theo dạng song song:
 diff --side-by-side old.conf new.conf
 ```
 
-Ví dụ thực tế:
-
-```bash
-cp /etc/ssh/sshd_config sshd_config.backup
-sudo nano /etc/ssh/sshd_config
-diff -u sshd_config.backup /etc/ssh/sshd_config
-```
-
-Quy trình trên giúp người dùng xem chính xác tệp cấu hình SSH đã thay đổi những gì.
-
-Tóm lại, `diff` dùng để so sánh nội dung hai tệp, rất hữu ích khi kiểm tra thay đổi cấu hình hoặc theo dõi phiên bản file.
+![](./img/11.9_diff_so_sanh_song_song.png)
 
 
 ## 11.10. Xử lý JSON với `jq`
@@ -3611,14 +3593,7 @@ Ví dụ JSON đơn giản:
 echo '{"user":"admin","status":"success"}' | jq '.'
 ```
 
-Kết quả được định dạng dễ đọc hơn:
-
-```json
-{
-  "user": "admin",
-  "status": "success"
-}
-```
+@[](./img/11.10_jq.png)
 
 Để lấy giá trị của một trường cụ thể:
 
@@ -3626,11 +3601,7 @@ Kết quả được định dạng dễ đọc hơn:
 echo '{"user":"admin","status":"success"}' | jq '.user'
 ```
 
-Kết quả:
-
-```bash
-"admin"
-```
+![](./img/11.10_jq_lay_cot.png)
 
 Để lấy giá trị không có dấu ngoặc kép, dùng tùy chọn `-r`:
 
@@ -3638,11 +3609,7 @@ Kết quả:
 echo '{"user":"admin","status":"success"}' | jq -r '.user'
 ```
 
-Kết quả:
-
-```bash
-admin
-```
+![](./img/11.10_jq_lay_cot_bo_ngoac_kep.png)
 
 Ví dụ với mảng JSON:
 
@@ -3650,14 +3617,8 @@ Ví dụ với mảng JSON:
 echo '[{"user":"admin"},{"user":"guest"}]' | jq '.[].user'
 ```
 
-Kết quả:
+![](./img/11.10_jq_mang.png)
 
-```bash
-"admin"
-"guest"
-```
-
-Trong an toàn thông tin, `jq` rất hữu ích khi xử lý log JSON, ví dụ log từ Suricata, Zeek, Wazuh, API hoặc các công cụ cloud.
 
 Ví dụ trích xuất trường `src_ip` từ file JSON log:
 
@@ -3665,6 +3626,7 @@ Ví dụ trích xuất trường `src_ip` từ file JSON log:
 cat alerts.json | jq -r '.src_ip'
 ```
 
+![](./img/11.10_jq_logs.png)
 
 ## 11.11. Một số công cụ xử lý log và text nâng cao
 
@@ -3690,11 +3652,7 @@ Ví dụ dùng `tr` để chuyển chữ thường thành chữ hoa:
 echo "linux" | tr 'a-z' 'A-Z'
 ```
 
-Kết quả:
-
-```bash
-LINUX
-```
+![](./img/11.11_tr.png)
 
 Ví dụ dùng `tac` để xem tệp từ dòng cuối lên dòng đầu:
 
@@ -3702,13 +3660,15 @@ Ví dụ dùng `tac` để xem tệp từ dòng cuối lên dòng đầu:
 tac logfile.txt
 ```
 
+![](./img/11.11_tac.png)
+
 Ví dụ dùng `watch` để theo dõi dung lượng ổ đĩa:
 
 ```bash
 watch "df -h"
 ```
 
-Trong thực tế, các công cụ nâng cao này thường được dùng khi cần xử lý dữ liệu lớn, phân tích log nhanh, tìm kiếm trong mã nguồn hoặc giám sát thay đổi theo thời gian.
+![](./img/11.11_watch.png)
 
 # 12. Biểu thức chính quy trong Linux
 
