@@ -3268,12 +3268,6 @@ Ví dụ:
 echo "a,b,c" | cut -d ',' -f 2
 ```
 
-Kết quả:
-
-```bash
-b
-```
-
 Trong đó:
 
 | Thành phần | Ý nghĩa |
@@ -3281,11 +3275,14 @@ Trong đó:
 | `-d ','` | Dấu phân tách là dấu phẩy |
 | `-f 2` | Lấy cột thứ hai |
 
+![](./img/11.4_cut_lay_cot_2.png)
+
 Ví dụ lấy tên user từ `/etc/passwd`:
 
 ```bash
 cut -d ':' -f 1 /etc/passwd
 ```
+![](./img/11.4_cut_lay_ten_user.png)
 
 Lấy cả cột 1 và cột 7:
 
@@ -3301,16 +3298,9 @@ Ví dụ:
 echo "Linux" | cut -c 1-3
 ```
 
-Kết quả:
-
-```bash
-Lin
-```
+![](./img/11.4_cut_lay_cot_1_7.png)
 
 So với `awk`, `cut` đơn giản hơn và rất nhanh khi dữ liệu có dấu phân tách rõ ràng.
-
-Tóm lại, `cut` phù hợp khi cần lấy một hoặc một vài cột cụ thể từ dữ liệu văn bản có cấu trúc.
-
 
 ## 11.5. Sắp xếp dữ liệu với `sort`
 
@@ -3324,11 +3314,7 @@ sort <tên_tệp>
 
 Ví dụ, tệp `names.txt` có nội dung:
 
-```bash
-Charlie
-Alice
-Bob
-```
+![](./img/11.5_noi_dung_file_names.png)
 
 Chạy:
 
@@ -3336,13 +3322,7 @@ Chạy:
 sort names.txt
 ```
 
-Kết quả:
-
-```bash
-Alice
-Bob
-Charlie
-```
+![](./img/11.5_sort_name.png)
 
 Một số tùy chọn thường dùng:
 
@@ -3359,11 +3339,14 @@ Ví dụ sắp xếp theo số:
 sort -n numbers.txt
 ```
 
+![](./img/11.5_sort_numbers.png)
+
 Sắp xếp giảm dần:
 
 ```bash
 sort -r names.txt
 ```
+![](./img/11.5_sort_name_giam.png)
 
 Sắp xếp theo cột thứ hai:
 
@@ -3371,11 +3354,15 @@ Sắp xếp theo cột thứ hai:
 sort -k 2 data.txt
 ```
 
+![](./img/11.5_sort_theo_cot_thu_2.png)
+
 Sắp xếp và loại bỏ trùng lặp:
 
 ```bash
 sort -u names.txt
 ```
+
+![](./img/11.5_sort_loai_bo_trung_lap.png)
 
 `sort` thường được kết hợp với `uniq` để thống kê dữ liệu.
 
@@ -3387,8 +3374,7 @@ cat access.log | awk '{print $1}' | sort | uniq -c
 
 Lệnh trên trích xuất cột đầu tiên, sắp xếp và đếm số lần xuất hiện của từng giá trị.
 
-Tóm lại, `sort` giúp sắp xếp dữ liệu văn bản, là bước quan trọng trước khi dùng `uniq`.
-
+![](./img/11.5_sort_ket_hop.png)
 
 ## 11.6. Loại bỏ dòng trùng lặp với `uniq`
 
@@ -3400,15 +3386,7 @@ Cú pháp:
 uniq <tên_tệp>
 ```
 
-Ví dụ, tệp `names.txt` có nội dung:
-
-```bash
-Alice
-Alice
-Bob
-Bob
-Charlie
-```
+Ví dụ
 
 Chạy:
 
@@ -3416,19 +3394,15 @@ Chạy:
 uniq names.txt
 ```
 
-Kết quả:
-
-```bash
-Alice
-Bob
-Charlie
-```
+![](./img/11.6_uniq_name.png)
 
 Nếu các dòng trùng không nằm cạnh nhau, cần dùng:
 
 ```bash
 sort names.txt | uniq
 ```
+
+![](./img/11.6_uniq_ket_hop_sort.png)
 
 Một số tùy chọn thường dùng:
 
@@ -3444,13 +3418,7 @@ Ví dụ đếm số lần xuất hiện:
 sort names.txt | uniq -c
 ```
 
-Kết quả có thể là:
-
-```bash
-2 Alice
-2 Bob
-1 Charlie
-```
+![](./img/11.6_uniq_dem_so_lan_xuat_hien.png)
 
 Ví dụ phân tích log truy cập web, đếm số lần xuất hiện của từng địa chỉ IP:
 
@@ -3467,8 +3435,7 @@ Trong đó:
 | `uniq -c` | Đếm số lần xuất hiện |
 | `sort -nr` | Sắp xếp số lượng giảm dần |
 
-Tóm lại, `uniq` rất hữu ích khi cần loại bỏ dữ liệu trùng hoặc thống kê số lần xuất hiện của từng dòng.
-
+![](./img/11.6_awk_sort_uniq.png)
 
 ## 11.7. Đếm dòng, từ và ký tự với `wc`
 
