@@ -2979,44 +2979,23 @@ Cú pháp cơ bản:
 grep "từ_khóa" <tên_tệp>
 ```
 
-Ví dụ, tìm các dòng có chứa từ `error` trong tệp `logfile.txt`:
+Ví dụ, tìm các dòng có chứa từ `ERROR` trong tệp `logfile.txt`:
 
 ```bash
-grep "error" logfile.txt
+grep "ERROR" logfile.txt
 ```
 
-Nếu tệp có nội dung:
-
-```bash
-system started
-error: failed login
-user connected
-error: permission denied
-```
-
-Kết quả sẽ là:
-
-```bash
-error: failed login
-error: permission denied
-```
+![](./img/11.1_grep.png)
 
 `grep` cũng thường được kết hợp với pipe `|` để lọc kết quả từ lệnh khác.
 
 Ví dụ:
 
 ```bash
-cat /var/log/syslog | grep "error"
+cat /var/log/syslog | grep "ERROR"
 ```
 
-Lệnh trên đọc nội dung `/var/log/syslog`, sau đó chỉ hiển thị các dòng có chứa từ `error`.
-
-Có thể viết gọn hơn:
-
-```bash
-grep "error" /var/log/syslog
-```
-
+![](./img/11.1_grep_syslog.png)
 
 ### 11.1.1. Tìm kiếm không phân biệt hoa thường với `grep -i`
 
@@ -3030,21 +3009,6 @@ Cú pháp:
 grep -i "từ_khóa" <tên_tệp>
 ```
 
-Ví dụ:
-
-```bash
-grep -i "error" logfile.txt
-```
-
-Lệnh này sẽ tìm cả:
-
-```bash
-error
-Error
-ERROR
-eRrOr
-```
-
 Ví dụ khi phân tích log:
 
 ```bash
@@ -3055,8 +3019,7 @@ Lệnh trên tìm tất cả các dòng có chứa từ `failed`, bất kể ch�
 
 Tùy chọn `-i` rất hữu ích khi không chắc dữ liệu trong tệp được viết theo dạng nào.
 
-Tóm lại, `grep -i` giúp tìm kiếm linh hoạt hơn bằng cách bỏ qua sự khác biệt giữa chữ hoa và chữ thường.
-
+![](./img/11.1_grep_i.png)
 
 ### 11.1.2. Tìm kiếm đệ quy với `grep -r`
 
@@ -3083,6 +3046,8 @@ Trong đó:
 | `"password"` | Từ khóa cần tìm |
 | `.` | Thư mục hiện tại |
 
+![](./img/11.1_grep_r.png)
+
 Ví dụ tìm từ `Listen` trong thư mục cấu hình Apache:
 
 ```bash
@@ -3091,16 +3056,7 @@ grep -r "Listen" /etc/apache2
 
 Lệnh này sẽ tìm trong tất cả tệp bên trong `/etc/apache2` và các thư mục con của nó.
 
-Trong an toàn thông tin, `grep -r` thường được dùng để tìm nhanh thông tin nhạy cảm trong mã nguồn hoặc thư mục cấu hình, ví dụ:
-
-```bash
-grep -r "api_key" .
-grep -r "token" .
-grep -r "password" .
-```
-
-Tóm lại, `grep -r` dùng để tìm kiếm nội dung trong nhiều tệp và nhiều thư mục con cùng lúc.
-
+![](./img/11.1_grep_apache2.png)
 
 ### 11.1.3 Hiển thị số dòng với `grep -n`
 
@@ -3115,23 +3071,10 @@ grep -n "từ_khóa" <tên_tệp>
 Ví dụ:
 
 ```bash
-grep -n "error" logfile.txt
+grep -n "ERROR" logfile.txt
 ```
 
-Kết quả có thể là:
-
-```bash
-2:error: failed login
-4:error: permission denied
-```
-
-Trong kết quả trên:
-
-| Phần | Ý nghĩa |
-|---|---|
-| `2` | Dòng số 2 trong tệp |
-| `4` | Dòng số 4 trong tệp |
-| Nội dung sau dấu `:` | Dòng có chứa từ khóa cần tìm |
+![](./img/11.1_grep_n.png)
 
 Có thể kết hợp nhiều tùy chọn:
 
@@ -3141,7 +3084,7 @@ grep -in "error" logfile.txt
 
 Lệnh trên vừa tìm không phân biệt hoa thường, vừa hiển thị số dòng.
 
-Tóm lại, `grep -n` giúp xác định vị trí chính xác của dòng khớp trong tệp, thuận tiện khi cần chỉnh sửa hoặc trích dẫn nội dung.
+![](./img/11.1_grep_in.png)
 
 ### 11.1.4 Loại trừ dòng khớp với `grep -v`
 
@@ -3153,27 +3096,13 @@ Cú pháp:
 grep -v "từ_khóa" <tên_tệp>
 ```
 
-Ví dụ, loại bỏ các dòng chứa từ `error`:
+Ví dụ, loại bỏ các dòng chứa từ `ERROR`:
 
 ```bash
-grep -v "error" logfile.txt
+grep -v "ERROR" logfile.txt
 ```
 
-Nếu tệp có nội dung:
-
-```bash
-system started
-error: failed login
-user connected
-error: permission denied
-```
-
-Kết quả sẽ là:
-
-```bash
-system started
-user connected
-```
+![](./img/11.1_grep_v.png)
 
 `grep -v` rất hữu ích khi cần loại bỏ dữ liệu không cần thiết.
 
@@ -3183,6 +3112,8 @@ Ví dụ, hiển thị các dòng trong `/etc/passwd` không chứa từ `nologi
 grep -v "nologin" /etc/passwd
 ```
 
+![](./img/11.1_grep_v_nologin.png)
+
 Có thể kết hợp với pipe:
 
 ```bash
@@ -3190,8 +3121,6 @@ cat /var/log/auth.log | grep -i "ssh" | grep -v "Accepted"
 ```
 
 Lệnh trên tìm các dòng liên quan đến SSH nhưng loại bỏ các dòng đăng nhập thành công có chứa từ `Accepted`.
-
-Tóm lại, `grep -v` dùng để loại trừ dòng khớp với mẫu, giúp lọc dữ liệu theo hướng ngược lại.
 
 
 ## 11.2. Xử lý cột với `awk`
@@ -3210,11 +3139,7 @@ Ví dụ:
 echo "one two three" | awk '{print $2}'
 ```
 
-Kết quả:
-
-```bash
-two
-```
+![](./img/11.2_awk_echo.png)
 
 Trong `awk`, các cột được đánh số như sau:
 
@@ -3231,11 +3156,7 @@ Ví dụ:
 echo "user1 192.168.1.10 success" | awk '{print $1}'
 ```
 
-Kết quả:
-
-```bash
-user1
-```
+![](./img/11.2_echo_user.png)
 
 Có thể in nhiều cột:
 
@@ -3243,11 +3164,7 @@ Có thể in nhiều cột:
 echo "user1 192.168.1.10 success" | awk '{print $1, $3}'
 ```
 
-Kết quả:
-
-```bash
-user1 success
-```
+![](./img/11.2_awk_in_nhieu_cot.png)
 
 Với tệp có dấu phân tách đặc biệt, dùng tùy chọn `-F`.
 
@@ -3265,8 +3182,7 @@ Ví dụ in tên user và shell đăng nhập:
 awk -F ':' '{print $1, $7}' /etc/passwd
 ```
 
-Tóm lại, `awk` rất phù hợp khi cần trích xuất dữ liệu theo cột hoặc xử lý dòng văn bản có cấu trúc.
-
+![](./img/11.2_awk_tach_truong.png)
 
 ## 11.3. Chỉnh sửa dòng văn bản với `sed`
 
@@ -3284,11 +3200,7 @@ Ví dụ:
 echo "Hello World" | sed 's/World/Linux/'
 ```
 
-Kết quả:
-
-```bash
-Hello Linux
-```
+![](./img/11.3_sed_echo_linux.png)
 
 Trong đó:
 
@@ -3306,16 +3218,12 @@ Ví dụ:
 echo "cat cat cat" | sed 's/cat/dog/g'
 ```
 
-Kết quả:
-
-```bash
-dog dog dog
-```
+![](./img/11.3_sed_dog.png)
 
 Có thể dùng `sed` để chỉ in các dòng khớp với mẫu:
 
 ```bash
-sed -n '/error/p' logfile.txt
+sed -n '/ERROR/p' logfile.txt
 ```
 
 Trong đó:
@@ -3323,7 +3231,9 @@ Trong đó:
 | Thành phần | Ý nghĩa |
 |---|---|
 | `-n` | Không in toàn bộ nội dung |
-| `/error/p` | Chỉ in dòng có chứa `error` |
+| `/ERROR/p` | Chỉ in dòng có chứa `ERROR` |
+
+![](./img/11.3_sed_khop_mau.png)
 
 Có thể xóa một dòng cụ thể:
 
@@ -3333,16 +3243,14 @@ sed '2d' file.txt
 
 Lệnh trên xóa dòng thứ 2 trong kết quả hiển thị.
 
+![](./img/11.3_sed_xoa_1_dong_cu_the.png)
+
 Muốn chỉnh sửa trực tiếp trong tệp, dùng tùy chọn `-i`:
 
 ```bash
-sed -i 's/old/new/g' file.txt
+sed -i 's/WARNING/WARN/g' file.txt
 ```
-
-Cần cẩn thận với `sed -i`, vì nó sửa trực tiếp nội dung tệp. Khi mới học, nên chạy không có `-i` trước để kiểm tra kết quả.
-
-Tóm lại, `sed` là công cụ mạnh để thay thế và chỉnh sửa văn bản tự động trong terminal hoặc Bash script.
-
+![](./img/11.3_sed_i_chinh_sua_truc_tiep.png)
 
 ## 11.4. Cắt cột với `cut`
 
