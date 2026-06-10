@@ -4537,7 +4537,6 @@ Linux là hệ điều hành đa người dùng, nghĩa là nhiều tài khoản
 
 Quản lý người dùng và nhóm là một kỹ năng quan trọng trong Linux, đặc biệt trong quản trị hệ thống, máy chủ, môi trường doanh nghiệp và an toàn thông tin. Nếu phân quyền không đúng, người dùng có thể truy cập dữ liệu nhạy cảm hoặc thực hiện các thao tác vượt quá quyền cần thiết.
 
-
 ## 14.1. Người dùng trong Linux
 
 Trong Linux, **người dùng** là một tài khoản được hệ thống dùng để xác định ai đang đăng nhập và đang thực hiện thao tác nào. Mỗi người dùng có một tên đăng nhập, một mã định danh người dùng gọi là **UID**, một thư mục home và thường có một shell mặc định.
@@ -4583,9 +4582,6 @@ student:x:1000:1000:Student User:/home/student:/bin/bash
 
 Trong Linux, tài khoản quan trọng nhất là **root**. Đây là tài khoản có quyền quản trị cao nhất, có thể thay đổi toàn bộ hệ thống. Vì vậy, người dùng thông thường không nên đăng nhập trực tiếp bằng root nếu không cần thiết.
 
-Tóm lại, người dùng trong Linux là thực thể dùng để xác định danh tính, quyền hạn và phạm vi thao tác của một tài khoản trên hệ thống.
-
-
 ## 14.2. Nhóm trong Linux
 
 **Nhóm** trong Linux là cách gom nhiều người dùng lại với nhau để quản lý quyền truy cập dễ hơn. Thay vì cấp quyền riêng lẻ cho từng người dùng, quản trị viên có thể cấp quyền cho một nhóm, sau đó thêm người dùng vào nhóm đó.
@@ -4617,22 +4613,17 @@ Có thể xem danh sách nhóm bằng:
 cat /etc/group
 ```
 
+![](./img/14.2_xem_group.png)
+
 Hoặc kiểm tra nhóm của user hiện tại bằng:
 
 ```bash
 groups
 ```
 
-Ví dụ kết quả:
-
-```bash
-student sudo adm
-```
+![](./img/14.2_kiem_tra_nhom_hien_tai.png)
 
 Trong quản trị Linux, nhóm giúp chia sẻ quyền truy cập một cách linh hoạt. Ví dụ, nhiều người dùng cùng thuộc một nhóm có thể được cấp quyền đọc một thư mục log hoặc chỉnh sửa một thư mục dự án.
-
-Tóm lại, nhóm là cơ chế quan trọng để quản lý quyền cho nhiều người dùng cùng lúc, giúp hệ thống dễ quản trị và an toàn hơn.
-
 
 ## 14.3. Kiểm tra thông tin người dùng với `id`
 
@@ -4644,19 +4635,31 @@ Cú pháp:
 id
 ```
 
-Ví dụ kết quả:
+![](./img/14.3_id.png)
 
 ```bash
-uid=1000(student) gid=1000(student) groups=1000(student),27(sudo),4(adm)
+User: sun
+│
+├── UID = 1000
+│
+├── Primary Group
+│      └── GID = 1000 (sun)
+│
+└── Supplementary Groups
+       ├── sudo   (GID = 27)
+       └── vboxsf (GID = 999)
 ```
 
 Ý nghĩa:
 
-| Thành phần | Ý nghĩa |
-|---|---|
-| `uid=1000(student)` | ID và tên của người dùng hiện tại |
-| `gid=1000(student)` | ID và tên nhóm chính |
-| `groups=...` | Danh sách các nhóm mà user thuộc về |
+| Thành phần         | Giá trị        | Ý nghĩa                                                                                                                                                      |
+| ------------------ | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `uid=1000(sun)`    | UID = `1000`   | **User ID** (mã định danh của người dùng). Tài khoản `sun` có UID là `1000`. Trên Ubuntu, UID từ `1000` trở lên thường là tài khoản người dùng thông thường. |
+| `gid=1000(sun)`    | GID = `1000`   | **Primary Group ID** (nhóm chính của user). User `sun` thuộc nhóm chính tên `sun`.                                                                           |
+| `groups=1000(sun)` | Group `sun`    | Đây là nhóm chính của user. Các file mới tạo thường mặc định thuộc nhóm này.                                                                                 |
+| `27(sudo)`         | Group `sudo`   | User `sun` thuộc nhóm `sudo`, nghĩa là **có quyền sử dụng lệnh `sudo` để thực hiện tác vụ quản trị hệ thống**.                                               |
+| `999(vboxsf)`      | Group `vboxsf` | `vboxsf` là **VirtualBox Shared Folders**, cho phép user truy cập các thư mục được chia sẻ giữa máy host và máy ảo VirtualBox.                               |
+
 
 Có thể kiểm tra thông tin của một user cụ thể:
 
@@ -4666,9 +4669,7 @@ id username
 
 Ví dụ:
 
-```bash
-id student
-```
+![](./img/14.3_kiem_tra_user_cu_the.png)
 
 Lệnh `id` rất hữu ích khi cần kiểm tra quyền của tài khoản hiện tại. Nếu kết quả có chứa nhóm `sudo`, người dùng có thể có quyền chạy lệnh với đặc quyền quản trị thông qua `sudo`.
 
@@ -4686,9 +4687,6 @@ uid=1000(chu) gid=1000(chu) groups=1000(chu),4(adm),27(sudo)
 
 Trong ví dụ này, user `chu` thuộc nhóm `sudo` và `adm`, nghĩa là tài khoản này có nhiều quyền hơn user thông thường.
 
-Tóm lại, `id` là lệnh quan trọng để kiểm tra danh tính và nhóm quyền của người dùng trong Linux.
-
-
 ## 14.4. Chuyển đổi người dùng với `su`
 
 Lệnh `su`, viết tắt của **substitute user** hoặc **switch user**, dùng để chuyển sang một tài khoản người dùng khác trong terminal.
@@ -4701,30 +4699,24 @@ su <username>
 
 Ví dụ:
 
-```bash
-su user2
-```
+![](./img/14.4_su.png)
 
 Sau khi chạy lệnh, hệ thống sẽ yêu cầu nhập mật khẩu của user đích. Nếu nhập đúng, phiên terminal sẽ chuyển sang user đó.
 
 Để chuyển sang user khác như một phiên đăng nhập đầy đủ, nên dùng tùy chọn `-` hoặc `-l`:
 
-```bash
-su - user2
-```
+![](./img/14.4_su_1.png)
 
 hoặc:
 
-```bash
-su --login user2
-```
+![](./img/14.4_su_2.png)
 
 Cách này giúp nạp môi trường làm việc của user mới, bao gồm thư mục home, biến môi trường và shell đăng nhập.
 
 Nếu chỉ chạy:
 
 ```bash
-su user2
+su <username>
 ```
 
 người dùng có thể chuyển sang user mới nhưng không nhất thiết nạp đầy đủ môi trường đăng nhập của user đó.
@@ -4737,27 +4729,14 @@ whoami
 
 Ví dụ:
 
-```bash
-su - user2
-whoami
-```
+![](./img/14.4_su_whoami.png)
 
-Kết quả:
-
-```bash
-user2
-```
 
 Ngoài ra, `su` có thể chạy một lệnh cụ thể dưới quyền user khác bằng tùy chọn `-c` hoặc `--command`:
 
-```bash
-su --command "whoami" user2
-```
+![](./img/14.4_su_command.png)
 
-Lệnh này chỉ chạy `whoami` dưới quyền `user2`, sau đó quay lại phiên làm việc ban đầu.
-
-Tóm lại, `su` dùng để chuyển sang tài khoản người dùng khác. Khi muốn có môi trường đăng nhập đầy đủ, nên dùng `su - username`.
-
+Lệnh này chỉ chạy `whoami` dưới quyền `moon`, sau đó quay lại phiên làm việc ban đầu.
 
 ## 14.5. Chạy lệnh với quyền cao hơn bằng `sudo`
 
@@ -4781,6 +4760,8 @@ Ví dụ chỉnh sửa tệp hệ thống:
 sudo nano /etc/hosts
 ```
 
+![](./img/14.5_sudo_host.png)
+
 Khi dùng `sudo`, hệ thống thường yêu cầu nhập mật khẩu của chính user hiện tại, không phải mật khẩu root. User đó phải được cấp quyền sử dụng `sudo`, thường thông qua nhóm `sudo` hoặc cấu hình trong file sudoers.
 
 Có thể kiểm tra user hiện tại có quyền `sudo` hay không bằng:
@@ -4788,6 +4769,8 @@ Có thể kiểm tra user hiện tại có quyền `sudo` hay không bằng:
 ```bash
 sudo -l
 ```
+
+![](./img/14.5_l.png)
 
 Lệnh này hiển thị danh sách các lệnh mà user được phép chạy với `sudo`.
 
@@ -4805,19 +4788,9 @@ Ví dụ:
 ```bash
 sudo whoami
 ```
-
-Kết quả thường là:
-
-```bash
-root
-```
-
-Điều này cho thấy lệnh `whoami` đã được chạy với quyền root.
+![](./img/14.5_sudo_whoami.png)
 
 Trong thực tế, nên dùng `sudo` thay vì đăng nhập trực tiếp bằng root, vì `sudo` giúp kiểm soát từng lệnh được nâng quyền và giảm rủi ro thao tác nhầm toàn bộ hệ thống.
-
-Tóm lại, `sudo` là công cụ quan trọng để thực hiện các thao tác quản trị một cách an toàn và có kiểm soát hơn.
-
 
 ## 14.6. Tạo người dùng mới
 
@@ -4835,6 +4808,8 @@ Ví dụ tạo user mới tên `alice`:
 sudo adduser alice
 ```
 
+![](./img/14.6_adduser.png)
+
 Sau khi chạy lệnh, hệ thống thường yêu cầu nhập mật khẩu mới và một số thông tin bổ sung như họ tên, số phòng, số điện thoại. Có thể nhấn `Enter` để bỏ qua các thông tin không cần thiết.
 
 Sau khi tạo xong, có thể kiểm tra user bằng:
@@ -4843,17 +4818,15 @@ Sau khi tạo xong, có thể kiểm tra user bằng:
 id alice
 ```
 
+![](./img/14.6_id_alice.png)
+
 Hoặc kiểm tra thư mục home:
 
 ```bash
 ls /home
 ```
 
-Kết quả có thể có thư mục:
-
-```bash
-alice
-```
+![](./img/14.6_ls_home.png)
 
 Ngoài `adduser`, một số hệ thống cũng có lệnh cấp thấp hơn là `useradd`.
 
@@ -4877,8 +4850,7 @@ Ví dụ thêm user `alice` vào nhóm `sudo`:
 sudo usermod -aG sudo alice
 ```
 
-Cần cẩn thận khi thêm user vào các nhóm đặc quyền như `sudo`, vì điều này có thể cho phép user thực hiện thao tác quản trị hệ thống.
-
+![](./img/14.6_them_user_vao_nhom.png)
 
 ## 14.7. Đặt mật khẩu cho người dùng
 
@@ -4906,16 +4878,7 @@ sudo passwd alice
 
 Sau đó hệ thống sẽ yêu cầu nhập mật khẩu mới:
 
-```bash
-New password:
-Retype new password:
-```
-
-Nếu mật khẩu được đặt thành công, hệ thống có thể hiển thị:
-
-```bash
-passwd: password updated successfully
-```
+![](./img/14.7_passwd.png)
 
 Trong quản trị hệ thống, `passwd` rất quan trọng vì tài khoản mới tạo cần có mật khẩu để đăng nhập. Ngoài ra, quản trị viên có thể dùng lệnh này để đặt lại mật khẩu khi người dùng quên mật khẩu.
 
@@ -4927,7 +4890,6 @@ Một số lưu ý bảo mật khi đặt mật khẩu:
 | Không dùng thông tin cá nhân | Ví dụ ngày sinh, tên, số điện thoại |
 | Nên kết hợp chữ, số, ký tự đặc biệt | Tăng độ khó đoán |
 | Không dùng chung mật khẩu cho nhiều tài khoản | Giảm rủi ro khi một tài khoản bị lộ |
-
 
 ## 14.8. Xóa người dùng
 
@@ -4945,6 +4907,8 @@ Ví dụ xóa user `alice`:
 sudo deluser alice
 ```
 
+![](./img/14.8_deluser.png)
+
 Lệnh trên xóa tài khoản `alice`, nhưng có thể không xóa thư mục home của user đó.
 
 Nếu muốn xóa cả thư mục home, có thể dùng:
@@ -4953,17 +4917,7 @@ Nếu muốn xóa cả thư mục home, có thể dùng:
 sudo deluser --remove-home alice
 ```
 
-Trước khi xóa user, nên kiểm tra:
-
-```bash
-id alice
-```
-
-Kiểm tra thư mục home:
-
-```bash
-ls /home/alice
-```
+![](./img/14.8_deluser_and_home.png)
 
 Nếu user đang chạy tiến trình, cần kiểm tra trước bằng:
 
@@ -4977,21 +4931,15 @@ Sau khi xóa user, có thể kiểm tra lại:
 id alice
 ```
 
-Nếu user đã bị xóa, hệ thống có thể báo:
-
-```bash
-id: ‘alice’: no such user
-```
+![](./img/14.8_kiem_tra.png)
 
 Cần cẩn thận khi xóa user trên máy chủ, vì user đó có thể đang sở hữu tệp, chạy dịch vụ hoặc có dữ liệu quan trọng trong thư mục home.
-
-Tóm lại, `sudo deluser username` dùng để xóa tài khoản người dùng. Nếu muốn xóa cả dữ liệu home, dùng thêm tùy chọn `--remove-home`.
 
 ## 14.9. Ý nghĩa bảo mật của nhóm `sudo`, `adm` và các nhóm đặc quyền
 
 Trong Linux, một số nhóm có quyền cao hơn nhóm thông thường. Nếu một user thuộc các nhóm này, user đó có thể truy cập nhiều tài nguyên quan trọng hoặc thực hiện các thao tác ảnh hưởng đến toàn bộ hệ thống.
 
-#### Nhóm `sudo`
+### 14.9.1 Nhóm `sudo`
 
 Nhóm `sudo` là một trong những nhóm quan trọng nhất. User thuộc nhóm này thường có thể chạy lệnh với quyền root thông qua `sudo`.
 
@@ -5007,6 +4955,8 @@ Nếu kết quả có chứa:
 27(sudo)
 ```
 
+![](./img/14.9_id.png)
+
 nghĩa là user hiện tại thuộc nhóm `sudo`.
 
 Ví dụ:
@@ -5019,7 +4969,7 @@ sudo nano /etc/hosts
 
 Các lệnh trên đều có thể thay đổi hệ thống. Vì vậy, chỉ nên cấp quyền `sudo` cho những user thật sự cần quyền quản trị.
 
-#### Nhóm `adm`
+### 14.9.2 Nhóm `adm`
 
 Nhóm `adm` thường liên quan đến việc đọc một số tệp log hệ thống trên các bản phân phối như Ubuntu hoặc Debian. User thuộc nhóm này có thể có khả năng xem các thông tin quan trọng trong thư mục log.
 
@@ -5031,30 +4981,31 @@ ls -l /var/log
 
 Một số tệp log có thể cho phép nhóm `adm` đọc.
 
-Trong an toàn thông tin, quyền đọc log rất quan trọng. Log có thể chứa thông tin về đăng nhập, lỗi dịch vụ, hoạt động mạng hoặc dấu hiệu tấn công. Vì vậy, không nên thêm user vào nhóm `adm` nếu không có nhu cầu giám sát hoặc quản trị.
-
-#### Một số nhóm đặc quyền khác
+### 14.9.3 Một số nhóm đặc quyền khác
 
 Ngoài `sudo` và `adm`, một số nhóm khác cũng cần được kiểm soát cẩn thận:
 
-| Nhóm | Rủi ro nếu cấp sai |
-|---|---|
-| `sudo` | Có thể chạy lệnh với quyền root |
-| `adm` | Có thể đọc một số log hệ thống |
-| `docker` | Có thể dẫn đến quyền rất cao nếu cấu hình không an toàn |
-| `lxd` | Có thể bị lợi dụng để leo thang đặc quyền |
-| `libvirt` | Có thể quản lý máy ảo |
-| `wireshark` | Có thể bắt hoặc phân tích lưu lượng mạng |
-| `kvm` | Có thể truy cập tài nguyên ảo hóa |
-| `shadow` | Có thể liên quan đến quyền đọc dữ liệu mật khẩu đã băm |
+![](./img/14.9_cac_nhom.png)
 
-Ví dụ một kết quả `id` có nhiều nhóm đặc quyền:
+| Nhóm           | Ý nghĩa                      | Mục đích                                                                                                    |
+| -------------- | ---------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| **chu**        | Nhóm chính của user          | Mặc định cho tài khoản `chu`, các file tạo mới thường thuộc nhóm này.                                       |
+| **adm**        | Quản lý log hệ thống         | Cho phép đọc nhiều file log trong `/var/log`.                                                               |
+| **cdrom**      | Truy cập ổ CD/DVD            | Cho phép sử dụng thiết bị CD/DVD mà không cần root.                                                         |
+| **sudo**       | Quyền quản trị               | Có thể dùng `sudo` để thực hiện lệnh với quyền root.                                                        |
+| **dip**        | Dial-up IP                   | Quyền cấu hình một số kết nối mạng cũ (PPP, modem). Hiện nay ít dùng.                                       |
+| **plugdev**    | Thiết bị gắn ngoài           | Cho phép truy cập USB, ổ cứng ngoài và một số thiết bị hot-plug.                                            |
+| **kvm**        | Kernel-based Virtual Machine | Được phép sử dụng máy ảo KVM/QEMU mà không cần quyền root.                                                  |
+| **vboxusers**  | VirtualBox                   | Cho phép truy cập các tính năng của VirtualBox (USB passthrough, VM...).                                    |
+| **lpadmin**    | Quản lý máy in               | Có quyền cấu hình và quản lý máy in.                                                                        |
+| **lxd**        | Linux Containers             | Có quyền quản lý container LXD. Thành viên nhóm này gần như có quyền root trên máy.                         |
+| **sambashare** | Samba                        | Cho phép tạo và quản lý thư mục chia sẻ qua Samba.                                                          |
+| **wireshark**  | Wireshark                    | Cho phép bắt gói tin mạng bằng Wireshark mà không cần chạy bằng root.                                       |
+| **docker**     | Docker                       | Có quyền chạy Docker (`docker run`, `docker ps`, ...). Thành viên nhóm này cũng gần tương đương quyền root. |
+| **ubridge**    | uBridge                      | Cho phép sử dụng công cụ `ubridge` để kết nối các thiết bị mạng ảo (thường dùng với GNS3, EVE-NG).          |
+| **libvirt**    | Libvirt                      | Quản lý máy ảo thông qua `libvirt` và `virsh`.                                                              |
+| **debian-tor** | Tor                          | Liên quan đến dịch vụ Tor, cho phép tiến trình Tor chạy với quyền hạn thích hợp.                            |
 
-```bash
-uid=1000(chu) gid=1000(chu) groups=1000(chu),4(adm),27(sudo),140(docker),145(libvirt),139(wireshark)
-```
-
-Kết quả này cho thấy user `chu` có nhiều quyền mở rộng. Đây là điều bình thường trên máy cá nhân phục vụ học tập hoặc lab bảo mật, nhưng trên máy chủ thật cần kiểm soát rất chặt.
 
 Nguyên tắc bảo mật quan trọng là **least privilege**, tức là chỉ cấp đúng quyền cần thiết cho user để thực hiện công việc. Không nên thêm user vào các nhóm đặc quyền nếu không có lý do rõ ràng.
 
@@ -5065,14 +5016,6 @@ id
 groups
 groups username
 ```
-
-Ví dụ kiểm tra nhóm của user `alice`:
-
-```bash
-groups alice
-```
-
-Tóm lại, nhóm đặc quyền có ảnh hưởng trực tiếp đến bảo mật hệ thống. Trong đó, `sudo` cho phép nâng quyền quản trị, `adm` thường liên quan đến đọc log, còn các nhóm như `docker`, `lxd`, `libvirt`, `wireshark` cũng cần được kiểm soát cẩn thận.
 
 # 15. Kết nối và quản trị từ xa
 
