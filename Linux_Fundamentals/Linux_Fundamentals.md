@@ -4105,6 +4105,8 @@ Khi làm việc với Linux, người dùng cần hiểu ba nhóm quyền cơ b�
 
 Trong Linux, mỗi tệp và thư mục đều có thông tin quyền truy cập. Quyền này cho biết ai được phép đọc, ghi hoặc thực thi đối tượng đó.
 
+![](./img/13.1_basic_permissions.webp)
+
 Quyền truy cập giúp hệ thống trả lời các câu hỏi như:
 
 | Câu hỏi | Ý nghĩa |
@@ -4122,15 +4124,7 @@ Có thể xem quyền truy cập bằng lệnh:
 ls -l
 ```
 
-Ví dụ kết quả:
-
-```bash
--rwxr-xr-- 1 student student 120 May 15 10:00 script.sh
-```
-
-Dòng trên cho biết `script.sh` là một tệp thường, thuộc sở hữu của user `student`, group `student`, và có các quyền truy cập khác nhau cho user, group và others.
-
-Tóm lại, quyền truy cập là cơ chế kiểm soát ai được phép làm gì với tệp hoặc thư mục trong Linux.
+![](./img/13.1_ls_l.png)
 
 
 ## 13.2. Read, Write, Execute
@@ -4219,20 +4213,18 @@ ls -l script.sh
 
 Kết quả:
 
-```bash
--rwxr-xr-- 1 student student 120 May 15 10:00 script.sh
-```
+![](./img/13.4_ls_script.png)
 
 Phần quyền truy cập là:
 
 ```bash
--rwxr-xr--
+-rw-rw-r--
 ```
 
 Chuỗi này gồm 10 ký tự:
 
 ```bash
-- rwx r-x r--
+- rw- rw- r--
 ```
 
 Có thể tách thành các phần như sau:
@@ -4240,8 +4232,8 @@ Có thể tách thành các phần như sau:
 | Phần | Ý nghĩa |
 |---|---|
 | `-` | Loại đối tượng |
-| `rwx` | Quyền của user |
-| `r-x` | Quyền của group |
+| `rw-` | Quyền của user |
+| `rw-` | Quyền của group |
 | `r--` | Quyền của others |
 
 Ký tự đầu tiên cho biết loại đối tượng:
@@ -4290,8 +4282,6 @@ Ví dụ khác:
 | Group | `---` | Không có quyền |
 | Others | `---` | Không có quyền |
 
-Tóm lại, khi đọc kết quả `ls -l`, cần chú ý 10 ký tự đầu tiên vì chúng cho biết loại đối tượng và quyền truy cập của user, group, others.
-
 ## 13.5. Thay đổi quyền với `chmod`
 
 Lệnh `chmod`, viết tắt của **change mode**, dùng để thay đổi quyền truy cập của tệp hoặc thư mục.
@@ -4332,37 +4322,28 @@ Ví dụ thêm quyền thực thi cho user:
 chmod u+x script.sh
 ```
 
-Gỡ quyền ghi của others:
+![](./img/13.5_chmod_u_x.png)
+
+Gỡ quyền đọc của others:
 
 ```bash
-chmod o-w file.txt
+chmod o-r script.sh
 ```
+![](./img/13.5_chmod_o_r.png)
 
 Gán quyền đọc và ghi cho user, chỉ đọc cho group, không quyền cho others:
 
 ```bash
-chmod u=rw,g=r,o= file.txt
+chmod u=rw,g=r,o= script.sh
 ```
+
+![](./img/13.5_chmod_urw_gr_o.png)
 
 ### 13.5.2 Thay đổi quyền dùng dạng số
 
 Trong Linux, mỗi quyền có một giá trị số:
 
-| Quyền | Giá trị |
-|---|---|
-| Read `r` | 4 |
-| Write `w` | 2 |
-| Execute `x` | 1 |
-
-Các quyền được cộng lại để tạo thành một số:
-
-| Số | Quyền |
-|---|---|
-| `7` | `rwx` |
-| `6` | `rw-` |
-| `5` | `r-x` |
-| `4` | `r--` |
-| `0` | `---` |
+![](./img/13.5_bang_doi_so.webp)
 
 Ví dụ:
 
@@ -4378,50 +4359,21 @@ Quyền `755` có nghĩa là:
 | Group | `5` | `r-x` |
 | Others | `5` | `r-x` |
 
-Ví dụ khác:
-
-```bash
-chmod 644 file.txt
-```
-
-Quyền `644` có nghĩa là:
-
-| Nhóm | Số | Quyền |
-|---|---|---|
-| User | `6` | `rw-` |
-| Group | `4` | `r--` |
-| Others | `4` | `r--` |
-
-Tóm lại, `chmod` dùng để thay đổi quyền truy cập. Người mới nên bắt đầu với dạng ký hiệu chữ để dễ hiểu, sau đó học dạng số vì dạng số được dùng rất phổ biến trong thực tế.
+![](./img/13.5_chmod_755.png)
 
 ## 13.6. Thêm quyền thực thi với `chmod +x`
 
 Khi tạo một script mới, tệp đó thường chưa có quyền thực thi. Vì vậy, nếu chạy trực tiếp, hệ thống có thể báo lỗi `Permission denied`.
 
-Ví dụ tạo script:
-
-```bash
-nano hello.sh
-```
-
-Nội dung:
-
-```bash
-#!/bin/bash
-echo "Hello Linux"
-```
-
-Thử chạy:
+Ví dụ 
 
 ```bash
 ./hello.sh
 ```
 
-Nếu tệp chưa có quyền thực thi, có thể gặp lỗi:
+Tệp chưa có quyền thực thi, gặp lỗi:
 
-```bash
-bash: ./hello.sh: Permission denied
-```
+@[](./img/13.6_loi_chua_cap_quyen.png)
 
 Để thêm quyền thực thi, dùng:
 
@@ -4435,36 +4387,7 @@ Sau đó chạy lại:
 ./hello.sh
 ```
 
-Kết quả:
-
-```bash
-Hello Linux
-```
-
-Lệnh:
-
-```bash
-chmod +x hello.sh
-```
-
-có nghĩa là thêm quyền execute cho tệp `hello.sh`.
-
-Có thể kiểm tra bằng:
-
-```bash
-ls -l hello.sh
-```
-
-Kết quả có thể là:
-
-```bash
--rwxr-xr-x 1 student student 35 May 15 10:00 hello.sh
-```
-
-Trong đó ký tự `x` cho biết tệp đã có quyền thực thi.
-
-Tóm lại, `chmod +x` thường được dùng để biến một script thành tệp có thể chạy trực tiếp trong terminal.
-
+![](./img/13.6_cap_quyen.png)
 
 ## 13.7. Thay đổi chủ sở hữu với `chown`
 
@@ -4476,31 +4399,12 @@ Cú pháp:
 sudo chown <user> <tên_tệp>
 ```
 
-Ví dụ, đổi chủ sở hữu của `file.txt` thành user `student`:
+Ví dụ, đổi chủ sở hữu của `file.txt` thành user `moon`:
 
-```bash
-sudo chown student file.txt
-```
+![](./img/13.7_chown.png)
 
-Kiểm tra lại:
-
-```bash
-ls -l file.txt
-```
-
-Kết quả có thể là:
-
-```bash
--rw-r--r-- 1 student root 100 May 15 10:00 file.txt
-```
-
-Trong kết quả trên, user sở hữu tệp đã được đổi thành `student`.
 
 Có thể thay đổi cả user và group cùng lúc:
-
-```bash
-sudo chown student:student file.txt
-```
 
 Cú pháp:
 
@@ -4508,18 +4412,17 @@ Cú pháp:
 sudo chown <user>:<group> <tên_tệp>
 ```
 
-Ví dụ đổi chủ sở hữu thư mục và toàn bộ nội dung bên trong, dùng tùy chọn `-R`:
-
 ```bash
-sudo chown -R student:student project/
+sudo chown moon:moon file.txt
 ```
 
+![](./img/13.7_chown_user_group.png)
+
+Đổi chủ sở hữu thư mục và toàn bộ nội dung bên trong, dùng tùy chọn `-R`:
+
+![](./img/13.7_chown_folder.png)
+
 Trong đó `-R` nghĩa là **recursive**, áp dụng thay đổi cho thư mục và toàn bộ tệp/thư mục con bên trong.
-
-Cần cẩn thận khi dùng `chown -R`, đặc biệt với thư mục hệ thống như `/etc`, `/usr`, `/var`, vì thay đổi sai chủ sở hữu có thể làm hệ thống hoặc dịch vụ hoạt động lỗi.
-
-Tóm lại, `chown` dùng để thay đổi chủ sở hữu của tệp hoặc thư mục. Lệnh này thường cần quyền `sudo`.
-
 
 ## 13.8. Thay đổi nhóm sở hữu với `chgrp`
 
@@ -4537,19 +4440,7 @@ Ví dụ, đổi nhóm sở hữu của `report.txt` thành `analysts`:
 sudo chgrp analysts report.txt
 ```
 
-Kiểm tra lại:
-
-```bash
-ls -l report.txt
-```
-
-Kết quả có thể là:
-
-```bash
--rw-r----- 1 student analysts 200 May 15 10:00 report.txt
-```
-
-Trong ví dụ trên, group sở hữu tệp đã được đổi thành `analysts`.
+![](./img/13.8_chgrp.png)
 
 Có thể áp dụng cho cả thư mục và nội dung bên trong bằng tùy chọn `-R`:
 
@@ -4576,73 +4467,23 @@ Quyền `640` nghĩa là:
 | Group | Chỉ đọc |
 | Others | Không có quyền |
 
-Tóm lại, `chgrp` dùng để thay đổi nhóm sở hữu của tệp hoặc thư mục, giúp quản lý quyền truy cập theo nhóm hiệu quả hơn.
+![](./img/13.8_chgrp_640.png)
 
-## 13.9. Quyền truy cập và rủi ro bảo mật
-
-Quyền truy cập trong Linux có ảnh hưởng trực tiếp đến bảo mật hệ thống. Nếu cấu hình quyền không đúng, người dùng không được phép có thể đọc dữ liệu nhạy cảm, chỉnh sửa file cấu hình hoặc thực thi mã độc.
-
-Một số rủi ro thường gặp:
-
-| Rủi ro | Ví dụ |
-|---|---|
-| Tệp nhạy cảm cho phép đọc công khai | `others` có quyền đọc file chứa mật khẩu hoặc token |
-| Script có quyền ghi cho nhiều người | Người khác có thể sửa script và chèn lệnh độc hại |
-| Thư mục có quyền ghi quá rộng | User khác có thể tạo hoặc thay đổi tệp trong thư mục |
-| Dùng `chmod 777` tùy tiện | Tất cả mọi người đều có quyền đọc, ghi và thực thi |
-| Đổi owner/group sai | Dịch vụ có thể lỗi hoặc mất kiểm soát quyền |
-
-Ví dụ quyền quá rộng:
-
-```bash
-chmod 777 script.sh
-```
-
-Quyền `777` nghĩa là user, group và others đều có quyền đọc, ghi và thực thi. Điều này thường không an toàn, đặc biệt với script, thư mục web, file cấu hình hoặc dữ liệu quan trọng.
-
-Cách kiểm tra quyền:
-
-```bash
-ls -l
-```
-
-Ví dụ một file nhạy cảm không nên có quyền như sau:
-
-```bash
--rw-rw-rw- 1 root root 100 May 15 10:00 secret.conf
-```
-
-Quyền trên cho phép mọi người ghi vào file, đây là rủi ro lớn.
-
-Nguyên tắc bảo mật cơ bản là **cấp quyền tối thiểu cần thiết**. Người dùng hoặc chương trình chỉ nên có đúng quyền cần để thực hiện nhiệm vụ, không nên cấp quyền rộng hơn.
-
-Ví dụ với file cấu hình:
-
-```bash
-chmod 640 config.conf
-```
-
-Với script chỉ chủ sở hữu được chỉnh sửa, người khác chỉ được chạy:
-
-```bash
-chmod 755 script.sh
-```
-
-Tóm lại, quản lý quyền truy cập đúng cách giúp giảm rủi ro bị đọc trộm dữ liệu, sửa đổi trái phép hoặc thực thi lệnh nguy hiểm trên hệ thống.
-
-## 13.10. Các tệp nhạy cảm: `/etc/passwd` và `/etc/shadow`
+## 13.9. Các tệp nhạy cảm: `/etc/passwd` và `/etc/shadow`
 
 Trong Linux, `/etc/passwd` và `/etc/shadow` là hai tệp rất quan trọng liên quan đến tài khoản người dùng.
 
-#### Tệp `/etc/passwd`
+### 13.9.1 Tệp `/etc/passwd`
 
 Tệp `/etc/passwd` chứa thông tin cơ bản về các tài khoản người dùng trong hệ thống.
 
 Có thể xem bằng:
 
 ```bash
-cat /etc/passwd
+sudo cat /etc/passwd
 ```
+
+![](./img/13.9_passwd.png)
 
 Một dòng trong `/etc/passwd` thường có dạng:
 
@@ -4664,7 +4505,7 @@ Các trường được phân tách bằng dấu `:`:
 
 Thông thường, `/etc/passwd` có thể được đọc bởi nhiều người dùng vì nhiều chương trình cần tra cứu thông tin tài khoản. Tuy nhiên, người dùng thường không được phép chỉnh sửa trực tiếp tệp này nếu không có quyền quản trị.
 
-#### Tệp `/etc/shadow`
+### 13.9.2 Tệp `/etc/shadow`
 
 Tệp `/etc/shadow` chứa thông tin mật khẩu đã được băm và các thông tin liên quan đến chính sách mật khẩu. Đây là tệp nhạy cảm hơn nhiều so với `/etc/passwd`.
 
@@ -4674,17 +4515,7 @@ Thử xem quyền của `/etc/shadow`:
 ls -l /etc/shadow
 ```
 
-Kết quả có thể là:
-
-```bash
--rw------- 1 root root 1200 May 15 10:00 /etc/shadow
-```
-
-hoặc trên một số hệ thống:
-
-```bash
--rw-r----- 1 root shadow 1200 May 15 10:00 /etc/shadow
-```
+![](./img/13.9_shadow.png)
 
 Điều này cho thấy chỉ root hoặc nhóm đặc biệt mới có quyền đọc tệp này.
 
@@ -4696,20 +4527,9 @@ cat /etc/shadow
 
 hệ thống thường báo lỗi:
 
-```bash
-Permission denied
-```
+![](./img/13.9_shadow_permission.png)
 
 Điều này là bình thường và cần thiết để bảo vệ thông tin xác thực của người dùng.
-
-So sánh ngắn gọn:
-
-| Tệp | Nội dung | Mức độ nhạy cảm |
-|---|---|---|
-| `/etc/passwd` | Thông tin tài khoản người dùng | Quan trọng nhưng thường có thể đọc |
-| `/etc/shadow` | Hash mật khẩu và chính sách mật khẩu | Rất nhạy cảm, chỉ root/nhóm đặc biệt được đọc |
-
-Tóm lại, `/etc/passwd` và `/etc/shadow` là hai tệp quan trọng trong quản lý tài khoản Linux. `/etc/passwd` chứa thông tin người dùng cơ bản, còn `/etc/shadow` chứa dữ liệu mật khẩu đã băm và phải được bảo vệ nghiêm ngặt.
 
 # 14. Quản lý người dùng và nhóm
 
