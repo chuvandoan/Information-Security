@@ -5592,8 +5592,6 @@ Trong Linux, nén và lưu trữ dữ liệu là thao tác rất phổ biến kh
 
 Cần phân biệt hai khái niệm quan trọng: **archive** và **compression**. Archive là gom nhiều tệp/thư mục thành một tệp duy nhất, còn compression là nén dữ liệu để giảm dung lượng.
 
----
-
 ## 17.1. Khái niệm archive và compression
 
 **Archive** là quá trình gom nhiều tệp hoặc thư mục vào một tệp duy nhất để dễ lưu trữ, sao lưu hoặc truyền đi. File archive không nhất thiết phải được nén.
@@ -5633,7 +5631,6 @@ Có thể hiểu đơn giản:
 
 Tóm lại, `tar` thường dùng để đóng gói dữ liệu, còn `gzip` dùng để nén dữ liệu. Trong thực tế, hai công cụ này thường được kết hợp với nhau.
 
-
 ## 17.2. Tạo file `.tar` với `tar`
 
 Lệnh `tar`, viết tắt của **tape archive**, dùng để tạo file lưu trữ từ nhiều tệp hoặc thư mục.
@@ -5667,11 +5664,7 @@ Sau khi chạy lệnh, có thể kiểm tra bằng:
 ls -lh
 ```
 
-Kết quả có thể là:
-
-```bash
--rw-r--r-- 1 student student 20K May 15 10:00 project_backup.tar
-```
+![](./img/17.2_tar_cvf.png)
 
 Có thể đóng gói nhiều tệp cùng lúc:
 
@@ -5679,14 +5672,15 @@ Có thể đóng gói nhiều tệp cùng lúc:
 tar -cvf documents.tar file1.txt file2.txt file3.txt
 ```
 
+![](./img/17.2_tar_cvf_nhieu_file.png)
+
 Hoặc đóng gói nhiều thư mục:
 
 ```bash
 tar -cvf backup.tar Documents/ Pictures/ scripts/
 ```
 
-Tóm lại, `tar -cvf` dùng để tạo file `.tar`, giúp gom nhiều tệp và thư mục thành một file duy nhất.
-
+![](./img/17.2_tar_cvf_nhieu_folder.png)
 
 ## 17.3. Giải nén file `.tar`
 
@@ -5715,6 +5709,8 @@ Trong đó:
 
 Sau khi giải nén, thư mục hoặc tệp bên trong archive sẽ xuất hiện trong thư mục hiện tại.
 
+![](./img/17.3_tar_xvf_folder.png)
+
 Có thể giải nén vào một thư mục cụ thể bằng tùy chọn `-C`:
 
 ```bash
@@ -5723,6 +5719,8 @@ tar -xvf project_backup.tar -C extracted/
 ```
 
 Lệnh trên sẽ giải nén nội dung của `project_backup.tar` vào thư mục `extracted`.
+
+![](./img/17.3_tar_xvf_folder_khac.png)
 
 Nếu chỉ muốn xem nội dung bên trong file `.tar` mà chưa giải nén, dùng:
 
@@ -5738,7 +5736,7 @@ Trong đó:
 | `-v` | Hiển thị chi tiết |
 | `-f` | Chỉ định file archive |
 
-Tóm lại, `tar -xvf` dùng để trích xuất file `.tar`, còn `tar -tvf` dùng để xem nội dung archive trước khi giải nén.
+![](./img/17.3_tar_tvf.png)
 
 ## 17.4. Nén với gzip
 
@@ -5756,23 +5754,7 @@ Ví dụ:
 gzip notes.txt
 ```
 
-Sau khi chạy lệnh, file `notes.txt` sẽ được nén thành:
-
-```bash
-notes.txt.gz
-```
-
-Có thể kiểm tra bằng:
-
-```bash
-ls
-```
-
-Kết quả:
-
-```bash
-notes.txt.gz
-```
+![](./img/17.4_gzip_file.png)
 
 Nếu muốn nén file `.tar`, có thể làm như sau:
 
@@ -5780,11 +5762,7 @@ Nếu muốn nén file `.tar`, có thể làm như sau:
 gzip project_backup.tar
 ```
 
-Kết quả sẽ tạo ra:
-
-```bash
-project_backup.tar.gz
-```
+![](./img/17.4_gzip_tar.png)
 
 Tuy nhiên, trong thực tế, người dùng thường kết hợp `tar` và `gzip` trong một lệnh duy nhất bằng tùy chọn `-z`.
 
@@ -5803,7 +5781,7 @@ Trong đó:
 | `-v` | Hiển thị chi tiết |
 | `-f` | Chỉ định tên file |
 
-Tóm lại, `gzip` dùng để nén tệp, còn `tar -czvf` thường dùng để vừa đóng gói thư mục, vừa nén thành file `.tar.gz`.
+![](./img/17.4_tar_czvf.png)
 
 ## 17.5. Giải nén file `.gz`
 
@@ -5821,11 +5799,7 @@ Ví dụ:
 gunzip notes.txt.gz
 ```
 
-Sau khi chạy lệnh, file `notes.txt.gz` sẽ được giải nén trở lại thành:
-
-```bash
-notes.txt
-```
+![](./img/17.5_gunzip.png)
 
 Cú pháp với `gzip -d`:
 
@@ -5838,6 +5812,8 @@ Ví dụ:
 ```bash
 gzip -d notes.txt.gz
 ```
+
+![](./img/17.5_gzip_d.png)
 
 Nếu file là `.tar.gz`, có thể giải nén trực tiếp bằng `tar`:
 
@@ -5854,12 +5830,16 @@ Trong đó:
 | `-v` | Hiển thị chi tiết |
 | `-f` | Chỉ định file cần giải nén |
 
+![](./img/17.5_tar_xzvf_truc_tiep.png)
+
 Giải nén `.tar.gz` vào thư mục cụ thể:
 
 ```bash
 mkdir extracted
 tar -xzvf project_backup.tar.gz -C extracted/
 ```
+
+![](./img/17.5_tar_xzvf_C.png)
 
 Tóm lại:
 
@@ -5869,7 +5849,6 @@ Tóm lại:
 | `.gz` | `gzip -d file.gz` |
 | `.tar` | `tar -xvf file.tar` |
 | `.tar.gz` | `tar -xzvf file.tar.gz` |
-
 
 ## 17.6. Các flag thường dùng của `tar`
 
@@ -5932,24 +5911,23 @@ Có thể nhớ nhanh:
 | `tar -czvf` | Create gzip Verbose File |
 | `tar -xzvf` | Extract gzip Verbose File |
 
-Tóm lại, các flag quan trọng nhất của `tar` là `c`, `x`, `v`, `f`, `z` và `C`.
-
-
 ## 17.7. Ứng dụng nén dữ liệu trong sao lưu và quản trị hệ thống
 
 Nén và lưu trữ dữ liệu được sử dụng rất nhiều trong quản trị Linux. Một số ứng dụng thực tế gồm sao lưu thư mục, đóng gói log, chuyển dữ liệu giữa các máy và lưu trữ cấu hình hệ thống.
 
-#### Sao lưu thư mục home
+**Sao lưu thư mục home**
 
-Ví dụ sao lưu thư mục home của user `student`:
+Ví dụ sao lưu thư mục home của user `sun`:
 
 ```bash
-tar -czvf student_home_backup.tar.gz /home/student
+tar -czvf sun_home_backup.tar.gz /home/sun
 ```
 
-File `student_home_backup.tar.gz` sẽ chứa dữ liệu trong `/home/student` và được nén bằng gzip.
+File `sun_home_backup.tar.gz` sẽ chứa dữ liệu trong `/home/sun` và được nén bằng gzip.
 
-#### Sao lưu thư mục cấu hình
+![](./img/17.7_sao_luu_thu_muc_home.png)
+
+**Sao lưu thư mục cấu hình**
 
 Ví dụ sao lưu thư mục `/etc`:
 
@@ -5959,7 +5937,9 @@ sudo tar -czvf etc_backup.tar.gz /etc
 
 Thư mục `/etc` chứa nhiều file cấu hình quan trọng của hệ thống, vì vậy cần quyền `sudo` để đọc đầy đủ nội dung.
 
-#### Sao lưu log hệ thống
+![](./img/17.7_sao_luu_cau_hinh.png)
+
+**Sao lưu log hệ thống**
 
 Ví dụ nén log trong `/var/log`:
 
@@ -5967,23 +5947,29 @@ Ví dụ nén log trong `/var/log`:
 sudo tar -czvf logs_backup.tar.gz /var/log
 ```
 
+![](./img/17.7_sao_luu_log.png)
+
 Lệnh này hữu ích khi cần lưu log để điều tra sự cố hoặc chuyển log sang máy khác để phân tích.
 
-#### Chuyển file backup sang máy khác
+**Chuyển file backup sang máy khác**
 
 Sau khi tạo file backup, có thể truyền sang máy khác bằng `scp`:
 
 ```bash
-scp logs_backup.tar.gz user@192.168.1.20:/home/user/
+scp logs_backup.tar.gz chu@192.168.31.231:/home/chu/
 ```
 
-#### Kiểm tra nội dung backup trước khi giải nén
+![](./img/17.7_scp_sang_may_khac.png)
+
+**Kiểm tra nội dung backup trước khi giải nén**
 
 Trước khi giải nén một file archive, nên xem nội dung bên trong:
 
 ```bash
 tar -tvf logs_backup.tar.gz
 ```
+
+![](./img/17.7_xem_file.png)
 
 Điều này giúp tránh giải nén nhầm vào thư mục không mong muốn hoặc ghi đè dữ liệu.
 
@@ -6003,11 +5989,7 @@ Ví dụ đặt tên backup có ngày tháng:
 tar -czvf backup_$(date +%F).tar.gz /home/student/project
 ```
 
-Kết quả có thể là:
-
-```bash
-backup_2026-05-15.tar.gz
-```
+![](./img/17.7_nen_backup_theo_time.png)
 
 # 18. Quản lý tiến trình
 
