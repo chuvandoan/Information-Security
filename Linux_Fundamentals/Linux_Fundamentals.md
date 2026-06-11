@@ -5333,7 +5333,6 @@ Trong Linux, việc tải xuống và chia sẻ tệp là thao tác rất phổ 
 
 Mỗi công cụ có mục đích riêng: `wget` thường dùng để tải tệp đơn giản từ web, `curl` linh hoạt hơn khi làm việc với HTTP/API, `scp` dùng để truyền tệp an toàn qua SSH, còn Python HTTP Server giúp chia sẻ nhanh tệp trong mạng nội bộ.
 
-
 ## 16.1. Tải tệp với `wget`
 
 `wget` là công cụ dòng lệnh dùng để tải tệp từ web thông qua các giao thức như HTTP, HTTPS hoặc FTP. Đây là lệnh rất đơn giản và thường được dùng khi người dùng biết URL trực tiếp của tệp cần tải.
@@ -5344,50 +5343,50 @@ Cú pháp cơ bản:
 wget <URL>
 ```
 
-Ví dụ:
+Ví dụ tải tệp `robots.txt` từ trang web GNU:
 
 ```bash
-wget https://example.com/file.txt
+wget https://www.gnu.org/robots.txt
 ```
 
-Lệnh trên sẽ tải tệp `file.txt` từ địa chỉ URL về thư mục hiện tại.
+Lệnh trên sẽ tải tệp `robots.txt` về thư mục hiện tại.
 
-Ví dụ khác:
+![](./img/16.1_wget_robots.png)
+
+Một ví dụ khác, tải ảnh logo của Ubuntu:
 
 ```bash
-wget https://assets.tryhackme.com/additional/linux-fundamentals/part3/myfile.txt
+wget https://assets.ubuntu.com/v1/29985a98-ubuntu-logo32.png
 ```
 
-Sau khi tải xong, có thể kiểm tra bằng:
-
-```bash
-ls
-```
+![](./img/16.1_wget_logo.png)
 
 Một số tùy chọn thường dùng với `wget`:
 
-| Tùy chọn | Ý nghĩa |
-|---|---|
-| `-O` | Lưu tệp với tên chỉ định |
-| `-c` | Tiếp tục tải tệp bị ngắt |
-| `-q` | Chế độ yên lặng, ít hiển thị thông tin |
-| `-r` | Tải đệ quy |
+| Tùy chọn | Ý nghĩa                                |
+| -------- | -------------------------------------- |
+| `-O`     | Lưu tệp với tên chỉ định               |
+| `-c`     | Tiếp tục tải tệp bị ngắt               |
+| `-q`     | Chế độ yên lặng, ít hiển thị thông tin |
+| `-r`     | Tải đệ quy                             |
 
 Ví dụ lưu tệp với tên khác:
 
 ```bash
-wget -O report.txt https://example.com/file.txt
+wget -O gnu_robots.txt https://www.gnu.org/robots.txt
 ```
+
+Sau khi thực hiện, nội dung từ `robots.txt` sẽ được lưu vào tệp `gnu_robots.txt`.
+
+![](./img/16.1_wget_O.png)
 
 Ví dụ tiếp tục tải một tệp lớn bị gián đoạn:
 
 ```bash
-wget -c https://example.com/bigfile.zip
+wget -c https://releases.ubuntu.com/24.04/ubuntu-24.04.3-desktop-amd64.iso
 ```
 
-Tóm lại, `wget` phù hợp khi cần tải tệp trực tiếp từ một URL, đặc biệt trong môi trường terminal hoặc script.
-
----
+Nếu quá trình tải bị ngắt, chạy lại đúng lệnh trên sẽ tiếp tục tải từ phần còn dang dở thay vì tải lại từ đầu.
 
 ## 16.2. Tải tệp với `curl`
 
@@ -5402,55 +5401,72 @@ curl <URL>
 Ví dụ:
 
 ```bash
-curl https://example.com
+curl https://www.gnu.org
 ```
 
-Lệnh này sẽ hiển thị nội dung phản hồi từ trang web ra terminal.
+Lệnh này sẽ gửi yêu cầu GET đến trang web GNU và hiển thị mã HTML của trang ra terminal.
+
+![](./img/16.2_curl.png)
 
 Nếu muốn tải tệp và lưu theo tên gốc, dùng tùy chọn `-O`:
 
 ```bash
-curl -O https://example.com/file.zip
+curl -O https://www.gnu.org/robots.txt
 ```
+
+Sau khi thực hiện, tệp `robots.txt` sẽ được tải về thư mục hiện tại.
+
+![](./img/16.2_curl_O.png)
 
 Nếu muốn lưu với tên chỉ định, dùng `-o`:
 
 ```bash
-curl -o myfile.zip https://example.com/file.zip
+curl -o gnu_robots.txt https://www.gnu.org/robots.txt
 ```
+
+Kết quả là nội dung được lưu vào tệp `gnu_robots.txt`.
+
+![](./img/16.2_curl_o.png)
 
 Một số tùy chọn thường dùng với `curl`:
 
-| Tùy chọn | Ý nghĩa |
-|---|---|
-| `-O` | Lưu tệp theo tên gốc |
-| `-o` | Lưu tệp với tên chỉ định |
-| `-L` | Theo dõi chuyển hướng |
-| `-I` | Chỉ hiển thị HTTP header |
-| `-X` | Chỉ định phương thức HTTP |
-| `-d` | Gửi dữ liệu POST |
-| `-H` | Thêm HTTP header |
+| Tùy chọn | Ý nghĩa                          |
+| -------- | -------------------------------- |
+| `-O`     | Lưu tệp theo tên gốc             |
+| `-o`     | Lưu tệp với tên chỉ định         |
+| `-L`     | Theo dõi chuyển hướng (redirect) |
+| `-I`     | Chỉ hiển thị HTTP header         |
+| `-X`     | Chỉ định phương thức HTTP        |
+| `-d`     | Gửi dữ liệu POST                 |
+| `-H`     | Thêm HTTP header                 |
 
-Ví dụ xem HTTP header:
-
-```bash
-curl -I https://example.com
-```
-
-Ví dụ theo dõi redirect và tải file:
+Ví dụ xem HTTP header của một trang web:
 
 ```bash
-curl -L -O https://example.com/file.zip
+curl -I https://www.gnu.org
 ```
 
-Ví dụ gửi POST request:
+![](./img/16.2_curl_I.png)
+
+Ví dụ theo dõi chuyển hướng (redirect) và tải tệp:
 
 ```bash
-curl -X POST -d "username=admin" https://example.com/login
+curl -L -O https://github.com/git/git/archive/refs/heads/master.zip
 ```
 
-Tóm lại, `curl` không chỉ dùng để tải tệp mà còn rất mạnh khi kiểm tra HTTP, làm việc với API và xử lý dữ liệu web trong terminal.
+Nếu URL ban đầu chuyển hướng sang địa chỉ khác, `curl` sẽ tự động theo dõi và tải tệp `master.zip`.
 
+![](./img/16.2_curl_L_O.png)
+
+Ví dụ gửi POST request đến dịch vụ kiểm thử HTTP:
+
+```bash
+curl -X POST -d "username=admin&password=123456" https://httpbin.org/post
+```
+
+Máy chủ `httpbin.org` sẽ trả về dữ liệu JSON chứa thông tin của yêu cầu POST vừa được gửi, rất phù hợp để thực hành và kiểm tra hoạt động của `curl`.
+
+![](./img/16.2_curl_X_d.png)
 
 ## 16.3. Phục vụ tệp bằng Python HTTP Server
 
@@ -5473,6 +5489,8 @@ echo "Hello from Linux" > file.txt
 python3 -m http.server
 ```
 
+![](./img/16.3_http_server_open.png)
+
 Sau khi chạy lệnh trên, terminal sẽ hiển thị thông tin server đang hoạt động. Khi đó, một máy khác trong cùng mạng có thể tải tệp từ địa chỉ:
 
 ```bash
@@ -5482,8 +5500,10 @@ http://<IP_máy_chủ>:8000/file.txt
 Ví dụ:
 
 ```bash
-http://192.168.1.10:8000/file.txt
+http://192.168.56.103:8000/file.txt
 ```
+
+![](./img/16.3_http_server_truy_cap_tu_web.png)
 
 Để biết địa chỉ IP của máy đang chạy server, có thể dùng:
 
@@ -5497,14 +5517,7 @@ hoặc:
 hostname -I
 ```
 
-Lưu ý: sau khi chạy `python3 -m http.server`, terminal đó sẽ bị chiếm bởi tiến trình server. Muốn tiếp tục chạy lệnh khác, cần mở một terminal mới. Để dừng server, nhấn:
-
-```bash
-Ctrl + C
-```
-
-Tóm lại, Python HTTP Server là cách rất nhanh để chia sẻ tệp qua HTTP mà không cần cài đặt web server phức tạp như Apache hoặc Nginx.
-
+![](./img/16.3_http_server_xem_ip_web_server.png)
 
 ## 16.4. Tải tệp từ HTTP Server nội bộ
 
@@ -5513,7 +5526,7 @@ Sau khi một máy đã chạy Python HTTP Server, máy khác trong cùng mạng
 Ví dụ, máy server có IP:
 
 ```bash
-192.168.1.10
+192.168.56.103
 ```
 
 và đang chạy:
@@ -5531,45 +5544,26 @@ file.txt
 Từ máy client, có thể tải bằng `wget`:
 
 ```bash
-wget http://192.168.1.10:8000/file.txt
+wget http://192.168.56.103:8000/file.txt
 ```
+
+![](./img/16.4_http_server_wget.png)
 
 Hoặc dùng `curl`:
 
 ```bash
-curl -O http://192.168.1.10:8000/file.txt
+curl -O http://192.168.56.103:8000/file.txt
 ```
+
+![](./img/16.4_http_server_curl_O.png)
 
 Nếu muốn lưu với tên khác:
 
 ```bash
-curl -o downloaded.txt http://192.168.1.10:8000/file.txt
+curl -o downloaded.txt http://192.168.56.103:8000/file.txt
 ```
 
-Có thể kiểm tra tệp sau khi tải:
-
-```bash
-ls
-cat file.txt
-```
-
-Trong môi trường lab an toàn thông tin, cách này thường được dùng để chuyển nhanh script, payload, log hoặc file kết quả giữa các máy ảo.
-
-Ví dụ:
-
-```bash
-# Trên máy chia sẻ file
-cd tools
-python3 -m http.server
-
-# Trên máy cần tải file
-wget http://192.168.1.10:8000/script.sh
-chmod +x script.sh
-./script.sh
-```
-
-Tóm lại, Python HTTP Server kết hợp với `wget` hoặc `curl` là một phương pháp nhanh, đơn giản để chia sẻ và tải tệp trong mạng nội bộ.
-
+![](./img/16.4_http_server_curl_o.png)
 
 ## 16.5. So sánh `wget`, `curl` và `scp`
 
@@ -5581,30 +5575,6 @@ Tóm lại, Python HTTP Server kết hợp với `wget` hoặc `curl` là một 
 | `curl` | Gửi request HTTP/API và tải dữ liệu | Có nếu dùng HTTPS | Làm việc với API, header, POST request, tải file linh hoạt |
 | `scp` | Sao chép tệp qua SSH | Có | Truyền tệp an toàn giữa local và remote |
 
-Ví dụ tải file bằng `wget`:
-
-```bash
-wget http://192.168.1.10:8000/file.txt
-```
-
-Ví dụ tải file bằng `curl`:
-
-```bash
-curl -O http://192.168.1.10:8000/file.txt
-```
-
-Ví dụ sao chép file bằng `scp` từ local lên remote:
-
-```bash
-scp file.txt user@192.168.1.20:/home/user/
-```
-
-Ví dụ sao chép file từ remote về local:
-
-```bash
-scp user@192.168.1.20:/home/user/file.txt .
-```
-
 So sánh ngắn gọn:
 
 | Nhu cầu | Công cụ nên dùng |
@@ -5615,8 +5585,6 @@ So sánh ngắn gọn:
 | Tải file từ Python HTTP Server | `wget` hoặc `curl` |
 | Truyền file an toàn qua SSH | `scp` |
 | Sao chép thư mục qua SSH | `scp -r` |
-
-Tóm lại, `wget` đơn giản và phù hợp để tải file, `curl` linh hoạt hơn khi làm việc với HTTP/API, còn `scp` phù hợp khi cần truyền tệp an toàn giữa hai máy Linux qua SSH.
 
 # 17. Nén, giải nén và lưu trữ dữ liệu
 
