@@ -6696,7 +6696,6 @@ Trong Linux, phần mềm thường được cài đặt, cập nhật và gỡ 
 
 Trên các hệ thống Debian, Ubuntu và nhiều bản phân phối dựa trên Debian, công cụ quản lý gói phổ biến nhất là **APT**.
 
-
 ## 20.1. Package Manager là gì?
 
 **Package Manager**, hay **trình quản lý gói**, là công cụ dùng để cài đặt, cập nhật, nâng cấp, gỡ bỏ và quản lý phần mềm trong Linux.
@@ -6722,17 +6721,6 @@ Package manager giúp người dùng:
 | Giải quyết phụ thuộc | Tự cài các gói cần thiết đi kèm |
 | Theo dõi phiên bản | Biết gói nào đang được cài và phiên bản nào |
 
-Ví dụ, thay vì tự tải trình soạn thảo `vim`, người dùng có thể cài bằng:
-
-```bash
-sudo apt install vim
-```
-
-Trình quản lý gói sẽ tự tìm gói `vim`, kiểm tra phụ thuộc và cài đặt vào đúng vị trí trong hệ thống.
-
-Tóm lại, package manager là công cụ trung tâm để quản lý phần mềm trong Linux, giúp việc cài đặt và cập nhật an toàn, nhất quán và dễ kiểm soát hơn.
-
-
 ## 20.2. Quản lý gói trên Debian/Ubuntu với APT
 
 **APT**, viết tắt của **Advanced Package Tool**, là hệ thống quản lý gói được dùng phổ biến trên Debian, Ubuntu, Linux Mint, Kali Linux, Parrot OS và nhiều bản phân phối dựa trên Debian.
@@ -6751,27 +6739,7 @@ Một số lệnh APT thường dùng:
 | `apt show package` | Xem thông tin chi tiết của gói |
 | `apt list --installed` | Liệt kê các gói đã cài |
 
-Ví dụ:
-
-```bash
-sudo apt update
-sudo apt install curl
-```
-
-Trong đó:
-
-| Lệnh | Ý nghĩa |
-|---|---|
-| `sudo apt update` | Cập nhật thông tin gói mới nhất |
-| `sudo apt install curl` | Cài đặt công cụ `curl` |
-
-APT thường cần quyền `sudo` khi cài, gỡ hoặc nâng cấp phần mềm vì các thao tác này thay đổi hệ thống.
-
-Tóm lại, APT là công cụ chính để quản lý phần mềm trên Debian/Ubuntu và các hệ điều hành dựa trên Debian.
-
----
-
-## 20.3. Cập nhật danh sách gói với `apt update`
+### 20.2.1. Cập nhật danh sách gói với `apt update`
 
 Lệnh `apt update` dùng để cập nhật danh sách gói từ các repository đã cấu hình trong hệ thống. Lệnh này **không nâng cấp phần mềm**, mà chỉ tải về thông tin mới nhất về các gói có sẵn.
 
@@ -6790,40 +6758,9 @@ Khi chạy lệnh này, hệ thống sẽ liên hệ với các repository và c
 | Phụ thuộc | Các gói liên quan cần thiết |
 | Nguồn tải | Repository chứa gói |
 
-Ví dụ:
+![](./img/20.2_apt_update.png)
 
-```bash
-sudo apt update
-```
-
-Kết quả có thể có dạng:
-
-```bash
-Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease
-Get:2 http://security.ubuntu.com/ubuntu noble-security InRelease
-Reading package lists... Done
-Building dependency tree... Done
-```
-
-Sau khi thêm repository mới, người dùng cũng cần chạy:
-
-```bash
-sudo apt update
-```
-
-để APT nhận biết các gói từ repository đó.
-
-Ví dụ quy trình thường gặp:
-
-```bash
-sudo apt update
-sudo apt install nginx
-```
-
-Tóm lại, `apt update` là bước cập nhật thông tin gói. Trước khi cài đặt hoặc nâng cấp phần mềm, nên chạy lệnh này để hệ thống có danh sách gói mới nhất.
-
-
-## 20.4. Nâng cấp gói với `apt upgrade`
+### 20.2.2. Nâng cấp gói với `apt upgrade`
 
 Lệnh `apt upgrade` dùng để nâng cấp các gói đã được cài đặt lên phiên bản mới hơn, dựa trên danh sách gói đã được cập nhật bằng `apt update`.
 
@@ -6847,12 +6784,7 @@ Trong đó:
 | `apt update` | Cập nhật danh sách gói |
 | `apt upgrade` | Nâng cấp các gói đã cài |
 
-Ví dụ:
-
-```bash
-sudo apt update
-sudo apt upgrade
-```
+![](./img/20.2_apt_upgrade.png)
 
 APT sẽ hiển thị danh sách các gói cần nâng cấp và hỏi người dùng xác nhận.
 
@@ -6872,10 +6804,7 @@ Một số lệnh liên quan:
 | `sudo apt full-upgrade` | Nâng cấp mạnh hơn, có thể thêm hoặc gỡ gói nếu cần |
 | `sudo apt autoremove` | Gỡ các gói phụ thuộc không còn cần thiết |
 
-Tóm lại, `apt upgrade` giúp hệ thống cập nhật phần mềm lên phiên bản mới hơn, đặc biệt quan trọng để sửa lỗi và vá lỗ hổng bảo mật.
-
-
-## 20.5. Cài đặt gói với `apt install`
+### 20.2.3. Cài đặt gói với `apt install`
 
 Lệnh `apt install` dùng để cài đặt một hoặc nhiều gói phần mềm từ repository.
 
@@ -6885,52 +6814,41 @@ Cú pháp:
 sudo apt install <tên_gói>
 ```
 
-Ví dụ cài `tree`:
+Ví dụ cài `vim`:
 
 ```bash
-sudo apt install tree
+sudo apt install vim
 ```
+
+![](./img/20.2_apt_install_vim.png)
 
 Sau khi cài xong, có thể kiểm tra:
 
 ```bash
-tree --version
+vim --version
 ```
 
-Ví dụ cài `curl`:
-
-```bash
-sudo apt install curl
-```
+![](./img/20.2_vim_version.png)
 
 Ví dụ cài nhiều gói cùng lúc:
 
 ```bash
-sudo apt install git curl vim
+sudo apt install curl vim
 ```
 
 APT sẽ tự động kiểm tra và cài các gói phụ thuộc cần thiết.
 
-Ví dụ:
-
-```bash
-sudo apt install nginx
-```
-
-Khi cài một web server như `nginx`, APT có thể tự cài thêm các thư viện hoặc gói phụ thuộc để dịch vụ hoạt động đúng.
+![](./img/20.2_apt_install_nhieu_cong_cu.png)
 
 Có thể dùng tùy chọn `-y` để tự động xác nhận:
 
 ```bash
-sudo apt install git -y
+sudo apt install vim -y
 ```
 
-Tuy nhiên, khi mới học hoặc khi cài trên máy chủ quan trọng, nên đọc kỹ danh sách gói sẽ được cài trước khi xác nhận.
+![](./img/20.2_apt_install_y.png)
 
-Tóm lại, `apt install` là lệnh dùng để cài phần mềm mới trên Debian/Ubuntu và các bản phân phối dựa trên Debian.
-
-
-## 20.6. Gỡ gói với `apt remove`
+### 20.2.4. Gỡ gói với `apt remove`
 
 Lệnh `apt remove` dùng để gỡ một gói phần mềm khỏi hệ thống. Lệnh này thường xóa chương trình chính, nhưng có thể giữ lại một số file cấu hình.
 
@@ -6940,17 +6858,14 @@ Cú pháp:
 sudo apt remove <tên_gói>
 ```
 
-Ví dụ gỡ `tree`:
+Ví dụ gỡ `vim`:
 
 ```bash
-sudo apt remove tree
+sudo apt remove vim
 ```
 
-Ví dụ gỡ `nginx`:
+![](./img/20.2_apt_remove.png)
 
-```bash
-sudo apt remove nginx
-```
 
 Nếu muốn xóa cả gói và file cấu hình liên quan, có thể dùng:
 
@@ -6961,14 +6876,18 @@ sudo apt purge <tên_gói>
 Ví dụ:
 
 ```bash
-sudo apt purge nginx
+sudo apt purge vim
 ```
+
+![](./img/20.2_apt_purge.png)
 
 Sau khi gỡ phần mềm, hệ thống có thể còn một số gói phụ thuộc không còn cần thiết. Có thể dọn bằng:
 
 ```bash
 sudo apt autoremove
 ```
+
+![](./img/20.2_apt_autoremove.png)
 
 So sánh ngắn gọn:
 
@@ -6978,10 +6897,7 @@ So sánh ngắn gọn:
 | `apt purge package` | Gỡ gói và xóa cấu hình |
 | `apt autoremove` | Xóa các gói phụ thuộc không còn cần thiết |
 
-Tóm lại, `apt remove` dùng để xóa phần mềm không còn cần dùng, giúp hệ thống gọn hơn và giảm bề mặt tấn công.
-
-
-## 20.7. Liệt kê gói đã cài đặt
+### 20.2.5. Liệt kê gói đã cài đặt `apt list`
 
 Để xem các gói đã được cài đặt trên hệ thống, có thể dùng:
 
@@ -6991,11 +6907,7 @@ apt list --installed
 
 Lệnh này hiển thị danh sách các gói hiện có trong hệ thống.
 
-Ví dụ:
-
-```bash
-apt list --installed
-```
+![](./img/20.2_apt_list.png)
 
 Kết quả có thể rất dài, vì hệ thống Linux thường có nhiều gói.
 
@@ -7005,11 +6917,7 @@ Có thể kết hợp với `grep` để tìm một gói cụ thể:
 apt list --installed | grep curl
 ```
 
-Ví dụ kiểm tra `git` đã được cài chưa:
-
-```bash
-apt list --installed | grep git
-```
+![](./img/20.2_apt_list_curl.png)
 
 Một cách khác là dùng `dpkg`:
 
@@ -7017,11 +6925,15 @@ Một cách khác là dùng `dpkg`:
 dpkg -l
 ```
 
+![](./img/20.2_dpkg_l.png)
+
 Tìm một gói cụ thể với `dpkg`:
 
 ```bash
-dpkg -l | grep nginx
+dpkg -l | grep curl
 ```
+
+![](./img/20.2_dpkg_goi_cu_the.png)
 
 Có thể xem thông tin chi tiết của một gói bằng:
 
@@ -7035,17 +6947,7 @@ Ví dụ:
 apt show curl
 ```
 
-Một số lệnh hữu ích:
-
-| Lệnh | Chức năng |
-|---|---|
-| `apt list --installed` | Liệt kê gói đã cài |
-| `apt list --upgradable` | Liệt kê gói có thể nâng cấp |
-| `apt search keyword` | Tìm kiếm gói theo từ khóa |
-| `apt show package` | Xem thông tin chi tiết của gói |
-| `dpkg -l` | Liệt kê gói theo cơ sở dữ liệu dpkg |
-
-Tóm lại, việc liệt kê gói đã cài giúp người dùng kiểm tra phần mềm hiện có, phát hiện gói không cần thiết và quản lý hệ thống tốt hơn.
+![](./img/20.2_apt_show.png)
 
 # 21. Tự động hóa và lập lịch tác vụ
 
