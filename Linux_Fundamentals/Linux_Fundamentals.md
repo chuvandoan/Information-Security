@@ -6007,6 +6007,8 @@ Ví dụ, khi chạy lệnh:
 ls
 ```
 
+![](./img/18.1_ls.png)
+
 Linux tạo ra một tiến trình để thực thi lệnh `ls`. Tiến trình này chạy, hiển thị kết quả, sau đó kết thúc.
 
 Một số tiến trình chạy rất nhanh và kết thúc ngay, ví dụ:
@@ -6015,11 +6017,15 @@ Một số tiến trình chạy rất nhanh và kết thúc ngay, ví dụ:
 echo "Hello Linux"
 ```
 
+![](./img/18.1_echo.png)
+
 Một số tiến trình chạy lâu hơn, ví dụ:
 
 ```bash
 ping google.com
 ```
+
+![](./img/18.1_ping.png)
 
 hoặc:
 
@@ -6027,46 +6033,17 @@ hoặc:
 top
 ```
 
+![](./img/18.1_top.png)
+
 Trong Linux, kernel chịu trách nhiệm quản lý tiến trình, cấp phát CPU, bộ nhớ và tài nguyên hệ thống cho các tiến trình đang chạy.
 
 Tóm lại, process là một chương trình đang được thực thi. Mỗi lệnh hoặc ứng dụng đang chạy đều tương ứng với một hoặc nhiều tiến trình.
 
+## 18.2. Xem tiến trình với `ps`
 
-## 18.2. PID là gì?
+**PID là gì?**
 
 **PID**, viết đầy đủ là **Process ID**, là mã định danh duy nhất của một tiến trình trong hệ thống. Mỗi tiến trình đang chạy sẽ có một PID riêng để Linux có thể theo dõi và quản lý.
-
-Ví dụ, khi xem danh sách tiến trình bằng lệnh `ps`, có thể thấy kết quả như sau:
-
-```bash
-PID TTY          TIME CMD
-1234 pts/0    00:00:00 bash
-1250 pts/0    00:00:00 ps
-```
-
-Trong đó:
-
-| Thành phần | Ý nghĩa |
-|---|---|
-| `PID` | Mã định danh của tiến trình |
-| `TTY` | Terminal liên kết với tiến trình |
-| `TIME` | Thời gian CPU mà tiến trình đã sử dụng |
-| `CMD` | Lệnh hoặc chương trình tạo ra tiến trình |
-
-Ví dụ, tiến trình `bash` có PID là `1234`. Nếu muốn gửi tín hiệu đến tiến trình này, người dùng có thể dùng PID đó.
-
-PID rất quan trọng khi cần dừng một tiến trình. Ví dụ:
-
-```bash
-kill 1234
-```
-
-Lệnh trên gửi tín hiệu kết thúc đến tiến trình có PID là `1234`.
-
-Tóm lại, PID là số định danh duy nhất của tiến trình, giúp Linux và người dùng quản lý từng tiến trình cụ thể.
-
-
-## 18.3. Xem tiến trình với `ps`
 
 Lệnh `ps`, viết tắt của **process status**, dùng để hiển thị thông tin về các tiến trình đang chạy trong phiên terminal hiện tại.
 
@@ -6076,19 +6053,7 @@ Cú pháp:
 ps
 ```
 
-Ví dụ:
-
-```bash
-ps
-```
-
-Kết quả có thể là:
-
-```bash
-PID TTY          TIME CMD
-1234 pts/0    00:00:00 bash
-1280 pts/0    00:00:00 ps
-```
+![](./img/18.2_ps.png)
 
 Trong ví dụ trên:
 
@@ -6101,10 +6066,7 @@ Trong ví dụ trên:
 
 Lệnh `ps` mặc định chỉ hiển thị các tiến trình liên quan đến phiên shell hiện tại. Vì vậy, nếu muốn xem nhiều tiến trình hơn, cần dùng các tùy chọn mở rộng như `ps aux`.
 
-Tóm lại, `ps` giúp xem nhanh các tiến trình đang chạy trong terminal hiện tại.
-
-
-## 18.4. Xem toàn bộ tiến trình với `ps aux`
+## 18.3. Xem toàn bộ tiến trình với `ps aux`
 
 Lệnh `ps aux` dùng để hiển thị danh sách tiến trình chi tiết hơn, bao gồm cả tiến trình của người dùng khác và tiến trình hệ thống.
 
@@ -6114,22 +6076,7 @@ Cú pháp:
 ps aux
 ```
 
-Ví dụ:
-
-```bash
-ps aux
-```
-
-Kết quả có thể có dạng:
-
-```bash
-USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-root         1  0.0  0.1 167000 12000 ?        Ss   10:00   0:01 /sbin/init
-student   1234  0.0  0.0  10000  4000 pts/0    Ss   10:05   0:00 bash
-student   1300  0.0  0.0  12000  3500 pts/0    R+   10:06   0:00 ps aux
-```
-
-Một số cột quan trọng:
+![](./img/18.3_ps_aux.png)
 
 | Cột | Ý nghĩa |
 |---|---|
@@ -6150,16 +6097,17 @@ Ví dụ tìm tiến trình liên quan đến SSH:
 ps aux | grep ssh
 ```
 
+![](./img/18.3_ps_aux_grep_ssh.png)
+
 Ví dụ tìm tiến trình Python:
 
 ```bash
 ps aux | grep python
 ```
 
-Tóm lại, `ps aux` là lệnh rất hữu ích để xem toàn bộ tiến trình đang chạy trên hệ thống và kiểm tra tiến trình theo tên.
+![](./img/18.3_ps_aux_grep_python.png)
 
-
-## 18.5. Theo dõi tiến trình thời gian thực với `top`
+## 18.4. Theo dõi tiến trình thời gian thực với `top`
 
 Lệnh `top` dùng để theo dõi tiến trình và tài nguyên hệ thống theo thời gian thực. Khác với `ps`, lệnh `top` liên tục cập nhật thông tin về CPU, RAM và các tiến trình đang chạy.
 
@@ -6169,13 +6117,9 @@ Cú pháp:
 top
 ```
 
-Sau khi chạy:
-
-```bash
-top
-```
-
 terminal sẽ hiển thị danh sách tiến trình đang chạy, thường được sắp xếp theo mức sử dụng CPU.
+
+![](./img/18.4_top.png)
 
 Một số thông tin thường thấy trong `top`:
 
@@ -6203,10 +6147,7 @@ Một số phím thường dùng trong `top`:
 
 Ví dụ, nếu thấy một tiến trình sử dụng CPU quá cao, người dùng có thể ghi lại PID của tiến trình đó và dùng `kill` để dừng.
 
-Tóm lại, `top` giúp theo dõi trạng thái hệ thống và tiến trình theo thời gian thực, rất hữu ích khi kiểm tra hiệu năng hoặc xử lý tiến trình bất thường.
-
-
-## 18.6. Kết thúc tiến trình với `kill`
+## 18.5. Kết thúc tiến trình với `kill`
 
 Lệnh `kill` dùng để gửi tín hiệu đến một tiến trình. Mặc dù tên là `kill`, lệnh này không chỉ dùng để “giết” tiến trình, mà còn có thể gửi nhiều loại tín hiệu khác nhau.
 
@@ -6216,51 +6157,25 @@ Cú pháp cơ bản:
 kill <PID>
 ```
 
-Ví dụ:
-
-```bash
-kill 1234
-```
-
-Lệnh trên gửi tín hiệu kết thúc mặc định đến tiến trình có PID là `1234`.
+![](./img/18.5_kill_pid.png)
 
 Nếu tiến trình không dừng, có thể dùng tín hiệu mạnh hơn:
 
 ```bash
-kill -9 1234
+kill -9 <PID>
 ```
+
+![](./img/18.5_kill_9.png)
 
 hoặc:
 
 ```bash
-kill -SIGKILL 1234
+kill -SIGKILL <PID>
 ```
 
-Một quy trình thường dùng để dừng tiến trình:
+![](./img/18.5_kill_sigkill.png)
 
-```bash
-ps aux | grep process_name
-kill <PID>
-```
-
-Ví dụ tìm và dừng tiến trình Python:
-
-```bash
-ps aux | grep python
-kill 2345
-```
-
-Nếu tiến trình vẫn không dừng:
-
-```bash
-kill -9 2345
-```
-
-Cần cẩn thận khi dùng `kill -9`, vì tiến trình bị dừng ngay lập tức và không có cơ hội dọn dẹp dữ liệu, đóng file hoặc ghi log kết thúc.
-
-Tóm lại, `kill` dùng để gửi tín hiệu đến tiến trình, thường dùng nhất là để yêu cầu tiến trình dừng lại.
-
-## 18.7. Các tín hiệu phổ biến: SIGTERM, SIGKILL, SIGSTOP
+## 18.6. Các tín hiệu phổ biến: SIGTERM, SIGKILL, SIGSTOP
 
 Trong Linux, tín hiệu là cơ chế để gửi yêu cầu đến tiến trình. Một số tín hiệu được dùng rất thường xuyên khi quản lý tiến trình.
 
@@ -6272,7 +6187,7 @@ Trong Linux, tín hiệu là cơ chế để gửi yêu cầu đến tiến trì
 | `SIGINT` | 2 | Ngắt tiến trình, thường khi nhấn `Ctrl + C` |
 | `SIGTSTP` | 20 | Tạm dừng tiến trình từ terminal, thường khi nhấn `Ctrl + Z` |
 
-#### SIGTERM
+**SIGTERM**
 
 `SIGTERM` là tín hiệu mặc định khi dùng lệnh `kill`.
 
@@ -6290,7 +6205,7 @@ kill -15 1234
 
 Tín hiệu này cho phép tiến trình xử lý việc kết thúc, ví dụ lưu dữ liệu, đóng file hoặc ghi log.
 
-#### SIGKILL
+**SIGKILL**
 
 `SIGKILL` buộc tiến trình kết thúc ngay lập tức.
 
@@ -6300,7 +6215,7 @@ kill -9 1234
 
 Tín hiệu này rất mạnh, nhưng không nên dùng đầu tiên nếu chưa cần thiết.
 
-#### SIGSTOP
+**SIGSTOP**
 
 `SIGSTOP` dùng để tạm dừng tiến trình.
 
@@ -6310,10 +6225,7 @@ kill -19 1234
 
 Tiến trình bị dừng nhưng chưa bị xóa khỏi hệ thống.
 
-Tóm lại, nên ưu tiên dùng `SIGTERM` trước. Chỉ dùng `SIGKILL` khi tiến trình bị treo hoặc không phản hồi.
-
-
-## 18.8. Tiến trình foreground và background
+## 18.7. Tiến trình foreground và background
 
 Trong Linux terminal, tiến trình có thể chạy ở hai chế độ chính: **foreground** và **background**.
 
@@ -6322,14 +6234,14 @@ Trong Linux terminal, tiến trình có thể chạy ở hai chế độ chính:
 | Foreground | Tiến trình chạy trực tiếp trên terminal và chiếm terminal |
 | Background | Tiến trình chạy nền, người dùng vẫn có thể tiếp tục nhập lệnh khác |
 
-#### Foreground
+### 18.7.1. Foreground
 
 Khi chạy một lệnh thông thường, tiến trình thường chạy ở foreground.
 
 Ví dụ:
 
 ```bash
-ping google.com
+ping example.com
 ```
 
 Khi lệnh này chạy, terminal sẽ liên tục hiển thị kết quả ping. Người dùng chưa thể nhập lệnh khác trong cùng terminal cho đến khi tiến trình kết thúc hoặc bị dừng.
@@ -6340,7 +6252,9 @@ Khi lệnh này chạy, terminal sẽ liên tục hiển thị kết quả ping.
 Ctrl + C
 ```
 
-#### Background
+![](./img/18.7_foreground.png)
+
+### 18.7.2. Background
 
 Tiến trình background chạy ở nền, không chiếm hoàn toàn terminal. Người dùng vẫn có thể tiếp tục chạy các lệnh khác.
 
@@ -6352,38 +6266,7 @@ ping google.com &
 
 Dấu `&` ở cuối lệnh đưa tiến trình vào chạy nền.
 
-Tóm lại, foreground phù hợp với lệnh cần tương tác trực tiếp, còn background phù hợp với lệnh chạy lâu hoặc không cần nhập dữ liệu liên tục.
-
----
-
-## 18.9. Chạy lệnh nền với `&`
-
-Dấu `&` được đặt ở cuối lệnh để chạy tiến trình ở background.
-
-Cú pháp:
-
-```bash
-command &
-```
-
-Ví dụ:
-
-```bash
-ping google.com &
-```
-
-Kết quả có thể là:
-
-```bash
-[1] 2345
-```
-
-Trong đó:
-
-| Thành phần | Ý nghĩa |
-|---|---|
-| `[1]` | Job ID trong shell |
-| `2345` | PID của tiến trình |
+![](./img/18.7_background.png)
 
 Có thể kiểm tra các job đang chạy nền bằng:
 
@@ -6391,34 +6274,9 @@ Có thể kiểm tra các job đang chạy nền bằng:
 jobs
 ```
 
-Ví dụ:
+![](./img/18.7_jobs.png)
 
-```bash
-jobs
-```
-
-Kết quả:
-
-```bash
-[1]+  Running    ping google.com &
-```
-
-Chạy nền rất hữu ích với các lệnh mất nhiều thời gian, ví dụ:
-
-```bash
-cp large_file.iso /backup/ &
-```
-
-hoặc:
-
-```bash
-python3 script.py &
-```
-
-Tóm lại, dấu `&` giúp chạy tiến trình ở background, cho phép người dùng tiếp tục sử dụng terminal cho các lệnh khác.
-
-
-## 18.10. Tạm dừng tiến trình với `Ctrl + Z`
+### 18.7.3. Tạm dừng tiến trình với `Ctrl + Z`
 
 Tổ hợp phím `Ctrl + Z` dùng để tạm dừng tiến trình đang chạy ở foreground. Khi nhấn `Ctrl + Z`, shell gửi tín hiệu `SIGTSTP` đến tiến trình.
 
@@ -6434,33 +6292,17 @@ Sau đó nhấn:
 Ctrl + Z
 ```
 
-Kết quả có thể là:
-
-```bash
-[1]+  Stopped    ping google.com
-```
-
-Điều này có nghĩa là tiến trình đã bị tạm dừng, nhưng chưa kết thúc.
-
 Có thể kiểm tra bằng:
 
 ```bash
 jobs
 ```
 
-Kết quả:
-
-```bash
-[1]+  Stopped    ping google.com
-```
+![](./img/18.7_tam_dung_ctrl_z.png)
 
 Cần chú ý: `Ctrl + Z` chỉ tạm dừng tiến trình, không làm tiến trình tiếp tục chạy nền. Nếu muốn tiến trình tiếp tục chạy ở background, cần dùng lệnh `bg`.
 
-Tóm lại, `Ctrl + Z` dùng để tạm dừng tiến trình đang chiếm terminal, sau đó người dùng có thể đưa nó về background hoặc foreground tùy nhu cầu.
-
----
-
-## 18.11. Đưa tiến trình về foreground với `fg`
+### 18.7.4. Đưa tiến trình về foreground với `fg`
 
 Lệnh `fg`, viết tắt của **foreground**, dùng để đưa một tiến trình đang ở background hoặc đang bị tạm dừng quay lại foreground.
 
@@ -6474,32 +6316,6 @@ Nếu có nhiều job, có thể chỉ định job ID:
 
 ```bash
 fg %<job_id>
-```
-
-Ví dụ:
-
-```bash
-jobs
-```
-
-Kết quả:
-
-```bash
-[1]+  Stopped    ping google.com
-```
-
-Đưa job số 1 về foreground:
-
-```bash
-fg %1
-```
-
-Sau đó tiến trình `ping google.com` sẽ tiếp tục chạy trực tiếp trên terminal.
-
-Nếu chỉ có một job, có thể dùng:
-
-```bash
-fg
 ```
 
 Lệnh `fg` rất hữu ích khi người dùng đã tạm dừng một chương trình bằng `Ctrl + Z` và muốn quay lại tương tác với chương trình đó.
@@ -6522,10 +6338,9 @@ Sau đó quay lại Vim bằng:
 fg
 ```
 
-Tóm lại, `fg` đưa tiến trình trở lại foreground để người dùng tiếp tục tương tác trực tiếp với nó.
+![](./img/18.7_fg_ctrl_z.png)
 
-
-## 18.12. Đưa tiến trình về background với `bg`
+### 18.7.5. Đưa tiến trình về background với `bg`
 
 Lệnh `bg`, viết tắt của **background**, dùng để tiếp tục chạy một tiến trình đã bị tạm dừng, nhưng ở chế độ nền.
 
@@ -6571,13 +6386,7 @@ Kiểm tra lại:
 jobs
 ```
 
-Kết quả có thể là:
-
-```bash
-[1]+  Running    ping google.com &
-```
-
-Điều này cho biết tiến trình đã tiếp tục chạy ở nền.
+![](./img/18.7_bg.png)
 
 So sánh nhanh:
 
