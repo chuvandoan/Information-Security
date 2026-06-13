@@ -6987,8 +6987,6 @@ df -h > /home/student/disk_report.txt
 
 Nếu script này được lập lịch chạy mỗi ngày, người dùng sẽ luôn có báo cáo dung lượng mới nhất.
 
-Tóm lại, tự động hóa trong Linux giúp hệ thống thực hiện các công việc lặp lại một cách đều đặn, chính xác và tiết kiệm thời gian.
-
 ## 21.2. Cron là gì?
 
 **Cron** là dịch vụ dùng để chạy các tác vụ định kỳ trong Linux. Các tác vụ này có thể chạy theo phút, giờ, ngày, tháng hoặc ngày trong tuần.
@@ -7453,23 +7451,6 @@ Log giúp quản trị viên kiểm tra hệ thống có hoạt động bình th
 
 **Log** là bản ghi lại các sự kiện xảy ra trong hệ thống, dịch vụ hoặc ứng dụng. Mỗi dòng log thường chứa thông tin về thời gian, dịch vụ liên quan, loại sự kiện và nội dung chi tiết của sự kiện.
 
-Ví dụ một dòng log có thể có dạng:
-
-```bash
-May 15 10:25:01 ubuntu sshd[1234]: Failed password for invalid user admin from 192.168.1.50 port 54321 ssh2
-```
-
-Dòng log trên cho biết:
-
-| Thành phần | Ý nghĩa |
-|---|---|
-| `May 15 10:25:01` | Thời điểm xảy ra sự kiện |
-| `ubuntu` | Tên máy |
-| `sshd[1234]` | Dịch vụ SSH và PID của tiến trình |
-| `Failed password` | Sự kiện đăng nhập thất bại |
-| `invalid user admin` | User không hợp lệ |
-| `192.168.1.50` | Địa chỉ IP nguồn |
-
 Log có thể được tạo ra bởi:
 
 - hệ điều hành;
@@ -7479,9 +7460,6 @@ Log có thể được tạo ra bởi:
 - web server;
 - cơ chế xác thực;
 - công cụ bảo mật.
-
-Tóm lại, log là nhật ký ghi lại hoạt động của hệ thống. Nhờ log, người dùng có thể biết điều gì đã xảy ra, xảy ra khi nào và liên quan đến thành phần nào.
-
 
 ## 22.2. Vai trò của log trong quản trị và an toàn thông tin
 
@@ -7512,6 +7490,8 @@ Có thể tìm nhanh bằng:
 grep -i "failed password" /var/log/auth.log
 ```
 
+![](./img/22.2_grep_i_auth_log.png)
+
 Trong quản trị hệ thống, log giúp trả lời các câu hỏi như:
 
 - Dịch vụ có đang lỗi không?
@@ -7519,9 +7499,6 @@ Trong quản trị hệ thống, log giúp trả lời các câu hỏi như:
 - Có đăng nhập thất bại bất thường không?
 - Dịch vụ web có bị truy cập lạ không?
 - Firewall có chặn kết nối nào đáng chú ý không?
-
-Tóm lại, log là nguồn dữ liệu quan trọng để quản trị, giám sát, phát hiện tấn công và điều tra sự cố trong Linux.
-
 
 ## 22.3. Thư mục `/var/log`
 
@@ -7539,46 +7516,22 @@ Có thể xem nội dung thư mục `/var/log` bằng:
 ls /var/log
 ```
 
+![](./img/22.3_ls_var_log.png)
+
 Hoặc xem chi tiết hơn:
 
 ```bash
 ls -lh /var/log
 ```
 
-Ví dụ kết quả có thể gồm:
+![](./img/22.3_ls_lh_var_log.png)
 
-```bash
-auth.log
-syslog
-kern.log
-dpkg.log
-ufw.log
-apache2/
-journal/
-```
-
-Một số log là tệp đơn, ví dụ:
-
-```bash
-/var/log/syslog
-/var/log/auth.log
-```
-
-Một số log được đặt trong thư mục riêng theo dịch vụ, ví dụ:
-
-```bash
-/var/log/apache2/
-/var/log/nginx/
-```
 
 Cần chú ý rằng nhiều tệp log yêu cầu quyền cao để đọc. Nếu user thường không đọc được, có thể dùng `sudo`:
 
 ```bash
 sudo less /var/log/auth.log
 ```
-
-Tóm lại, `/var/log` là thư mục quan trọng để tìm log hệ thống, log dịch vụ và log bảo mật trong Linux.
-
 
 ## 22.4. Các tệp log quan trọng trong Linux
 
@@ -7604,11 +7557,15 @@ Ví dụ xem log xác thực:
 sudo less /var/log/auth.log
 ```
 
+![](./img/22.4_auth_log.png)
+
 Ví dụ xem log hệ thống:
 
 ```bash
 less /var/log/syslog
 ```
+
+![](./img/22.4_syslog.png)
 
 Ví dụ xem log truy cập Apache:
 
@@ -7621,6 +7578,8 @@ Ví dụ xem log lỗi Apache:
 ```bash
 sudo less /var/log/apache2/error.log
 ```
+
+![](./img/22.4_apache_error_log.png)
 
 Trong web server, hai loại log rất quan trọng là:
 
@@ -7637,30 +7596,32 @@ Ví dụ một dòng access log có thể chứa:
 
 Dòng này cho biết IP `192.168.1.50` đã gửi request `GET` đến `/index.html` và nhận mã trạng thái `200`.
 
-Tóm lại, các tệp log quan trọng giúp quản trị viên theo dõi hoạt động hệ thống, xác thực, firewall, package manager và dịch vụ web.
-
 
 ## 22.5. Xem log với `cat`, `less`, `tail`
 
 Có nhiều cách để xem nội dung log trong Linux. Các lệnh phổ biến gồm `cat`, `less` và `tail`.
 
-#### Xem log với `cat`
+**Xem log với `cat`**
 
 Lệnh `cat` hiển thị toàn bộ nội dung tệp ra terminal.
 
 ```bash
-cat /var/log/syslog
+sudo cat /var/log/syslog
 ```
+
+![](./img/22.5_cat.png)
 
 Tuy nhiên, log thường rất dài, nên `cat` chỉ phù hợp với tệp nhỏ hoặc khi cần in nhanh toàn bộ nội dung.
 
-#### Xem log với `less`
+**Xem log với `less`**
 
 Lệnh `less` phù hợp hơn khi xem log dài, vì nó cho phép cuộn lên xuống, tìm kiếm và thoát khi cần.
 
 ```bash
-less /var/log/syslog
+sudo less /var/log/syslog
 ```
+
+![](./img/22.5_less.png)
 
 Một số phím trong `less`:
 
@@ -7678,25 +7639,23 @@ Ví dụ tìm từ `error` trong `less`:
 /error
 ```
 
-#### Xem cuối log với `tail`
+**Xem cuối log với `tail`**
 
 Lệnh `tail` hiển thị các dòng cuối của tệp. Mặc định, `tail` hiển thị 10 dòng cuối.
 
 ```bash
-tail /var/log/syslog
+sudo tail /var/log/syslog
 ```
+
+![](./img/22.5_tail.png)
 
 Hiển thị 50 dòng cuối:
 
 ```bash
-tail -n 50 /var/log/syslog
+sudo tail -n 50 /var/log/syslog
 ```
 
-Ví dụ xem 20 dòng cuối của log SSH:
-
-```bash
-sudo tail -n 20 /var/log/auth.log
-```
+![](./img/22.5_tail_n.png)
 
 So sánh nhanh:
 
@@ -7706,9 +7665,6 @@ So sánh nhanh:
 | `less` | Xem tệp log dài |
 | `tail` | Xem các dòng mới nhất ở cuối log |
 | `tail -n` | Chọn số dòng cuối cần xem |
-
-Tóm lại, `less` và `tail` thường phù hợp với log hơn `cat`, vì log thường dài và liên tục thay đổi.
-
 
 ## 22.6. Theo dõi log thời gian thực
 
@@ -7724,27 +7680,8 @@ Ví dụ theo dõi log hệ thống:
 tail -f /var/log/syslog
 ```
 
-Theo dõi log xác thực:
+![](./img/22.6_tail_f.png)
 
-```bash
-sudo tail -f /var/log/auth.log
-```
-
-Theo dõi log truy cập Apache:
-
-```bash
-sudo tail -f /var/log/apache2/access.log
-```
-
-Khi dùng `tail -f`, terminal sẽ hiển thị các dòng mới ngay khi chúng được ghi vào tệp log.
-
-Ví dụ, mở một terminal để theo dõi SSH log:
-
-```bash
-sudo tail -f /var/log/auth.log
-```
-
-Sau đó, từ máy khác thử SSH vào hệ thống. Các sự kiện đăng nhập thành công hoặc thất bại có thể xuất hiện ngay trên màn hình.
 
 Có thể kết hợp `tail -f` với `grep`:
 
@@ -7760,8 +7697,9 @@ Lệnh này chỉ hiển thị các dòng log mới có chứa từ `failed`.
 Ctrl + C
 ```
 
-Tóm lại, `tail -f` rất hữu ích khi cần giám sát sự kiện đang diễn ra, ví dụ kiểm tra lỗi dịch vụ, theo dõi đăng nhập SSH hoặc quan sát request web server.
+![](./img/22.6_ssh.png)
 
+![](./img/22.6_tail_error_ssh.png)
 
 ## 22.7. Tìm kiếm sự kiện trong log với `grep`
 
@@ -7776,20 +7714,10 @@ grep "từ_khóa" <tệp_log>
 Ví dụ tìm lỗi trong syslog:
 
 ```bash
-grep -i "error" /var/log/syslog
+sudo grep -i "error" /var/log/syslog
 ```
 
-Tìm các dòng đăng nhập thất bại trong auth log:
-
-```bash
-sudo grep -i "failed" /var/log/auth.log
-```
-
-Tìm các dòng liên quan đến SSH:
-
-```bash
-sudo grep -i "ssh" /var/log/auth.log
-```
+![](./img/22.7_grep_i.png)
 
 Một số tùy chọn `grep` hữu ích khi phân tích log:
 
@@ -7804,8 +7732,10 @@ Một số tùy chọn `grep` hữu ích khi phân tích log:
 Ví dụ hiển thị số dòng có lỗi:
 
 ```bash
-grep -in "error" /var/log/syslog
+sudo grep -in "error" /var/log/syslog
 ```
+
+![](./img/22.7_grep_in.png)
 
 Tìm nhiều từ khóa bằng regex:
 
@@ -7813,39 +7743,36 @@ Tìm nhiều từ khóa bằng regex:
 sudo grep -Ei "failed|invalid|denied" /var/log/auth.log
 ```
 
+![](./img/22.7_grep_Ei.png)
+
 Tìm trong toàn bộ thư mục log:
 
 ```bash
 sudo grep -r "Failed password" /var/log 2>/dev/null
 ```
 
-Ví dụ lọc các request HTTP trả về mã lỗi `404` trong access log:
-
-```bash
-grep " 404 " /var/log/apache2/access.log
-```
-
-Tóm lại, `grep` là công cụ cơ bản nhưng rất mạnh để tìm sự kiện quan trọng trong log, đặc biệt khi cần phát hiện lỗi, đăng nhập thất bại hoặc hành vi bất thường.
-
+![](./img/22.7_grep_r.png)
 
 ## 22.8. Xử lý log với `awk`, `sed`, `cut`, `sort`, `uniq`
 
 Ngoài việc tìm kiếm bằng `grep`, người dùng có thể dùng các công cụ xử lý văn bản để trích xuất, thống kê và làm sạch dữ liệu log.
 
-#### Trích xuất cột với `awk`
+**Trích xuất cột với `awk`**
 
 `awk` thường dùng để lấy một cột cụ thể trong log.
 
 Ví dụ với access log, địa chỉ IP thường nằm ở cột đầu tiên:
 
 ```bash
-awk '{print $1}' /var/log/apache2/access.log
+sudo awk '{print $1}' /var/log/apache2/access.log
 ```
+
+![](./img/22.8_awk.png)
 
 Đếm số request theo từng IP:
 
 ```bash
-awk '{print $1}' /var/log/apache2/access.log | sort | uniq -c | sort -nr
+sudo awk '{print $1}' /var/log/apache2/access.log | sort | uniq -c | sort -nr
 ```
 
 Ý nghĩa:
@@ -7857,7 +7784,9 @@ awk '{print $1}' /var/log/apache2/access.log | sort | uniq -c | sort -nr
 | `uniq -c` | Đếm số lần xuất hiện |
 | `sort -nr` | Sắp xếp giảm dần theo số lượng |
 
-#### Cắt trường với `cut`
+![](./img/22.8_awk_sort_uniq_c_sort_nr.png)
+
+**Cắt trường với `cut`**
 
 Nếu log hoặc dữ liệu có ký tự phân tách rõ ràng, có thể dùng `cut`.
 
@@ -7867,13 +7796,17 @@ Ví dụ lấy user từ `/etc/passwd`:
 cut -d ':' -f 1 /etc/passwd
 ```
 
+![](./img/22.8_cut.png)
+
 Với log dạng CSV:
 
 ```bash
 cut -d ',' -f 1,3 logfile.csv
 ```
 
-#### Thay thế hoặc lọc dòng với `sed`
+![](./img/22.8_cut_csv.png)
+
+**Thay thế hoặc lọc dòng với `sed`**
 
 Ví dụ thay địa chỉ IP bằng chuỗi ẩn danh đơn giản:
 
@@ -7881,13 +7814,17 @@ Ví dụ thay địa chỉ IP bằng chuỗi ẩn danh đơn giản:
 sed -E 's/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/X.X.X.X/g' access.log
 ```
 
+![](./img/22.8_sed_E.png)
+
 Ví dụ chỉ in các dòng chứa `error`:
 
 ```bash
 sed -n '/error/p' logfile.txt
 ```
 
-#### Sắp xếp và đếm với `sort`, `uniq`
+![](./img/22.8_sed_n.png)
+
+**Sắp xếp và đếm với `sort`, `uniq`**
 
 Ví dụ đếm số lần xuất hiện của từng lỗi:
 
@@ -7895,14 +7832,15 @@ Ví dụ đếm số lần xuất hiện của từng lỗi:
 grep -i "error" logfile.txt | sort | uniq -c | sort -nr
 ```
 
+![](./img/22.8_dem_so_lan_xuat_hien_tung_loi.png)
+
 Ví dụ thống kê các IP truy cập nhiều nhất:
 
 ```bash
 awk '{print $1}' access.log | sort | uniq -c | sort -nr | head
 ```
 
-Tóm lại, `awk`, `sed`, `cut`, `sort` và `uniq` giúp biến log thô thành dữ liệu có thể phân tích, thống kê và phục vụ điều tra.
-
+![](./img/22.8_thong_ke.png)
 
 ## 22.9. Tô màu log với `ccze`
 
@@ -7921,17 +7859,23 @@ Ví dụ tô màu log khi xem bằng `tail -f`:
 tail -f logfile.txt | ccze
 ```
 
+![](./img/22.9_ccze_file.png)
+
 Ví dụ với syslog:
 
 ```bash
-tail -f /var/log/syslog | ccze
+sudo tail -f /var/log/syslog | ccze
 ```
+
+![](./img/22.9_ccze_syslog.png)
 
 Ví dụ với auth log:
 
 ```bash
 sudo tail -f /var/log/auth.log | ccze
 ```
+
+![](./img/22.9_ccze_auth_log.png)
 
 Khi dùng `ccze`, các phần như thời gian, hostname, dịch vụ, cảnh báo hoặc lỗi có thể được hiển thị với màu khác nhau, giúp người dùng quan sát log trực quan hơn.
 
@@ -7948,8 +7892,7 @@ Trong đó:
 | `ccze -A` | Xuất màu theo dạng ANSI |
 | `less -R` | Cho phép hiển thị màu trong `less` |
 
-Tóm lại, `ccze` không thay đổi nội dung log, mà chỉ giúp hiển thị log rõ ràng hơn khi đọc trong terminal.
-
+![](./img/22.9_ccze_less.png)
 
 ## 22.10. Ứng dụng log trong SOC và điều tra sự cố
 
@@ -7966,42 +7909,6 @@ Một số nguồn log quan trọng trong SOC:
 | IDS/IPS log | Cảnh báo tấn công mạng |
 | EDR/Endpoint log | Tiến trình, file, hành vi đáng ngờ |
 | Package log | Cài đặt hoặc gỡ phần mềm bất thường |
-
-Ví dụ điều tra brute-force SSH:
-
-```bash
-sudo grep -Ei "failed|invalid" /var/log/auth.log
-```
-
-Đếm số lần đăng nhập thất bại theo IP:
-
-```bash
-sudo grep "Failed password" /var/log/auth.log | awk '{print $(NF-3)}' | sort | uniq -c | sort -nr
-```
-
-Ví dụ điều tra web access log, tìm IP truy cập nhiều nhất:
-
-```bash
-awk '{print $1}' /var/log/apache2/access.log | sort | uniq -c | sort -nr | head
-```
-
-Tìm request lỗi 404:
-
-```bash
-grep " 404 " /var/log/apache2/access.log
-```
-
-Tìm truy cập đến file đáng nghi:
-
-```bash
-grep -Ei "admin|login|backup|\.env|config" /var/log/apache2/access.log
-```
-
-Ví dụ kiểm tra hoạt động dùng `sudo`:
-
-```bash
-sudo grep "sudo" /var/log/auth.log
-```
 
 Trong điều tra sự cố, log giúp trả lời các câu hỏi quan trọng:
 
@@ -8024,8 +7931,6 @@ Một quy trình phân tích log cơ bản:
 5. Dùng `awk`, `sort`, `uniq` để thống kê.
 6. So sánh nhiều nguồn log nếu cần.
 7. Ghi lại kết quả phục vụ báo cáo hoặc xử lý sự cố.
-
-Tóm lại, trong SOC và điều tra sự cố, log không chỉ dùng để xem lỗi mà còn là bằng chứng quan trọng để phát hiện tấn công, xác định phạm vi ảnh hưởng và hỗ trợ phản ứng sự cố.
 
 # 23. Bash Scripting cơ bản
 
