@@ -6955,7 +6955,6 @@ Trong Linux, nhiều công việc quản trị hệ thống cần được thự
 
 Tự động hóa giúp tiết kiệm thời gian, giảm lỗi thao tác thủ công và đảm bảo các tác vụ quan trọng được thực hiện đúng thời điểm.
 
-
 ## 21.1. Tự động hóa trong Linux
 
 **Tự động hóa** là quá trình cấu hình hệ thống để tự thực hiện một công việc mà không cần người dùng nhập lệnh thủ công mỗi lần.
@@ -6990,7 +6989,6 @@ Nếu script này được lập lịch chạy mỗi ngày, người dùng sẽ 
 
 Tóm lại, tự động hóa trong Linux giúp hệ thống thực hiện các công việc lặp lại một cách đều đặn, chính xác và tiết kiệm thời gian.
 
-
 ## 21.2. Cron là gì?
 
 **Cron** là dịch vụ dùng để chạy các tác vụ định kỳ trong Linux. Các tác vụ này có thể chạy theo phút, giờ, ngày, tháng hoặc ngày trong tuần.
@@ -7012,15 +7010,13 @@ Có thể kiểm tra trạng thái cron bằng:
 ```bash
 systemctl status cron
 ```
+![](./img/21.2_cron.png)
 
 Trên một số hệ thống, dịch vụ có thể tên là:
 
 ```bash
 systemctl status crond
 ```
-
-Tóm lại, cron là công cụ lập lịch định kỳ trong Linux, phù hợp với các tác vụ cần chạy lặp lại theo thời gian.
-
 
 ## 21.3. Crontab là gì?
 
@@ -7056,12 +7052,7 @@ crontab -l
 
 Nếu chưa có lịch nào, hệ thống có thể hiển thị:
 
-```bash
-no crontab for student
-```
-
-Tóm lại, crontab là nơi người dùng khai báo các lệnh hoặc script cần được cron chạy tự động theo lịch.
-
+![](./img/21.3_crontab_l.png)
 
 ## 21.4. Chỉnh sửa lịch với `crontab -e`
 
@@ -7084,8 +7075,10 @@ crontab -e
 Sau đó thêm một dòng:
 
 ```bash
-0 2 * * * /home/student/backup.sh
+0 2 * * * /home/sun/backup.sh
 ```
+
+![](./img/21.4_crontab_e.png)
 
 Lưu lại và thoát. Từ thời điểm đó, cron sẽ tự động chạy script theo lịch đã đặt.
 
@@ -7104,9 +7097,6 @@ crontab -r
 ```
 
 vì lệnh này xóa toàn bộ lịch cron của user hiện tại.
-
-Tóm lại, `crontab -e` là lệnh chính để thêm, sửa hoặc xóa các tác vụ định kỳ của user.
-
 
 ## 21.5. Cấu trúc thời gian trong crontab
 
@@ -7181,9 +7171,6 @@ Ví dụ chạy từ thứ Hai đến thứ Sáu lúc 8:00:
 0 8 * * 1-5 command
 ```
 
-Tóm lại, cấu trúc thời gian trong crontab cho phép lập lịch rất linh hoạt, từ mỗi phút đến từng ngày, tuần hoặc tháng.
-
-
 ## 21.6. Lập lịch chạy script
 
 Để lập lịch chạy script bằng cron, cần chuẩn bị script trước, cấp quyền thực thi và khai báo đường dẫn đầy đủ trong crontab.
@@ -7191,23 +7178,27 @@ Tóm lại, cấu trúc thời gian trong crontab cho phép lập lịch rất l
 Ví dụ tạo script sao lưu:
 
 ```bash
-nano /home/student/backup.sh
+nano /home/sun/backup.sh
 ```
 
 Nội dung script:
 
 ```bash
 #!/bin/bash
-tar -czvf /home/student/backup_$(date +\%F).tar.gz /home/student/project
+tar -czvf /home/sun/backup_$(date +\%F).tar.gz /home/sun/project
 ```
+
+![](./img/21.6_script.png)
 
 Lưu ý: trong crontab, ký tự `%` có ý nghĩa đặc biệt, nên khi dùng `date +%F` trong dòng cron hoặc script gọi trực tiếp, cần cẩn thận. Cách an toàn là đặt lệnh phức tạp vào script riêng.
 
 Cấp quyền thực thi:
 
 ```bash
-chmod +x /home/student/backup.sh
+chmod +x /home/sun/backup.sh
 ```
+
+![](./img/21.6_chmod.png)
 
 Chỉnh sửa crontab:
 
@@ -7218,15 +7209,17 @@ crontab -e
 Thêm dòng:
 
 ```bash
-0 2 * * * /home/student/backup.sh
+0 2 * * * /home/sun/backup.sh
 ```
 
 Lệnh trên chạy script backup vào 2:00 sáng mỗi ngày.
 
+![](./img/21.6_crontab_e.png)
+
 Nên chuyển hướng đầu ra và lỗi vào file log để dễ kiểm tra:
 
 ```bash
-0 2 * * * /home/student/backup.sh >> /home/student/backup.log 2>&1
+0 2 * * * /home/sun/backup.sh >> /home/sun/backup.log 2>&1
 ```
 
 Trong đó:
@@ -7236,18 +7229,7 @@ Trong đó:
 | `>> /home/student/backup.log` | Ghi thêm output vào file log |
 | `2>&1` | Chuyển lỗi STDERR vào cùng nơi với STDOUT |
 
-Một số lưu ý khi chạy script bằng cron:
-
-| Lưu ý | Giải thích |
-|---|---|
-| Dùng đường dẫn tuyệt đối | Cron có môi trường hạn chế hơn terminal |
-| Cấp quyền thực thi cho script | Dùng `chmod +x script.sh` |
-| Ghi log khi chạy | Dễ kiểm tra lỗi |
-| Không phụ thuộc vào biến môi trường | Nên khai báo rõ trong script |
-| Kiểm tra script thủ công trước | Đảm bảo script chạy đúng trước khi lập lịch |
-
-Tóm lại, khi lập lịch chạy script, nên dùng đường dẫn đầy đủ, kiểm tra quyền thực thi và lưu log để dễ theo dõi.
-
+![](./img/21.6_crontab_e_chuyen_huong_loi.png)
 
 ## 21.7. Chạy lệnh một lần với `at`
 
@@ -7268,7 +7250,7 @@ at 15:30
 Sau đó nhập lệnh cần chạy:
 
 ```bash
-echo "Backup started" >> /home/student/at_test.log
+echo "Backup started" >> /home/sun/at_test.log
 ```
 
 Kết thúc nhập lệnh bằng:
@@ -7276,6 +7258,8 @@ Kết thúc nhập lệnh bằng:
 ```bash
 Ctrl + D
 ```
+
+![](./img/21.7_at_chay_lenh_vao_1_gio_cu_the.png)
 
 Ví dụ chạy một script sau 10 phút:
 
@@ -7286,7 +7270,7 @@ at now + 10 minutes
 Sau đó nhập:
 
 ```bash
-/home/student/backup.sh
+/home/sun/backup.sh
 ```
 
 Kết thúc bằng:
@@ -7294,6 +7278,8 @@ Kết thúc bằng:
 ```bash
 Ctrl + D
 ```
+
+![](./img/21.7_at_chay_lenh_sau_1_thoi_diem.png)
 
 Một số ví dụ thời gian:
 
@@ -7318,21 +7304,15 @@ Ví dụ xem các job đang chờ:
 atq
 ```
 
+![](./img/21.7_atq.png)
+
 Xóa một job:
 
 ```bash
-atrm 3
+atrm 2
 ```
 
-Trên một số hệ thống, cần cài và bật dịch vụ `atd`:
-
-```bash
-sudo apt install at
-sudo systemctl enable --now atd
-```
-
-Tóm lại, `at` phù hợp khi cần chạy một lệnh hoặc script một lần trong tương lai, còn `cron` phù hợp với tác vụ lặp lại định kỳ.
-
+![](./img/21.7_atq.png)
 
 ## 21.8. Chạy tiến trình không bị dừng với `nohup`
 
@@ -7349,6 +7329,8 @@ Ví dụ chạy script ở nền và không bị dừng khi đóng terminal:
 ```bash
 nohup ./long_task.sh &
 ```
+
+![](./img/21.8_nohup_file.png)
 
 Theo mặc định, output của lệnh có thể được ghi vào file:
 
@@ -7368,6 +7350,8 @@ Kiểm tra file output:
 cat nohup.out
 ```
 
+![](./img/21.8_nohup_ping_out.png)
+
 Có thể chuyển output sang file riêng:
 
 ```bash
@@ -7386,7 +7370,7 @@ Trong đó:
 Ví dụ chạy một script backup dài:
 
 ```bash
-nohup /home/student/backup.sh > /home/student/backup.log 2>&1 &
+nohup /home/sun/backup.sh > /home/sun/backup.log 2>&1 &
 ```
 
 Sau khi chạy, có thể kiểm tra tiến trình:
@@ -7395,8 +7379,7 @@ Sau khi chạy, có thể kiểm tra tiến trình:
 ps aux | grep backup.sh
 ```
 
-Tóm lại, `nohup` rất hữu ích khi chạy tác vụ dài qua SSH, vì tiến trình vẫn tiếp tục chạy ngay cả khi phiên terminal bị đóng.
-
+![](./img/21.8_chay_script_dai.png)
 
 ## 21.9. Ứng dụng tự động hóa trong quản trị hệ thống
 
@@ -7417,26 +7400,28 @@ Một số ứng dụng thực tế:
 Ví dụ tự động ghi dung lượng ổ đĩa mỗi ngày:
 
 ```bash
-0 8 * * * df -h >> /home/student/disk_usage.log
+0 8 * * * df -h >> /home/sun/disk_usage.log
 ```
 
 Ví dụ tự động kiểm tra dịch vụ SSH mỗi 5 phút:
 
 ```bash
-*/5 * * * * systemctl is-active ssh >> /home/student/ssh_status.log
+*/5 * * * * systemctl is-active ssh >> /home/sun/ssh_status.log
 ```
 
 Ví dụ xóa file `.log` cũ hơn 30 ngày:
 
 ```bash
-0 3 * * * find /home/student/logs -type f -name "*.log" -mtime +30 -delete
+0 3 * * * find /home/sun/logs -type f -name "*.log" -mtime +30 -delete
 ```
 
 Ví dụ backup thư mục dự án mỗi ngày lúc 2 giờ sáng:
 
 ```bash
-0 2 * * * tar -czvf /home/student/project_backup.tar.gz /home/student/project
+0 2 * * * tar -czvf /home/sun/project_backup.tar.gz /home/sun/project
 ```
+
+![](./img/21.9_crontab_tu_dong_hoa.png)
 
 Tuy nhiên, khi tự động hóa, cần chú ý bảo mật:
 
@@ -7455,17 +7440,7 @@ Ví dụ kiểm tra crontab hiện tại:
 crontab -l
 ```
 
-Kiểm tra quyền script:
-
-```bash
-ls -l /home/student/backup.sh
-```
-
-Một script chạy tự động không nên có quyền ghi cho `others`, ví dụ không nên để:
-
-```bash
--rwxrwxrwx
-```
+![](./img/21.9_crontab_l.png)
 
 # 22. Log trong Linux
 
