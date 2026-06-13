@@ -8452,11 +8452,7 @@ name="Linux"
 echo "Hello $name"
 ```
 
-Kết quả:
-
-```bash
-Hello Linux
-```
+![](./img/24.1_var_1.png)
 
 Lưu ý quan trọng: khi khai báo biến trong Bash, **không được có khoảng trắng** trước hoặc sau dấu `=`.
 
@@ -8474,9 +8470,6 @@ name = "Linux"
 
 Nếu viết sai như trên, Bash sẽ hiểu `name` là một lệnh, còn `=` và `"Linux"` là tham số, dẫn đến lỗi.
 
-Tóm lại, biến trong Bash được khai báo bằng cú pháp `name=value` và không có khoảng trắng quanh dấu `=`.
-
-
 ## 24.2. Sử dụng biến với `$`
 
 Sau khi khai báo biến, muốn lấy giá trị của biến thì đặt dấu `$` trước tên biến.
@@ -8484,28 +8477,11 @@ Sau khi khai báo biến, muốn lấy giá trị của biến thì đặt dấu
 Ví dụ:
 
 ```bash
-name="Linux"
-echo $name
-```
-
-Kết quả:
-
-```bash
-Linux
-```
-
-Ví dụ khác:
-
-```bash
 user="student"
 echo "Current user is $user"
 ```
 
-Kết quả:
-
-```bash
-Current user is student
-```
+![](./img/24.2var_&_1.png)
 
 Có thể dùng biến để lưu đường dẫn:
 
@@ -8514,12 +8490,16 @@ logfile="/var/log/auth.log"
 echo "Log file: $logfile"
 ```
 
+![](./img/24.2_var_path.png)
+
 Hoặc dùng biến trong lệnh:
 
 ```bash
 filename="report.txt"
 cat $filename
 ```
+
+![](./img/24.2_var_file.png)
 
 Cách viết an toàn hơn là đặt biến trong dấu ngoặc kép:
 
@@ -8535,9 +8515,6 @@ Ví dụ:
 filename="my report.txt"
 cat "$filename"
 ```
-
-Tóm lại, dấu `$` dùng để gọi giá trị của biến. Khi dùng biến trong lệnh, nên viết `"$variable"` để tránh lỗi do khoảng trắng hoặc ký tự đặc biệt.
-
 
 ## 24.3. Quy tắc đặt biến trong Bash
 
@@ -8581,9 +8558,6 @@ backup_dir="/home/student/backup"
 log_file="/var/log/syslog"
 ```
 
-Tóm lại, tên biến nên ngắn gọn, rõ nghĩa, không có khoảng trắng và không chứa ký tự đặc biệt ngoài dấu `_`.
-
-
 ## 24.4. In biến ra màn hình
 
 Lệnh `echo` thường được dùng để in giá trị biến ra màn hình.
@@ -8595,11 +8569,7 @@ name="Linux"
 echo $name
 ```
 
-Kết quả:
-
-```bash
-Linux
-```
+![](./img/24.4_echo_bien.png)
 
 Có thể kết hợp biến với chuỗi văn bản:
 
@@ -8608,11 +8578,7 @@ name="Linux"
 echo "Hello $name"
 ```
 
-Kết quả:
-
-```bash
-Hello Linux
-```
+![](./img/24.4_echo_chuoi_vb_bien.png)
 
 Ví dụ in nhiều biến:
 
@@ -8624,12 +8590,7 @@ echo "User: $username"
 echo "Host: $hostname"
 ```
 
-Kết quả:
-
-```bash
-User: student
-Host: ubuntu
-```
+![](./img/24.4_echo_nhieu_bien.png)
 
 Có thể dùng dấu `{}` để phân tách tên biến rõ hơn:
 
@@ -8638,11 +8599,7 @@ name="Linux"
 echo "${name}_server"
 ```
 
-Kết quả:
-
-```bash
-Linux_server
-```
+![](./img/24.4_echo_tach_bien.png)
 
 Nếu viết:
 
@@ -8651,9 +8608,6 @@ echo "$name_server"
 ```
 
 Bash sẽ hiểu là biến `name_server`, không phải biến `name` cộng với chuỗi `_server`.
-
-Tóm lại, để in biến ra màn hình, dùng `echo "$variable"`. Khi cần ghép biến với chuỗi, nên dùng dạng `"${variable}"`.
-
 
 ## 24.5. Tham số dòng lệnh
 
