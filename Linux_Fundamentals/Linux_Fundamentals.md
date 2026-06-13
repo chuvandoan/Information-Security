@@ -7950,6 +7950,8 @@ hello.sh
 
 Ví dụ một Bash script đơn giản:
 
+File Bash script `demo.sh`:
+
 ```bash
 #!/bin/bash
 echo "Hello Linux"
@@ -7965,18 +7967,9 @@ Script trên thực hiện ba việc:
 | `whoami` | Hiển thị user hiện tại |
 | `id` | Hiển thị UID, GID và các nhóm của user |
 
-Nếu chạy script, kết quả có thể là:
-
-```bash
-Hello Linux
-student
-uid=1000(student) gid=1000(student) groups=1000(student),27(sudo)
-```
+![](./img/23.1_bash_demo.png)
 
 Bash script thường được dùng để kết hợp nhiều lệnh Linux thành một quy trình tự động.
-
-Tóm lại, Bash script là một tệp chứa nhiều lệnh Bash, giúp tự động hóa các thao tác trong Linux.
-
 
 ## 23.2. Khi nào cần sử dụng Bash Script?
 
@@ -8021,6 +8014,8 @@ Sau đó chỉ cần chạy một lần:
 ./system_info.sh
 ```
 
+![](./img/23.2_bash_system_infor.png)
+
 Bash script đặc biệt hữu ích khi kết hợp với cron để chạy định kỳ.
 
 Ví dụ:
@@ -8030,9 +8025,6 @@ Ví dụ:
 ```
 
 Lệnh trên có thể dùng để chạy script mỗi ngày lúc 8 giờ sáng.
-
-Tóm lại, Bash script phù hợp khi cần tự động hóa, giảm thao tác thủ công và đảm bảo các bước được thực hiện nhất quán.
-
 
 ## 23.3. Cấu trúc cơ bản của một Bash Script
 
@@ -8079,9 +8071,6 @@ id
 
 Sau khi lưu file, cần cấp quyền thực thi rồi chạy script.
 
-Tóm lại, một Bash script thường bắt đầu bằng shebang, sau đó là các lệnh Bash được sắp xếp theo thứ tự cần thực hiện.
-
-
 ## 23.4. Shebang `#!/bin/bash`
 
 **Shebang** là dòng đầu tiên trong script, dùng để chỉ định chương trình nào sẽ được dùng để thực thi script.
@@ -8118,15 +8107,6 @@ Ví dụ:
 echo "This script uses Bash"
 ```
 
-Trong học Linux cơ bản, có thể dùng:
-
-```bash
-#!/bin/bash
-```
-
-Tóm lại, shebang giúp hệ thống biết cần dùng trình thông dịch nào để chạy script. Với Bash script, dòng phổ biến nhất là `#!/bin/bash`.
-
-
 ## 23.5. Chạy lệnh Linux trong Bash Script
 
 Bash script có thể chạy hầu hết các lệnh Linux giống như khi nhập trực tiếp trong terminal.
@@ -8150,6 +8130,8 @@ pwd
 
 Khi chạy script, các lệnh sẽ được thực hiện từ trên xuống dưới.
 
+![](./img/23.5_demo1.png)
+
 Có thể lưu kết quả vào file bằng chuyển hướng:
 
 ```bash
@@ -8166,6 +8148,8 @@ Sau đó kiểm tra:
 cat report.txt
 ```
 
+![](./img/23.5_demo2_chuyen_huong.png)
+
 Có thể dùng pipe trong script:
 
 ```bash
@@ -8173,12 +8157,16 @@ Có thể dùng pipe trong script:
 ps aux | grep ssh
 ```
 
+![](./img/23.5_demo3_pipe.png)
+
 Có thể dùng `grep`, `awk`, `sed`, `cut`, `sort`, `uniq` để xử lý dữ liệu:
 
 ```bash
 #!/bin/bash
-grep -i "failed" /var/log/auth.log | awk '{print $1, $2, $3, $0}'
+sudo grep -i "failed" /var/log/auth.log | awk '{print $1, $2, $3, $0}'
 ```
+
+![](./img/23.5_demo4_multi_pipe.png)
 
 Tuy nhiên, một số log hệ thống cần quyền cao. Khi đó, script có thể cần chạy bằng `sudo` hoặc chỉ một số lệnh trong script cần `sudo`.
 
@@ -8187,9 +8175,6 @@ Ví dụ:
 ```bash
 sudo ./check_auth_log.sh
 ```
-
-Tóm lại, Bash script có thể kết hợp nhiều lệnh Linux để tạo thành một quy trình tự động, phục vụ quản trị hệ thống và xử lý dữ liệu.
-
 
 ## 23.6. Cấp quyền thực thi cho script
 
@@ -8208,17 +8193,15 @@ Nội dung:
 echo "Hello Linux"
 ```
 
+![](./img/23.6_hello_sh.png)
+
 Kiểm tra quyền:
 
 ```bash
 ls -l hello.sh
 ```
 
-Kết quả có thể là:
-
-```bash
--rw-r--r-- 1 student student 31 May 15 10:00 hello.sh
-```
+![](./img/23.6_ls_l_hello_sh.png)
 
 Trong quyền trên chưa có ký tự `x`, nghĩa là file chưa có quyền thực thi.
 
@@ -8234,11 +8217,7 @@ Kiểm tra lại:
 ls -l hello.sh
 ```
 
-Kết quả có thể là:
-
-```bash
--rwxr-xr-x 1 student student 31 May 15 10:00 hello.sh
-```
+![](./img/23.6_chmod_x.png)
 
 Ký tự `x` cho biết file đã có quyền thực thi.
 
@@ -8248,14 +8227,13 @@ Có thể cấp quyền thực thi chỉ cho user sở hữu:
 chmod u+x hello.sh
 ```
 
+![](./img/23.6_chmod_u_x.png)
+
 Hoặc dùng dạng số:
 
 ```bash
 chmod 755 hello.sh
 ```
-
-Tóm lại, `chmod +x script.sh` là bước cần thiết để biến file script thành file có thể chạy trực tiếp.
-
 
 ## 23.7. Chạy script với `./script.sh`
 
@@ -8271,25 +8249,13 @@ Ví dụ:
 ./hello.sh
 ```
 
-Kết quả:
-
-```bash
-Hello Linux
-```
+![](./img/23.7_run_hello.png)
 
 Dấu `./` có nghĩa là chạy file script nằm trong thư mục hiện tại.
 
-Ví dụ:
-
-```bash
-./first_bash_script.sh
-```
-
 Nếu không dùng `./`, hệ thống có thể báo lỗi:
 
-```bash
-command not found
-```
+![](./img/23.7_run_error.png)
 
 Nguyên nhân là Linux chỉ tìm lệnh trong các thư mục thuộc biến môi trường `PATH`, ví dụ `/bin`, `/usr/bin`, `/usr/local/bin`. Thư mục hiện tại thường không nằm trong `PATH`, nên cần ghi rõ:
 
@@ -8303,6 +8269,8 @@ Ngoài cách chạy trực tiếp, có thể chạy script bằng Bash:
 bash script.sh
 ```
 
+![](./img/23.7_chay_truc_tiep.png)
+
 Cách này thường không yêu cầu file có quyền thực thi, vì người dùng đang gọi chương trình `bash` để đọc script.
 
 So sánh:
@@ -8312,13 +8280,6 @@ So sánh:
 | `./script.sh` | Có | Chạy trực tiếp file script |
 | `bash script.sh` | Không bắt buộc | Bash đọc file và thực thi |
 | `sh script.sh` | Không bắt buộc | Có thể không hỗ trợ cú pháp riêng của Bash |
-
-Tóm lại, cách chạy phổ biến sau khi cấp quyền là:
-
-```bash
-chmod +x script.sh
-./script.sh
-```
 
 ## 23.8. Chú thích trong Bash Script
 
@@ -8375,9 +8336,6 @@ Ví dụ chú thích tốt hơn:
 echo "Hello"
 ```
 
-Tóm lại, chú thích trong Bash script bắt đầu bằng `#` và giúp mã dễ hiểu, dễ sửa, dễ bảo trì hơn.
-
-
 ## 23.9. Gỡ lỗi script với `bash -x`
 
 Khi script bị lỗi hoặc không chạy đúng như mong muốn, có thể dùng chế độ debug bằng lệnh:
@@ -8403,15 +8361,7 @@ Chạy debug:
 bash -x hello.sh
 ```
 
-Kết quả có thể là:
-
-```bash
-+ name=Linux
-+ echo 'Hello Linux'
-Hello Linux
-+ whoami
-student
-```
+![](./img/23.9_bash_x_go_loi_1.png)
 
 Các dòng bắt đầu bằng dấu `+` là các lệnh mà Bash đang thực thi. Nhờ đó, người dùng có thể theo dõi từng bước của script.
 
@@ -8430,19 +8380,7 @@ Chạy:
 bash -x error_script.sh
 ```
 
-Kết quả có thể cho biết lệnh nào gây lỗi:
-
-```bash
-+ echo Start
-Start
-+ ls /not_exist
-ls: cannot access '/not_exist': No such file or directory
-+ echo End
-End
-```
-
-Tóm lại, `bash -x script.sh` là cách đơn giản và hiệu quả để gỡ lỗi toàn bộ Bash script.
-
+![](./img/23.9_bash_x_go_loi_2.png)
 
 ## 23.10. Gỡ lỗi từng phần với `set -x` và `set +x`
 
@@ -8477,37 +8415,9 @@ Khi chạy bình thường:
 
 Bash chỉ hiển thị chi tiết phần nằm giữa `set -x` và `set +x`.
 
-Kết quả có thể là:
-
-```bash
-Start script
-+ name=Linux
-+ echo 'Hello Linux'
-Hello Linux
-+ whoami
-student
-End script
-```
+![](./img/23.10_debug.png)
 
 Cách này hữu ích khi script dài và người dùng chỉ muốn kiểm tra một đoạn nghi ngờ có lỗi, thay vì debug toàn bộ script.
-
-Ví dụ debug phần xử lý file:
-
-```bash
-#!/bin/bash
-
-filename="report.txt"
-
-set -x
-echo "System report" > "$filename"
-whoami >> "$filename"
-hostname >> "$filename"
-set +x
-
-echo "Report created: $filename"
-```
-
-Tóm lại, `set -x` và `set +x` giúp gỡ lỗi có chọn lọc trong Bash script, phù hợp khi script dài hoặc chỉ một phần nhỏ cần kiểm tra.
 
 # 24. Biến và tham số trong Bash
 
