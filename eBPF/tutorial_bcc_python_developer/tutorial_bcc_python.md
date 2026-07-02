@@ -43,10 +43,33 @@ Nhưng nó có những hạn chế:
 
 **Thực thi**
 
-```sudo python3 hello_world.py```
+```bash
+sudo python3 hello_world.py
+```
 
 Sau đó mở 1 terminal khác và thực thi các lệnh tạo process
 
 ![](./img/1_hello_world.png)
 
 
+## 2. sys_sync()
+
+Viết một chương trình theo dõi hàm kernel sys_sync(). In ra "sys_sync() called" khi chương trình chạy. Kiểm tra bằng cách chạy lệnh sync trong một phiên khác trong khi đang theo dõi.in ra "Tracing sys_sync()... Ctrl-C to end." khi chương trình bắt đầu
+
+**Code cho file sync_trace.py**
+
+```python
+from bcc import BPF
+
+print("Tracing sys_sync()... Ctrl-C to end.")
+
+BPF(text="""
+int kprobe__sys_sync(void *ctx)
+{
+    bpf_trace_printk("sys_sync() called\\n");
+    return 0;
+}
+""").trace_print()
+```
+
+![](./img/2_sys_sync.png)
