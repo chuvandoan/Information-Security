@@ -17,6 +17,8 @@ Hê hee heeeeeeeeeeeeee3333
 - Giải pháp và công cụ phòng thủ an ninh mạng  
 
 ---
+## [Lập trình eBPF](/eBPF/tutorial_bcc_python_developer/tutorial_bcc_python.md)
+>Hướng dẫn lập trình eBPF trên Linux bằng framework BCC và C
 
 ## [Section 1: Linux Fundamentals](/Linux_Fundamentals/Linux_Fundamentals.md)
 > Phần này cung cấp kiến thức nền tảng về hệ điều hành Linux, từ tổng quan, kiến trúc hệ thống, terminal, shell, hệ thống tệp, quyền truy cập, quản lý người dùng, tiến trình, dịch vụ, gói phần mềm, log cho đến Bash scripting cơ bản. Nội dung được xây dựng theo hướng thực hành, giúp người học làm quen với các lệnh Linux quan trọng, hiểu cách hệ thống hoạt động và áp dụng vào quản trị hệ thống, SOC và an toàn thông tin.
