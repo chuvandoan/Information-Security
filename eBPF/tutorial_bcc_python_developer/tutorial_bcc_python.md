@@ -72,6 +72,8 @@ int kprobe__sys_sync(void *ctx)
 """).trace_print()
 ```
 
+**Thực thi**
+
 ![](./img/2_sys_sync.png)
 
 ## 3. Hello fields
@@ -193,4 +195,142 @@ except KeyboardInterrupt:
 | `%-6d`    | in số nguyên, căn trái, rộng 6 ký tự                       |
 | `%s`      | in string/bytes bình thường                                |
 
+**Thực thi**
+
 ![](./img/3_hello_fields.png)
+
+## 4. sync_timing
+
+`sync` dùng để ghi dữ liệu đang nằm trong bộ nhớ đệm xuống ổ đĩa
+Dùng trong các trường hợp:
+- trước khi tắt máy hoặc reboot thủ công;
+- trước khi rút USB/ổ ngoài;
+- sau khi copy file lớn;
+- khi muốn chắc chắn dữ liệu đã được flush xuống disk.
+`sync` nhiều lần liên tiếp có thể gây tăng I/O và làm chậm hệ thống.
+Chương trình này dùng để phát hiện khi lệnh `sync()` được gọi nhiều lần liên tiếp quá nhanh.
+
+**Code cho file sync_timing.py**
+
+```python
+from __future__ import print_function
+from bcc import BPF
+from bcc.utils import printb
+
+# load BPF program
+b = BPF(text="""
+#include <uapi/linux/ptrace.h>
+
+BPF_HASH(last);
+
+int do_trace(struct pt_regs *ctx) {
+    u64 ts, *tsp, delta, key = 0;
+
+    // attempt to read stored timestamp
+    tsp = last.lookup(&key);
+    if (tsp != NULL) {
+        delta = bpf_ktime_get_ns() - *tsp;
+        if (delta < 1000000000) {
+            // output if time is less than 1 second
+            bpf_trace_printk("%d\\n", delta / 1000000);
+        }
+        last.delete(&key);
+    }
+
+    // update stored timestamp
+    ts = bpf_ktime_get_ns();
+    last.update(&key, &ts);
+    return 0;
+}
+""")
+
+b.attach_kprobe(event=b.get_syscall_fnname("sync"), fn_name="do_trace")
+print("Tracing for quick sync's... Ctrl-C to end")
+
+# format output
+start = 0
+while 1:
+    try:
+        (task, pid, cpu, flags, ts, ms) = b.trace_fields()
+        if start == 0:
+            start = ts
+        ts = ts - start
+        printb(b"At time %.2f s: multiple syncs detected, last %s ms ago" % (ts, ms))
+    except KeyboardInterrupt:
+        exit()
+```
+
+**Luồng hoạt đông**
+
+```bash
+Chạy chương trình Python
+        ↓
+BCC nạp eBPF vào kernel
+        ↓
+Attach do_trace vào syscall sync()
+        ↓
+Lần sync đầu tiên: lưu timestamp
+        ↓
+Lần sync tiếp theo: so với timestamp cũ
+        ↓
+Nếu cách nhau < 1 giây: in số ms
+        ↓
+Python đọc số ms và in cảnh báo
+```
+
+**Giải thích code**
+
+1. `#include <uapi/linux/ptrace.h>` dùng để khai báo kiểu `struct pt_regs`, ở đây hàm eBPF nhận tham số `struct pt_regs *ctx`; `ctx` chứa context khi kernel function bị kprobe bắt.
+2. `BPF_HASH(last);`:
+- tạo một BPF map kiểu hast tên là `last`;
+- map này dùng để lưu thời điểm lần gọi `sync()` trước đó;
+- chúng ta không chỉ định thêm bất kỳ đối số nào, vì vậy nó mặc định sử dụng kiểu key/value là u64.
+- `u64`: unsigned 64-bit interger, tức là số nguyên không âm, kích thước 64 bit.
+3. `u64 ts, *tsp, delta, key = 0;`: khai báo biến
+- `ts`: thời gian hiện tại;
+- `*tsp`: con trỏ trỏ tới timestamp cũ lấy từ map;
+- `delta`: khoảng cách giữa 2 lần gọi `sync()`;
+- `key = 0`: chúng ta chỉ lưu trữ một cặp `key/value` trong bảng hash, trong đó key được cố định bằng 0, vì chương trình chỉ cần nhớ một giá trị thời gian gần nhất, không cần lưu theo từng PID.
+4. `tsp = last.lookup(&key);`: đọc timestamp cũ từ map
+- tìm trong map `last` xem `key 0` đã có timestamp chưa;
+- nếu chưa từng có `sync()` trước đó, trả về null: `tsp == NULL`;
+- nếu đã có timestamp cũ, trả về con trỏ đến giá trị đã tồn tạ: `tsp != NULL`.
+5. `if (tsp != NULL) {`: Kiểm tra null
+- eBPF verifier bắc buộc phải kiểm tra con trỏ trả về từ map lookup trước khi dùng;
+- không được dùng trực tiếp `*tsp` nếu chưa chắc `tsp != NULL`.
+6. `delta = bpf_ktime_get_ns() - *tsp;`: tính khoảng cách thời gian
+- hàm `bpf_ktime_get_ns()` trả về thời gian hiện tại tính bằng nanosecond;
+- `*tsp` là timestamp lần `sync()` trước, vậy delta = thời gian hiện tại - thời gian lần sync trước.
+7. `if (delta < 1000000000) {`: kiểm tra delta có nhỏ hơn 1 giây không
+- 1 giây = 1,000,000,000 nanosecond;
+- nếu delta < 1000000000, nghĩa là `sync()` được gọi lại trong vòng dưới 1 giây.
+8. `bpf_trace_printk("%d\\n", delta / 1000000);`: in số millisencond
+- delta đang là nanosecond, cần chia 1000000 để đổi sang millisecond;
+- `1 ms = 1000000 ns`
+9. `last.delete(&key);`: xóa timestamp cũ
+- xóa key khỏi hash, nghĩa là xóa giá trị cũ trong map, sau đó chương trình sẽ ghi timestamp mới;
+- việc này cần thiết do lỗi nhân hệ điều hành trong phương thức `.update(), tuy nhiên đã được khắc phục trong phiên bản 4.8.10.
+10. 
+```c
+ts = bpf_ktime_get_ns();
+last.update(&key, &ts);
+```
+- lưu timestamp mới;
+- lấy thời gian hiện tại và lưu vào map, nhờ vậy `sync()` tiếp theo sẽ so sánh với lần này.
+11. `b.attach_kprobe(event=b.get_syscall_fnname("sync"), fn_name="do_trace")`: attach vào syscall `sync`
+- nghĩa là khi kernel gọi syscall `sync()`, hãy chạy hàm eBPF `do_trace()`;
+- `b.get_syscall_fnname("sync")` giúp BCC tự tìm kernel function thât của syscall `sync`.
+12. `(task, pid, cpu, flags, ts, ms) = b.trace_fields()`: đọc một dòng trace
+- `b.trace_fields()` đọc output từ trace buffer và tách thành các trường:
+```bash
+task  : tên process
+pid   : PID
+cpu   : CPU xử lý event
+flags : trace flags
+ts    : timestamp
+ms    : message từ bpf_trace_printk()
+```
+
+**Thực thi**
+
+![](./img/4_sync_timing.png)
